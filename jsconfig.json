@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "target": "es6"
+  },
+  "include": ["src", "src/stories"],
+  "exclude": ["node_modules", "dist"]
+}

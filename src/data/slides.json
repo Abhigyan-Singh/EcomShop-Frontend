@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Fresh this week lorem ipsum",
+    "href": "#link",
+    "imageSrc": "https://images.unsplash.com/photo-1547514701-42782101795e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=60",
+    "link": "Shop Now"
+  },
+  {
+    "title": "Lorem ipsum dolor sit amet",
+    "href": "#link",
+    "imageSrc": "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=60",
+    "link": "See All Recipes"
+  },
+  {
+    "title": "Duis pellentesque cursus quam, rutrum",
+    "href": "#link",
+    "imageSrc": "https://images.unsplash.com/photo-1588662196687-9927525861f0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=60",
+    "link": "Read More"
+  }
+]

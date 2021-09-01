@@ -1,0 +1,79 @@
+.cbn-counter {
+  @apply inline-flex;
+  @apply -space-x-px;
+}
+
+.cbn-counter--disabled {
+  @apply opacity-80;
+}
+
+.cbn-counter__button {
+  @apply relative;
+  @apply bg-white;
+  @apply border;
+  @apply border-gray-200;
+  @apply flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply text-sm;
+  @apply text-gray-500;
+  @apply font-medium;
+  @apply w-8;
+  @apply h-8;
+  @apply z-auto;
+  @apply disabled:cursor-not-allowed;
+  @apply focus:outline-none;
+  @apply focus-visible:border-green;
+  @apply focus-visible:ring-1;
+  @apply focus-visible:ring-green;
+  @apply focus:z-10;
+  @apply cashwise:focus:border-merlot;
+  @apply cashwise:focus:ring-merlot;
+}
+
+.cbn-counter__button--left {
+  @apply rounded-l-full;
+}
+
+.cbn-counter__button--right {
+  @apply rounded-r-full;
+}
+
+.cbn-counter__icon {
+  @apply text-green;
+  @apply w-5;
+  @apply h-5;
+  @apply cashwise:text-gray-400;
+}
+
+.cbn-counter__input {
+  @apply block;
+  @apply relative;
+  @apply border-gray-200;
+  @apply bg-white;
+  @apply text-center;
+  @apply text-sm;
+  @apply font-medium;
+  @apply rounded-none;
+  @apply m-0;
+  @apply p-0;
+  @apply w-8;
+  @apply h-8;
+  @apply appearance-none !important;
+  @apply z-auto;
+  @apply disabled:cursor-not-allowed;
+  @apply focus:border-green;
+  @apply focus:ring-green;
+  @apply focus:z-10;
+  @apply cashwise:focus:border-merlot;
+  @apply cashwise:focus:ring-merlot;
+}
+
+.cbn-counter__input::-webkit-outer-spin-button,
+.cbn-counter__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.cbn-counter__input[type='number'] {
+  -moz-appearance: textfield;
+}

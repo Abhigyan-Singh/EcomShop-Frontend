@@ -1,0 +1,18 @@
+.cbn-alert {
+  @apply bg-yellow-50;
+  @apply p-4;
+  @apply cashwise:bg-gray-100;
+}
+
+.cbn-alert .cbn-alert__icon {
+  @apply text-gray-500;
+  @apply w-5;
+  @apply h-5;
+}
+
+.cbn-alert .cbn-alert__content {
+  @apply text-gray-500;
+  @apply text-xs;
+  @apply font-medium;
+  @apply ml-3;
+}

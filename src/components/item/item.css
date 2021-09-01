@@ -1,0 +1,174 @@
+.cbn-item {
+  @apply relative;
+  @apply ring-1;
+  @apply ring-gray-200;
+  @apply rounded;
+  @apply group;
+  @apply inline-flex;
+  @apply flex-col;
+  @apply px-4;
+  @apply pt-6;
+  @apply pb-4;
+  @apply h-88;
+  @apply w-full;
+}
+
+.cbn-item .cbn-item__media {
+  @apply relative;
+  @apply flex-shrink-0;
+  @apply mx-auto;
+  @apply mb-4;
+}
+
+.cbn-item .cbn-item__image-link {
+  @apply block;
+  @apply rounded;
+  @apply focus:outline-none;
+  @apply focus:ring;
+  @apply focus:ring-green;
+  @apply focus:ring-opacity-50;
+}
+
+.cbn-item .cbn-item__image {
+  @apply rounded;
+  @apply w-24;
+  @apply h-24;
+}
+
+.cbn-item .cbn-item__view-button {
+  @apply absolute;
+  @apply top-1/2;
+  @apply -mt-4;
+  @apply -mx-4;
+  @apply w-32;
+}
+
+.cbn-item .cbn-item__information {
+  @apply flex-1;
+}
+
+.cbn-item .cbn-item__name {
+  @apply font-medium;
+  @apply leading-tight;
+  @apply mb-1;
+}
+
+.cbn-item .cbn-item__number {
+  @apply hidden;
+  @apply font-medium;
+  @apply text-gray-400;
+  @apply text-xs;
+}
+
+.cbn-item .cbn-item__size {
+  @apply font-medium;
+  @apply text-gray-400;
+  @apply text-xs;
+}
+
+.cbn-item .cbn-item__pricing {
+  @apply flex;
+  @apply items-end;
+  @apply justify-between;
+  @apply leading-tight;
+  @apply mb-1;
+}
+
+.cbn-item .cbn-item__price {
+  @apply font-bold;
+}
+
+.cbn-item.cbn-item--sale .cbn-item__price {
+  @apply text-red;
+}
+
+.cbn-item .cbn-item__savings {
+  @apply text-red;
+  @apply text-sm;
+  @apply font-medium;
+}
+
+.cbn-item .cbn-item__sold-out {
+  @apply text-sm;
+  @apply font-medium;
+}
+
+.cbn-item .cbn-item__ribbon {
+  @apply absolute;
+  @apply top-2;
+  @apply w-auto;
+  @apply z-10;
+
+  height: 23px;
+  left: -3px;
+}
+
+.cbn-item .cbn-item__actions {
+  @apply absolute;
+  @apply top-4;
+  @apply right-4;
+}
+
+/* Row Styling */
+
+.cbn-item.cbn-item--row {
+  @apply lg:flex;
+  @apply lg:flex-row;
+  @apply lg:items-start;
+  @apply lg:p-4;
+  @apply lg:w-full;
+  @apply lg:h-24;
+}
+
+.cbn-item.cbn-item--row .cbn-item__media {
+  @apply lg:mr-3;
+  @apply lg:mb-0;
+}
+
+.cbn-item.cbn-item--row .cbn-item__image {
+  @apply lg:w-16;
+  @apply lg:h-16;
+}
+
+.cbn-item.cbn-item--row .cbn-item__view-button {
+  @apply lg:w-24;
+}
+
+.cbn-item.cbn-item--row .cbn-item__information {
+  @apply lg:flex;
+  @apply lg:justify-between;
+}
+
+.cbn-item.cbn-item--row .cbn-item__name {
+  @apply lg:mb-0;
+}
+
+.cbn-item.cbn-item--row .cbn-item__number {
+  @apply lg:block;
+}
+
+.cbn-item.cbn-item--row .cbn-item__size {
+  @apply lg:text-sm;
+}
+
+.cbn-item.cbn-item--row .cbn-item__pricing {
+  @apply lg:flex;
+  @apply lg:flex-col;
+  @apply lg:items-end;
+  @apply lg:mb-0;
+  @apply lg:mr-6;
+  @apply lg:ml-10;
+}
+
+.cbn-item.cbn-item--row .cbn-item__controls {
+  @apply lg:-mt-1;
+}
+
+.cbn-item.cbn-item--row .cbn-item__actions {
+  @apply lg:static;
+  @apply lg:top-auto;
+  @apply lg:right-auto;
+  @apply lg:-mt-1;
+  @apply lg:ml-4;
+  @apply lg:visible !important;
+}

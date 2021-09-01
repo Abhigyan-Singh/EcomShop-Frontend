@@ -1,0 +1,90 @@
+{
+  "name": "coborns-web",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@craco/craco": "^6.2.0",
+    "@headlessui/react": "^1.4.0",
+    "@heroicons/react": "^1.0.2",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "classnames": "^2.3.1",
+    "prop-types": "^15.7.2",
+    "pure-react-carousel": "^1.27.6",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.1.2"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject",
+    "build:style": "cross-env NODE_ENV=production postcss ./src/build.css -o ./dist/coborns.css",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      },
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^6.3.5",
+    "@storybook/addon-actions": "^6.3.5",
+    "@storybook/addon-essentials": "^6.3.5",
+    "@storybook/addon-links": "^6.3.5",
+    "@storybook/node-logger": "^6.3.5",
+    "@storybook/preset-create-react-app": "^3.2.0",
+    "@storybook/react": "^6.3.5",
+    "@tailwindcss/forms": "^0.3.3",
+    "@whitespace/storybook-addon-html": "^5.0.0",
+    "autoprefixer": "^9.8.6",
+    "cross-env": "^7.0.3",
+    "cssnano": "^4.1.11",
+    "focus-visible": "^5.2.0",
+    "postcss": "^7.0.36",
+    "postcss-cli": "^7.1.2",
+    "postcss-focus-visible": "^5.0.0",
+    "postcss-import": "^12.0.0",
+    "postcss-loader": "^3.0.0",
+    "stylelint": "^13.13.0",
+    "stylelint-config-standard": "^22.0.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7",
+    "tailwindcss-interaction-variants": "^5.0.0",
+    "tailwindcss-theme-variants": "^1.11.0-beta.1"
+  }
+}

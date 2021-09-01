@@ -1,0 +1,4 @@
+.cbn-footer {
+  @apply bg-yellow-100;
+  @apply cashwise:bg-gray-100;
+}

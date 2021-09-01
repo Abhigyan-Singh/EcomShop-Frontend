@@ -1,0 +1,25 @@
+.cbn-hero {
+  @apply relative;
+  @apply h-72;
+  @apply md:h-96;
+}
+
+.cbn-hero .cbn-hero__dot {
+  @apply bg-white;
+  @apply rounded-full;
+  @apply flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply h-3;
+  @apply w-3;
+  @apply ring-1;
+  @apply ring-black;
+  @apply ring-opacity-10;
+  @apply shadow-sm;
+}
+
+.cbn-hero .cbn-hero__dot.carousel__dot--selected {
+  @apply border-2;
+  @apply border-white;
+  @apply bg-gray-500;
+}

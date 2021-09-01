@@ -1,0 +1,41 @@
+.cbn-autocomplete {
+  @apply relative;
+}
+
+.cbn-autocomplete .cbn-autocomplete__container {
+  @apply absolute;
+  @apply left-0;
+  @apply right-0;
+  @apply z-10;
+}
+
+.cbn-autocomplete .cbn-autocomplete__popover {
+  @apply bg-white;
+  @apply rounded;
+  @apply overflow-hidden;
+  @apply ring-1;
+  @apply ring-black;
+  @apply ring-opacity-5;
+  @apply shadow-md;
+  @apply mt-2;
+}
+
+.cbn-autocomplete .cbn-autocomplete__menu-item {
+  @apply cursor-pointer;
+  @apply flex;
+  @apply items-center;
+  @apply p-3;
+  @apply select-none;
+  @apply text-sm;
+  @apply text-gray-500;
+  @apply whitespace-nowrap;
+  @apply focus:outline-none;
+}
+
+.cbn-autocomplete .cbn-autocomplete__menu-item[aria-selected='true'],
+.cbn-autocomplete .cbn-autocomplete__menu-item:hover {
+  @apply bg-green;
+  @apply text-white;
+  @apply cashwise:bg-merlot;
+  @apply marketplace:bg-forest;
+}

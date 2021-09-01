@@ -1,0 +1,270 @@
+import { Fragment, useState } from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { Disclosure, Popover, Transition } from '@headlessui/react';
+import {
+  MenuIcon as MenuOutlineIcon,
+  SearchIcon
+} from '@heroicons/react/outline';
+import { ChevronRightIcon, MenuIcon } from '@heroicons/react/solid';
+import cartIcon from 'assets/icons/cart-icon@2x.png';
+import listIcon from 'assets/icons/list-icon@2x.png';
+import cobornsLogo from 'assets/images/coborns-logo@2x.png';
+import cashwiseLogo from 'assets/images/cashwise-logo@2x.png';
+import marketplaceLogo from 'assets/images/marketplace-logo@2x.png';
+import Autocomplete from 'components/autocomplete/autocomplete';
+import mainNavigation from 'data/mainNavigation';
+import './header.css';
+
+const Header = (props) => {
+  // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
+  // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
+  const { className, theme, user, onMobileButtonClick, ...rest } = props;
+  const componentClassName = classNames('cbn-header', {}, className);
+  const [value, setValue] = useState('');
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  const handleItemSelect = (item) => {
+    setValue(item);
+  };
+
+  const handleMobileButtonClick = (event) => {
+    if (typeof onMobileButtonClick === 'function') {
+      onMobileButtonClick(event);
+    }
+  };
+
+  return (
+    <header className={componentClassName} {...rest}>
+      <div className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
+        {theme === 'coborns' && (
+          <div className="flex flex-1 -mb-1 md:-mb-2">
+            <a href="#link">
+              <span className="sr-only">Coborn's</span>
+              <img className="h-6 md:h-14 w-auto" src={cobornsLogo} alt="" />
+            </a>
+          </div>
+        )}
+        {theme === 'cashwise' && (
+          <div className="flex flex-1">
+            <a href="#link">
+              <span className="sr-only">Cashwise</span>
+              <img className="h-12 md:h-24 w-auto" src={cashwiseLogo} alt="" />
+            </a>
+          </div>
+        )}
+        {theme === 'marketplace' && (
+          <div className="flex flex-1 -mb-1 md:-mb-2">
+            <a href="#link">
+              <span className="sr-only">MarketPlace Foods</span>
+              <img
+                className="h-6 md:h-14 w-auto"
+                src={marketplaceLogo}
+                alt=""
+              />
+            </a>
+          </div>
+        )}
+        <div className="flex items-center justify-between text-right">
+          <div className="hidden md:block">
+            <div className="text-lg font-medium">
+              {user && `Welcome Back, ${user.firstName}`}
+              {!user && 'Grocery Shopping Made Easy'}
+            </div>
+            <div className="text-xs font-medium space-x-2">
+              <a className="underline" href="#link">
+                Store Locator
+              </a>
+              {user && (
+                <a className="underline" href="#link">
+                  My Account
+                </a>
+              )}
+              {!user && (
+                <a className="underline" href="#link">
+                  Register
+                </a>
+              )}
+              {user && (
+                <a className="underline" href="#link">
+                  Sign Out
+                </a>
+              )}
+              {!user && (
+                <a className="underline" href="#link">
+                  Sign In
+                </a>
+              )}
+            </div>
+          </div>
+          <div className="md:hidden">
+            <button
+              className="cbn-header__mobile-button"
+              onClick={handleMobileButtonClick}
+            >
+              <span className="sr-only">Open menu</span>
+              <MenuOutlineIcon className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="cbn-header__nav">
+        <Popover className="relative hidden md:block">
+          {({ open }) => (
+            <Fragment>
+              <Popover.Button className="cbn-header__menu-button">
+                <span className="text-base font-bold mr-2">Menu</span>
+                <MenuIcon className="h-5 w-5" aria-hidden="true" />
+              </Popover.Button>
+
+              <Transition
+                show={open}
+                as={Fragment}
+                enter="transition ease-out duration-200"
+                enterFrom="opacity-0 translate-y-1"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition ease-in duration-150"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-1"
+              >
+                <Popover.Panel
+                  static
+                  className="absolute z-10 -ml-4 mt-2 transform w-screen md:max-w-xs"
+                >
+                  <div className="rounded shadow-md ring-1 ring-black ring-opacity-5 overflow-hidden">
+                    <div className="relative bg-white p-3">
+                      <div className="rounded bg-yellow-100 mb-3 p-4">
+                        <div className="font-bold leading-tight">
+                          Saint Cloud, MN
+                        </div>
+                        <div className="text-sm font-medium mb-1">
+                          Open today until 10pm
+                        </div>
+                        <div className="text-xs font-medium">
+                          <a className="underline" href="#link">
+                            View Store Details
+                          </a>
+                        </div>
+                      </div>
+                      <div className="relative grid grid-cols-1 bg-white">
+                        {mainNavigation.map((item) =>
+                          !item.children ? (
+                            <a
+                              key={item.name}
+                              href={item.href}
+                              className="p-3 flex items-center rounded transition ease-in-out duration-150 text-gray-500 hover:bg-yellow-100"
+                            >
+                              <span className="flex items-center flex-1">
+                                {item.icon && <item.icon />}
+                                <span className="text-base font-medium">
+                                  {item.name}
+                                </span>
+                              </span>
+                            </a>
+                          ) : (
+                            <Disclosure as="div" key={item.name}>
+                              {({ open }) => (
+                                <>
+                                  <Disclosure.Button className="p-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+                                    <span className="flex items-center flex-1">
+                                      {item.icon && <item.icon />}
+                                      <span className="text-base font-medium">
+                                        {item.name}
+                                      </span>
+                                    </span>
+                                    <ChevronRightIcon
+                                      className={classNames(
+                                        open ? 'rotate-90' : '',
+                                        'h-5 w-5 text-gray-300 transform'
+                                      )}
+                                      aria-hidden="true"
+                                    />
+                                  </Disclosure.Button>
+                                  <Disclosure.Panel className="space-y-1">
+                                    {item.children.map((subItem) => (
+                                      <a
+                                        key={subItem.name}
+                                        href={subItem.href}
+                                        className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+                                      >
+                                        {subItem.name}
+                                      </a>
+                                    ))}
+                                  </Disclosure.Panel>
+                                </>
+                              )}
+                            </Disclosure>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </Popover.Panel>
+              </Transition>
+            </Fragment>
+          )}
+        </Popover>
+        <div className="flex-1 lg:flex-none">
+          <Autocomplete
+            className="block w-full lg:w-96 h-10 md:h-11"
+            hasRoundedCorners={true}
+            icon={SearchIcon}
+            items={['Apple', 'Banana', 'Orange']}
+            placeholder="What are you looking for?"
+            type="search"
+            onChange={(event) => handleChange(event)}
+            onItemSelect={(item) => handleItemSelect(item)}
+            value={value}
+            aria-label="LABEL HERE OR ADD LABEL TAG"
+          />
+        </div>
+        <div className="hidden lg:block lg:flex-1">
+          <nav className="flex space-x-8 ml-4">
+            <a href="#link" className="cbn-header__nav-link">
+              Deals
+            </a>
+            <a href="#link" className="cbn-header__nav-link">
+              Weekly Ad
+            </a>
+          </nav>
+        </div>
+        <div className="flex items-center">
+          <div className="hidden sm:block sm:ml-3 md:ml-4 lg:ml-6">
+            <a
+              href="#link"
+              className="inline-flex rounded-sm items-center justify-center cbn-header__nav-link"
+            >
+              <span>My Lists</span>
+              <img
+                className="ml-3"
+                src={listIcon}
+                alt=""
+                style={{ width: 27, height: 27 }}
+              />
+            </a>
+          </div>
+          <button className="cbn-header__cart-button">
+            <img className="w-6 h-auto" src={cartIcon} alt="" />
+            <span className="text-base md:text-lg font-bold ml-3">5</span>
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+Header.propTypes = {
+  theme: PropTypes.string,
+  // BSWING: refactor user object as needed.
+  user: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    email: PropTypes.string
+  })
+};
+
+export default Header;
