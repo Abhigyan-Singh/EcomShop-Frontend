@@ -84,7 +84,7 @@ const Header = (props) => {
                 </a>
               )}
               {!user && (
-                <a className="underline" href="#link">
+                <a className="underline" href="https://testweb.shop.coborns.com/createaccount">
                   Register
                 </a>
               )}
@@ -94,7 +94,7 @@ const Header = (props) => {
                 </a>
               )}
               {!user && (
-                <a className="underline" href="#link">
+                <a className="underline" href="https://testweb.shop.coborns.com/loginMessage.action">
                   Sign In
                 </a>
               )}

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Header from 'components/header/header';
 import Footer from 'components/footer/footer';
 import Alert from 'components/alert/alert';
@@ -27,11 +27,19 @@ export default {
   }
 };
 
+
+
+
+
+
+
+
 export const HomeStory = (
-  { isAuthenticated, ...rest },
-  { globals: { theme } }
+  { isAuthenticated, ...rest }
 ) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [data, setData] = useState([])
+  const [user, setUser] = useState();
 
   const handleMobileButtonClick = (event) => {
     setMobileNavOpen(true);
@@ -40,6 +48,22 @@ export const HomeStory = (
   const handleMobileNavClose = (event) => {
     setMobileNavOpen(event);
   };
+
+
+  useEffect(() => {
+    fetch("")
+    .then((res) => res.json())
+    .then((data) => {
+      setData(data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [])
+
+  
+
+
 
   return (
     <Fragment>
@@ -53,7 +77,7 @@ export const HomeStory = (
       </Alert>
       <Header
         onMobileButtonClick={handleMobileButtonClick}
-        theme={theme}
+  
         user={isAuthenticated ? user : null}
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
@@ -64,7 +88,7 @@ export const HomeStory = (
       <HomeServices />
       <HomeRecipes />
       <Signup />
-      <Footer theme={theme} />
+      <Footer />
     </Fragment>
   );
 };
