@@ -15,6 +15,8 @@ import marketplaceLogo from 'assets/images/marketplace-logo@2x.png';
 import Autocomplete from 'components/autocomplete/autocomplete';
 import mainNavigation from 'data/mainNavigation';
 import './header.css';
+import Modal from './Modal';
+import Backdrop from './Backdrop';
 
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
@@ -22,6 +24,7 @@ const Header = (props) => {
   const { className, theme, user, onMobileButtonClick, ...rest } = props;
   const componentClassName = classNames('cbn-header', {}, className);
   const [value, setValue] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -35,6 +38,12 @@ const Header = (props) => {
     if (typeof onMobileButtonClick === 'function') {
       onMobileButtonClick(event);
     }
+  };
+  const modelHandler = () => {
+    setModalIsOpen(true);
+  };
+  const closeModalHandler = () => {
+    setModalIsOpen(false);
   };
 
   return (
@@ -84,7 +93,10 @@ const Header = (props) => {
                 </a>
               )}
               {!user && (
-                <a className="underline" href="https://testweb.shop.coborns.com/createaccount">
+                <a
+                  className="underline"
+                  href="https://testweb.shop.coborns.com/createaccount"
+                >
                   Register
                 </a>
               )}
@@ -94,8 +106,12 @@ const Header = (props) => {
                 </a>
               )}
               {!user && (
-                <a className="underline" href="https://testweb.shop.coborns.com/loginMessage.action">
-                  Sign In
+                <a className="underline">
+                  <button className="underline" onClick={modelHandler}>
+                    Sign In
+                  </button>
+                  {modalIsOpen && <Modal onClose={closeModalHandler} />}
+                  {modalIsOpen && <Backdrop onClose={closeModalHandler} />}
                 </a>
               )}
             </div>
