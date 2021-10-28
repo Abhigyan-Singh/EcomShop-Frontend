@@ -1,12 +1,28 @@
 import './Modal.css';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { authenticate } from 'services/auth';
+import { useCookies } from 'react-cookie';
+import { CookiesAge } from 'apiConfig';
+
 const Modal = ({ onClose }) => {
+  const [cookies, setCookie] = useCookies(['user']);
+
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm();
+  const submit = (data) => {
+    console.log(JSON.stringify(data));   
+    authenticate(data).then((res) => {
+      setCookie('user', res.data, {
+        path: '/',
+        maxAge: CookiesAge
+      });
+      onClose();
+    });
+  };
   return (
     <div className="modal-card">
       <div
@@ -17,11 +33,11 @@ const Modal = ({ onClose }) => {
       >
         X
       </div>
-      <h1 className="modal-heading">Log In</h1>
+      <h1 className="modal-heading">Sign In</h1>
       <form
         className="modal-bsw-form"
         onSubmit={handleSubmit((data) => {
-          console.log(data);
+          submit(data);
         })}
       >
         <div className="modal-form">
@@ -29,25 +45,25 @@ const Modal = ({ onClose }) => {
             <input
               className="modal-bsw-form-group-input-dirty inputs"
               style={{
-                color: errors.fullname ? 'red' : '#2c6b2c',
-                borderColor: errors.fullname ? 'red' : '#2c6b2c'
+                color: errors.username ? 'red' : '#2c6b2c',
+                borderColor: errors.username ? 'red' : '#2c6b2c'
               }}
-              {...register('fullname', { required: 'Enter your user name.' })}
+              {...register('username', { required: 'Enter your user name.' })}
               type="text"
-              id="fullname"
+              id="username"
               placeholder=" "
             />
             <label
-              style={{ color: errors.fullname ? 'red' : '#2c6b2c' }}
-              htmlFor="fullname"
+              style={{ color: errors.username ? 'red' : '#2c6b2c' }}
+              htmlFor="username"
               className="labels"
             >
               User Name
             </label>
           </div>
-          {errors.fullname && (
+          {errors.username && (
             <p className="modal-modal-error" htmlFor="username">
-              {errors.fullname.message}
+              {errors.username.message}
             </p>
           )}
           <div className="modal-field">
@@ -75,8 +91,11 @@ const Modal = ({ onClose }) => {
               {errors.password.message}
             </p>
           )}
-          <button className="modal-bsw-btn" type="submit">
-            Log In
+          <button
+            className="modal-bsw-btn"
+            type="submit"
+          >
+            Sign In
           </button>
         </div>
         <p className="modal-forget-pass-container">
@@ -84,8 +103,8 @@ const Modal = ({ onClose }) => {
         </p>
         <div className="modal-bottom-border">
           <div className="modal-bottom-btn">
-            <span>New to CobornsDelivers? </span>
-            <button className="modal-signUp">Sign Up</button>
+            <span>New to Coborn’s? </span>
+            <button className="modal-signUp">Register</button>
           </div>
         </div>
       </form>

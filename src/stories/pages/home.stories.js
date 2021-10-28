@@ -27,19 +27,10 @@ export default {
   }
 };
 
-
-
-
-
-
-
-
-export const HomeStory = (
-  { isAuthenticated, ...rest }
-) => {
+export const HomeStory = ({ isAuthenticated, logout, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [data, setData] = useState([])
-  const [user, setUser] = useState();
+  const [data, setData] = useState([]);
+  const [user, setUser] = useState({ firstName: 'Apple' });
 
   const handleMobileButtonClick = (event) => {
     setMobileNavOpen(true);
@@ -49,21 +40,16 @@ export const HomeStory = (
     setMobileNavOpen(event);
   };
 
-
   useEffect(() => {
-    fetch("")
-    .then((res) => res.json())
-    .then((data) => {
-      setData(data)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }, [])
-
-  
-
-
+    fetch('')
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Fragment>
@@ -77,8 +63,8 @@ export const HomeStory = (
       </Alert>
       <Header
         onMobileButtonClick={handleMobileButtonClick}
-  
         user={isAuthenticated ? user : null}
+        logout={logout}
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
       <Locator />

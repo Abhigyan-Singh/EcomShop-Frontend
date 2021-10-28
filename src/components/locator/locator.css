@@ -49,3 +49,7 @@
   @apply cashwise:bg-merlot;
   @apply marketplace:bg-forest;
 }
+.max-height-80{
+  max-height: 80ch;
+  overflow-y: scroll !important;
+}

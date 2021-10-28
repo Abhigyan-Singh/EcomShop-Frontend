@@ -101,7 +101,7 @@ const Header = (props) => {
                 </a>
               )}
               {user && (
-                <a className="underline" href="#link">
+                <a className="underline" href="#link" onClick={props.logout}>
                   Sign Out
                 </a>
               )}
