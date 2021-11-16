@@ -145,7 +145,7 @@ const Locator = (props) => {
       <div className="hidden sm:flex items-center">
         <div className="hidden lg:flex items-center mx-6">
           <img className="h-8 w-auto mr-4" src={morerewardsLogo} alt="" />
-          <a className="text-xs underline" href="#link">
+          <a className="text-xs underline" href="https://www.morerewards.com/" target="_blank">
             My Rewards
           </a>
         </div>

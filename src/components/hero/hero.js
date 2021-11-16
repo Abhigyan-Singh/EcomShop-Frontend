@@ -2,10 +2,23 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { CarouselProvider, Dot, Slider, Slide } from 'pure-react-carousel';
 import './hero.css';
+import { COBORNSStyle, CASHWISEStyle, MARKETPLACEFOODSWIStyle } from './styles';
 
 const Hero = (props) => {
-  const { className, slides, ...rest } = props;
+  const { className, brandName, slides, ...rest } = props;
   const componentClassName = classNames('cbn-hero', {}, className);
+  const getStyle = (name) => {
+    switch (brandName) {
+      case 'COBORNS':
+        return COBORNSStyle[name];
+      case 'CASHWISE':
+        return CASHWISEStyle[name];
+      case 'MARKETPLACEFOODSWI':
+        return MARKETPLACEFOODSWIStyle[name];
+      default:
+        break;
+    } 
+  }
 
   return (
     <div className={componentClassName} {...rest}>
@@ -23,7 +36,7 @@ const Hero = (props) => {
                 alt=""
               />
               <div className="relative p-7 md:p-10">
-                <h1 className="text-2xl font-serif mb-3 tracking-tight text-white md:text-4xl">
+                <h1 className="text-2xl font-serif mb-3 tracking-tight md:text-4xl" style={getStyle('textColor')}>
                   {slide.title}
                 </h1>
                 <p className="text-lg">

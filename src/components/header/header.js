@@ -17,7 +17,17 @@ import mainNavigation from 'data/mainNavigation';
 import './header.css';
 import Modal from './Modal';
 import Backdrop from './Backdrop';
-
+const searchData = [
+  'Apple',
+  'Banana',
+  'Orange',
+  'y Apple',
+  'y Banana',
+  'y Orange',
+  'xx Banana',
+  'xx Apple',
+  'xx Orange'
+];
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
@@ -45,7 +55,11 @@ const Header = (props) => {
   const closeModalHandler = () => {
     setModalIsOpen(false);
   };
+  const [searchArray, setSearchArray] = useState(searchData);
 
+  const onScroll = () => {
+    // We need to integrate with solor here on scroll
+  };
   return (
     <header className={componentClassName} {...rest}>
       <div className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
@@ -228,12 +242,13 @@ const Header = (props) => {
             className="block w-full lg:w-96 h-10 md:h-11"
             hasRoundedCorners={true}
             icon={SearchIcon}
-            items={['Apple', 'Banana', 'Orange']}
+            items={searchArray}
             placeholder="What are you looking for?"
             type="search"
             onChange={(event) => handleChange(event)}
             onItemSelect={(item) => handleItemSelect(item)}
             value={value}
+            onScroll={onScroll}
             aria-label="LABEL HERE OR ADD LABEL TAG"
           />
         </div>

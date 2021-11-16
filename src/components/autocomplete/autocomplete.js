@@ -33,7 +33,7 @@ AutocompleteMenuItem.propTypes = {
 };
 
 const Autocomplete = (props) => {
-  const { items, onChange, onItemSelect, value, ...rest } = props;
+  const { items, onChange, onItemSelect, value, onScroll, ...rest } = props;
   const inputRef = useRef(null);
   const [filteredItems, setFilteredItems] = useState([]);
   const [focused, setFocused] = useState(false);
@@ -48,7 +48,7 @@ const Autocomplete = (props) => {
           .filter((item) => {
             return item.toLowerCase().includes(inputValue.toLowerCase());
           })
-          .slice(0, 5)
+        
       );
     },
     [items]
@@ -134,8 +134,8 @@ const Autocomplete = (props) => {
         onFocus={handleFocus}
         {...rest}
       />
-      {value && focused && (
-        <div className="cbn-autocomplete__container">
+      {value  && (
+        <div className="cbn-autocomplete__container" onScroll={onScroll} style={{maxHeight: '35vh', overflow:'auto'}}>
           <div className="cbn-autocomplete__popover">
             {filteredItems && (
               <AutocompleteMenu>
