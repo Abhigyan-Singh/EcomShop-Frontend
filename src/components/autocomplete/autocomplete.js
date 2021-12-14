@@ -44,11 +44,9 @@ const Autocomplete = (props) => {
   const filterItems = useCallback(
     (inputValue) => {
       setFilteredItems(
-        items
-          .filter((item) => {
-            return item.toLowerCase().includes(inputValue.toLowerCase());
-          })
-        
+        items.filter((item) => {
+          return item.toLowerCase().includes(inputValue.toLowerCase());
+        })
       );
     },
     [items]
@@ -91,6 +89,7 @@ const Autocomplete = (props) => {
       if (event.keyCode === 13 && focused) {
         event.preventDefault();
         handleItemSelect(event, filteredItems[selectedItemIndex]);
+        window.location.href = '/search?text=' + event.target.value;
       } else if (event.keyCode === 38 && focused) {
         event.preventDefault();
         if (selectedItemIndex === null || selectedItemIndex === 0) {
@@ -134,8 +133,12 @@ const Autocomplete = (props) => {
         onFocus={handleFocus}
         {...rest}
       />
-      {value  && (
-        <div className="cbn-autocomplete__container" onScroll={onScroll} style={{maxHeight: '35vh', overflow:'auto'}}>
+      {value && (
+        <div
+          className="cbn-autocomplete__container"
+          onScroll={onScroll}
+          style={{ maxHeight: '35vh', overflow: 'auto' }}
+        >
           <div className="cbn-autocomplete__popover">
             {filteredItems && (
               <AutocompleteMenu>

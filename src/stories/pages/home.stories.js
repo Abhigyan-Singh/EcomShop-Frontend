@@ -34,7 +34,6 @@ export const HomeStory = ({ isAuthenticated, logout, ...rest }) => {
   const [data, setData] = useState([]);
   const [user, setUser] = useState({ firstName: 'Apple' });
 
-
   const getBranName = () => {
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase())) {
       return 'COBORNS';
@@ -49,7 +48,7 @@ export const HomeStory = ({ isAuthenticated, logout, ...rest }) => {
     }
   };
 
-  const brandName = getBranName();  // 'COBORNS' / 'CASHWISE' / 'MARKETPLACEFOODSWI'
+  const brandName = getBranName(); // 'COBORNS' / 'CASHWISE' / 'MARKETPLACEFOODSWI'
 
   const handleMobileButtonClick = (event) => {
     setMobileNavOpen(true);
@@ -84,28 +83,12 @@ export const HomeStory = ({ isAuthenticated, logout, ...rest }) => {
 
   return (
     <Fragment>
-      <Alert>
-        <span>
-          COVID-19 Vaccinations are now available in select locations.
-        </span>{' '}
-        <a className="underline" href="#link">
-          Check Availability
-        </a>
-      </Alert>
-      <Header
-        onMobileButtonClick={handleMobileButtonClick}
-        user={isAuthenticated ? user : null}
-        logout={logout}
-      />
-      <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
       <Locator />
       <Hero slides={getSlides(brandName)} brandName={brandName} />
       <HomeGetStarted />
       <HomePromotions />
       <HomeServices />
       <HomeRecipes />
-      <Signup />
-      <Footer />
     </Fragment>
   );
 };

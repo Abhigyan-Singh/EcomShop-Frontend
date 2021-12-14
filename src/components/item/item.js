@@ -21,7 +21,7 @@ const Item = (props) => {
   } = props;
   const componentClassName = classNames(
     'cbn-item group',
-    { 'cbn-item--row': layout === 'row', 'cbn-item--sale': item.isOnSale },
+    { 'cbn-item--row': layout === 'row', 'cbn-item--sale': item.onSale },
     className
   );
 
@@ -32,41 +32,41 @@ const Item = (props) => {
 
   const handleAddClick = () => {
     if (typeof onAddClick === 'function') {
-      onAddClick({ item: item.id, quantity, sizeOption });
+      onAddClick({ item: item.productId, quantity, sizeOption });
     }
   };
 
   const handleFavoriteClick = () => {
     if (typeof onFavoriteClick === 'function') {
-      onFavoriteClick({ item: item.id });
+      onFavoriteClick({ item: item.productId });
     }
   };
 
   const handleListClick = () => {
     if (typeof onListClick === 'function') {
-      onListClick({ item: item.id });
+      onListClick({ item: item.productId });
     }
   };
 
   const handleViewClick = () => {
     if (typeof onViewClick === 'function') {
-      onViewClick({ item: item.id });
+      onViewClick({ item: item.productId });
     }
   };
 
   return (
     <div className={componentClassName} {...rest}>
-      {item.isOnSale && (
+      {item.onSale && (
         <img className="cbn-item__ribbon" src={saleRibbon} alt="Sale" />
       )}
       <div className="cbn-item__media">
         <a className="cbn-item__image-link" href="#link">
           <img
             className="cbn-item__image"
-            src={item.image ? item.image : 'https://fakeimg.pl/192x192/'}
+            src={`https://cdn1.cobornsinc.com/cdwebimages/100x100/${item.imagePath}`}
             alt=""
           />
-          <span className="sr-only">{item.name}</span>
+          <span className="sr-only">{item.productName}</span>
         </a>
         <Button
           className="cbn-item__view-button invisible group-hover:visible group-focus-within:visible"
@@ -78,24 +78,29 @@ const Item = (props) => {
         <div>
           <div className="cbn-item__name">
             <a className="block" href="#link">
-              {item.name}
+              {item.productName}
             </a>
           </div>
-          <div className="cbn-item__number">Item #: {item.number}</div>
+          <div className="cbn-item__number">Item #: {item.productId}</div>
         </div>
-        <div className="cbn-item__size">{item.size}</div>
+        <div className="cbn-item__size">
+          {item.sizeString} | {(item.currentPrice / item.sizeNumber).toFixed(2)}{' '}
+          / {item.sizeUom}
+        </div>
       </div>
       <div className="cbn-item__pricing">
-        <div className="cbn-item__price">{item.price}</div>
-        {item.isOnSale && (
-          <div className="cbn-item__savings">Save: {item.savings}</div>
+        <div className="cbn-item__price">$ {item.currentPrice}</div>
+        {item.onSale && (
+          <div className="cbn-item__savings">
+            Save: {(item.normalPrice - item.currentPrice).toFixed(2)}
+          </div>
         )}
         {item.isOutOfStock && (
           <div className="cbn-item__sold-out">Sold Out</div>
         )}
       </div>
       <div className="cbn-item__controls">
-        {item.sizeOptions && (
+        {item.keywords && (
           <div className="mb-2">
             <Select
               className="w-full"
@@ -103,7 +108,7 @@ const Item = (props) => {
               onChange={(event) => setSizeOption(event.target.value)}
               aria-label="Size Options"
             >
-              {item.sizeOptions.map((option) => (
+              {item.keywords.map((option) => (
                 <option key={option}>{option}</option>
               ))}
             </Select>

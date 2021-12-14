@@ -1,0 +1,40 @@
+const ShopSelectedFilter = (props) => {
+  return (
+    <div className="bg-gray-100 border-b hidden lg:block">
+      <div className="flex items-center px-5 py-1">
+        <h3 className="text-xs text-gray-400 font-bold uppercase tracking-wider">
+          Filters
+          <span className="sr-only">, active</span>
+        </h3>
+        <div aria-hidden="true" className="bg-gray-300 w-px h-5 ml-4"></div>
+        <div className="mt-0 ml-3">
+          <div className="flex flex-wrap items-center">
+            <span className="inline-flex rounded-full border border-gray-200 items-center m-1 py-1.5 pl-3 pr-2 text-xs bg-white">
+              <span>Banquet</span>
+              <button
+                type="button"
+                className="flex-shrink-0 ml-1 h-4 w-4 p-1 rounded-full inline-flex text-gray-400 hover:bg-gray-200 hover:text-gray-500"
+              >
+                <span className="sr-only">Remove filter for Banquet</span>
+                <svg
+                  className="h-2 w-2"
+                  stroke="currentColor"
+                  fill="none"
+                  viewBox="0 0 8 8"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-width="1.5"
+                    d="M1 1l6 6m0-6L1 7"
+                  ></path>
+                </svg>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ShopSelectedFilter;
