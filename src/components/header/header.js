@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
@@ -17,27 +17,46 @@ import mainNavigation from 'data/mainNavigation';
 import './header.css';
 import Modal from './Modal';
 import Backdrop from './Backdrop';
-const searchData = [
-  'Apple',
-  'Banana',
-  'Orange',
-  'y Apple',
-  'y Banana',
-  'y Orange',
-  'xx Banana',
-  'xx Apple',
-  'xx Orange'
-];
+import { search } from 'services/search';
+
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
+
+  const [searchList, setSearchList] = useState([]);
+  const fetch = async (itemName) => {
+    const sData = await search(itemName, null, null);
+    setSearchList(sData?.data);
+  };
+
+  useEffect(()=>{
+    fetch();
+  },[]);
+
   const { className, theme, user, onMobileButtonClick, ...rest } = props;
   const componentClassName = classNames('cbn-header', {}, className);
   const [value, setValue] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const debounce = (func, delay) => {
+    let debounceTimer;
+    return function () {
+      const context = this;
+      const args = arguments;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func.apply(context, args), delay);
+    };
+  };
+
+  const searcher = useCallback(
+    debounce((n) => fetch(n), 1000),
+    []
+  );
+
   const handleChange = (event) => {
     setValue(event.target.value);
+    if(event.target.value.length>0)
+    searcher(event.target.value);
   };
 
   const handleItemSelect = (item) => {
@@ -55,7 +74,7 @@ const Header = (props) => {
   const closeModalHandler = () => {
     setModalIsOpen(false);
   };
-  const [searchArray, setSearchArray] = useState(searchData);
+  const [searchArray, setSearchArray] = useState(searchList);
 
   const onScroll = () => {
     // We need to integrate with solor here on scroll
@@ -242,13 +261,12 @@ const Header = (props) => {
             className="block w-full lg:w-96 h-10 md:h-11"
             hasRoundedCorners={true}
             icon={SearchIcon}
-            items={searchArray}
+            items={searchList}
             placeholder="What are you looking for?"
             type="search"
             onChange={(event) => handleChange(event)}
             onItemSelect={(item) => handleItemSelect(item)}
             value={value}
-            onScroll={onScroll}
             aria-label="LABEL HERE OR ADD LABEL TAG"
           />
         </div>

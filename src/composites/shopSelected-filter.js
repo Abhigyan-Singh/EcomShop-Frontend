@@ -1,3 +1,5 @@
+import { XIcon } from '@heroicons/react/solid';
+
 const ShopSelectedFilter = (props) => {
   return (
     <div className="bg-gray-100 border-b hidden lg:block">
@@ -16,18 +18,7 @@ const ShopSelectedFilter = (props) => {
                 className="flex-shrink-0 ml-1 h-4 w-4 p-1 rounded-full inline-flex text-gray-400 hover:bg-gray-200 hover:text-gray-500"
               >
                 <span className="sr-only">Remove filter for Banquet</span>
-                <svg
-                  className="h-2 w-2"
-                  stroke="currentColor"
-                  fill="none"
-                  viewBox="0 0 8 8"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-width="1.5"
-                    d="M1 1l6 6m0-6L1 7"
-                  ></path>
-                </svg>
+                <XIcon />
               </button>
             </span>
           </div>

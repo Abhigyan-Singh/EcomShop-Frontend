@@ -1,4 +1,4 @@
-import { ChevronRightIcon } from '@heroicons/react/solid';
+import { ChevronRightIcon, HomeIcon } from '@heroicons/react/solid';
 
 const ShopCategory = (props) => {
   return (
@@ -8,15 +8,7 @@ const ShopCategory = (props) => {
           <li>
             <div>
               <a href="/" className="text-gray-400 hover:text-gray-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="flex-shrink-0 h-5 w-5"
-                  aria-hidden="true"
-                >
-                  <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
-                </svg>
+                <HomeIcon className="h-5 w-5" aria-hidden="true" />
                 <span className="sr-only">Home</span>
               </a>
             </div>

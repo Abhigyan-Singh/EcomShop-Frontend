@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Input from 'components/input/input';
 import useEventListener from 'hooks/useEventListener';
 import './autocomplete.css';
+import { useNavigate } from 'react-router-dom';
 
 const AutocompleteMenu = (props) => {
   const { children, ...rest } = props;
@@ -35,22 +36,13 @@ AutocompleteMenuItem.propTypes = {
 const Autocomplete = (props) => {
   const { items, onChange, onItemSelect, value, onScroll, ...rest } = props;
   const inputRef = useRef(null);
-  const [filteredItems, setFilteredItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState(items);
   const [focused, setFocused] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const navigate  = useNavigate();
 
   const componentClassName = classNames('cbn-autocomplete', {});
 
-  const filterItems = useCallback(
-    (inputValue) => {
-      setFilteredItems(
-        items.filter((item) => {
-          return item.toLowerCase().includes(inputValue.toLowerCase());
-        })
-      );
-    },
-    [items]
-  );
 
   const handleBlur = () => {
     setSelectedItemIndex(null);
@@ -58,22 +50,23 @@ const Autocomplete = (props) => {
   };
 
   useEffect(() => {
-    filterItems(value);
-  }, [filterItems, value]);
+    value && setFilteredItems(items);
+  }, [value]);
 
   const handleClick = (event, item) => {
     handleItemSelect(event, item);
+    navigate('/item/'+item.productId);
+    onItemSelect('');
   };
 
   const handleFocus = (event) => {
-    filterItems(event.target.value);
     setFocused(true);
   };
 
   const handleItemSelect = useCallback(
     (event, item) => {
-      onItemSelect(item);
-      if (item) {
+      onItemSelect(item.productName);
+      if (item.productName) {
         inputRef.current.blur();
       }
     },
@@ -150,7 +143,7 @@ const Autocomplete = (props) => {
                     onClick={(event) => handleClick(event, item)}
                     onMouseDown={handleMouseDown}
                   >
-                    {item}
+                    {item.productName}
                   </AutocompleteMenuItem>
                 ))}
               </AutocompleteMenu>

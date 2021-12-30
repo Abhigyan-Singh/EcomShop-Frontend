@@ -4,9 +4,9 @@ import queryString from 'query-string';
 import Item from 'components/item/item';
 
 function ShopGetPage() {
-  const p = window.location.href.split('?')[1];
-  const { text } = queryString.parse(p);
-  const [query, setQuery] = useState(text);
+  const params = window.location.href.split('?')[1];
+  const { text: searchText } = queryString.parse(params);
+  const [query, setQuery] = useState(searchText);
   const [page, setPage] = useState(1);
   const { loading, error, list } = useFetch(query, page);
   const loader = useRef(null);

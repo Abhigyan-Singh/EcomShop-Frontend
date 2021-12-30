@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
 import { search } from 'services/search';
+const facilityId =2037;
 
 function useFetch(query, page) {
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [list, setList] = useState([]);
@@ -11,10 +12,7 @@ function useFetch(query, page) {
     try {
       await setLoading(true);
       await setError(false);
-      //   const res = await axios.get(
-      //     `https://openlibrary.org/search.json?q=${query}&page=${page}`
-      //   );
-      const res =await search(query, 2037, page);
+      const res =await search(query,facilityId, page);
       if (res) {
         await setList((prev) => [...new Set([...prev, ...res.data])]);
         setLoading(false);

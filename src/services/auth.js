@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { config, API } from 'apiConfig';
 import apiClient from './api';
 

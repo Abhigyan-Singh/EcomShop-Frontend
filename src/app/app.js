@@ -14,6 +14,7 @@ import MobileNav from 'components/mobile-nav/mobile-nav';
 import Signup from 'components/signup/signup';
 import Footer from 'components/footer/footer';
 import Alert from 'components/alert/alert';
+import { ItemStory } from 'stories/pages/item.stories';
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -30,10 +31,23 @@ const App = () => {
     removeCookie('user');
     setIsAuthenticated(false);
   };
-  
-  useEffect(()=>{
-    document.documentElement.className = 'marketplace-theme';
-  },[])
+
+  useEffect(() => {
+    let brand = 'cashwise-theme';
+    if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase()) > -1) {
+      brand = 'coborns-theme';
+    } else if (
+      window.location.host.indexOf('CASHWISE'.toLocaleLowerCase()) > -1
+    ) {
+      brand = 'cashwise-theme';
+    } else if (
+      window.location.host.indexOf('MARKETPLACEFOODSWI'.toLocaleLowerCase()) >
+      -1
+    ) {
+      brand = 'marketplace-theme';
+    }
+    document.documentElement.className = brand;
+  }, []);
 
   const handleMobileButtonClick = (event) => {
     setMobileNavOpen(true);
@@ -54,6 +68,12 @@ const App = () => {
         path: 'search',
         element: (
           <ShopStory isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'item/:id',
+        element: (
+          <ItemStory isAuthenticated={isAuthenticated} logout={onLogout} />
         )
       }
     ]);
