@@ -39,10 +39,9 @@ const Autocomplete = (props) => {
   const [filteredItems, setFilteredItems] = useState(items);
   const [focused, setFocused] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
 
   const componentClassName = classNames('cbn-autocomplete', {});
-
 
   const handleBlur = () => {
     setSelectedItemIndex(null);
@@ -55,7 +54,7 @@ const Autocomplete = (props) => {
 
   const handleClick = (event, item) => {
     handleItemSelect(event, item);
-    navigate('/item/'+item.productId);
+    navigate('/item/' + item.productId, { state: item });
     onItemSelect('');
   };
 
@@ -65,8 +64,8 @@ const Autocomplete = (props) => {
 
   const handleItemSelect = useCallback(
     (event, item) => {
-      onItemSelect(item.productName);
-      if (item.productName) {
+      if (item && item.productName) {
+        onItemSelect(item.productName);
         inputRef.current.blur();
       }
     },
@@ -79,31 +78,33 @@ const Autocomplete = (props) => {
 
   const handleKeyDown = useCallback(
     (event) => {
-      if (event.keyCode === 13 && focused) {
-        event.preventDefault();
-        handleItemSelect(event, filteredItems[selectedItemIndex]);
-        window.location.href = '/search?text=' + event.target.value;
-      } else if (event.keyCode === 38 && focused) {
-        event.preventDefault();
-        if (selectedItemIndex === null || selectedItemIndex === 0) {
-          setSelectedItemIndex(filteredItems.length - 1);
-        } else {
-          if (selectedItemIndex > 0) {
-            setSelectedItemIndex(selectedItemIndex - 1);
-          }
-        }
-      } else if (event.keyCode === 40 && focused) {
-        event.preventDefault();
-        if (selectedItemIndex === null) {
-          setSelectedItemIndex(0);
-        } else {
-          if (
-            selectedItemIndex >= 0 &&
-            selectedItemIndex < filteredItems.length - 1
-          ) {
-            setSelectedItemIndex(selectedItemIndex + 1);
+      if (event.target.value) {
+        if (event.keyCode === 13 && focused) {
+          event.preventDefault();
+          handleItemSelect(event, filteredItems[selectedItemIndex]);
+          window.location.href = '/search?text=' + event.target.value;
+        } else if (event.keyCode === 38 && focused) {
+          event.preventDefault();
+          if (selectedItemIndex === null || selectedItemIndex === 0) {
+            setSelectedItemIndex(filteredItems.length - 1);
           } else {
+            if (selectedItemIndex > 0) {
+              setSelectedItemIndex(selectedItemIndex - 1);
+            }
+          }
+        } else if (event.keyCode === 40 && focused) {
+          event.preventDefault();
+          if (selectedItemIndex === null) {
             setSelectedItemIndex(0);
+          } else {
+            if (
+              selectedItemIndex >= 0 &&
+              selectedItemIndex < filteredItems.length - 1
+            ) {
+              setSelectedItemIndex(selectedItemIndex + 1);
+            } else {
+              setSelectedItemIndex(0);
+            }
           }
         }
       }

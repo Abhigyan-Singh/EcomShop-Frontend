@@ -6,46 +6,48 @@ import {
   HeartIcon,
   MinusIcon
 } from '@heroicons/react/outline';
-import { useParams } from 'react-router-dom';
-import { productDetails } from '../../services/search';
+import { useParams, useLocation } from 'react-router-dom';
+// import { productDetails } from '../../services/search';
 const ItemDetails = () => {
   const { id } = useParams();
-  const [itemDetailsData, setItemDetailsData] = useState();
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const location = useLocation();
+  const [itemDetailsData, setItemDetailsData] = useState(location.state);
+  console.log(itemDetailsData);
+  // const [isLoading, setLoading] = useState(false);
+  // const [error, setError] = useState(false);
   const [tab, setTab] = useState('pd');
 
-  const sendQuery = useCallback(async () => {
-    try {
-      await setLoading(true);
-      await setError(false);
-      const res = await productDetails(id);
-      if (res) {
-        setItemDetailsData(res.data);
-        setLoading(false);
-      }
-    } catch (err) {
-      setError(err);
-    }
-  }, [id]);
+  // const sendQuery = useCallback(async () => {
+  //   try {
+  //     await setLoading(true);
+  //     await setError(false);
+  //     const res = await productDetails(id);
+  //     if (res) {
+  //       setItemDetailsData(res.data);
+  //       setLoading(false);
+  //     }
+  //   } catch (err) {
+  //     setError(err);
+  //   }
+  // }, [id]);
 
-  useEffect(() => {
-    sendQuery();
-  }, [id]);
+  // useEffect(() => {
+  //   sendQuery();
+  // }, [id]);
 
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <p>Loading ...</p>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div
+  //       style={{
+  //         display: 'flex',
+  //         justifyContent: 'center',
+  //         alignItems: 'center'
+  //       }}
+  //     >
+  //       <p>Loading ...</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -53,7 +55,7 @@ const ItemDetails = () => {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center">
           <div className="w-full lg:max-w-lg">
             <img
-            src={`https://cdn1.cobornsinc.com/cdwebimages/100x100/${itemDetailsData?.imagePath}`}
+              src={`https://cdn1.cobornsinc.com/cdwebimages/100x100/${itemDetailsData?.imagePath}`}
               alt=""
               className="object-center object-contain"
             />

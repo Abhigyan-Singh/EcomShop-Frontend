@@ -49,6 +49,7 @@ const Item = (props) => {
   };
 
   const handleViewClick = () => {
+    alert('hello');
     if (typeof onViewClick === 'function') {
       onViewClick({ item: item.productId });
     }

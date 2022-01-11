@@ -1,12 +1,12 @@
 export const config = {
-  baseUrl: 'http://localhost:3001'
+  baseUrl: 'http://localhost:3000'
 };
 
 export const API = {
-  facilities: '/api/facilities/',
-  authenticate: '/api/authenticate',
-  search: '/api/product/search',
-  productDetails: '/api/product/' // then id
+  facilities: '/facilities/',
+  authenticate: '/authenticate',
+  search: '/product/search',
+  productDetails: '/product/' // then id
 };
 
 export const CookiesAge = 604800;

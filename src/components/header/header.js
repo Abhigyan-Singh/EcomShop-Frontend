@@ -25,13 +25,15 @@ const Header = (props) => {
 
   const [searchList, setSearchList] = useState([]);
   const fetch = async (itemName) => {
-    const sData = await search(itemName, null, null);
-    setSearchList(sData?.data);
+    if (itemName) {
+      const sData = await search(itemName, 2037, 2);
+      setSearchList(sData?.data?.suggestionList);
+    }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetch();
-  },[]);
+  }, []);
 
   const { className, theme, user, onMobileButtonClick, ...rest } = props;
   const componentClassName = classNames('cbn-header', {}, className);
@@ -55,8 +57,7 @@ const Header = (props) => {
 
   const handleChange = (event) => {
     setValue(event.target.value);
-    if(event.target.value.length>0)
-    searcher(event.target.value);
+    if (event.target.value.length > 0) searcher(event.target.value);
   };
 
   const handleItemSelect = (item) => {

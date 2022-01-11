@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 import { Cookies } from 'react-cookie';
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: 'http://localhost:8009',
   headers: {
-    "Content-Type": "application/json",
-  },
+    'Content-Type': 'application/json'
+  }
 });
 
 apiClient.interceptors.request.use(
@@ -13,7 +13,7 @@ apiClient.interceptors.request.use(
     const cookies = new Cookies();
     const jwt = cookies.get('user');
     if (jwt) {
-      config.headers["Authorization"] = 'Bearer ' + jwt.token;  
+      config.headers['Authorization'] = 'Bearer ' + jwt.token;
     }
     return config;
   },
