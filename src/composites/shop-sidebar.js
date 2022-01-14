@@ -67,7 +67,9 @@ const ShopSidebar = (props) => {
                             href="#"
                             className="flex items-center text-sm py-1 hover:underline"
                           >
-                            <span className="block flex-1">Frozen Baked Goods</span>
+                            <span className="block flex-1">
+                              Frozen Baked Goods
+                            </span>
                           </a>
                         </li>
                         <li>
@@ -75,7 +77,9 @@ const ShopSidebar = (props) => {
                             href="#"
                             className="flex items-center text-sm py-1 hover:underline"
                           >
-                            <span className="block flex-1">Frozen Breakfast</span>
+                            <span className="block flex-1">
+                              Frozen Breakfast
+                            </span>
                           </a>
                         </li>
                         <li>
@@ -83,7 +87,9 @@ const ShopSidebar = (props) => {
                             href="#"
                             className="flex items-center text-sm py-1 hover:underline"
                           >
-                            <span className="block flex-1">Frozen Desserts</span>
+                            <span className="block flex-1">
+                              Frozen Desserts
+                            </span>
                           </a>
                         </li>
                         <li>
@@ -133,7 +139,9 @@ const ShopSidebar = (props) => {
                             href="#"
                             className="flex items-center text-sm py-1 hover:underline"
                           >
-                            <span className="block flex-1">Frozen Potatoes</span>
+                            <span className="block flex-1">
+                              Frozen Potatoes
+                            </span>
                           </a>
                         </li>
                       </ul>
