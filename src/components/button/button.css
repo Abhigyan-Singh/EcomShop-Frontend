@@ -1,0 +1,37 @@
+.cbn-button {
+  @apply bg-green;
+  @apply rounded-full;
+  @apply font-medium;
+  @apply text-sm;
+  @apply text-white;
+  @apply px-3;
+  @apply py-1.5;
+  @apply focus:outline-none;
+  @apply focus-visible:ring;
+  @apply focus-visible:ring-green;
+  @apply focus-visible:ring-opacity-50;
+  @apply hover:bg-green-100;
+  @apply disabled:bg-gray-200;
+  @apply disabled:text-white;
+  @apply disabled:cursor-not-allowed;
+
+  /* Cashwise theme styling */
+  @apply cashwise:bg-merlot;
+  @apply cashwise:hover:bg-merlot-100;
+  @apply cashwise:focus-visible:ring;
+  @apply cashwise:focus-visible:ring-merlot;
+  @apply cashwise:focus-visible:ring-opacity-50;
+  @apply cashwise:disabled:bg-gray-200;
+}
+
+.cbn-button--secondary {
+  @apply bg-yellow-100;
+  @apply rounded;
+  @apply font-normal;
+  @apply font-serif;
+  @apply text-base;
+  @apply text-gray-500;
+  @apply py-2.5;
+  @apply hover:bg-yellow-200;
+  @apply cashwise:text-white;
+}

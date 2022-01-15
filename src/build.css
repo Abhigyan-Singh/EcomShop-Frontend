@@ -1,0 +1,8 @@
+/* tailwind */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* coborn components */
+@import './components/button/button.css';
+@import './components/select/select.css';

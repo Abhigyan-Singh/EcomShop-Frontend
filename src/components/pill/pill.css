@@ -1,0 +1,24 @@
+.cbn-pill {
+  @apply inline-flex;
+  @apply items-center;
+  @apply bg-white;
+  @apply border;
+  @apply border-green;
+  @apply rounded-full;
+  @apply text-green;
+  @apply text-xs;
+  @apply font-medium;
+  @apply px-3;
+  @apply py-0.5;
+  @apply focus:outline-none;
+  @apply focus:ring-2;
+  @apply focus:ring-green;
+  @apply focus:ring-opacity-50;
+
+  /* Cashwise theme styling */
+  @apply cashwise:text-gray-400;
+  @apply cashwise:border-gray-400;
+  @apply cashwise:focus-visible:ring-2;
+  @apply cashwise:focus-visible:ring-gray-400;
+  @apply cashwise:focus-visible:ring-opacity-50;
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "title": "MARKETPLACE FOOD SWI Fresh this week lorem ipsum",
+    "href": "#link",
+    "imageSrc": "https://cdn1.cobornsinc.com/landing_page/os_vanity/endcap/2021/110721/endcap-dolegrowing.png",
+    "link": "Shop Now"
+  },
+  {
+    "title": "MARKETPLACE FOOD SWI lorem ipsum",
+    "href": "#link",
+    "imageSrc": "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=60",
+    "link": "See All Recipes"
+  },
+  {
+    "title": "MARKETPLACE FOOD SWI Duis pellentesque cursus quam, rutrum",
+    "href": "#link",
+    "imageSrc": "https://images.unsplash.com/photo-1588662196687-9927525861f0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=60",
+    "link": "Read More"
+  }
+]

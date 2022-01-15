@@ -1,0 +1,21 @@
+.cbn-mobile-nav {
+  @apply fixed;
+  @apply inset-0;
+  @apply overflow-hidden;
+  @apply md:hidden;
+}
+
+.cbn-mobile-nav .cbn-mobile-nav__close-button {
+  @apply bg-white;
+  @apply justify-center;
+  @apply items-center;
+  @apply inline-flex;
+  @apply rounded;
+  @apply p-2;
+  @apply focus:outline-none;
+  @apply focus:ring-2;
+  @apply focus:ring-inset;
+  @apply focus:ring-green;
+  @apply cashwise:focus:ring-merlot;
+  @apply marketplace:focus:ring-forest;
+}

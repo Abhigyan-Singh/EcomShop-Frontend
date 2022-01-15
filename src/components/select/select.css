@@ -1,0 +1,48 @@
+.cbn-select {
+  @apply border;
+  @apply border-gray-200;
+  @apply rounded;
+  @apply h-8;
+  @apply pl-3;
+  @apply pr-10;
+  @apply py-0;
+  @apply text-sm;
+  @apply font-medium;
+  @apply text-gray-500;
+  @apply focus:border-green;
+  @apply focus:outline-none;
+  @apply focus:ring-2;
+  @apply focus:ring-green;
+  @apply disabled:cursor-not-allowed;
+
+  /* Cashwise theme styling */
+  @apply cashwise:focus:border-merlot;
+  @apply cashwise:focus:ring-2;
+  @apply cashwise:focus:ring-merlot;
+}
+
+.cbn-select--accented {
+  @apply shadow-select;
+  @apply cashwise:shadow-select-merlot;
+}
+
+.cbn-select--invalid {
+  @apply border-red;
+  @apply ring-2;
+  @apply ring-red;
+  @apply focus:ring-2;
+  @apply focus:border-red !important;
+  @apply focus:ring-red !important;
+}
+
+.cbn-select--rounded {
+  @apply rounded-full;
+}
+
+.cbn-select--medium {
+  @apply h-10;
+}
+
+.cbn-select--large {
+  @apply h-11;
+}

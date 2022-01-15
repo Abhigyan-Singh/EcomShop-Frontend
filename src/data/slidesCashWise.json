@@ -1,0 +1,20 @@
+[
+  {
+    "title": "CashWise Apple Fresh this week lorem ipsum",
+    "href": "#link",
+    "imageSrc": "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2574&q=80",
+    "link": "Shop Now"
+  },
+  {
+    "title": "CashWise Lorem ipsum dolor sit amet",
+    "href": "#link",
+    "imageSrc": "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=60",
+    "link": "See All Recipes"
+  },
+  {
+    "title": "CashWise Duis pellentesque cursus quam, rutrum",
+    "href": "#link",
+    "imageSrc": "https://images.unsplash.com/photo-1588662196687-9927525861f0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1920&q=60",
+    "link": "Read More"
+  }
+]

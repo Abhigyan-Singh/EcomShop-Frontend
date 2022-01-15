@@ -1,0 +1,29 @@
+.cbn-radio {
+  @apply flex;
+  @apply items-center;
+  @apply select-none;
+}
+
+.cbn-radio--disabled {
+  @apply cursor-not-allowed;
+  @apply opacity-80;
+}
+
+.cbn-radio__input {
+  @apply text-green;
+  @apply border-gray-200;
+  @apply h-4;
+  @apply w-4;
+  @apply focus:ring-green;
+  @apply focus:ring-offset-1;
+  @apply cashwise:text-merlot;
+  @apply cashwise:focus:ring-merlot;
+}
+
+.cbn-radio__label {
+  @apply block;
+  @apply ml-2;
+  @apply text-sm;
+  @apply font-medium;
+  @apply text-gray-500;
+}

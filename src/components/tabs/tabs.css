@@ -1,0 +1,33 @@
+.cbn-tabs .cbn-tabs__nav {
+  @apply flex;
+  @apply space-x-8;
+}
+
+.cbn-tabs .cbn-tab {
+  @apply border-transparent;
+  @apply border-b-2;
+  @apply font-medium;
+  @apply text-base;
+  @apply text-gray-500;
+  @apply whitespace-nowrap;
+  @apply focus:ring-offset-4;
+  @apply focus:outline-none;
+  @apply focus-visible:ring;
+  @apply focus-visible:ring-green;
+  @apply focus-visible:ring-opacity-50;
+  @apply hover:border-gray-200;
+
+  /* Cashwise theme styling */
+  @apply cashwise:focus-visible:ring;
+  @apply cashwise:focus-visible:ring-merlot;
+  @apply cashwise:focus-visible:ring-opacity-50;
+}
+
+.cbn-tabs .cbn-tab.cbn-tab--current {
+  @apply border-green;
+  @apply text-green;
+
+  /* Cashwise theme styling */
+  @apply cashwise:text-merlot;
+  @apply cashwise:border-merlot;
+}

@@ -1,0 +1,13 @@
+@import url('https://use.typekit.net/prb7wxu.css');
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'pure-react-carousel/dist/react-carousel.es.css';
+
+@layer base {
+  html,
+  body {
+    @apply text-gray-500;
+    @apply font-medium;
+  }
+}
