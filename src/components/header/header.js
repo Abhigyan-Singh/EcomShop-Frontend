@@ -39,11 +39,13 @@ const Header = (props) => {
   const componentClassName = classNames('cbn-header', {}, className);
   const [value, setValue] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const facilityId = 2029;
 
   const debounce = (func, delay) => {
     let debounceTimer;
     return function () {
       const context = this;
+
       const args = arguments;
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => func.apply(context, args), delay);
@@ -194,7 +196,11 @@ const Header = (props) => {
                           Open today until 10pm
                         </div>
                         <div className="text-xs font-medium">
-                          <a className="underline" href="#link">
+                          <a
+                            className="underline"
+                            href={`https://www.coborns.com/Cobstore${facilityId}`}
+                            target="_blank"
+                          >
                             View Store Details
                           </a>
                         </div>
@@ -284,7 +290,7 @@ const Header = (props) => {
         <div className="flex items-center">
           <div className="hidden sm:block sm:ml-3 md:ml-4 lg:ml-6">
             <a
-              href="#link"
+              href="/dispmyshoppinglistdetails"
               className="inline-flex rounded-sm items-center justify-center cbn-header__nav-link"
             >
               <span>My Lists</span>
