@@ -12,7 +12,7 @@ function useFetch(query, page) {
       await setLoading(true);
       await setError(false);
       const res = await search(query, facilityId, page);
-      if (res) {
+      if (res && res.data.suggestionList) {
         await setList((prev) => [
           ...new Set([...prev, ...res.data.suggestionList])
         ]);
