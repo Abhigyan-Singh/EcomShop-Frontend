@@ -8,8 +8,21 @@ const mainNavigation = [
     children: [
       { name: 'Baby', href: '#link' },
       { name: 'Bakery', href: '#link' },
+      { name: 'Beer', href: '#link' },
+      { name: 'Meat & Seafood', href: '#link' },
       { name: 'Dairy', href: '#link' },
-      { name: 'Deli', href: '#link' }
+      { name: 'Deli', href: '#link' },
+      { name: 'Floral', href: '#link' },
+      { name: 'Frozen', href: '#link' },
+      { name: 'General Merchandise', href: '#link' },
+      { name: 'Grocery', href: '#link' },
+      { name: 'Health & Beauty', href: '#link' },
+      { name: 'Household & Laundry', href: '#link' },
+      { name: 'Liquor', href: '#link' },
+      { name: 'Pet', href: '#link' },
+      { name: 'Produce', href: '#link' },
+      { name: 'Tobacco', href: '#link' },
+      { name: 'Wine', href: '#link' },
     ]
   },
   {
