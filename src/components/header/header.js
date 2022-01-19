@@ -184,7 +184,8 @@ const Header = (props) => {
               >
                 <Popover.Panel
                   static
-                  className="absolute z-10 -ml-4 mt-2 transform w-screen md:max-w-xs"
+                  className="absolute  -ml-4 mt-2 transform w-screen md:max-w-xs"
+                  style={{ zIndex: 9999 }}
                 >
                   <div className="rounded shadow-md ring-1 ring-black ring-opacity-5 overflow-hidden">
                     <div className="relative bg-white p-3">

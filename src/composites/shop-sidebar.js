@@ -150,7 +150,7 @@ const ShopSidebar = (props) => {
                   <ul className="list-none py-2 m-0 border-t border-gray-100">
                     <li>
                       <a
-                        href="#"
+                        href="/dispmyshoppinglistdetails"
                         className="flex items-center text-sm py-1 hover:underline"
                       >
                         <SwitchHorizontalIcon
@@ -164,7 +164,7 @@ const ShopSidebar = (props) => {
                     </li>
                     <li>
                       <a
-                        href="#"
+                        href="/favorites"
                         className="flex items-center text-sm py-1 hover:underline"
                       >
                         <HeartIcon

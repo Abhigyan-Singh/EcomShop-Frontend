@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import List from 'stories/components/list.stories';
-import Item from 'stories/components/item.stories';
+import Item from 'components/item/item';
 
 const mockData = [
   {
