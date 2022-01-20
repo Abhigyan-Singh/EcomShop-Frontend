@@ -1,4 +1,5 @@
 import morerewardsLogo from 'assets/images/morerewards-logo@2x.png';
+import axios from 'axios';
 
 const mainNavigation = [
   {
