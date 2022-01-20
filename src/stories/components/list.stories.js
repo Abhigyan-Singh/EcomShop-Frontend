@@ -5,20 +5,53 @@ import {
   ChevronDownIcon,
   SwitchHorizontalIcon,
   HeartIcon,
-  PlusIcon
+  PlusIcon,
+  DocumentDupl
 } from '@heroicons/react/solid';
 import Button from 'components/button/button';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function Example() {
   const [menu, setMenu] = useState([]);
   const [list, setList] = useState('');
+  const { location } = useLocation();
+  const [selected, setSelected] = useState(
+    location?.state || 'Previously Purchased'
+  );
   const [formOpen, setForm] = useState(false);
+  const navigate = useNavigate();
+  const handleSelect = (selectedMenu) => {
+    setSelected(selectedMenu);
+    if (selectedMenu === 'Favorites') {
+      navigate('/favorites', { state: selectedMenu });
+    }
+    if (selectedMenu === 'Previously Purchased') {
+      navigate('/dispmyshoppinglistdetails', { state: selectedMenu });
+    }
+  };
   return (
-    <div className="w-56 text-right">
-      <Menu as="div" className="relative inline-block text-left">
-        <div>
+    <div>
+      <Menu
+        as="div"
+        className="relative inline-block text-left"
+        style={{ zIndex: 99 }}
+      >
+        <div style={{ fontSize: 22 }}>
           <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium  rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-            Options
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                clipRule="evenodd"
+              />
+            </svg>
+            {'My List: '}
+            {selected}
             <ChevronDownIcon
               className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
               aria-hidden="true"
@@ -42,40 +75,48 @@ export default function Example() {
                     href="#"
                     className="flex items-center text-sm py-1 hover:underline"
                   >
-                    <span className="block flex-1  text-gray-300">My List</span>
+                    <span className="block flex-1  text-gray-300">
+                      My Lists
+                    </span>
                   </a>
                   <ul className="list-none pl-3">
-                    <li>
-                      <a
-                        href="#"
-                        className="flex items-center text-sm py-1 hover:underline"
-                      >
-                        <span className="block flex-1 pl-1">
-                          Previously Purchased
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="/favorites"
-                        className="flex items-center text-sm py-1 hover:underline"
-                      >
-                        <HeartIcon
-                          className="h-5 w-5 text-gray-300 transform"
-                          aria-hidden="true"
-                        />
-                        <span className="block flex-1 pl-1">Favorites</span>
-                      </a>
-                    </li>
-                    {menu.map((menu) => (
-                      <li>
+                    <Menu.Item>
+                      <li onClick={() => handleSelect('Previously Purchased')}>
                         <a
                           href="#"
                           className="flex items-center text-sm py-1 hover:underline"
                         >
-                          <span className="block flex-1 pl-1">{menu}</span>
+                          <span className="block flex-1 pl-1">
+                            Previously Purchased
+                          </span>
                         </a>
                       </li>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <li onClick={() => handleSelect('Favorites')}>
+                        <a
+                          href="#"
+                          className="flex items-center text-sm py-1 hover:underline"
+                        >
+                          <HeartIcon
+                            className="h-5 w-5 text-gray-300 transform"
+                            aria-hidden="true"
+                          />
+                          <span className="block flex-1 pl-1">Favorites</span>
+                        </a>
+                      </li>
+                    </Menu.Item>
+                    {menu.map((menu) => (
+                      <Menu.Item>
+                        <li onClick={() => handleSelect(menu)}>
+                          <a
+                            href="#"
+                            className="flex items-center text-sm py-1 hover:underline"
+                          >
+                            <span className="block flex-1 pl-1">{menu}</span>
+                          </a>
+                        </li>
+                      </Menu.Item>
                     ))}
                   </ul>
                 </li>
