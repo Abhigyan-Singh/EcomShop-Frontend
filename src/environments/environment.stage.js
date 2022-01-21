@@ -1,4 +1,4 @@
-export const environment = {
+export const stage = {
   production: true,
-  url: ''
+  url: 'https://stageapp.coborns.com'
 };
