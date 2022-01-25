@@ -6,7 +6,10 @@ export const API = {
   facilities: '/facilities/',
   authenticate: '/authenticate',
   search: '/product/search',
-  productDetails: '/product/' // then id
+  productDetails: '/product/', // then id
+  add_favorite: '/favorite',
+  delete_favorite: '/favorite',
+  all_favorite: '/favorite'
 };
 
 export const CookiesAge = 604800;
