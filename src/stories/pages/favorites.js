@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
-import List from 'stories/components/list.stories';
+import React, { Fragment, useEffect, useState } from 'react';
+import List from 'components/list';
 import Item from 'components/item/item';
+import { getAllFavorites } from 'services/favorites';
 
 const mockData = [
   {
@@ -705,6 +706,16 @@ export default {
 };
 
 export const Favorites = ({ isAuthenticated, logout, ...rest }) => {
+  const [items, setItems] = useState([]);
+
+  const favorites = async () => {
+    const favorites = await getAllFavorites();
+    setItems(favorites?.data || [])
+  }
+  useEffect(() => {
+    favorites();
+  }, [])
+
   return (
     <Fragment>
       <div style={{ height: 500 }}>

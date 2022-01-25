@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ClipboardListIcon, HeartIcon } from '@heroicons/react/outline';
@@ -6,7 +6,18 @@ import Button from 'components/button/button';
 import Counter from 'components/counter/counter';
 import Select from 'components/select/select';
 import saleRibbon from 'assets/images/sale-ribbon@2x.png';
+import { addFavorite, deleteFavorite } from 'services/favorites';
 import './item.css';
+import { Menu, Transition } from '@headlessui/react';
+import {
+  ChevronLeftIcon,
+  ChevronDownIcon,
+  SwitchHorizontalIcon,
+  PlusIcon,
+  DocumentDupl
+} from '@heroicons/react/solid';
+// import Button from 'components/button/button';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Item = (props) => {
   const {
@@ -29,6 +40,7 @@ const Item = (props) => {
     item.sizeOptions && item.sizeOptions[0]
   );
   const [quantity, setQuantity] = useState(0);
+  const [favourite, setFavourite] = useState(null);
 
   const handleAddClick = () => {
     if (typeof onAddClick === 'function') {
@@ -36,9 +48,19 @@ const Item = (props) => {
     }
   };
 
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = async () => {
     if (typeof onFavoriteClick === 'function') {
       onFavoriteClick({ item: item.productId });
+      if (!favourite) {
+        await addFavorite({ productId: item.productId, username: 'ITEST03' });
+        setFavourite(item.productId);
+      } else {
+        await deleteFavorite({
+          productId: item.productId,
+          username: 'ITEST03'
+        });
+        setFavourite(null);
+      }
     }
   };
 
@@ -55,6 +77,11 @@ const Item = (props) => {
     }
   };
 
+  const color = favourite === item.productId ? '#ea1b21' : null;
+  let heartProps = {};
+  if (color) {
+    heartProps = { stroke: color, fill: color };
+  }
   return (
     <div className={componentClassName} {...rest}>
       {item.onSale && (
@@ -125,11 +152,119 @@ const Item = (props) => {
         </div>
       </div>
       <div className="cbn-item__actions invisible group-hover:visible group-focus-within:visible">
-        <button className="block mb-2" onClick={handleFavoriteClick}>
-          <HeartIcon className="h-6 w-6 text-gray-400" />
+        <button style={{ marginLeft: 15 }} className="block mb-2 ml-15" onClick={handleFavoriteClick}>
+          <HeartIcon className="h-6 w-6 text-gray-400" {...heartProps} />
         </button>
+        {/* <button className="block" onClick={handleListClick}>
+        <ClipboardListIcon className="h-6 w-6 text-gray-400" />
+        </button> */}
         <button className="block" onClick={handleListClick}>
-          <ClipboardListIcon className="h-6 w-6 text-gray-400" />
+          <Menu
+            as="div"
+            className="relative inline-block text-left"
+            style={{ zIndex: 99 }}
+          >
+            <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium  rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+              <ClipboardListIcon className="h-6 w-6 text-gray-400" />
+            </Menu.Button>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute right-100 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="px-1 py-1 ">
+                  <ul className="list-none py-2 m-0">
+                    <li>
+                      <a
+                        href="#"
+                        className="flex items-center text-sm py-1 hover:underline"
+                      >
+                        <span className="block flex-1  text-gray-300">
+                          My Lists
+                        </span>
+                      </a>
+                      <ul className="list-none pl-3">
+                        <Menu.Item>
+                          <li>
+                            <a
+                              href="#"
+                              className="flex items-center text-sm py-1 hover:underline"
+                            >
+                              <span className="block flex-1 pl-1">
+                                Previously Purchased
+                              </span>
+                            </a>
+                          </li>
+                        </Menu.Item>
+                        <Menu.Item>
+                          <li>
+                            <a
+                              href="#"
+                              className="flex items-center text-sm py-1 hover:underline"
+                            >
+                              <HeartIcon
+                                className="h-5 w-5 text-gray-300 transform"
+                                aria-hidden="true"
+                              />
+                              <span className="block flex-1 pl-1">
+                                Favorites
+                              </span>
+                            </a>
+                          </li>
+                        </Menu.Item>
+                        
+                      </ul>
+                    </li>
+                  </ul>
+                  <ul className="list-none py-2 m-0 border-t border-gray-100">
+                    {true && (
+                      <li>
+                        <a
+                          href="#"
+                          className="flex items-center text-sm py-1 hover:underline"
+                         
+                        >
+                          <PlusIcon
+                            className="h-5 w-5 text-gray-300 transform"
+                            aria-hidden="true"
+                          />
+                          <span className="block flex-1 pl-1">Create</span>
+                        </a>
+                      </li>
+                    )}
+                    {false && (
+                      <li>
+                        <a
+                          href="#"
+                          className="flex items-center text-sm py-1 hover:underline"
+                        >
+                          <div>
+                            <input
+                              name="list-input"
+                              id="list-input"
+                             
+                              type="text"
+                            />
+                            <Button
+                              style={{ marginTop: 5, marginLeft: 50 }}
+                              className="cbn-item__view-button group-hover:visible group-focus-within:visible"
+                              label="Create"
+                              
+                            />
+                          </div>
+                        </a>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
         </button>
       </div>
     </div>

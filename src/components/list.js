@@ -15,8 +15,12 @@ export default function Example() {
   const [menu, setMenu] = useState([]);
   const [list, setList] = useState('');
   const { location } = useLocation();
+  let defaultOption = 'Previously Purchased';
+  if (window.location.pathname ==='/favorites') {
+    defaultOption = 'Favorites'
+  }
   const [selected, setSelected] = useState(
-    location?.state || 'Previously Purchased'
+    location?.state || defaultOption
   );
   const [formOpen, setForm] = useState(false);
   const navigate = useNavigate();

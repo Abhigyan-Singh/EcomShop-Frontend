@@ -1,6 +1,6 @@
 export const local = {
   production: false,
-  url: 'https://localhost:8009'
+  url: 'http://localhost:8009'
 };
 
 // front-end = https://devweb.coborns.com
