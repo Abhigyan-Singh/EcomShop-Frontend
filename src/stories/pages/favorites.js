@@ -710,7 +710,10 @@ export const Favorites = ({ isAuthenticated, logout, ...rest }) => {
 
   const favorites = async () => {
     const favorites = await getAllFavorites();
-    setItems(favorites?.data || [])
+   const items = favorites?.data.map((each) => {
+      return ({ ...each, keywords: each.keywords? each.keywords.split(',') : [], favorite: true })
+    })
+    setItems(items)
   }
   useEffect(() => {
     favorites();
@@ -718,11 +721,13 @@ export const Favorites = ({ isAuthenticated, logout, ...rest }) => {
 
   return (
     <Fragment>
-      <div style={{ height: 500 }}>
+      <div style={{ minHeight: 500 }}>
         <List />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
-          {mockData.map((e, i) => (
-            <Item item={e} key={i} />
+          {items.map((e, i) => (
+            <Item onFavoriteClick={ () => {
+              favorites();
+            }} item={e} key={i} />
           ))}
         </div>
       </div>

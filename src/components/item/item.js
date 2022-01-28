@@ -40,7 +40,7 @@ const Item = (props) => {
     item.sizeOptions && item.sizeOptions[0]
   );
   const [quantity, setQuantity] = useState(0);
-  const [favourite, setFavourite] = useState(null);
+  const [favourite, setFavourite] = useState(item.favorite);
 
   const handleAddClick = () => {
     if (typeof onAddClick === 'function') {
@@ -50,16 +50,14 @@ const Item = (props) => {
 
   const handleFavoriteClick = async () => {
     if (typeof onFavoriteClick === 'function') {
-      onFavoriteClick({ item: item.productId });
       if (!favourite) {
-        await addFavorite({ productId: item.productId, username: 'ITEST03' });
-        setFavourite(item.productId);
+        await addFavorite({ productId: item.productId });
+        setFavourite(true);
+        onFavoriteClick({ item: item.productId });
       } else {
-        await deleteFavorite({
-          productId: item.productId,
-          username: 'ITEST03'
-        });
-        setFavourite(null);
+        await deleteFavorite(item.productId);
+        setFavourite(false);
+        onFavoriteClick({ item: item.productId });
       }
     }
   };
@@ -77,7 +75,7 @@ const Item = (props) => {
     }
   };
 
-  const color = favourite === item.productId ? '#ea1b21' : null;
+  const color = favourite  ? '#ea1b21' : null;
   let heartProps = {};
   if (color) {
     heartProps = { stroke: color, fill: color };
@@ -152,12 +150,13 @@ const Item = (props) => {
         </div>
       </div>
       <div className="cbn-item__actions invisible group-hover:visible group-focus-within:visible">
-        <button style={{ marginLeft: 15 }} className="block mb-2 ml-15" onClick={handleFavoriteClick}>
+        <button
+          style={{ marginLeft: 15 }}
+          className="block mb-2 ml-15"
+          onClick={handleFavoriteClick}
+        >
           <HeartIcon className="h-6 w-6 text-gray-400" {...heartProps} />
         </button>
-        {/* <button className="block" onClick={handleListClick}>
-        <ClipboardListIcon className="h-6 w-6 text-gray-400" />
-        </button> */}
         <button className="block" onClick={handleListClick}>
           <Menu
             as="div"
@@ -176,64 +175,82 @@ const Item = (props) => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute right-100 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="absolute list-position w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="px-1 py-1 ">
-                  <ul className="list-none py-2 m-0">
+                  <ul className="list-none pl-3">
+                    <li>
+                      <label class="bsw-checkbox">
+                        <input
+                          type="checkbox"
+                          id="dmListId48920"
+                          onclick="bswListsGrid.addItemToShoppingList('48920', '1047055')"
+                        />
+                        <span className="bsw-checkbox-placeholder"></span>
+                        <span
+                          className="bsw-checkbox-label"
+                          name="customListName"
+                        >
+                          Meat
+                        </span>
+                      </label>
+                    </li>
+                    <li>
+                      <label class="bsw-checkbox">
+                        <input
+                          type="checkbox"
+                          id="dmListId48920"
+                          onclick="bswListsGrid.addItemToShoppingList('48920', '1047055')"
+                        />
+                        <span className="bsw-checkbox-placeholder"></span>
+                        <span
+                          className="bsw-checkbox-label"
+                          name="customListName"
+                        >
+                          Meat
+                        </span>
+                      </label>
+                    </li>
+                    <li>
+                      <label class="bsw-checkbox">
+                        <input
+                          type="checkbox"
+                          id="dmListId48920"
+                          onclick="bswListsGrid.addItemToShoppingList('48920', '1047055')"
+                        />
+                        <span className="bsw-checkbox-placeholder"></span>
+                        <span
+                          className="bsw-checkbox-label"
+                          name="customListName"
+                        >
+                          Meat
+                        </span>
+                      </label>
+                    </li>
                     <li>
                       <a
                         href="#"
                         className="flex items-center text-sm py-1 hover:underline"
                       >
-                        <span className="block flex-1  text-gray-300">
-                          My Lists
-                        </span>
+                        <HeartIcon
+                          className="h-5 w-5 text-gray-300 transform"
+                          aria-hidden="true"
+                        />
+                        <span className="block flex-1 pl-1">Favorites</span>
                       </a>
-                      <ul className="list-none pl-3">
-                        <Menu.Item>
-                          <li>
-                            <a
-                              href="#"
-                              className="flex items-center text-sm py-1 hover:underline"
-                            >
-                              <span className="block flex-1 pl-1">
-                                Previously Purchased
-                              </span>
-                            </a>
-                          </li>
-                        </Menu.Item>
-                        <Menu.Item>
-                          <li>
-                            <a
-                              href="#"
-                              className="flex items-center text-sm py-1 hover:underline"
-                            >
-                              <HeartIcon
-                                className="h-5 w-5 text-gray-300 transform"
-                                aria-hidden="true"
-                              />
-                              <span className="block flex-1 pl-1">
-                                Favorites
-                              </span>
-                            </a>
-                          </li>
-                        </Menu.Item>
-                        
-                      </ul>
                     </li>
                   </ul>
+
                   <ul className="list-none py-2 m-0 border-t border-gray-100">
                     {true && (
                       <li>
                         <a
+                          className="bsw-dropmenu-new-list-link"
                           href="#"
-                          className="flex items-center text-sm py-1 hover:underline"
-                         
                         >
-                          <PlusIcon
-                            className="h-5 w-5 text-gray-300 transform"
-                            aria-hidden="true"
-                          />
-                          <span className="block flex-1 pl-1">Create</span>
+                          <PlusIcon   
+                          className="h-5 w-5  transform"
+                          aria-hidden="true"/>
+                          <span className="ml-2">Create New List</span>
                         </a>
                       </li>
                     )}
@@ -247,14 +264,12 @@ const Item = (props) => {
                             <input
                               name="list-input"
                               id="list-input"
-                             
                               type="text"
                             />
                             <Button
                               style={{ marginTop: 5, marginLeft: 50 }}
                               className="cbn-item__view-button group-hover:visible group-focus-within:visible"
                               label="Create"
-                              
                             />
                           </div>
                         </a>

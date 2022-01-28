@@ -149,7 +149,7 @@ const Autocomplete = (props) => {
                 ))}
               </AutocompleteMenu>
             )}
-            {filteredItems.length === 0 && (
+            {filteredItems && filteredItems.length === 0 && (
               <div className="text-center text-xs text-gray-300 p-3">
                 No matches for your search.
               </div>

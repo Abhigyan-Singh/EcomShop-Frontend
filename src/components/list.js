@@ -133,11 +133,15 @@ export default function Example() {
                       className="flex items-center text-sm py-1 hover:underline"
                       onClick={() => setForm(true)}
                     >
-                      <PlusIcon
-                        className="h-5 w-5 text-gray-300 transform"
-                        aria-hidden="true"
-                      />
-                      <span className="block flex-1 pl-1">Create</span>
+                      <a
+                          className="bsw-dropmenu-new-list-link"
+                          href="#"
+                        >
+                          <PlusIcon   
+                          className="h-5 w-5 transform"
+                          aria-hidden="true"/>
+                          <span className="ml-2">Create</span>
+                        </a>
                     </a>
                   </li>
                 )}

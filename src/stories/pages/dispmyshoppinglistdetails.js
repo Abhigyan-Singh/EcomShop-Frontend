@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import List from 'components/list';
 import Item from 'components/item/item';
+import { previouslyPurchased } from 'services/search';
 
 const mockData = [
   {
@@ -709,10 +710,23 @@ export const DisplayShoppingListDetails = ({
   logout,
   ...rest
 }) => {
+  const [items, setItems] = useState([]);
+  const fetchPreviouslyPurchased = async () => {
+    const data = await previouslyPurchased();
+    setItems(data);
+  };
+  useEffect(() => {
+    fetchPreviouslyPurchased();
+  }, []);
   return (
     <Fragment>
       <div style={{ height: 500 }}>
         <List />
+        <div>
+          <p>
+            <span data-yext-field="hours" data-yext-id="12792483"></span>
+          </p>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
           {mockData.map((e, i) => (
             <Item item={e} key={i} />
