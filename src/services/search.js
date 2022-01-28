@@ -14,3 +14,7 @@ export const search = (searchKey, facilityId = 2037, page = 2) => {
 export const productDetails = (productId) => {
   return apiClient.get(API.productDetails + productId);
 };
+
+export const previouslyPurchased = () => {
+  return apiClient.get(config.baseUrl + API.previous_purchased);
+};

@@ -1,5 +1,7 @@
+import  envConfig from './environments/config';
+
 export const config = {
-  baseUrl: 'http://localhost:3000'
+  baseUrl: envConfig.url
 };
 
 export const API = {
@@ -7,9 +9,10 @@ export const API = {
   authenticate: '/authenticate',
   search: '/product/search',
   productDetails: '/product/', // then id
-  add_favorite: '/favorite',
-  delete_favorite: '/favorite',
-  all_favorite: '/favorite'
+  add_favorite: '/productlist/save',
+  delete_favorite: '/productlist/deletefavProduct/',
+  all_favorite: '/productlist/favProduct',
+  previous_purchased: '/producthistorylist/product/123'
 };
 
 export const CookiesAge = 604800;

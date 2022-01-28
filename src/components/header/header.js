@@ -194,7 +194,11 @@ const Header = (props) => {
                           Saint Cloud, MN
                         </div>
                         <div className="text-sm font-medium mb-1">
-                          Open today until 10pm
+                        <div>
+<p><span data-yext-field="address1" data-yext-id="12792483"></span><br /><span data-yext-field="city" data-yext-id="12792483"></span>, <span data-yext-field="state" data-yext-id="12792483"></span> <span data-yext-field="zip" data-yext-id="12792483"></span> <br /><span><a data-yext-field="phone" data-yext-id="12792483"></a></span></p>
+<p><span>Store Hours:</span><br /><span data-yext-field="hours" data-yext-id="12792483"></span></p>
+<p><i class="fas fa-map-marker-alt"></i> <a target="_blank" data-yext-field="get-directions-link" data-yext-id="12792483"></a></p>
+</div>
                         </div>
                         <div className="text-xs font-medium">
                           <a
