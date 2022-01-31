@@ -20,7 +20,7 @@ export default function Example() {
     defaultOption = 'Favorites'
   }
   const [selected, setSelected] = useState(
-    location?.state || defaultOption
+    location?.state || defaultOption || menu 
   );
   const [formOpen, setForm] = useState(false);
   const navigate = useNavigate();
@@ -32,7 +32,25 @@ export default function Example() {
     if (selectedMenu === 'Previously Purchased') {
       navigate('/dispmyshoppinglistdetails', { state: selectedMenu });
     }
+    if(selectedMenu === menu){
+      navigate (`/${menu}`, {state: selectedMenu});
+    }
   };
+
+  const handleCreateItemList = (selectedMenu) => {
+    if(selectedMenu === 'Favorites'){
+      console.log("List is already created")
+    }
+    if(selectedMenu ==='Previously Purchased'){
+      console.log("List is already been created");
+    }
+    if(selectedMenu === ''){
+      alert("Please provide one list name that you want to create")
+    }
+  }
+
+  
+
   return (
     <div>
       <Menu
@@ -140,7 +158,7 @@ export default function Example() {
                           <PlusIcon   
                           className="h-5 w-5 transform"
                           aria-hidden="true"/>
-                          <span className="ml-2">Create</span>
+                          <span className="ml-2" onClick={() => handleCreateItemList('Favorites')} >Create</span>
                         </a>
                     </a>
                   </li>
@@ -161,12 +179,13 @@ export default function Example() {
                         <Button
                           style={{ marginTop: 5, marginLeft: 50 }}
                           className="cbn-item__view-button group-hover:visible group-focus-within:visible"
-                          label="Create"
+                          label="Createe"
                           onClick={() => {
                             if (list) {
                               menu.unshift(list);
                               setMenu(menu);
-                              setList('');
+                              setList(list);
+                              setSelected(menu)
                               setForm(false);
                             }
                           }}

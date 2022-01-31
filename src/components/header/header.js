@@ -31,8 +31,15 @@ const Header = (props) => {
     }
   };
 
+  const setHoursHtml = () => {
+    if (document.getElementById("yext-facility-hours-getter") && document.getElementById("yext-facility-hours-setter")) {
+    document.getElementById("yext-facility-hours-getter").innerHTML = document.getElementById("yext-facility-hours-setter").innerHTML;
+    }
+  };
+
   useEffect(() => {
     fetch();
+   
   }, []);
 
   const { className, theme, user, onMobileButtonClick, ...rest } = props;
@@ -165,7 +172,11 @@ const Header = (props) => {
       </div>
       <div className="cbn-header__nav">
         <Popover className="relative hidden md:block">
-          {({ open }) => (
+          {({ open }) => {
+             setTimeout(() => {
+              setHoursHtml();
+            }, 0)
+             return(
             <Fragment>
               <Popover.Button className="cbn-header__menu-button">
                 <span className="text-base font-bold mr-2">Menu</span>
@@ -194,11 +205,7 @@ const Header = (props) => {
                           Saint Cloud, MN
                         </div>
                         <div className="text-sm font-medium mb-1">
-                        <div>
-<p><span data-yext-field="address1" data-yext-id="12792483"></span><br /><span data-yext-field="city" data-yext-id="12792483"></span>, <span data-yext-field="state" data-yext-id="12792483"></span> <span data-yext-field="zip" data-yext-id="12792483"></span> <br /><span><a data-yext-field="phone" data-yext-id="12792483"></a></span></p>
-<p><span>Store Hours:</span><br /><span data-yext-field="hours" data-yext-id="12792483"></span></p>
-<p><i class="fas fa-map-marker-alt"></i> <a target="_blank" data-yext-field="get-directions-link" data-yext-id="12792483"></a></p>
-</div>
+                        <div id="yext-facility-hours-getter" />
                         </div>
                         <div className="text-xs font-medium">
                           <a
@@ -266,7 +273,7 @@ const Header = (props) => {
                 </Popover.Panel>
               </Transition>
             </Fragment>
-          )}
+          ) }}
         </Popover>
         <div className="flex-1 lg:flex-none">
           <Autocomplete
