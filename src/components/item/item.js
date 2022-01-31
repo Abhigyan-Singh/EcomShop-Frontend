@@ -190,7 +190,7 @@ const Item = (props) => {
                           className="bsw-checkbox-label"
                           name="customListName"
                         >
-                          Meat
+                          Deli
                         </span>
                       </label>
                     </li>
@@ -206,7 +206,7 @@ const Item = (props) => {
                           className="bsw-checkbox-label"
                           name="customListName"
                         >
-                          Meat
+                          Dairy
                         </span>
                       </label>
                     </li>

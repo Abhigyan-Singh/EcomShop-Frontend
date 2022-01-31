@@ -12,7 +12,9 @@ export const API = {
   add_favorite: '/productlist/save',
   delete_favorite: '/productlist/deletefavProduct/',
   all_favorite: '/productlist/favProduct',
-  previous_purchased: '/producthistorylist/productlist'
+  all_user_list: '/userList/all',
+  list_save: '/userList/save',
+  previous_purchased: '/producthistorylist/productHistoryDetails'
 };
 
 export const CookiesAge = 604800;
