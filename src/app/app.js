@@ -99,6 +99,11 @@ const App = () => {
 
   return (
     <Router>
+       <div id="yext-facility-hours-setter" style={{ visibility: 'hidden'}}>
+      <p>
+        <span data-yext-field="hours" data-yext-id="12792483"></span>
+      </p>
+    </div>
       <Alert>
         <span>
           COVID-19 Vaccinations are now available in select locations.
