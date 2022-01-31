@@ -10,6 +10,7 @@ import {
 } from '@heroicons/react/solid';
 import Button from 'components/button/button';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { addList, getAllList } from 'services/mylist';
 
 export default function Example() {
   const [menu, setMenu] = useState([]);
@@ -24,6 +25,20 @@ export default function Example() {
   );
   const [formOpen, setForm] = useState(false);
   const navigate = useNavigate();
+
+  const getUserList = async ()  => {
+    const userListRes = await getAllList();
+    setMenu(userListRes.data);
+  }
+
+  const createList = async (description)  => {
+    const userListRes = await addList({description});
+  }
+
+  useEffect(() => {
+    getUserList();
+  }, [])
+
   const handleSelect = (selectedMenu) => {
     setSelected(selectedMenu);
     if (selectedMenu === 'Favorites') {
@@ -135,7 +150,7 @@ export default function Example() {
                             href="#"
                             className="flex items-center text-sm py-1 hover:underline"
                           >
-                            <span className="block flex-1 pl-1">{menu}</span>
+                            <span className="block flex-1 pl-1">{menu.description}</span>
                           </a>
                         </li>
                       </Menu.Item>
@@ -179,13 +194,16 @@ export default function Example() {
                         <Button
                           style={{ marginTop: 5, marginLeft: 50 }}
                           className="cbn-item__view-button group-hover:visible group-focus-within:visible"
-                          label="Createe"
-                          onClick={() => {
+                          label="Create"
+                          onClick={async () => {
                             if (list) {
-                              menu.unshift(list);
-                              setMenu(menu);
-                              setList(list);
-                              setSelected(menu)
+
+                              // menu.unshift(list);
+                              // setMenu(menu);
+                              // setList(list);
+                              // setSelected(menu)
+                              await createList(list)
+                              getUserList();
                               setForm(false);
                             }
                           }}
