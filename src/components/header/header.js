@@ -1,3 +1,30 @@
+<<<<<<< HEAD
+=======
+import { Fragment, useState, useEffect, useCallback} from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { Disclosure, Popover, Transition } from '@headlessui/react';
+import {
+  MenuIcon as MenuOutlineIcon,
+  SearchIcon
+} from '@heroicons/react/outline';
+import { ChevronRightIcon, MenuIcon } from '@heroicons/react/solid';
+import cartIcon from 'assets/icons/cart-icon@2x.png';
+import listIcon from 'assets/icons/list-icon@2x.png';
+import cobornsLogo from 'assets/images/coborns-logo@2x.png';
+import cashwiseLogo from 'assets/images/cashwise-logo@2x.png';
+import marketplaceLogo from 'assets/images/marketplace-logo@2x.png';
+import Autocomplete from 'components/autocomplete/autocomplete';
+import mainNavigation from 'data/mainNavigation';
+import './header.css';
+import Modal from './Modal';
+import Backdrop from './Backdrop';
+import { search } from 'services/search';
+import { grocery } from 'services/groceryTree'
+
+
+
+>>>>>>> 585b61b9dd773859fcd714e547b7d0535cca8548
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
