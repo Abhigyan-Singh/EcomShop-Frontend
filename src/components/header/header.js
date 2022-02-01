@@ -27,6 +27,7 @@ const Header = (props) => {
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
 
   const [searchList, setSearchList] = useState([]);
+  const [data, setData] = useState();
   const fetch = async (itemName) => {
     if (itemName) {
       const sData = await search(itemName, 2037, 2);
@@ -34,9 +35,17 @@ const Header = (props) => {
     }
   };
 
-  useEffect(() => {
-    grocery().;
+   useEffect(() => {
+      grocery().then((res) => {
+        setData(res.data);
+        console.log("DATA", data);
+      });
   }, []);
+
+  const list = data.map((dept) => {
+    return <a className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+      >{dept}</a>
+  })
 
   const { className, theme, user, onMobileButtonClick, ...rest } = props;
   const componentClassName = classNames('cbn-header', {}, className);
