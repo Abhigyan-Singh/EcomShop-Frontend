@@ -67,13 +67,9 @@ const ShopSidebar = (props) => {
                             href="#"
                             className="flex items-center text-sm py-1 hover:underline"
                           >
-<<<<<<< HEAD
-                            <span className="block flex-1">Frozen Baked Goods</span>
-=======
                             <span className="block flex-1">
                               Frozen Baked Goods
                             </span>
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
                           </a>
                         </li>
                         <li>
@@ -81,13 +77,9 @@ const ShopSidebar = (props) => {
                             href="#"
                             className="flex items-center text-sm py-1 hover:underline"
                           >
-<<<<<<< HEAD
-                            <span className="block flex-1">Frozen Breakfast</span>
-=======
                             <span className="block flex-1">
                               Frozen Breakfast
                             </span>
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
                           </a>
                         </li>
                         <li>
@@ -95,13 +87,9 @@ const ShopSidebar = (props) => {
                             href="#"
                             className="flex items-center text-sm py-1 hover:underline"
                           >
-<<<<<<< HEAD
-                            <span className="block flex-1">Frozen Desserts</span>
-=======
                             <span className="block flex-1">
                               Frozen Desserts
                             </span>
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
                           </a>
                         </li>
                         <li>
@@ -151,13 +139,9 @@ const ShopSidebar = (props) => {
                             href="#"
                             className="flex items-center text-sm py-1 hover:underline"
                           >
-<<<<<<< HEAD
-                            <span className="block flex-1">Frozen Potatoes</span>
-=======
                             <span className="block flex-1">
                               Frozen Potatoes
                             </span>
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
                           </a>
                         </li>
                       </ul>
@@ -166,11 +150,7 @@ const ShopSidebar = (props) => {
                   <ul className="list-none py-2 m-0 border-t border-gray-100">
                     <li>
                       <a
-<<<<<<< HEAD
-                        href="#"
-=======
                         href="/dispmyshoppinglistdetails"
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
                         className="flex items-center text-sm py-1 hover:underline"
                       >
                         <SwitchHorizontalIcon
@@ -184,11 +164,7 @@ const ShopSidebar = (props) => {
                     </li>
                     <li>
                       <a
-<<<<<<< HEAD
-                        href="#"
-=======
                         href="/favorites"
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
                         className="flex items-center text-sm py-1 hover:underline"
                       >
                         <HeartIcon

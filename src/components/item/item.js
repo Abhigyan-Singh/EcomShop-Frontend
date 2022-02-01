@@ -50,9 +50,6 @@ const Item = (props) => {
 
   const handleFavoriteClick = async () => {
     if (typeof onFavoriteClick === 'function') {
-<<<<<<< HEAD
-      onFavoriteClick({ item: item.productId });
-=======
       if (!favourite) {
         await addFavorite({ productId: item.productId });
         setFavourite(true);
@@ -62,7 +59,6 @@ const Item = (props) => {
         setFavourite(false);
         onFavoriteClick({ item: item.productId });
       }
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
     }
   };
 

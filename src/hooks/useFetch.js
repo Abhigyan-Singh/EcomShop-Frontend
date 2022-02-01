@@ -1,9 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { search } from 'services/search';
-<<<<<<< HEAD
-=======
 import { getAllFavorites } from 'services/favorites'
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
 const facilityId = 2037;
 
 function useFetch(query, page) {
@@ -16,12 +13,6 @@ function useFetch(query, page) {
       await setLoading(true);
       await setError(false);
       const res = await search(query, facilityId, page);
-<<<<<<< HEAD
-      if (res) {
-        await setList((prev) => [
-          ...new Set([...prev, ...res.data.suggestionList])
-        ]);
-=======
       const favoritesRes = await getAllFavorites();
       const favorites = favoritesRes.data;
       if (res && res.data.suggestionList) {
@@ -38,7 +29,6 @@ function useFetch(query, page) {
           })
           return [...new Set(formattedListData)];
         });
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
         setLoading(false);
       }
     } catch (err) {
