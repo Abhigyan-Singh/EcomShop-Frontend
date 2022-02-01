@@ -35,17 +35,31 @@ const Header = (props) => {
     }
   };
 
-   useEffect(() => {
-      grocery().then((res) => {
-        setData(res.data);
-        console.log("DATA", data);
-      });
-  }, []);
 
-  const list = data.map((dept) => {
-    return <a className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
-      >{dept}</a>
-  })
+  useEffect(() => {
+    grocery().then((res) => {
+      setData(res.data);
+      console.log("DATA", res.data)
+    });
+  }, [props]);
+
+
+  const list = () => {
+    var lst = []
+    for (var i = 0; i < data.length; i++) {
+      lst.push(data[i].description)
+      console.log("LIST", lst)
+    }
+      return ( lst.map((dept) => (
+        <a  className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+        >
+          {dept}
+        </a>
+        ))
+      )
+
+  }
+
 
   const { className, theme, user, onMobileButtonClick, ...rest } = props;
   const componentClassName = classNames('cbn-header', {}, className);
