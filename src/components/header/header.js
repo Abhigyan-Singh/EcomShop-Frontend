@@ -351,10 +351,7 @@ const Header = (props) => {
         </div>
         <div className="hidden lg:block lg:flex-1">
           <nav className="flex space-x-8 ml-4">
-            <a href="#link" className="cbn-header__nav-link">
-              Deals
-            </a>
-            <a href="#link" className="cbn-header__nav-link">
+            <a href="https://www.coborns.com/circular" className="cbn-header__nav-link">
               Weekly Ad
             </a>
           </nav>
