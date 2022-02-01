@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { Fragment, useState, useEffect, useCallback} from 'react';
-=======
-import { Fragment, useState, useEffect, useCallback } from 'react';
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
@@ -22,22 +18,16 @@ import './header.css';
 import Modal from './Modal';
 import Backdrop from './Backdrop';
 import { search } from 'services/search';
-<<<<<<< HEAD
 import { grocery } from 'services/groceryTree'
 
 
-=======
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
 
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
 
   const [searchList, setSearchList] = useState([]);
-<<<<<<< HEAD
   const [data, setData] = useState();
-=======
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
   const fetch = async (itemName) => {
     if (itemName) {
       const sData = await search(itemName, 2037, 2);
@@ -45,7 +35,6 @@ const Header = (props) => {
     }
   };
 
-<<<<<<< HEAD
 
   useEffect(() => {
     grocery().then((res) => {
@@ -62,7 +51,7 @@ const Header = (props) => {
       console.log("LIST", lst)
     }
       return ( lst.map((dept) => (
-        <a  className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+        <a className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
         >
           {dept}
         </a>
@@ -71,36 +60,16 @@ const Header = (props) => {
 
   }
 
-=======
-  const setHoursHtml = () => {
-    if (document.getElementById("yext-facility-hours-getter") && document.getElementById("yext-facility-hours-setter")) {
-    document.getElementById("yext-facility-hours-getter").innerHTML = document.getElementById("yext-facility-hours-setter").innerHTML;
-    }
-  };
-
-  useEffect(() => {
-    fetch();
-   
-  }, []);
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
 
   const { className, theme, user, onMobileButtonClick, ...rest } = props;
   const componentClassName = classNames('cbn-header', {}, className);
   const [value, setValue] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
-<<<<<<< HEAD
-=======
-  const facilityId = 2029;
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
 
   const debounce = (func, delay) => {
     let debounceTimer;
     return function () {
       const context = this;
-<<<<<<< HEAD
-=======
-
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
       const args = arguments;
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => func.apply(context, args), delay);
@@ -133,18 +102,12 @@ const Header = (props) => {
     setModalIsOpen(false);
   };
   const [searchArray, setSearchArray] = useState(searchList);
-<<<<<<< HEAD
 
   const onScroll = () => {
     // We need to integrate with solor here on scroll
   };
 
-=======
->>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
 
-  const onScroll = () => {
-    // We need to integrate with solor here on scroll
-  };
   return (
     <header className={componentClassName} {...rest}>
       <div className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
@@ -228,11 +191,7 @@ const Header = (props) => {
       </div>
       <div className="cbn-header__nav">
         <Popover className="relative hidden md:block">
-          {({ open }) => {
-             setTimeout(() => {
-              setHoursHtml();
-            }, 0)
-             return(
+          {({ open }) => (
             <Fragment>
               <Popover.Button className="cbn-header__menu-button">
                 <span className="text-base font-bold mr-2">Menu</span>
@@ -251,8 +210,7 @@ const Header = (props) => {
               >
                 <Popover.Panel
                   static
-                  className="absolute  -ml-4 mt-2 transform w-screen md:max-w-xs"
-                  style={{ zIndex: 9999 }}
+                  className="absolute z-10 -ml-4 mt-2 transform w-screen md:max-w-xs"
                 >
                   <div className="rounded shadow-md ring-1 ring-black ring-opacity-5 overflow-hidden">
                     <div className="relative bg-white p-3">
@@ -261,14 +219,10 @@ const Header = (props) => {
                           Saint Cloud, MN
                         </div>
                         <div className="text-sm font-medium mb-1">
-                        <div id="yext-facility-hours-getter" />
+                          Open today until 10pm
                         </div>
                         <div className="text-xs font-medium">
-                          <a
-                            className="underline"
-                            href={`https://www.coborns.com/Cobstore${facilityId}`}
-                            target="_blank"
-                          >
+                          <a className="underline" href="#link">
                             View Store Details
                           </a>
                         </div>
@@ -379,7 +333,7 @@ const Header = (props) => {
                 </Popover.Panel>
               </Transition>
             </Fragment>
-          ) }}
+          )}
         </Popover>
         <div className="flex-1 lg:flex-none">
           <Autocomplete
@@ -405,7 +359,7 @@ const Header = (props) => {
         <div className="flex items-center">
           <div className="hidden sm:block sm:ml-3 md:ml-4 lg:ml-6">
             <a
-              href="/dispmyshoppinglistdetails"
+              href="#link"
               className="inline-flex rounded-sm items-center justify-center cbn-header__nav-link"
             >
               <span>My Lists</span>
