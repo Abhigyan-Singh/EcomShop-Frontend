@@ -15,8 +15,13 @@ import Signup from 'components/signup/signup';
 import Footer from 'components/footer/footer';
 import Alert from 'components/alert/alert';
 import { ItemStory } from 'stories/pages/item.stories';
+<<<<<<< HEAD
 
 
+=======
+import { DisplayShoppingListDetails } from 'stories/pages/dispmyshoppinglistdetails';
+import { Favorites } from 'stories/pages/favorites';
+>>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -77,6 +82,24 @@ const App = () => {
         element: (
           <ItemStory isAuthenticated={isAuthenticated} logout={onLogout} />
         )
+<<<<<<< HEAD
+=======
+      },
+      {
+        path: 'dispmyshoppinglistdetails',
+        element: (
+          <DisplayShoppingListDetails
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
+        )
+      },
+      {
+        path: 'favorites',
+        element: (
+          <Favorites isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+>>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
       }
     ]);
     return routes;
@@ -84,6 +107,14 @@ const App = () => {
 
   return (
     <Router>
+<<<<<<< HEAD
+=======
+       <div id="yext-facility-hours-setter" style={{ visibility: 'hidden'}}>
+      <p>
+        <span data-yext-field="hours" data-yext-id="12792483"></span>
+      </p>
+    </div>
+>>>>>>> 3d4f7d33347d7f11971f383d8f6a6add0836da52
       <Alert>
         <span>
           COVID-19 Vaccinations are now available in select locations.

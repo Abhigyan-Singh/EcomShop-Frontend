@@ -1,8 +1,11 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
+import config  from '../environments/config'
+
+
 
 const apiClient = axios.create({
-  baseURL: 'http://mp2-dev-web2.cobornsinc.local:8009/',
+  baseURL: config.url,
   headers: {
     'Content-Type': 'application/json'
   }
