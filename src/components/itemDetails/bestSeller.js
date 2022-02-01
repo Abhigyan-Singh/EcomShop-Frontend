@@ -1,7 +1,7 @@
-import { ChevronRightIcon } from '@heroicons/react/solid';
+import React from 'react';
+import shopData from 'data/shop.json';
 import Item from 'components/item/item';
-import Tabs from 'components/tabs/tabs';
-import itemData from 'data/item.json';
+import { ChevronRightIcon } from '@heroicons/react/outline';
 
 const mockData = [
   {
@@ -691,23 +691,10 @@ const mockData = [
   }
 ];
 
-const HomeGetStarted = (props) => {
+const BestSeller = (props) => {
   return (
     <div className="p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">
-        <div className="font-serif text-lg tracking-widest uppercase mb-2 lg:mb-0">
-          Get Started
-        </div>
-        <div className="flex-1 mb-2 lg:mb-0">
-          <Tabs
-            tabs={[
-              { name: 'Lorem Ipsum', href: '#', current: true },
-              { name: 'Lorem Ipsum', href: '#', current: false },
-              { name: 'Lorem Ipsum', href: '#', current: false },
-              { name: 'Lorem Ipsum', href: '#', current: false }
-            ]}
-          />
-        </div>
         <div>
           <a href="#link">
             <span className="flex items-center">
@@ -726,4 +713,4 @@ const HomeGetStarted = (props) => {
   );
 };
 
-export default HomeGetStarted;
+export default BestSeller;

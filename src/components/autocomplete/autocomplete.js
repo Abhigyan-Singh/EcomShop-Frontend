@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Input from 'components/input/input';
 import useEventListener from 'hooks/useEventListener';
 import './autocomplete.css';
+import { useNavigate } from 'react-router-dom';
 
 const AutocompleteMenu = (props) => {
   const { children, ...rest } = props;
@@ -33,26 +34,14 @@ AutocompleteMenuItem.propTypes = {
 };
 
 const Autocomplete = (props) => {
-  const { items, onChange, onItemSelect, value, ...rest } = props;
+  const { items, onChange, onItemSelect, value, onScroll, ...rest } = props;
   const inputRef = useRef(null);
-  const [filteredItems, setFilteredItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState(items);
   const [focused, setFocused] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const navigate = useNavigate();
 
   const componentClassName = classNames('cbn-autocomplete', {});
-
-  const filterItems = useCallback(
-    (inputValue) => {
-      setFilteredItems(
-        items
-          .filter((item) => {
-            return item.toLowerCase().includes(inputValue.toLowerCase());
-          })
-          .slice(0, 5)
-      );
-    },
-    [items]
-  );
 
   const handleBlur = () => {
     setSelectedItemIndex(null);
@@ -60,22 +49,23 @@ const Autocomplete = (props) => {
   };
 
   useEffect(() => {
-    filterItems(value);
-  }, [filterItems, value]);
+    value && setFilteredItems(items);
+  }, [value]);
 
   const handleClick = (event, item) => {
     handleItemSelect(event, item);
+    navigate('/item/' + item.productId, { state: item });
+    onItemSelect('');
   };
 
   const handleFocus = (event) => {
-    filterItems(event.target.value);
     setFocused(true);
   };
 
   const handleItemSelect = useCallback(
     (event, item) => {
-      onItemSelect(item);
-      if (item) {
+      if (item && item.productName) {
+        onItemSelect(item.productName);
         inputRef.current.blur();
       }
     },
@@ -88,30 +78,33 @@ const Autocomplete = (props) => {
 
   const handleKeyDown = useCallback(
     (event) => {
-      if (event.keyCode === 13 && focused) {
-        event.preventDefault();
-        handleItemSelect(event, filteredItems[selectedItemIndex]);
-      } else if (event.keyCode === 38 && focused) {
-        event.preventDefault();
-        if (selectedItemIndex === null || selectedItemIndex === 0) {
-          setSelectedItemIndex(filteredItems.length - 1);
-        } else {
-          if (selectedItemIndex > 0) {
-            setSelectedItemIndex(selectedItemIndex - 1);
-          }
-        }
-      } else if (event.keyCode === 40 && focused) {
-        event.preventDefault();
-        if (selectedItemIndex === null) {
-          setSelectedItemIndex(0);
-        } else {
-          if (
-            selectedItemIndex >= 0 &&
-            selectedItemIndex < filteredItems.length - 1
-          ) {
-            setSelectedItemIndex(selectedItemIndex + 1);
+      if (event.target.value) {
+        if (event.keyCode === 13 && focused) {
+          event.preventDefault();
+          handleItemSelect(event, filteredItems[selectedItemIndex]);
+          window.location.href = '/search?text=' + event.target.value;
+        } else if (event.keyCode === 38 && focused) {
+          event.preventDefault();
+          if (selectedItemIndex === null || selectedItemIndex === 0) {
+            setSelectedItemIndex(filteredItems.length - 1);
           } else {
+            if (selectedItemIndex > 0) {
+              setSelectedItemIndex(selectedItemIndex - 1);
+            }
+          }
+        } else if (event.keyCode === 40 && focused) {
+          event.preventDefault();
+          if (selectedItemIndex === null) {
             setSelectedItemIndex(0);
+          } else {
+            if (
+              selectedItemIndex >= 0 &&
+              selectedItemIndex < filteredItems.length - 1
+            ) {
+              setSelectedItemIndex(selectedItemIndex + 1);
+            } else {
+              setSelectedItemIndex(0);
+            }
           }
         }
       }
@@ -134,8 +127,12 @@ const Autocomplete = (props) => {
         onFocus={handleFocus}
         {...rest}
       />
-      {value && focused && (
-        <div className="cbn-autocomplete__container">
+      {value && (
+        <div
+          className="cbn-autocomplete__container"
+          onScroll={onScroll}
+          style={{ maxHeight: '35vh', overflow: 'auto' }}
+        >
           <div className="cbn-autocomplete__popover">
             {filteredItems && (
               <AutocompleteMenu>
@@ -147,7 +144,7 @@ const Autocomplete = (props) => {
                     onClick={(event) => handleClick(event, item)}
                     onMouseDown={handleMouseDown}
                   >
-                    {item}
+                    {item.productName}
                   </AutocompleteMenuItem>
                 ))}
               </AutocompleteMenu>
