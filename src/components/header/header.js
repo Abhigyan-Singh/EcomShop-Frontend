@@ -281,14 +281,20 @@ const Header = (props) => {
                                           {subItem.name}
                                         </a> 
                                         ) : (
-                                          <a
-                                          key={subItem.name}
-                                          href={subItem.href}
-                                          className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
-                                          >
-                                          {subItem.name}
-                                          </a> 
-                                        )                                     
+                                          subitem.name == 'four brothers' ? (
+                                            <a
+                                            key={subItem.name}
+                                            href={subItem.href}
+                                            className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+                                            >
+                                            {subItem.name}
+                                            </a>                
+                                          ) : (
+                                            list()
+                                          )
+                                        ) 
+
+                                                      
                                     ))}
                                   </Disclosure.Panel>
                                 </>
