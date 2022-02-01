@@ -4,7 +4,6 @@ import './index.css';
 import App from './app/app';
 import { CookiesProvider } from 'react-cookie';
 
-
 ReactDOM.render(
   <React.StrictMode>
     <CookiesProvider>
