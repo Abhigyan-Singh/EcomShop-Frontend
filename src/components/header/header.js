@@ -304,7 +304,7 @@ const Header = (props) => {
                                           {subItem.name}
                                         </a> 
                                         ) : (
-                                          subitem.name == 'four brothers' ? (
+                                          subItem.name == 'four brothers' ? (
                                             <a
                                             key={subItem.name}
                                             href={subItem.href}
