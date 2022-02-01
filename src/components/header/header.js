@@ -18,7 +18,7 @@ import './header.css';
 import Modal from './Modal';
 import Backdrop from './Backdrop';
 import { search } from 'services/search';
-
+import { grocery } from 'services/groceryTree'
 
 
 
@@ -35,7 +35,7 @@ const Header = (props) => {
   };
 
   useEffect(() => {
-    fetch();
+    grocery().;
   }, []);
 
   const { className, theme, user, onMobileButtonClick, ...rest } = props;
