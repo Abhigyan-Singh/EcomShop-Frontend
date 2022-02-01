@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Cookies } from 'react-cookie';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8009',
+  baseURL: 'http://mp2-dev-web2.cobornsinc.local:8009/',
   headers: {
     'Content-Type': 'application/json'
   }
