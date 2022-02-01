@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
@@ -15,16 +15,75 @@ import marketplaceLogo from 'assets/images/marketplace-logo@2x.png';
 import Autocomplete from 'components/autocomplete/autocomplete';
 import mainNavigation from 'data/mainNavigation';
 import './header.css';
+import Modal from './Modal';
+import Backdrop from './Backdrop';
+import { search } from 'services/search';
+import { grocery } from 'services/groceryTree'
+
+
 
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
+
+  const [searchList, setSearchList] = useState([]);
+  const [data, setData] = useState();
+  const fetch = async (itemName) => {
+    if (itemName) {
+      const sData = await search(itemName, 2037, 2);
+      setSearchList(sData?.data?.suggestionList);
+    }
+  };
+
+
+  useEffect(() => {
+    grocery().then((res) => {
+      setData(res.data);
+      console.log("DATA", res.data)
+    });
+  }, [props]);
+
+
+  const list = () => {
+    var lst = []
+    for (var i = 0; i < data.length; i++) {
+      lst.push(data[i].description)
+      console.log("LIST", lst)
+    }
+      return ( lst.map((dept) => (
+        <a className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+        >
+          {dept}
+        </a>
+        ))
+      )
+
+  }
+
+
   const { className, theme, user, onMobileButtonClick, ...rest } = props;
   const componentClassName = classNames('cbn-header', {}, className);
   const [value, setValue] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const debounce = (func, delay) => {
+    let debounceTimer;
+    return function () {
+      const context = this;
+      const args = arguments;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func.apply(context, args), delay);
+    };
+  };
+
+  const searcher = useCallback(
+    debounce((n) => fetch(n), 1000),
+    []
+  );
 
   const handleChange = (event) => {
     setValue(event.target.value);
+    if (event.target.value.length > 0) searcher(event.target.value);
   };
 
   const handleItemSelect = (item) => {
@@ -36,6 +95,18 @@ const Header = (props) => {
       onMobileButtonClick(event);
     }
   };
+  const modelHandler = () => {
+    setModalIsOpen(true);
+  };
+  const closeModalHandler = () => {
+    setModalIsOpen(false);
+  };
+  const [searchArray, setSearchArray] = useState(searchList);
+
+  const onScroll = () => {
+    // We need to integrate with solor here on scroll
+  };
+
 
   return (
     <header className={componentClassName} {...rest}>
@@ -84,18 +155,25 @@ const Header = (props) => {
                 </a>
               )}
               {!user && (
-                <a className="underline" href="https://testweb.shop.coborns.com/createaccount">
+                <a
+                  className="underline"
+                  href="https://testweb.shop.coborns.com/createaccount"
+                >
                   Register
                 </a>
               )}
               {user && (
-                <a className="underline" href="#link">
+                <a className="underline" href="#link" onClick={props.logout}>
                   Sign Out
                 </a>
               )}
               {!user && (
-                <a className="underline" href="https://testweb.shop.coborns.com/loginMessage.action">
-                  Sign In
+                <a className="underline">
+                  <button className="underline" onClick={modelHandler}>
+                    Sign In
+                  </button>
+                  {modalIsOpen && <Modal onClose={closeModalHandler} />}
+                  {modalIsOpen && <Backdrop onClose={closeModalHandler} />}
                 </a>
               )}
             </div>
@@ -151,7 +229,7 @@ const Header = (props) => {
                       </div>
                       <div className="relative grid grid-cols-1 bg-white">
                         {mainNavigation.map((item) =>
-                          !item.children ? (
+                          !item.children && item.name !== 'Rewards' && item.name !== 'In-store Services' && item.name !== 'Digital Coupons'  ? (
                             <a
                               key={item.name}
                               href={item.href}
@@ -165,7 +243,37 @@ const Header = (props) => {
                               </span>
                             </a>
                           ) : (
-                            <Disclosure as="div" key={item.name}>
+                            !item.children && item.name === 'Rewards' || item.name === 'Digital Coupons' ? (
+                            <a
+                              key={item.name}
+                              href={item.href}
+                              target="_blank" 
+                              rel="noreferrer noopener"
+                              className="p-3 flex items-center rounded transition ease-in-out duration-150 text-gray-500 hover:bg-yellow-100"
+                            >
+                              <span className="flex items-center flex-1">
+                                {item.icon && <item.icon />}
+                                <span className="text-base font-medium">
+                                  {item.name}
+                                </span>
+                              </span>
+                            </a>
+                            ) : (
+                             item.name === 'In-store Services' ? (
+                            <a
+                              key={item.name}
+                              href="#Services"
+                              className="scroll-to-top p-3 flex items-center rounded transition ease-in-out duration-150 text-gray-500 hover:bg-yellow-100"
+                            >
+                              <span className="flex items-center flex-1">
+                                {item.icon && <item.icon />}
+                                <span className="text-base font-medium">
+                                  {item.name}
+                                </span>
+                              </span>
+                            </a>
+                             ) : (
+                              <Disclosure as="div" key={item.name}>
                               {({ open }) => (
                                 <>
                                   <Disclosure.Button className="p-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
@@ -185,19 +293,39 @@ const Header = (props) => {
                                   </Disclosure.Button>
                                   <Disclosure.Panel className="space-y-1">
                                     {item.children.map((subItem) => (
-                                      <a
-                                        key={subItem.name}
-                                        href={subItem.href}
-                                        className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
-                                      >
-                                        {subItem.name}
-                                      </a>
+                                      subItem.name === 'our brands' ? (    
+                                        <a
+                                          key={subItem.name}
+                                          href={subItem.href}
+                                          target="_blank" 
+                                          rel="noreferrer noopener"
+                                          className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+                                        >
+                                          {subItem.name}
+                                        </a> 
+                                        ) : (
+                                          subItem.name == 'four brothers' ? (
+                                            <a
+                                            key={subItem.name}
+                                            href={subItem.href}
+                                            className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+                                            >
+                                            {subItem.name}
+                                            </a>                
+                                          ) : (
+                                            list()
+                                          )
+                                        ) 
+
+                                                      
                                     ))}
                                   </Disclosure.Panel>
                                 </>
                               )}
                             </Disclosure>
-                          )
+                             )
+                            )
+                          ) 
                         )}
                       </div>
                     </div>
@@ -212,7 +340,7 @@ const Header = (props) => {
             className="block w-full lg:w-96 h-10 md:h-11"
             hasRoundedCorners={true}
             icon={SearchIcon}
-            items={['Apple', 'Banana', 'Orange']}
+            items={searchList}
             placeholder="What are you looking for?"
             type="search"
             onChange={(event) => handleChange(event)}
@@ -223,10 +351,7 @@ const Header = (props) => {
         </div>
         <div className="hidden lg:block lg:flex-1">
           <nav className="flex space-x-8 ml-4">
-            <a href="#link" className="cbn-header__nav-link">
-              Deals
-            </a>
-            <a href="#link" className="cbn-header__nav-link">
+            <a href="https://www.coborns.com/circular" className="cbn-header__nav-link">
               Weekly Ad
             </a>
           </nav>

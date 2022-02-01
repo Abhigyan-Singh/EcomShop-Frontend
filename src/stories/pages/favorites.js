@@ -1,7 +1,7 @@
-import { ChevronRightIcon } from '@heroicons/react/solid';
+import React, { Fragment, useEffect, useState } from 'react';
+import List from 'components/list';
 import Item from 'components/item/item';
-import Tabs from 'components/tabs/tabs';
-import itemData from 'data/item.json';
+import { getAllFavorites } from 'services/favorites';
 
 const mockData = [
   {
@@ -691,39 +691,48 @@ const mockData = [
   }
 ];
 
-const HomeGetStarted = (props) => {
+export default {
+  title: 'Pages/Home',
+  argTypes: {
+    isAuthenticated: {
+      name: 'Show Authenticated State',
+      control: 'boolean',
+      defaultValue: true
+    }
+  },
+  parameters: {
+    layout: 'fullscreen'
+  }
+};
+
+export const Favorites = ({ isAuthenticated, logout, ...rest }) => {
+  const [items, setItems] = useState([]);
+
+  const favorites = async () => {
+    const favorites = await getAllFavorites();
+   const items = favorites?.data.map((each) => {
+      return ({ ...each, keywords: each.keywords? each.keywords.split(',') : [], favorite: true })
+    })
+    setItems(items)
+  }
+  useEffect(() => {
+    favorites();
+  }, [])
+
   return (
-    <div className="p-4 md:p-6">
-      <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">
-        <div className="font-serif text-lg tracking-widest uppercase mb-2 lg:mb-0">
-          Get Started
-        </div>
-        <div className="flex-1 mb-2 lg:mb-0">
-          <Tabs
-            tabs={[
-              { name: 'Lorem Ipsum', href: '#', current: true },
-              { name: 'Lorem Ipsum', href: '#', current: false },
-              { name: 'Lorem Ipsum', href: '#', current: false },
-              { name: 'Lorem Ipsum', href: '#', current: false }
-            ]}
-          />
-        </div>
-        <div>
-          <a href="#link">
-            <span className="flex items-center">
-              <span>See All</span>
-              <ChevronRightIcon className="h-5 w-5 ml-2" aria-hidden="true" />
-            </span>
-          </a>
+    <Fragment>
+      <div style={{ minHeight: 500 }}>
+        <List />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+          {items.map((e, i) => (
+            <Item onFavoriteClick={ () => {
+              favorites();
+            }} item={e} key={i} />
+          ))}
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
-        {mockData.map((e, i) => (
-          <Item item={e} key={i} />
-        ))}
-      </div>
-    </div>
+    </Fragment>
   );
 };
 
-export default HomeGetStarted;
+Favorites.storyName = 'Favorites';

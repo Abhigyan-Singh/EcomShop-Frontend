@@ -64,7 +64,7 @@ const HomeServices = (props) => {
         </div>
       </div>
       <div className="flex flex-col mt-6 mb-5 lg:items-end lg:flex-row lg:space-x-10">
-        <div className="font-serif text-lg tracking-widest uppercase">
+        <div id="Services" className="font-serif text-lg tracking-widest uppercase">
           In Store Services
         </div>
       </div>

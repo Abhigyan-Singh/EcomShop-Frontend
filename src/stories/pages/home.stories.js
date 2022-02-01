@@ -11,6 +11,8 @@ import HomeRecipes from 'composites/home-recipes';
 import HomeServices from 'composites/home-services';
 import user from 'data/user.json';
 import slides from 'data/slides.json';
+import slidesCashWise from 'data/slidesCashWise.json';
+import slidesMarketPlace from 'data/slidesMarketPlace.json';
 import MobileNav from 'components/mobile-nav/mobile-nav';
 
 export default {
@@ -27,19 +29,26 @@ export default {
   }
 };
 
-
-
-
-
-
-
-
-export const HomeStory = (
-  { isAuthenticated, ...rest }
-) => {
+export const HomeStory = ({ isAuthenticated, logout, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [data, setData] = useState([])
-  const [user, setUser] = useState();
+  const [data, setData] = useState([]);
+  const [user, setUser] = useState({ firstName: 'Apple' });
+
+  const getBranName = () => {
+    if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase())) {
+      return 'COBORNS';
+    } else if (window.location.host.indexOf('CASHWISE'.toLocaleLowerCase())) {
+      return 'CASHWISE';
+    } else if (
+      window.location.host.indexOf('MARKETPLACEFOODSWI'.toLocaleLowerCase())
+    ) {
+      return 'MARKETPLACEFOODSWI';
+    } else {
+      return 'COBORNS';
+    }
+  };
+
+  const brandName = getBranName(); // 'COBORNS' / 'CASHWISE' / 'MARKETPLACEFOODSWI'
 
   const handleMobileButtonClick = (event) => {
     setMobileNavOpen(true);
@@ -48,47 +57,38 @@ export const HomeStory = (
   const handleMobileNavClose = (event) => {
     setMobileNavOpen(event);
   };
-
+  const getSlides = (brand) => {
+    switch (brand) {
+      case 'COBORNS':
+        return slides;
+      case 'CASHWISE':
+        return slidesCashWise;
+      case 'MARKETPLACEFOODSWI':
+        return slidesMarketPlace;
+      default:
+        break;
+    }
+  };
 
   useEffect(() => {
-    fetch("")
-    .then((res) => res.json())
-    .then((data) => {
-      setData(data)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }, [])
-
-  
-
-
+    fetch('')
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Fragment>
-      <Alert>
-        <span>
-          COVID-19 Vaccinations are now available in select locations.
-        </span>{' '}
-        <a className="underline" href="#link">
-          Check Availability
-        </a>
-      </Alert>
-      <Header
-        onMobileButtonClick={handleMobileButtonClick}
-  
-        user={isAuthenticated ? user : null}
-      />
-      <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
       <Locator />
-      <Hero slides={slides} />
+      <Hero slides={getSlides(brandName)} brandName={brandName} />
       <HomeGetStarted />
       <HomePromotions />
       <HomeServices />
       <HomeRecipes />
-      <Signup />
-      <Footer />
     </Fragment>
   );
 };

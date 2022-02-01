@@ -1,60 +1,44 @@
 import morerewardsLogo from 'assets/images/morerewards-logo@2x.png';
-import axios from 'axios';
 
 const mainNavigation = [
   {
     name: 'Shop Online',
     href: '#link',
     children: [
-      { name: 'Baby', href: axios.get('#http://localhost:8009/grocery/tree/5/PRODUCTS/34') },
-      { name: 'Bakery', href: axios.get('#http://localhost:8009/grocery/tree/5/PRODUCTS/109792') },
-      { name: 'Beer', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/' },
-      { name: 'Meat & Seafood', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'Dairy', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'Deli', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'Floral', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'Frozen', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'General Merchandise', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'Grocery', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'Health & Beauty', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'Household & Laundry', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'Liquor', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'Pet', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'Produce', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'Tobacco', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
-      { name: 'Wine', href: '#http://localhost:8009/grocery/tree/5/PRODUCTS/109792' },
+      { name: '', href: '#link' }
     ]
   },
   {
     name: 'Rewards',
     href: '#link',
+    href: 'https://www.morerewards.com/',
     icon: () => (
       <img className="w-auto h-5 -mt-0.5 mr-2" src={morerewardsLogo} alt="" />
     )
   },
   {
-    name: 'Deals',
-    href: '#link'
-  },
-  {
-    name: 'In-store Services',
-    href: '#link'
+    name: 'Digital Coupons',
+    href: 'https://www.morerewards.com/digitalcoupons'
   },
   {
     name: 'Pharmacy',
-    href: '#link'
+    href:'https://www.coborns.com/pharmacy'
   },
   {
     name: 'Our Brands',
-    href: '#link'
+    href: '#link',
+    children: [
+      { name: 'four brothers', href: 'https://www.coborns.com/four-brothers' },
+      { name: 'our brands', href: ' https://coborns.ourbrandfamily.com/' }
+    ]
   },
   {
     name: 'Recipes',
-    href: '#link'
+    href: 'http://celebratemore.com/home/recipes/'
   },
   {
     name: 'My Account',
-    href: '#link'
+    href: 'https://testweb.shop.cashwise.com/myaccountdetails'
   }
 ];
 
