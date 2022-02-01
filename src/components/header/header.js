@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import { Fragment, useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -24,7 +22,6 @@ import { grocery } from 'services/groceryTree'
 
 
 
->>>>>>> 585b61b9dd773859fcd714e547b7d0535cca8548
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
