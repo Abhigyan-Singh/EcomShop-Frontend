@@ -222,7 +222,11 @@ const Header = (props) => {
                           Open today until 10pm
                         </div>
                         <div className="text-xs font-medium">
-                          <a className="underline" href="#link">
+                          <a className="underline"
+                             href={`https://www.coborns.com/Cobstore${facilityId}`}
+                             target="_blank" 
+                             rel="noreferrer"
+                            >
                             View Store Details
                           </a>
                         </div>
