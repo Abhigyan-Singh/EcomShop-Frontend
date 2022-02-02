@@ -18,6 +18,7 @@ import {
 } from '@heroicons/react/solid';
 // import Button from 'components/button/button';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { saveListItem } from 'services/mylist';
 
 const Item = (props) => {
   const {
@@ -28,6 +29,7 @@ const Item = (props) => {
     onFavoriteClick,
     onListClick,
     onViewClick,
+    listItems = [],
     ...rest
   } = props;
   const componentClassName = classNames(
@@ -74,6 +76,13 @@ const Item = (props) => {
       onViewClick({ item: item.productId });
     }
   };
+
+  const saveListItemMethod = async (each) => {
+    await saveListItem(item.productId, {
+      listId: each.id,
+      itemText: item.productName
+    })
+  }
 
   const color = favourite  ? '#ea1b21' : null;
   let heartProps = {};
@@ -178,54 +187,22 @@ const Item = (props) => {
               <Menu.Items className="absolute list-position w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="px-1 py-1 ">
                   <ul className="list-none pl-3">
-                    <li>
+                   { listItems.map(each => <li>
                       <label class="bsw-checkbox">
                         <input
                           type="checkbox"
                           id="dmListId48920"
-                          onclick="bswListsGrid.addItemToShoppingList('48920', '1047055')"
+                          onClick={() => saveListItemMethod(each)}
                         />
                         <span className="bsw-checkbox-placeholder"></span>
                         <span
                           className="bsw-checkbox-label"
                           name="customListName"
                         >
-                          Deli
+                         {each.description}
                         </span>
                       </label>
-                    </li>
-                    <li>
-                      <label class="bsw-checkbox">
-                        <input
-                          type="checkbox"
-                          id="dmListId48920"
-                          onclick="bswListsGrid.addItemToShoppingList('48920', '1047055')"
-                        />
-                        <span className="bsw-checkbox-placeholder"></span>
-                        <span
-                          className="bsw-checkbox-label"
-                          name="customListName"
-                        >
-                          Dairy
-                        </span>
-                      </label>
-                    </li>
-                    <li>
-                      <label class="bsw-checkbox">
-                        <input
-                          type="checkbox"
-                          id="dmListId48920"
-                          onclick="bswListsGrid.addItemToShoppingList('48920', '1047055')"
-                        />
-                        <span className="bsw-checkbox-placeholder"></span>
-                        <span
-                          className="bsw-checkbox-label"
-                          name="customListName"
-                        >
-                          Meat
-                        </span>
-                      </label>
-                    </li>
+                    </li>) }
                     <li>
                       <a
                         href="#"

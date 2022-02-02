@@ -17,6 +17,7 @@ import Alert from 'components/alert/alert';
 import { ItemStory } from 'stories/pages/item.stories';
 import { DisplayShoppingListDetails } from 'stories/pages/dispmyshoppinglistdetails';
 import { Favorites } from 'stories/pages/favorites';
+import { ShopListItems } from 'stories/pages/shop-list-item.stories';
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -91,6 +92,15 @@ const App = () => {
         path: 'favorites',
         element: (
           <Favorites isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'shop-list-items',
+        element: (
+          <ShopListItems
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
       }
     ]);
