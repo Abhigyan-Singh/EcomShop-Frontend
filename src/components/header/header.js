@@ -18,7 +18,8 @@ import './header.css';
 import Modal from './Modal';
 import Backdrop from './Backdrop';
 import { search } from 'services/search';
-import { grocery } from 'services/groceryTree';
+import { grocery } from 'services/grocerytree';
+
 
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
@@ -111,6 +112,9 @@ const Header = (props) => {
   const onScroll = () => {
     // We need to integrate with solor here on scroll
   };
+  
+  const facilityId = 2029
+
   return (
     <header className={componentClassName} {...rest}>
       <div className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
