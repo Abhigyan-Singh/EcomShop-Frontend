@@ -1,4 +1,4 @@
-import { config, API } from 'apiConfig';
+
 import apiClient from './api';
 
 export const grocery = () => {
