@@ -5,42 +5,40 @@ const mainNavigation = [
     name: 'Shop Online',
     href: '#link',
     children: [
-      { name: 'Baby', href: '#link' },
-      { name: 'Bakery', href: '#link' },
-      { name: 'Dairy', href: '#link' },
-      { name: 'Deli', href: '#link' }
+      { name: '', href: '#link' }
     ]
   },
   {
     name: 'Rewards',
     href: '#link',
+    href: 'https://www.morerewards.com/',
     icon: () => (
       <img className="w-auto h-5 -mt-0.5 mr-2" src={morerewardsLogo} alt="" />
     )
   },
   {
-    name: 'Deals',
-    href: '#link'
-  },
-  {
-    name: 'In-store Services',
-    href: '#link'
+    name: 'Digital Coupons',
+    href: 'https://www.morerewards.com/digitalcoupons'
   },
   {
     name: 'Pharmacy',
-    href: '#link'
+    href:'https://www.coborns.com/pharmacy'
   },
   {
     name: 'Our Brands',
-    href: '#link'
+    href: '#link',
+    children: [
+      { name: 'four brothers', href: 'https://www.coborns.com/four-brothers' },
+      { name: 'our brands', href: ' https://coborns.ourbrandfamily.com/' }
+    ]
   },
   {
     name: 'Recipes',
-    href: '#link'
+    href: 'http://celebratemore.com/home/recipes/'
   },
   {
     name: 'My Account',
-    href: '#link'
+    href: 'https://testweb.shop.cashwise.com/myaccountdetails'
   }
 ];
 

@@ -49,9 +49,9 @@ const Locator = (props) => {
   const [hasLoaded, setHasLoaded] = useState(false);
   useEffect(() => {
     !hasLoaded && user &&
-      allStores(4).then((res) => {
+      allStores(7).then((res) => {
         setStore(res.data);
-        console.log(res.data);
+        console.log("FACILITY", res.data);
         setHasLoaded(true)
       });
   }, [user]);
