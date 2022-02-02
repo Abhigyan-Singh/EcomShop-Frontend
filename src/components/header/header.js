@@ -21,7 +21,6 @@ import { search } from 'services/search';
 import { grocery } from 'services/groceryTree'
 
 
-
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
@@ -106,6 +105,8 @@ const Header = (props) => {
   const onScroll = () => {
     // We need to integrate with solor here on scroll
   };
+  
+  const facilityId = 2029
 
 
   return (
