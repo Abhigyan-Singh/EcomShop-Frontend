@@ -211,7 +211,7 @@ const Header = (props) => {
                           <a
                             className="underline"
                             href={`https://www.coborns.com/Cobstore${facilityId}`}
-                            target="_blank"
+                            target="_blank" rel="noreferrer"
                           >
                             View Store Details
                           </a>
