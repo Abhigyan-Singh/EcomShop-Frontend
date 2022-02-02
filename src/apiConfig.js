@@ -13,6 +13,8 @@ export const API = {
   delete_favorite: '/productlist/deletefavProduct/',
   all_favorite: '/productlist/favProduct',
   all_user_list: '/userList/all',
+  all_user_list_details: '/userlistitems/all/',
+  save_list_Details: '/userlistitems/save/',
   list_save: '/userList/save',
   previous_purchased: '/producthistorylist/productHistoryDetails'
 };
