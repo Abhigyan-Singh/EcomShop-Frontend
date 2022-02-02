@@ -18,7 +18,7 @@ import './header.css';
 import Modal from './Modal';
 import Backdrop from './Backdrop';
 import { search } from 'services/search';
-import { grocery } from 'services/groceryTree'
+import { grocery } from 'services/grocerytree';
 
 
 const Header = (props) => {
