@@ -38,7 +38,7 @@ const mainNavigation = [
   },
   {
     name: 'My Account',
-    href: 'https://testweb.shop.cashwise.com/myaccountdetails'
+    href: 'https://shop.coborns.com/myaccountdetails'
   }
 ];
 
