@@ -111,9 +111,7 @@ const Header = (props) => {
 
   const onScroll = () => {
     // We need to integrate with solor here on scroll
-  };
-  
-  const facilityId = 2029
+  };  
 
   return (
     <header className={componentClassName} {...rest}>
