@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useCallback} from 'react';
+import { Fragment, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
@@ -33,42 +33,49 @@ const Header = (props) => {
       setSearchList(sData?.data?.suggestionList);
     }
   };
-
-
+  const setHoursHtml = () => {
+    if (
+      document.getElementById('yext-facility-hours-getter') &&
+      document.getElementById('yext-facility-hours-setter')
+    ) {
+      document.getElementById(
+        'yext-facility-hours-getter'
+      ).innerHTML = document.getElementById(
+        'yext-facility-hours-setter'
+      ).innerHTML;
+    }
+  };
   useEffect(() => {
     grocery().then((res) => {
       setData(res.data);
-      console.log("DATA", res.data)
+      console.log('DATA', res.data);
     });
   }, [props]);
 
-
   const list = () => {
-    var lst = []
+    var lst = [];
     for (var i = 0; i < data.length; i++) {
-      lst.push(data[i].description)
-      console.log("LIST", lst)
+      lst.push(data[i].description);
+      console.log('LIST', lst);
     }
-      return ( lst.map((dept) => (
-        <a className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
-        >
-          {dept}
-        </a>
-        ))
-      )
-
-  }
-
+    return lst.map((dept) => (
+      <a className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+        {dept}
+      </a>
+    ));
+  };
 
   const { className, theme, user, onMobileButtonClick, ...rest } = props;
   const componentClassName = classNames('cbn-header', {}, className);
   const [value, setValue] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const facilityId = 2029;
 
   const debounce = (func, delay) => {
     let debounceTimer;
     return function () {
       const context = this;
+
       const args = arguments;
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => func.apply(context, args), delay);
@@ -104,10 +111,7 @@ const Header = (props) => {
 
   const onScroll = () => {
     // We need to integrate with solor here on scroll
-  };
-  
-  const facilityId = 2029
-
+  };  
 
   return (
     <header className={componentClassName} {...rest}>
@@ -192,153 +196,156 @@ const Header = (props) => {
       </div>
       <div className="cbn-header__nav">
         <Popover className="relative hidden md:block">
-          {({ open }) => (
-            <Fragment>
-              <Popover.Button className="cbn-header__menu-button">
-                <span className="text-base font-bold mr-2">Menu</span>
-                <MenuIcon className="h-5 w-5" aria-hidden="true" />
-              </Popover.Button>
+          {({ open }) => {
+            setTimeout(() => {
+              setHoursHtml();
+            }, 0);
+            return (
+              <Fragment>
+                <Popover.Button className="cbn-header__menu-button">
+                  <span className="text-base font-bold mr-2">Menu</span>
+                  <MenuIcon className="h-5 w-5" aria-hidden="true" />
+                </Popover.Button>
 
-              <Transition
-                show={open}
-                as={Fragment}
-                enter="transition ease-out duration-200"
-                enterFrom="opacity-0 translate-y-1"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-1"
-              >
-                <Popover.Panel
-                  static
-                  className="absolute z-10 -ml-4 mt-2 transform w-screen md:max-w-xs"
+                <Transition
+                  show={open}
+                  as={Fragment}
+                  enter="transition ease-out duration-200"
+                  enterFrom="opacity-0 translate-y-1"
+                  enterTo="opacity-100 translate-y-0"
+                  leave="transition ease-in duration-150"
+                  leaveFrom="opacity-100 translate-y-0"
+                  leaveTo="opacity-0 translate-y-1"
                 >
-                  <div className="rounded shadow-md ring-1 ring-black ring-opacity-5 overflow-hidden">
-                    <div className="relative bg-white p-3">
-                      <div className="rounded bg-yellow-100 mb-3 p-4">
-                        <div className="font-bold leading-tight">
-                          Saint Cloud, MN
-                        </div>
-                        <div className="text-sm font-medium mb-1">
-                          Open today until 10pm
-                        </div>
-                        <div className="text-xs font-medium">
-                          <a className="underline"
-                             href={`https://www.coborns.com/Cobstore${facilityId}`}
-                             target="_blank" 
-                             rel="noreferrer"
-                            >
-                            View Store Details
-                          </a>
-                        </div>
-                      </div>
-                      <div className="relative grid grid-cols-1 bg-white">
-                        {mainNavigation.map((item) =>
-                          !item.children && item.name !== 'Rewards' && item.name !== 'In-store Services' && item.name !== 'Digital Coupons'  ? (
+                  <Popover.Panel
+                    static
+                    className="absolute  -ml-4 mt-2 transform w-screen md:max-w-xs"
+                    style={{ zIndex: 9999 }}
+                  >
+                    <div className="rounded shadow-md ring-1 ring-black ring-opacity-5 overflow-hidden">
+                      <div className="relative bg-white p-3">
+                        <div className="rounded bg-yellow-100 mb-3 p-4">
+                          <div className="font-bold leading-tight">
+                            Saint Cloud, MN
+                          </div>
+                          <div className="text-sm font-medium mb-1">
+                            <div id="yext-facility-hours-getter" />
+                          </div>
+                          <div className="text-xs font-medium">
                             <a
-                              key={item.name}
-                              href={item.href}
-                              className="p-3 flex items-center rounded transition ease-in-out duration-150 text-gray-500 hover:bg-yellow-100"
+                              className="underline"
+                              href={`https://www.coborns.com/Cobstore${facilityId}`}
+                              target="_blank"
+                              rel="noreferrer"
                             >
-                              <span className="flex items-center flex-1">
-                                {item.icon && <item.icon />}
-                                <span className="text-base font-medium">
-                                  {item.name}
-                                </span>
-                              </span>
+                              View Store Details
                             </a>
-                          ) : (
-                            !item.children && item.name === 'Rewards' || item.name === 'Digital Coupons' ? (
-                            <a
-                              key={item.name}
-                              href={item.href}
-                              target="_blank" 
-                              rel="noreferrer noopener"
-                              className="p-3 flex items-center rounded transition ease-in-out duration-150 text-gray-500 hover:bg-yellow-100"
-                            >
-                              <span className="flex items-center flex-1">
-                                {item.icon && <item.icon />}
-                                <span className="text-base font-medium">
-                                  {item.name}
+                          </div>
+                        </div>
+                        <div className="relative grid grid-cols-1 bg-white">
+                          {mainNavigation.map((item) =>
+                            !item.children &&
+                            item.name !== 'Rewards' &&
+                            item.name !== 'In-store Services' &&
+                            item.name !== 'Digital Coupons' ? (
+                              <a
+                                key={item.name}
+                                href={item.href}
+                                className="p-3 flex items-center rounded transition ease-in-out duration-150 text-gray-500 hover:bg-yellow-100"
+                              >
+                                <span className="flex items-center flex-1">
+                                  {item.icon && <item.icon />}
+                                  <span className="text-base font-medium">
+                                    {item.name}
+                                  </span>
                                 </span>
-                              </span>
-                            </a>
+                              </a>
+                            ) : (!item.children && item.name === 'Rewards') ||
+                              item.name === 'Digital Coupons' ? (
+                              <a
+                                key={item.name}
+                                href={item.href}
+                                target="_blank"
+                                rel="noreferrer noopener"
+                                className="p-3 flex items-center rounded transition ease-in-out duration-150 text-gray-500 hover:bg-yellow-100"
+                              >
+                                <span className="flex items-center flex-1">
+                                  {item.icon && <item.icon />}
+                                  <span className="text-base font-medium">
+                                    {item.name}
+                                  </span>
+                                </span>
+                              </a>
+                            ) : item.name === 'In-store Services' ? (
+                              <a
+                                key={item.name}
+                                href="#Services"
+                                className="scroll-to-top p-3 flex items-center rounded transition ease-in-out duration-150 text-gray-500 hover:bg-yellow-100"
+                              >
+                                <span className="flex items-center flex-1">
+                                  {item.icon && <item.icon />}
+                                  <span className="text-base font-medium">
+                                    {item.name}
+                                  </span>
+                                </span>
+                              </a>
                             ) : (
-                             item.name === 'In-store Services' ? (
-                            <a
-                              key={item.name}
-                              href="#Services"
-                              className="scroll-to-top p-3 flex items-center rounded transition ease-in-out duration-150 text-gray-500 hover:bg-yellow-100"
-                            >
-                              <span className="flex items-center flex-1">
-                                {item.icon && <item.icon />}
-                                <span className="text-base font-medium">
-                                  {item.name}
-                                </span>
-                              </span>
-                            </a>
-                             ) : (
                               <Disclosure as="div" key={item.name}>
-                              {({ open }) => (
-                                <>
-                                  <Disclosure.Button className="p-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
-                                    <span className="flex items-center flex-1">
-                                      {item.icon && <item.icon />}
-                                      <span className="text-base font-medium">
-                                        {item.name}
+                                {({ open }) => (
+                                  <>
+                                    <Disclosure.Button className="p-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+                                      <span className="flex items-center flex-1">
+                                        {item.icon && <item.icon />}
+                                        <span className="text-base font-medium">
+                                          {item.name}
+                                        </span>
                                       </span>
-                                    </span>
-                                    <ChevronRightIcon
-                                      className={classNames(
-                                        open ? 'rotate-90' : '',
-                                        'h-5 w-5 text-gray-300 transform'
-                                      )}
-                                      aria-hidden="true"
-                                    />
-                                  </Disclosure.Button>
-                                  <Disclosure.Panel className="space-y-1">
-                                    {item.children.map((subItem) => (
-                                      subItem.name === 'our brands' ? (    
-                                        <a
-                                          key={subItem.name}
-                                          href={subItem.href}
-                                          target="_blank" 
-                                          rel="noreferrer noopener"
-                                          className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
-                                        >
-                                          {subItem.name}
-                                        </a> 
-                                        ) : (
-                                          subItem.name == 'four brothers' ? (
-                                            <a
+                                      <ChevronRightIcon
+                                        className={classNames(
+                                          open ? 'rotate-90' : '',
+                                          'h-5 w-5 text-gray-300 transform'
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                    </Disclosure.Button>
+                                    <Disclosure.Panel className="space-y-1">
+                                      {item.children.map((subItem) =>
+                                        subItem.name === 'our brands' ? (
+                                          <a
+                                            key={subItem.name}
+                                            href={subItem.href}
+                                            target="_blank"
+                                            rel="noreferrer noopener"
+                                            className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+                                          >
+                                            {subItem.name}
+                                          </a>
+                                        ) : subItem.name == 'four brothers' ? (
+                                          <a
                                             key={subItem.name}
                                             href={subItem.href}
                                             className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
-                                            >
+                                          >
                                             {subItem.name}
-                                            </a>                
-                                          ) : (
-                                            list()
-                                          )
-                                        ) 
-
-                                                      
-                                    ))}
-                                  </Disclosure.Panel>
-                                </>
-                              )}
-                            </Disclosure>
-                             )
+                                          </a>
+                                        ) : (
+                                          list()
+                                        )
+                                      )}
+                                    </Disclosure.Panel>
+                                  </>
+                                )}
+                              </Disclosure>
                             )
-                          ) 
-                        )}
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Popover.Panel>
-              </Transition>
-            </Fragment>
-          )}
+                  </Popover.Panel>
+                </Transition>
+              </Fragment>
+            );
+          }}
         </Popover>
         <div className="flex-1 lg:flex-none">
           <Autocomplete
@@ -356,7 +363,10 @@ const Header = (props) => {
         </div>
         <div className="hidden lg:block lg:flex-1">
           <nav className="flex space-x-8 ml-4">
-            <a href="https://www.coborns.com/circular" className="cbn-header__nav-link">
+            <a
+              href="https://www.coborns.com/circular"
+              className="cbn-header__nav-link"
+            >
               Weekly Ad
             </a>
           </nav>
@@ -364,7 +374,7 @@ const Header = (props) => {
         <div className="flex items-center">
           <div className="hidden sm:block sm:ml-3 md:ml-4 lg:ml-6">
             <a
-              href="#link"
+              href="/dispmyshoppinglistdetails"
               className="inline-flex rounded-sm items-center justify-center cbn-header__nav-link"
             >
               <span>My Lists</span>
