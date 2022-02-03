@@ -3,6 +3,7 @@ import List from 'components/list';
 import Item from 'components/item/item';
 import { previouslyPurchased } from 'services/search';
 import { getAllFavorites } from 'services/favorites';
+import { getAllList } from 'services/mylist';
 
 
 export default {
@@ -25,6 +26,11 @@ export const DisplayShoppingListDetails = ({
   ...rest
 }) => {
   const [items, setItems] = useState([]);
+  const [listItems, setListItems] = useState([]);
+  const getListItems = async () => {
+    const res = await getAllList();
+    setListItems(res.data);
+  };
   const fetchPreviouslyPurchased = async () => {
     const res = await previouslyPurchased();
     const favoritesRes = await getAllFavorites();
@@ -46,14 +52,15 @@ export const DisplayShoppingListDetails = ({
   };
   useEffect(() => {
     fetchPreviouslyPurchased();
+    getListItems();
   }, []);
   return (
     <Fragment>
-      <div style={{ minHeight: 500 }}>
+      <div style={{ minHeight: 500, marginLeft: 10 }}>
         <List />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+        <div  style={{ marginTop : 10 }} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
           {items.map((e, i) => (
-            <Item item={e} key={i} />
+            <Item listItems={listItems} item={e} key={i} />
           ))}
         </div>
       </div>

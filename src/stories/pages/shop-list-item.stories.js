@@ -4,7 +4,7 @@ import Item from 'components/item/item';
 import { getAllFavorites } from 'services/favorites';
 import {  useLocation } from 'react-router-dom';
 import { search } from 'services/search';
-import { getAllListWithDetails } from 'services/mylist';
+import { getAllList, getAllListWithDetails } from 'services/mylist';
 
 
 export default {
@@ -24,25 +24,38 @@ export default {
 export const ShopListItems = ({ isAuthenticated, logout, ...rest }) => {
   const [items, setItems] = useState([]);
   const location = useLocation();
-  console.log(location.state)
-  const favorites = async () => {
-    if (location.state.id) {
-    const list = await getAllListWithDetails(location.state.id);
-   const items =  list.data ? list.data.map(each => ({ ...each.product, keywords: each.product.keywords.split(',') })) : [];
+  const [listItems, setListItems] = useState([]);
+ 
+  const getListItems = async () => {
+    const res = await getAllList();
+    setListItems(res.data);
+  };
+
+  const fetchListItemsMethod = async (listItem) => {
+    const list = await getAllListWithDetails(listItem.id);
+     const items =  list.data ? list.data.map(each => ({ ...each.product, keywords: each.product.keywords.split(',') })) : [];
     setItems(items)
-    }
+    
   }
   useEffect(() => {
-    favorites();
+    if (location.state && location.state.id) {
+      fetchListItemsMethod(location.state);
+    }
+    getListItems();
+    
   }, [])
+
+  const fetchListItems = async  (listItem) => {
+    fetchListItemsMethod(listItem);
+  }
 
   return (
     <Fragment>
-      <div style={{ minHeight: 500 }}>
-        <List isCustomListItem={true} />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+      <div style={{ minHeight: 500, marginLeft: 10  }}>
+        <List fetchListItems={fetchListItems} isCustomListItem={true} />
+        <div style={{ marginTop : 10 }} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
           {items.map((e, i) => (
-            <Item onFavoriteClick={ () => {
+            <Item listItems={listItems} onFavoriteClick={ () => {
               // favorites();
             }} item={e} key={i} />
           ))}
