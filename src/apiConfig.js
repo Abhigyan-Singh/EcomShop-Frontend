@@ -5,10 +5,12 @@ export const config = {
 };
 
 export const API = {
-  facilities: '/facilities/',
+  facilities: '/api/facilities/',
   authenticate: '/authenticate',
   search: '/product/search',
   productDetails: '/product/', // then id
+  grocery_tree: '/grocery/tree/5/PRODUCTS/',
+  in_store_services: '/api/stores/find/',
   add_favorite: '/productlist/save',
   delete_favorite: '/productlist/deletefavProduct/',
   all_favorite: '/productlist/favProduct',
