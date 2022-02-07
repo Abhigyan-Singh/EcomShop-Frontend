@@ -50,7 +50,7 @@ const HomeServices = (props) => {
         </div>
         <div className="flex-1 mb-2 lg:mb-0">
           Albertville Coborn's{' '}
-          <a className="text-sm underline ml-2" href="#link">
+          <a className="text-sm underline ml-2" href="text">
             Change
           </a>
         </div>
@@ -108,9 +108,9 @@ const HomeServices = (props) => {
           In Store Services
         </a>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-3 text-center">
+      <div  className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-3 text-center">
         {serv.map((item) => (
-          <div className="flex flex-col items-center" key={item.name}>
+          <div id="text" className="flex flex-col items-center" key={item.name}>
             <div className="mb-2"> 
               {item.name === "Flower Shoppe" 
                 ?  (<img className="w-20 h-20" src={flowerIcon} alt="" />) 

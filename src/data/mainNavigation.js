@@ -1,4 +1,5 @@
 import morerewardsLogo from 'assets/images/morerewards-logo@2x.png';
+import { legacy } from '../services/crossApp.js'
 
 const mainNavigation = [
   {
@@ -38,7 +39,7 @@ const mainNavigation = [
   },
   {
     name: 'My Account',
-    href: 'https://shop.coborns.com/myaccountdetails'
+    href: legacy()
   }
 ];
 
