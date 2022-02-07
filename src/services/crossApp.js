@@ -3,8 +3,6 @@ import { Cookies } from 'react-cookie';
 import config  from '../environments/config'
 
 
-
-
 const apiClient2 = axios.create({
     baseURL: config.url,
     headers: {
@@ -18,7 +16,7 @@ const apiClient2 = axios.create({
       const cookies = new Cookies();
       const jwt = cookies.get('user');
       if (jwt) {
-        config.headers['Authorization'] = 'Bearer ' + jwt.token;
+        config.headers['Authorization'] = jwt.token;
       }
       return config;
     },
@@ -30,6 +28,6 @@ const apiClient2 = axios.create({
 
 
 export const legacy = () => {
-  return apiClient2.post('https://shop.coborns.com/myaccountdetails'); 
+  return apiClient2.post('https://shop.coborns.com/ajaxauthenticateuser'); 
 };
 
