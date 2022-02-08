@@ -58,7 +58,7 @@ const Header = (props) => {
     var lst = [];
     for (var i = 0; i < data.length; i++) {
       lst.push(data[i].description);
-      console.log('TREE', lst);
+     
     }
     return lst.map((dept) => (
       <a className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
