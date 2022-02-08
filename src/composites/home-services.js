@@ -29,7 +29,7 @@ const HomeServices = (props) => {
   const servicesList = () => {
     inStoreServices(2029).then((res) => {
       setServ(res.data);
-      
+
     });
    
   };
@@ -51,7 +51,7 @@ const HomeServices = (props) => {
           At Your Store
         </div>
         <div className="flex-1 mb-2 lg:mb-0">
-          {serv}{' '}
+          Albertville Coborn's{' '}
           <a className="text-sm underline ml-2" href="text">
             Change
           </a>
