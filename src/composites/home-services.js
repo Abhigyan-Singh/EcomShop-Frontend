@@ -21,9 +21,7 @@ const HomeServices = (props) => {
   const facilityId = 2029;
 
   useEffect(() => {
-    servicesList();
-    icon()
-   
+    servicesList(); 
   }, []);
   
   const servicesList = () => {
@@ -34,15 +32,7 @@ const HomeServices = (props) => {
    
   };
 
-  const icon = () => {
-   for (var i = 0; i < serv.length; i++) {
-    if (serv[0].name === 'Flower Shoppe') {
-      return flowerIcon
-    } else {
-      return coffeeIcon
-    }
-   }
-  }
+ 
 
   return (
     <div className="bg-yellow-100 p-4 md:p-6">

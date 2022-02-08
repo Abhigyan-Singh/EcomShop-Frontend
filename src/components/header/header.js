@@ -312,7 +312,7 @@ const Header = (props) => {
                                     </Disclosure.Button>
                                     <Disclosure.Panel className="space-y-1">
                                       {item.children.map((subItem) =>
-                                        subItem.name === 'our brands' ? (
+                                        subItem.name === 'Our brands' ? (
                                           <a
                                             key={subItem.name}
                                             href={subItem.href}
@@ -322,7 +322,7 @@ const Header = (props) => {
                                           >
                                             {subItem.name}
                                           </a>
-                                        ) : subItem.name == 'four brothers' ? (
+                                        ) : subItem.name == 'Four brothers' ? (
                                           <a
                                             key={subItem.name}
                                             href={subItem.href}
