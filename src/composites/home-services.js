@@ -23,13 +23,15 @@ const HomeServices = (props) => {
   useEffect(() => {
     servicesList();
     icon()
+   
   }, []);
   
   const servicesList = () => {
     inStoreServices(2029).then((res) => {
       setServ(res.data);
-      console.log('SERVICES', res.data)
+      
     });
+   
   };
 
   const icon = () => {
@@ -49,7 +51,7 @@ const HomeServices = (props) => {
           At Your Store
         </div>
         <div className="flex-1 mb-2 lg:mb-0">
-          Albertville Coborn's{' '}
+          {serv}{' '}
           <a className="text-sm underline ml-2" href="text">
             Change
           </a>
@@ -154,9 +156,6 @@ const HomeServices = (props) => {
             </div>
             <div className="text-sm">{item.name}</div>
             <div className="text-xs">
-              <a className="underline" href={`https://www.coborns.com/Cobstore${facilityId}`}>
-                See Hours
-              </a>
             </div>
           </div>
         ))}
