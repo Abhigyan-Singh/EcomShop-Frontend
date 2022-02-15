@@ -1,6 +1,7 @@
-
+import { API, config } from 'apiConfig';
 import apiClient from './api';
 
-export const grocery = () => {
-  return apiClient.get('http://localhost:8009/grocery/tree/5/PRODUCTS/4433');
+export const grocery = (area) => {
+  return apiClient.get('http://localhost:8009' + API.grocery_tree + area); //config.baseUrl
 };
+

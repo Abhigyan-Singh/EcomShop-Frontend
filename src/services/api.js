@@ -3,11 +3,10 @@ import { Cookies } from 'react-cookie';
 import config  from '../environments/config'
 
 
-
 const apiClient = axios.create({
   baseURL: config.url,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   }
 });
 

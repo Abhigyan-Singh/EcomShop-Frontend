@@ -1,11 +1,20 @@
 import morerewardsLogo from 'assets/images/morerewards-logo@2x.png';
+import { legacy } from '../services/crossApp.js'
 
 const mainNavigation = [
   {
     name: 'Shop Online',
     href: '#link',
     children: [
-      { name: '', href: '#link' }
+      { name: '', 
+        href: '#link',
+        submenu: [
+          {
+            name: '',
+            href: ''
+          }
+        ]
+      }
     ]
   },
   {
@@ -28,8 +37,8 @@ const mainNavigation = [
     name: 'Our Brands',
     href: '#link',
     children: [
-      { name: 'four brothers', href: 'https://www.coborns.com/four-brothers' },
-      { name: 'our brands', href: ' https://coborns.ourbrandfamily.com/' }
+      { name: 'Four brothers', href: 'https://www.coborns.com/four-brothers' },
+      { name: 'Our brands', href: ' https://coborns.ourbrandfamily.com/' }
     ]
   },
   {
@@ -38,7 +47,7 @@ const mainNavigation = [
   },
   {
     name: 'My Account',
-    href: 'https://shop.coborns.com/myaccountdetails'
+    href: legacy()
   }
 ];
 
