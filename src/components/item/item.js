@@ -170,7 +170,7 @@ const Item = (props) => {
           <Menu
             as="div"
             className="relative inline-block text-left"
-            style={{ zIndex: 99 }}
+            // style={{ zIndex: 99 }}
           >
             <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium  rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <ClipboardListIcon className="h-6 w-6 text-gray-400" />
