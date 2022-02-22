@@ -59,7 +59,7 @@ const ShopFilter = (props, args) => {
                         id="checkbox-1"
                         value="1"
                       />
-                      <Checkbox {...args}  className="mb-5" id="checkbox-2" value="2" />
+                      <Checkbox {...args}  className="mb-5" id="checkbox-2" value="2" > Hello</Checkbox> 
                       <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3" />        
                     </div>       
                     </Popover.Panel>
