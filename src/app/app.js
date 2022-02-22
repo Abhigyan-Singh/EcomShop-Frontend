@@ -43,7 +43,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    Geolocation()
+    //Geolocation()
     let brand = 'cashwise-theme';
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase()) > -1) {
       brand = 'coborns-theme';
