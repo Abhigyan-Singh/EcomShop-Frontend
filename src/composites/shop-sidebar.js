@@ -178,7 +178,7 @@ const ShopSidebar = (props) => {
                   <ul className="list-none py-2 m-0 border-t border-gray-100">
                     <li>
                       <a
-                        href="#"
+                        href="https://coborns.ourbrandfamily.com/"
                         className="flex items-center text-sm py-1 hover:underline"
                       >
                         <span className="block flex-1">Shop Local</span>
@@ -194,7 +194,7 @@ const ShopSidebar = (props) => {
                     </li>
                     <li>
                       <a
-                        href="#"
+                        href="https://shop.coborns.com/customcakes?&amp;locationCode=NAV_CATALOG`"
                         className="flex items-center text-sm py-1 hover:underline"
                       >
                         <span className="block flex-1">Custom Cakes</span>

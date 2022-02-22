@@ -17,6 +17,8 @@ import slidesCashWise from 'data/slidesCashWise.json';
 import slidesMarketPlace from 'data/slidesMarketPlace.json';
 import MobileNav from 'components/mobile-nav/mobile-nav';
 import ShopGetPage from 'composites/shop-get';
+import { cartPage } from 'services/cart';
+
 
 export default {
   title: 'Pages/Home',
@@ -38,10 +40,11 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const [user, setUser] = useState({ firstName: 'Apple' });
 
   useEffect(() => {
-    fetch('')
+    cartPage(1000000, 1/100, "brand")
       .then((res) => res.json())
-      .then((data) => {
-        setData(data);
+      .then((res) => {
+        setData(res.data)
+        console.log(data);
       })
       .catch((err) => {
         console.log(err);
@@ -73,3 +76,4 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
 };
 
 ShopStory.storyName = 'Home';
+
