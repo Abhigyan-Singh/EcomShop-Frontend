@@ -1,5 +1,5 @@
 import './Modal.css';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { authenticate } from 'services/auth';
 import { useCookies } from 'react-cookie';
@@ -7,22 +7,31 @@ import { CookiesAge } from 'apiConfig';
 
 const Modal = ({ onClose }) => {
   const [cookies, setCookie] = useCookies(['user']);
-
+ const [loginFailed, setLoginFailed] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm();
   const submit = (data) => {
-    console.log(JSON.stringify(data));   
+    console.log(JSON.stringify(data));
     authenticate(data).then((res) => {
-      setCookie('user', res.data, {
-        path: '/',
-        maxAge: CookiesAge
-      });
-      onClose();
+      if (res.data.token) {
+        setCookie('user', res.data, {
+          path: '/',
+          maxAge: CookiesAge
+        });
+        onClose();
+      } else {
+        setLoginFailed(true)
+      }
     });
   };
+
+  const updateError = () => {
+    if (loginFailed)
+    setLoginFailed(false)
+  }
   return (
     <div className="modal-card">
       <div
@@ -48,7 +57,9 @@ const Modal = ({ onClose }) => {
                 color: errors.username ? 'red' : '#2c6b2c',
                 borderColor: errors.username ? 'red' : '#2c6b2c'
               }}
-              {...register('username', { required: 'Enter your user name.' })}
+              {...register('username', { onChange: () => {
+                updateError()
+              }, required: 'Enter your user name.' })}
               type="text"
               id="username"
               placeholder=" "
@@ -61,6 +72,9 @@ const Modal = ({ onClose }) => {
               User Name
             </label>
           </div>
+          {loginFailed &&  <p className="modal-modal-error" htmlFor="username">
+              Invalid username or password
+            </p>}
           {errors.username && (
             <p className="modal-modal-error" htmlFor="username">
               {errors.username.message}
@@ -73,7 +87,9 @@ const Modal = ({ onClose }) => {
                 color: errors.password ? 'red' : '#2c6b2c',
                 borderColor: errors.password ? 'red' : '#2c6b2c'
               }}
-              {...register('password', { required: 'Enter your password.' })}
+              {...register('password', {onChange: () => {
+                updateError()
+              }, required: 'Enter your password.' })}
               type="password"
               id="password"
               placeholder=" "
@@ -91,20 +107,21 @@ const Modal = ({ onClose }) => {
               {errors.password.message}
             </p>
           )}
-          <button
-            className="modal-bsw-btn"
-            type="submit"
-          >
+          <button className="modal-bsw-btn" type="submit">
             Sign In
           </button>
         </div>
         <p className="modal-forget-pass-container">
-          <span>Forgot User Name </span>/<span> Password</span>?
+          <a href="https://shop.coborns.com/chooseresetoption">
+            <span>Forgot User Name </span>/<span> Password</span>
+          </a>
         </p>
         <div className="modal-bottom-border">
           <div className="modal-bottom-btn">
             <span>New to Coborn’s? </span>
-            <button className="modal-signUp">Register</button>
+            <a href="https://testweb.shop.coborns.com/createaccount">
+            <button type="button" className="modal-signUp">Register</button>
+            </a>
           </div>
         </div>
       </form>

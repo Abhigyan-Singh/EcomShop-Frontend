@@ -1,18 +1,12 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
-import config  from '../environments/config'
-
+import config from '../environments/config';
 
 const apiClient = axios.create({
   baseURL: config.url,
   headers: {
-    'Content-Type': 'application/json',
-  },
-  body:{
-    "lifestyleAndDietary": "gluten free",
-    "brand": "Beech Nut, Amy's",
-    "newAndSale": "sale"
-  } 
+    'Content-Type': 'application/json'
+  }
 });
 
 apiClient.interceptors.request.use(

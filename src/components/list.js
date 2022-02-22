@@ -59,18 +59,18 @@ export default function List({ isCustomListItem, fetchListItems }) {
 
   return (
     <div>
-      <div className="my-list-container">
-        <div>
+      <div className="my-list-container bsw-page-head">
+        <div className="bsw-page-head-left">
           <Menu
             as="div"
-            className="relative inline-block text-left"
-            style={{ zIndex: 99 }}
+            className="relative inline-block text-left bsw-page-head-header"
+            // style={{ zIndex: 99 }}
           >
-            <div style={{ fontSize: 22 }}>
-              <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium  rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+          
+              <Menu.Button className="inline-flex  w-full px-4 py-2 rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
+                  className="bsw-icon"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -83,11 +83,10 @@ export default function List({ isCustomListItem, fetchListItems }) {
                 {'My List: '}
                 {selected}
                 <ChevronDownIcon
-                  className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
+                  className="bsw-icon"
                   aria-hidden="true"
                 />
               </Menu.Button>
-            </div>
 
             <Transition
               as={Fragment}
@@ -213,13 +212,41 @@ export default function List({ isCustomListItem, fetchListItems }) {
                 </div>
               </Menu.Items>
             </Transition>
+            <p style={{ marginLeft: 30, marginRight: 10 }}>
+        Your Previously Purchased list includes all items from your past 12
+        orders, sorted by category. It is an ever-changing list that is updated
+        every time you shop, and the best place to find items you purchase
+        regularly. You cannot add or remove items from this list.
+        <a href="#" style={{ whiteSpace: 'noWrap' }}>
+          Learn More
+        </a>
+      </p>
+      <span style={{ marginLeft: 
+        30, marginRight: 10 }} className="page-head-left-store-name display-block">
+        <span>
+          Currently displaying your Previously Purchased List for St. Cloud, MN
+          Cooper Ave.
+        </span>
+        <div className="inline-block">
+          <div className="info-tooltip-wrap content-underline">
+            Why are not all items available at this store?
+          </div>
+          <div className="info-tooltip">
+            <span>
+              Product selection varies between store locations and some items
+              may not be available if you are currently shopping a different
+              store from where this item was previously purchased.
+            </span>
+          </div>
+        </div>
+      </span>
           </Menu>
         </div>
         <div>
           <Menu
             as="div"
             className="relative inline-block text-left"
-            style={{ zIndex: 99 }}
+            // style={{ zIndex: 99 }}
           >
             <div style={{ fontSize: 22 }}>
               <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium  rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
@@ -365,34 +392,7 @@ export default function List({ isCustomListItem, fetchListItems }) {
           </Menu>
         </div>
       </div>
-      <p style={{ marginLeft: 30, marginRight: 10 }}>
-        Your Previously Purchased list includes all items from your past 12
-        orders, sorted by category. It is an ever-changing list that is updated
-        every time you shop, and the best place to find items you purchase
-        regularly. You cannot add or remove items from this list.
-        <a href="#" style={{ whiteSpace: 'noWrap' }}>
-          Learn More
-        </a>
-      </p>
-      <span style={{ marginLeft: 
-        30, marginRight: 10 }} className="page-head-left-store-name display-block">
-        <span>
-          Currently displaying your Previously Purchased List for St. Cloud, MN
-          Cooper Ave.
-        </span>
-        <div className="inline-block">
-          <div className="info-tooltip-wrap content-underline">
-            Why are not all items available at this store?
-          </div>
-          {/* <div className="info-tooltip block">
-            <span>
-              Product selection varies between store locations and some items
-              may not be available if you are currently shopping a different
-              store from where this item was previously purchased.
-            </span>
-          </div> */}
-        </div>
-      </span>
+     
     </div>
   );
 }

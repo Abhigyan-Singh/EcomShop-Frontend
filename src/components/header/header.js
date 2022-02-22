@@ -115,6 +115,31 @@ const Header = (props) => {
     // We need to integrate with solor here on scroll
   };  
 
+  const handleCheckoutCart = () => {
+    const urlObj = {
+      "localhost" : "https://devweb.shop.coborns.com",
+      "dev" : "https://devweb.shop.coborns.com",
+      "prod" : "https://shop.coborns.com"
+    };
+    const path = "/checkautomaticpromotions";
+    const host = window.location.host;
+    let url = "";
+    if(host.includes("localhost")){
+      url = urlObj["localhost"];
+    }
+    else if(host.includes("devweb.shop.coborns.com")){
+      url = urlObj["dev"];
+    }
+    else if(host.includes("shop.coborns.com")){
+      url = urlObj["prod"];
+    }
+    else{
+      url = urlObj["localhost"];
+    }
+    // window.location.replace(url + path)
+    window.location.href=url + path;
+  }
+
   return (
     <header className={componentClassName} {...rest}>
       <div className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
@@ -222,7 +247,7 @@ const Header = (props) => {
                   <Popover.Panel
                     static
                     className="absolute  -ml-4 mt-2 transform w-screen md:max-w-xs"
-                    style={{ zIndex: 9999 }}
+                    // style={{ zIndex: 9999 }}
                   >
                     <div className="rounded shadow-md ring-1 ring-black ring-opacity-5 overflow-hidden">
                       <div className="relative bg-white p-3">
@@ -389,7 +414,7 @@ const Header = (props) => {
               />
             </a>
           </div>
-          <button className="cbn-header__cart-button">
+          <button className="cbn-header__cart-button" onClick={handleCheckoutCart}>
             <img className="w-6 h-auto" src={cartIcon} alt="" />
             <span className="text-base md:text-lg font-bold ml-3">5</span>
           </button>
