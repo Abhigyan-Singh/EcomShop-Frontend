@@ -18,7 +18,7 @@ import './header.css';
 import Modal from './Modal';
 import Backdrop from './Backdrop';
 import { search } from 'services/search';
-import { grocery } from 'services/groceryTree';
+import { grocery } from 'services/grocerytree';
 
 
 const Header = (props) => {
@@ -153,7 +153,7 @@ const Header = (props) => {
               {!user && 'Grocery Shopping Made Easy'}
             </div>
             <div className="text-xs font-medium space-x-2">
-              <a className="underline" href="#link">
+              <a className="underline" href='"/store-locator"'>
                 Store Locator
               </a>
               {user && (
@@ -335,6 +335,7 @@ const Header = (props) => {
                                         )
                                       )}
                                     </Disclosure.Panel>
+                    
                                   </>
                                 )}
                               </Disclosure>

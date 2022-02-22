@@ -1,5 +1,5 @@
 import morerewardsLogo from 'assets/images/morerewards-logo@2x.png';
-import { legacy } from '../services/crossApp.js'
+import { legacy } from '../services/crossapp.js'
 
 const mainNavigation = [
   {

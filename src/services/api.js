@@ -7,7 +7,12 @@ const apiClient = axios.create({
   baseURL: config.url,
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
+  body:{
+    "lifestyleAndDietary": "gluten free",
+    "brand": "Beech Nut, Amy's",
+    "newAndSale": "sale"
+  } 
 });
 
 apiClient.interceptors.request.use(

@@ -18,7 +18,8 @@ export const API = {
   all_user_list_details: '/userlistitems/all/',
   save_list_Details: '/userlistitems/save/',
   list_save: '/userList/save',
-  previous_purchased: '/producthistorylist/productHistoryDetails'
+  previous_purchased: '/producthistorylist/productHistoryDetails',
+  cart_page: '/productn/findbyarea1/',
 };
 
 export const CookiesAge = 604800;

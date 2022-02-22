@@ -5,7 +5,7 @@ import {
   servicesNavigation
 } from 'data/shopNavigation';
 import { useState, useEffect } from 'react';
-import { inStoreServices } from 'services/storeServices';
+import { inStoreServices } from 'services/storeservices';
 import pharmacyIcon from 'assets/icons/services-icon-pharmacy@2x.png';
 import flowerIcon from 'assets/icons/services-icon-flower@2x.png';
 import coffeeIcon from 'assets/icons/services-icon-coffee@2x.png';

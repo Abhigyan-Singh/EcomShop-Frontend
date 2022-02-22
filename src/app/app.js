@@ -18,11 +18,18 @@ import { ItemStory } from 'stories/pages/item.stories';
 import { DisplayShoppingListDetails } from 'stories/pages/dispmyshoppinglistdetails';
 import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
+import { Mapquest } from 'stories/pages/storelocator.js';
+import { Geolocation } from '../services/geolocation.js';
+
+
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const location = Geolocation();
+
+
   useEffect(() => {
     const { user } = cookies;
     if (user?.token) setIsAuthenticated(true);
@@ -36,6 +43,7 @@ const App = () => {
   };
 
   useEffect(() => {
+    Geolocation()
     let brand = 'cashwise-theme';
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase()) > -1) {
       brand = 'coborns-theme';
@@ -102,7 +110,7 @@ const App = () => {
             logout={onLogout}
           />
         )
-      }
+      },
     ]);
     return routes;
   };
