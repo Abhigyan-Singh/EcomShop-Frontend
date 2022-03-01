@@ -20,26 +20,30 @@ import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
 import { Mapquest } from 'stories/pages/storelocator.js';
 import { Geolocation } from '../services/geolocation.js';
-
-
+import { allStores } from 'services/facilities.js';
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const location = Geolocation();
-
+  const [user, setUser] = useState({ firstName: 'Apple' });
+  const { facility } = cookies;
+  const [store, setStore] = useState(facility);
 
   useEffect(() => {
     const { user } = cookies;
     if (user?.token) setIsAuthenticated(true);
     else setIsAuthenticated(false);
   }, [cookies]);
-  const [user, setUser] = useState({ firstName: 'Apple' });
 
   const onLogout = () => {
     removeCookie('user');
     setIsAuthenticated(false);
+  };
+
+  const onStoreChange = (storeSel) => {
+    setStore(storeSel);
   };
 
   useEffect(() => {
@@ -72,7 +76,11 @@ const App = () => {
       {
         path: '/',
         element: (
-          <HomeStory isAuthenticated={isAuthenticated} logout={onLogout} />
+          <HomeStory
+            isAuthenticated={isAuthenticated}
+            onStoreChange={onStoreChange}
+            logout={onLogout}
+          />
         )
       },
       {
@@ -105,23 +113,24 @@ const App = () => {
       {
         path: 'shop-list-items',
         element: (
-          <ShopListItems
-            isAuthenticated={isAuthenticated}
-            logout={onLogout}
-          />
+          <ShopListItems isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      },
+      }
     ]);
     return routes;
   };
 
+  // console.log('app', store);
   return (
     <Router>
-       <div id="yext-facility-hours-setter" style={{ visibility: 'hidden'}}>
-      <p>
-        <span data-yext-field="hours" data-yext-id="12792483"></span>
-      </p>
-    </div>
+      <div id="yext-facility-hours-setter" style={{ visibility: 'hidden' }}>
+        <p>
+          <span
+            data-yext-field="hours"
+            data-yext-id={store?.facilityId.toString()}
+          ></span>
+        </p>
+      </div>
       <Alert>
         <span>
           COVID-19 Vaccinations are now available in select locations.
@@ -134,6 +143,7 @@ const App = () => {
         onMobileButtonClick={handleMobileButtonClick}
         user={isAuthenticated ? user : null}
         logout={onLogout}
+        store={store}
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
       <AppRoute />

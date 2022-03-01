@@ -20,7 +20,6 @@ import Backdrop from './Backdrop';
 import { search } from 'services/search';
 import { grocery } from 'services/groceryTree';
 
-
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
@@ -46,7 +45,6 @@ const Header = (props) => {
     }
   };
 
-
   useEffect(() => {
     grocery(4433).then((res) => {
       setData(res.data);
@@ -58,7 +56,6 @@ const Header = (props) => {
     var lst = [];
     for (var i = 0; i < data.length; i++) {
       lst.push(data[i].description);
-     
     }
     return lst.map((dept) => (
       <a className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
@@ -67,11 +64,18 @@ const Header = (props) => {
     ));
   };
 
-  const { className, theme, user, onMobileButtonClick, ...rest } = props;
+  const {
+    className,
+    theme,
+    user,
+    onMobileButtonClick,
+    store,
+    stores,
+    ...rest
+  } = props;
   const componentClassName = classNames('cbn-header', {}, className);
   const [value, setValue] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const facilityId = 2029;
 
   const debounce = (func, delay) => {
     let debounceTimer;
@@ -113,32 +117,29 @@ const Header = (props) => {
 
   const onScroll = () => {
     // We need to integrate with solor here on scroll
-  };  
+  };
 
   const handleCheckoutCart = () => {
     const urlObj = {
-      "localhost" : "https://devweb.shop.coborns.com",
-      "dev" : "https://devweb.shop.coborns.com",
-      "prod" : "https://shop.coborns.com"
+      localhost: 'https://devweb.shop.coborns.com',
+      dev: 'https://devweb.shop.coborns.com',
+      prod: 'https://shop.coborns.com'
     };
-    const path = "/checkautomaticpromotions";
+    const path = '/checkautomaticpromotions';
     const host = window.location.host;
-    let url = "";
-    if(host.includes("localhost")){
-      url = urlObj["localhost"];
-    }
-    else if(host.includes("devweb.shop.coborns.com")){
-      url = urlObj["dev"];
-    }
-    else if(host.includes("shop.coborns.com")){
-      url = urlObj["prod"];
-    }
-    else{
-      url = urlObj["localhost"];
+    let url = '';
+    if (host.includes('localhost')) {
+      url = urlObj['localhost'];
+    } else if (host.includes('devweb.shop.coborns.com')) {
+      url = urlObj['dev'];
+    } else if (host.includes('shop.coborns.com')) {
+      url = urlObj['prod'];
+    } else {
+      url = urlObj['localhost'];
     }
     // window.location.replace(url + path)
-    window.location.href=url + path;
-  }
+    window.location.href = url + path;
+  };
 
   return (
     <header className={componentClassName} {...rest}>
@@ -247,13 +248,13 @@ const Header = (props) => {
                   <Popover.Panel
                     static
                     className="absolute  -ml-4 mt-2 transform w-screen md:max-w-xs"
-                    // style={{ zIndex: 9999 }}
+                    style={{ zIndex: 999 }}
                   >
                     <div className="rounded shadow-md ring-1 ring-black ring-opacity-5 overflow-hidden">
                       <div className="relative bg-white p-3">
                         <div className="rounded bg-yellow-100 mb-3 p-4">
                           <div className="font-bold leading-tight">
-                            Saint Cloud, MN
+                            {store?.facilityName}
                           </div>
                           <div className="text-sm font-medium mb-1">
                             <div id="yext-facility-hours-getter" />
@@ -261,7 +262,7 @@ const Header = (props) => {
                           <div className="text-xs font-medium">
                             <a
                               className="underline"
-                              href={`https://www.coborns.com/Cobstore${facilityId}`}
+                              href={`https://www.coborns.com/Cobstore${store?.facilityId.toString()}`}
                               target="_blank"
                               rel="noreferrer"
                             >
@@ -360,7 +361,6 @@ const Header = (props) => {
                                         )
                                       )}
                                     </Disclosure.Panel>
-                    
                                   </>
                                 )}
                               </Disclosure>
@@ -414,7 +414,10 @@ const Header = (props) => {
               />
             </a>
           </div>
-          <button className="cbn-header__cart-button" onClick={handleCheckoutCart}>
+          <button
+            className="cbn-header__cart-button"
+            onClick={handleCheckoutCart}
+          >
             <img className="w-6 h-auto" src={cartIcon} alt="" />
             <span className="text-base md:text-lg font-bold ml-3">5</span>
           </button>

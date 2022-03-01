@@ -29,7 +29,12 @@ export default {
   }
 };
 
-export const HomeStory = ({ isAuthenticated, logout, ...rest }) => {
+export const HomeStory = ({
+  isAuthenticated,
+  logout,
+  onStoreChange,
+  ...rest
+}) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
   const [user, setUser] = useState({ firstName: 'Apple' });
@@ -71,19 +76,19 @@ export const HomeStory = ({ isAuthenticated, logout, ...rest }) => {
   };
 
   useEffect(() => {
-    fetch('')
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // fetch('')
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setData(data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }, []);
 
   return (
     <Fragment>
-      <Locator />
+      <Locator onLocationChange={onStoreChange} />
       <Hero slides={getSlides(brandName)} brandName={brandName} />
       <HomeGetStarted />
       <HomePromotions />

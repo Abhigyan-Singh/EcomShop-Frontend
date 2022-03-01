@@ -48,11 +48,12 @@ const Locator = (props) => {
   const { facility, user } = cookies;
   const [hasLoaded, setHasLoaded] = useState(false);
   useEffect(() => {
-    !hasLoaded && user &&
+    !hasLoaded &&
+      user &&
       allStores(7).then((res) => {
         setStore(res.data);
-        console.log("FACILITY", res.data);
-        setHasLoaded(true)
+        console.log('FACILITY', res.data);
+        setHasLoaded(true);
       });
   }, [user]);
 
@@ -69,6 +70,7 @@ const Locator = (props) => {
     }
   };
 
+  console.log(selected);
   return (
     <div className={componentClassName} {...rest}>
       <div className="flex flex-1 md:flex-none items-center divide-x">
@@ -145,7 +147,11 @@ const Locator = (props) => {
       <div className="hidden sm:flex items-center">
         <div className="hidden lg:flex items-center mx-6">
           <img className="h-8 w-auto mr-4" src={morerewardsLogo} alt="" />
-          <a className="text-xs underline" href="https://www.morerewards.com/" target="_blank">
+          <a
+            className="text-xs underline"
+            href="https://www.morerewards.com/"
+            target="_blank"
+          >
             My Rewards
           </a>
         </div>
