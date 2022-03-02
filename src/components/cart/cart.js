@@ -12,8 +12,8 @@ import './cart.css';
 // COBORNS TODO: Replace this with actual data from data source
 const cartData = {
   sections: [
-    { id: 'groceries', label: 'Groceries', products: [...Array(5)] },
-    { id: 'wine-spirits', label: 'Wine & Spirits', products: [...Array(3)] }
+    { id: 'groceries', label: 'Groceries', products: [...Array(1)] },
+    { id: 'wine-spirits', label: 'Wine & Spirits', products: [...Array(0)] }
   ],
   total: '$23.65'
 };
@@ -45,7 +45,6 @@ const CartItem = (props) => {
 
 const Cart = (props) => {
   const { open, onClose } = props;
-
   const handleCartClose = (event) => {
     if (typeof onClose === 'function') {
       onClose(false)
@@ -92,8 +91,8 @@ const Cart = (props) => {
                   </button>
                 </div>
               </div>
-
-              <div className="relative flex-1 overflow-y-auto">
+              {cartData ?
+                <div className="relative flex-1 overflow-y-auto">
                 {cartData.sections.map((section) => (
                   <div className="border-b" key={section.id}>
                     <div className="p-3">
@@ -105,6 +104,8 @@ const Cart = (props) => {
                   </div>
                 ))}
               </div>
+               : <div>HELLO</div> }
+
 
               <div className="bg-yellow-100 p-3">
                 <div className="text-lg mb-2 text-right">

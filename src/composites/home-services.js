@@ -14,35 +14,44 @@ import cakesIcon from 'assets/icons/services-icon-cakes@2x.png';
 import lotteryIcon from 'assets/icons/services-icon-lottery@2x.png';
 import moneyIcon from 'assets/icons/services-icon-money@2x.png';
 import postageIcon from 'assets/icons/services-icon-postage@2x.png';
+import { useCookies } from 'react-cookie';
+import { CookiesAge } from 'apiConfig';
+
 
 
 const HomeServices = (props) => {
+  const {
+    store,
+    stores,
+    ...rest
+  } = props;
+  const [cookies, setCookie] = useCookies();  
+  const { facility } = cookies;
+  const [selected, setSelected] = useState(facility);
   const [serv, setServ] = useState([])
-  const facilityId = 2029;
+
 
   useEffect(() => {
     servicesList(); 
   }, []);
   
   const servicesList = () => {
-    inStoreServices(2029).then((res) => {
+    inStoreServices(selected.facilityId).then((res) => {
       setServ(res.data);
 
     });
    
   };
 
- 
-
   return (
-    <div className="bg-yellow-100 p-4 md:p-6">
+    <div  className="bg-yellow-100 p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">
         <div className="font-serif text-lg tracking-widest uppercase mb-2 lg:mb-0">
           At Your Store
         </div>
         <div className="flex-1 mb-2 lg:mb-0">
-          Albertville Coborn's{' '}
-          <a className="text-sm underline ml-2" href="text">
+          {selected?.facilityName}
+          <a className="text-sm underline ml-2" href="#change_location">
             Change
           </a>
         </div>
@@ -92,7 +101,7 @@ const HomeServices = (props) => {
         </div>
       </div>
       <div className="flex flex-col mt-6 mb-5 lg:items-end lg:flex-row lg:space-x-10">
-        <a href={`https://www.coborns.com/Cobstore${facilityId}`} 
+        <a href={`https://www.coborns.com/Cobstore${selected?.facilityId.toString()}`} 
            target="_blank"
            rel="noreferrer"
            id="Services" 

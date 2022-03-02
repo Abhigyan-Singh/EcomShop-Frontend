@@ -40,7 +40,7 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const [user, setUser] = useState({ firstName: 'Apple' });
 
   useEffect(() => {
-    filter(1000000, 1/100, "brand")
+    fetch()
       .then((res) => res.json())
       .then((res) => {
         setData(res.data)

@@ -2,7 +2,8 @@ import { ChevronRightIcon } from '@heroicons/react/solid';
 import Item from 'components/item/item';
 import Tabs from 'components/tabs/tabs';
 import itemData from 'data/item.json';
-
+import { useCart } from "react-use-cart";
+import { useEffect } from 'react';
 
  export const mockData = [
   {
@@ -44,7 +45,7 @@ import itemData from 'data/item.json';
     coolInfo: null,
     promotionMsg: ' ',
     keywordsString: null,
-    priceCondCode: 'Reg                 ',
+    priceCondCode: 'Reg',
     additionalSalesText: null,
     isNew: false,
     productDetails:
@@ -733,6 +734,11 @@ import itemData from 'data/item.json';
 
 
 const HomeGetStarted = (props) => {
+  const { addItem } = useCart()
+  //addItem(mockData);
+
+
+  
   return (
     <div className="p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">
@@ -760,6 +766,7 @@ const HomeGetStarted = (props) => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
         {mockData.map((e, i) => (
+        
           <Item item={e} key={i} />
         ))}
       </div>

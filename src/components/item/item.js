@@ -158,7 +158,7 @@ const Item = (props) => {
           <Button
             disabled={item.isOutOfStock}
             label="Add"
-            onClick={() => addItem(item)}
+            //onClick={""}//() => addItem(item)}
           />
         </div>
       </div>

@@ -1,12 +1,25 @@
 import { useState, useEffect, useCallback } from 'react';
 import { search } from 'services/search';
 import { getAllFavorites } from 'services/favorites'
+import { useCart } from "react-use-cart";
 const facilityId = 2037;
 
 function useFetch(query, page) {
+  const {
+    items,
+    isEmpty,
+    totalUniqueItems,
+    updateItemQuantity,
+    removeItem,
+
+  } = useCart();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [list, setList] = useState([]);
+  //const { addItem } = useCart();
+  
+
+
   console.log(query);
   const sendQuery = useCallback(async () => {
     try {
@@ -25,6 +38,7 @@ function useFetch(query, page) {
                 favorite = true;
               }
             })
+            //addItem(list)
             return ({ ...each, favorite })
           })
           return [...new Set(formattedListData)];
