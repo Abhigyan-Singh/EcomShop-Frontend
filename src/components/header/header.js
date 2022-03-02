@@ -27,35 +27,62 @@
     useRoutes } from 'react-router-dom';
     import { ShopStory } from 'stories/pages/shop.stories';
 
+const Header = (props) => {
+  // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
+  // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
 
+  const [searchList, setSearchList] = useState([]);
+  const [data, setData] = useState();
+  const fetch = async (itemName) => {
+    if (itemName) {
+      const sData = await search(itemName, 2037, 2);
+      setSearchList(sData?.data?.suggestionList);
+    }
+  };
+  const setHoursHtml = () => {
+    if (
+      document.getElementById('yext-facility-hours-getter') &&
+      document.getElementById('yext-facility-hours-setter')
+    ) {
+      document.getElementById(
+        'yext-facility-hours-getter'
+      ).innerHTML = document.getElementById(
+        'yext-facility-hours-setter'
+      ).innerHTML;
+    }
+  };
 
-  const Header = (props) => {
-    // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
-    // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
+  useEffect(() => {
+    grocery(4433).then((res) => {
+      setData(res.data);
+      //console.log('DATA', res.data);
+    });
+  }, [props]);
 
-    const [searchList, setSearchList] = useState([]);
-    const [data, setData] = useState();
-    const navigate = useNavigate()
+  const tree = () => {
+    var lst = [];
+    for (var i = 0; i < data.length; i++) {
+      lst.push(data[i].description);
+    }
+    return lst.map((dept) => (
+      <a className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+        {dept}
+      </a>
+    ));
+  };
 
-    const fetch = async (itemName) => {
-      if (itemName) {
-        const sData = await search(itemName, 2037, 2);
-        setSearchList(sData?.data?.suggestionList);
-      }
-    };
-
-    const setHoursHtml = () => {
-      if (
-        document.getElementById('yext-facility-hours-getter') &&
-        document.getElementById('yext-facility-hours-setter')
-      ) {
-        document.getElementById(
-          'yext-facility-hours-getter'
-        ).innerHTML = document.getElementById(
-          'yext-facility-hours-setter'
-        ).innerHTML;
-      }
-    };
+  const {
+    className,
+    theme,
+    user,
+    onMobileButtonClick,
+    store,
+    stores,
+    ...rest
+  } = props;
+  const componentClassName = classNames('cbn-header', {}, className);
+  const [value, setValue] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
     useEffect(( event) => {
       grocery(4433).then((res) => {
@@ -440,6 +467,13 @@
               <span className="text-base md:text-lg font-bold ml-3">5</span>
             </button>
           </div>
+          <button
+            className="cbn-header__cart-button"
+            onClick={handleCheckoutCart}
+          >
+            <img className="w-6 h-auto" src={cartIcon} alt="" />
+            <span className="text-base md:text-lg font-bold ml-3">5</span>
+          </button>
         </div>
       </header>
     );
@@ -456,4 +490,4 @@
     })
   };
 
-  export default Header;
+export default Header;
