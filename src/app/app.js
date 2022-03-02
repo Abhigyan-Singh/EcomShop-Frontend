@@ -19,15 +19,14 @@ import { DisplayShoppingListDetails } from 'stories/pages/dispmyshoppinglistdeta
 import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
 import { Mapquest } from 'stories/pages/storelocator.js';
-import { Geolocation } from '../services/geolocation.js';
-
+import { Geolocation } from '../services/geolocation.js'; 
 
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const location = Geolocation();
+  //const location = Geolocation();
 
 
   useEffect(() => {

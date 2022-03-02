@@ -18,7 +18,7 @@ const ShopSelectedFilter = (props) => {
                 className="flex-shrink-0 ml-1 h-4 w-4 p-1 rounded-full inline-flex text-gray-400 hover:bg-gray-200 hover:text-gray-500"
               >
                 <span className="sr-only">Remove filter for Banquet</span>
-                <XIcon />
+                <XIcon  />
               </button>
             </span>
           </div>

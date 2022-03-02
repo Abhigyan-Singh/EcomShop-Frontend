@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Listbox, Transition } from '@headlessui/react';
@@ -9,13 +9,18 @@ import {
   LocationMarkerIcon
 } from '@heroicons/react/solid';
 import morerewardsLogo from 'assets/images/morerewards-logo@2x.png';
-import locationOptions from 'data/locationOptions';
 import './locator.css';
-import Cart from '../../components/cart/cart.js';
+import { map } from 'lodash';
+import { allStores } from 'services/facilities';
+import { useCookies } from 'react-cookie';
+import { CookiesAge } from 'apiConfig';
+import Offcanvas from 'react-bootstrap/Offcanvas'
+import Basket from '../..composites/cart-page'
+
 
 const LocationOption = ({ option }) => (
   <Listbox.Option
-    key={option.title}
+    key={option.facilityName}
     className={({ active }) =>
       classNames('cbn-locator__option', {
         'cbn-locator__option--active': active
@@ -26,7 +31,7 @@ const LocationOption = ({ option }) => (
     {({ selected, active }) => (
       <div className="flex flex-col">
         <div className="flex justify-between">
-          <div>{option.title}</div>
+          <div>{option.facilityName}</div>
           {selected ? (
             <span className={active ? 'text-white' : 'text-gray-500'}>
               <CheckIcon className="h-5 w-5" aria-hidden="true" />
@@ -39,29 +44,38 @@ const LocationOption = ({ option }) => (
 );
 
 const Locator = (props) => {
-  const { className, onCartButtonClick, onLocationChange, ...rest } = props;
-  const [selected, setSelected] = useState(locationOptions[0]);
+  const { className, onLocationChange, ...rest } = props;
   const componentClassName = classNames('cbn-locator', {}, className);
+  const [cookies, setCookie] = useCookies();
+  const [store, setStore] = useState([null]);
+  const { facility, user } = cookies;
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [show, setShow] = useState(false);
-  const [showCart, setShowCart] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  useEffect(() => {
+    !hasLoaded && user &&
+      allStores(7).then((res) => {
+        setStore(res.data);
+        console.log("FACILITY", res.data);
+        setHasLoaded(true)
+      });
+  }, [user]);
+
+  const [selected, setSelected] = useState(facility);
+  
 
   const handleOnChange = (option) => {
     setSelected(option);
-
+    setCookie('facility', option, {
+      path: '/',
+      maxAge: CookiesAge
+    });
     if (typeof onLocationChange === 'function') {
       onLocationChange(option);
     }
   };
 
-
-  
-  const handleCartClick = (event) => {
-    setShowCart(true)
-  };
-
-  const onClose=(event)=>{
-    setShowCart(false)
-  }
 
   return (
     <div className={componentClassName} {...rest}>
@@ -76,8 +90,9 @@ const Locator = (props) => {
                 <Listbox.Button className="cbn-locator__button w-full md:w-auto md:-ml-2">
                   <LocationMarkerIcon className="h-5 w-5" aria-hidden="true" />
                   <span className="block ml-2 mr-6 flex-1 md:flex-none leading-none">
+                    Store
                     <span className="block leading-none mb-0.5 md:mb-0">
-                      {selected.title}
+                      {selected?.facilityName}
                     </span>
                     <span className="block text-xs leading-none md:hidden">
                       Delivery: Sat, Sep 18: 6pm - 7pm
@@ -88,25 +103,21 @@ const Locator = (props) => {
                 <Transition
                   show={open}
                   as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
+                  leave="transition ease-in duration-100"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
                 >
-                  <Listbox.Options className="origin-top-left absolute z-20 left-0 mt-2 w-72 rounded shadow-lg overflow-hidden bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Listbox.Options className="origin-top-left absolute z-10 left-0 mt-2 w-72 rounded shadow-lg overflow-hidden bg-white ring-1 ring-black ring-opacity-5 focus:outline-none max-height-80">
                     <div className="divide-y divide-gray-100">
                       <div>
                         <div className="cbn-locator__group-label">
                           Delivery &amp; Pick Up
                         </div>
-                        {locationOptions
-                          .filter((x) => !x.isPickupOnly)
-                          .map((option) => (
+                        {store &&
+                          map(store.facilitiesDeliveryOrPickup, (option) => (
                             <LocationOption
-                              key={option.title}
-                              option={option}
+                              key={option.facilityDtl.facilityName}
+                              option={option.facilityDtl}
                             />
                           ))}
                       </div>
@@ -114,12 +125,11 @@ const Locator = (props) => {
                         <div className="cbn-locator__group-label">
                           Pick Up Only
                         </div>
-                        {locationOptions
-                          .filter((x) => x.isPickupOnly)
-                          .map((option) => (
+                        {store &&
+                          map(store.facilitiesPickup, (option) => (
                             <LocationOption
-                              key={option.title}
-                              option={option}
+                              key={option.facilityDtl.facilityName}
+                              option={option.facilityDtl}
                             />
                           ))}
                       </div>
@@ -143,33 +153,21 @@ const Locator = (props) => {
       <div className="hidden sm:flex items-center">
         <div className="hidden lg:flex items-center mx-6">
           <img className="h-8 w-auto mr-4" src={morerewardsLogo} alt="" />
-          <a className="text-xs underline" href="#link">
+          <a className="text-xs underline" href="https://www.morerewards.com/" target="_blank">
             My Rewards
           </a>
         </div>
-        <div className="border-l border-yellow-200">
-          <button
-            className="bg-yellow-100 flex items-center h-16 px-6 text-lg font-bold"
-            onClick={handleCartClick}
-          >
-            <span className="mr-12">Total</span>
-            <span className="mr-3">$23.65</span>
-            <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
-            <Cart  open={showCart} onClose={onClose} />
-          </button>      
-        </div>
+        <Basket cartItems={cartItems}></Basket>
       </div>
     </div>
   );
 };
 
 Locator.propTypes = {
-  onCartButtonClick: PropTypes.func,
   onLocationChange: PropTypes.func
 };
 
 Locator.defaultProps = {
-  onCartButtonClick: () =>  {} ,
   onLocationChange: () => {}
 };
 

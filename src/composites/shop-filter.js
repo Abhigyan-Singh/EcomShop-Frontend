@@ -2,12 +2,50 @@ import { ChevronDownIcon, ChevronRightIcon  } from '@heroicons/react/solid';
 import { CheckboxStory } from 'stories/components/checkbox.stories';
 import Checkbox from 'components/checkbox/checkbox';
 import { useNavigate } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
+import filter from 'services/dropdownfilter';
+import { search } from 'services/search';
 
 
-const ShopFilter = (props, args) => {
-  const navigate = useNavigate();
+
+const ShopFilter = (props, args, value) => {
+  const [Checked, setChecked] = useState([])
+  const [searchList, setSearchList] = useState([]);
+  const [handleCheck, setHandleCheck] = useState() 
+  
+  // const filters = {brand: ""}
+  // const filterdItems = []
+
+
+  // const productSearch = () => {
+  //   fetch = async (itemName) => {
+  //     if (itemName) {
+  //       const sData = await search(itemName, 2037, 2);
+  //       setSearchList(sData?.data?.suggestionList);
+  //     }
+  //     return searchList;
+  //   };
+  // }
+
+  // const handleChange =  (e) => {
+  //   setHandleCheck({...handleCheck, [e.target.name]: e.target.checked})
+  // }
+
+
+  // useEffect(() => {
+  //   function filterItems () {
+  //     // convenience function for extracting the name from an object
+  //     const getName = ({name}) => name;
+      
+  //     // get the list of checked boxes and extract their names
+  //     const checked = [...inputsList.querySelectorAll(':checked')].map(getName);
+      
+  //     // return the hotels that include every checked amenity
+  //     return hotels.filter(h => checked.every(amenity => h[amenity])).map(getName);
+  //   }
+  // }, [])
+  
   return (
     <div className="hidden lg:block">
       <div className="flow-root">
@@ -53,14 +91,17 @@ const ShopFilter = (props, args) => {
                         height: 124
                       }}
                     >
+          
                     <Checkbox
                         {...args}
-                        className="mb-5"
+                        className="mb-4"
                         id="checkbox-1"
                         value="1"
+                        label="All/Other"
+                        
                       />
-                      <Checkbox {...args}  className="mb-5" id="checkbox-2" value="2" > Hello</Checkbox> 
-                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3" />        
+                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2" label="Amy's" />
+                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3" label="Banquet" />        
                     </div>       
                     </Popover.Panel>
                   </Transition>
@@ -110,12 +151,13 @@ const ShopFilter = (props, args) => {
                     >
                     <Checkbox
                         {...args}
-                        className="mb-5"
+                        className="mb-4"
                         id="checkbox-1"
                         value="1"
+                        label="Local"
                       />
-                      <Checkbox {...args}  className="mb-5" id="checkbox-2" value="2" />
-                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3" />        
+                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2"  label="Organic &amp; Natural" />
+                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3"  label="Gluten Free"/>        
                     </div>       
                     </Popover.Panel>
                   </Transition>
@@ -164,11 +206,12 @@ const ShopFilter = (props, args) => {
                     >
                     <Checkbox
                         {...args}
-                        className="mb-5"
+                        className="mb-4"
                         id="checkbox-1"
                         value="1"
+                        label="New Arrivals"
                       />
-                      <Checkbox {...args}  className="mb-5" id="checkbox-2" value="2" />
+                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2"  label="Sale Items" />
                     </div>       
                     </Popover.Panel>
                   </Transition>
