@@ -162,14 +162,14 @@ const Modal = ({ onClose }) => {
           </button>
         </div>
         <p className="modal-forget-pass-container">
-          <a href="https://shop.coborns.com/chooseresetoption">
+          <a href="https://devweb.shop.coborns.com/chooseresetoption">
             <span>Forgot User Name </span>/<span> Password</span>
           </a>
         </p>
         <div className="modal-bottom-border">
           <div className="modal-bottom-btn">
             <span>New to Coborn’s? </span>
-            <a href="https://testweb.shop.coborns.com/createaccount">
+            <a href="https://devweb.shop.coborns.com/createaccount">
               <button type="button" className="modal-signUp">
                 Register
               </button>
