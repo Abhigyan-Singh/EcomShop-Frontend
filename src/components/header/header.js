@@ -21,6 +21,7 @@ import { search } from 'services/search';
 import { grocery } from 'services/groceryTree';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
+import { useNavigate } from 'react-router-dom'    
 
 
 const Header = (props) => {
@@ -30,6 +31,7 @@ const Header = (props) => {
   const [data, setData] = useState();
   const [cookies, setCookie] = useCookies();
   const { facility } = cookies;
+  const navigate = useNavigate()
 
 
   const fetch = async (itemName) => {
@@ -64,7 +66,7 @@ const Header = (props) => {
       lst.push(data[i].description);
     }
     return lst.map((dept) => (
-      <button id={dept} onClick={HandleClick} className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+      <button onClick={() => navigate("/search?text=" + dept)} className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
         {dept}
       </button>
     ));
@@ -125,15 +127,6 @@ const Header = (props) => {
     // We need to integrate with solor here on scroll
   };
 
-    const HandleClick = (event) => {
-      setValue(event.target.id);
-      if (event.target.id.length > 0) {
-        searcher(  search(event.target.id, 2037, 2)
-        )
-      
-      }
-    };
-
 
   const handleCheckoutCart = () => {
     const urlObj = {
@@ -189,7 +182,10 @@ const Header = (props) => {
           </div>
         )}
         <div className="flex items-center justify-between text-right">
-          <img className="h-6 md:h-14 w-auto" style={{ marginRight: 1000}} src={cobornsLogo} alt="" />
+          <button  onClick={() => navigate("/")}>
+            <img className="h-6 md:h-14 w-auto" style={{ marginRight: 1000}} src={cobornsLogo} alt="" />
+          </button>
+         
           <div className="hidden md:block">
             <div className="text-lg font-medium" >
               {user && `Welcome Back, ${user.firstName}`}
