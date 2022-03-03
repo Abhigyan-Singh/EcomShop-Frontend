@@ -52,6 +52,7 @@ const Header = (props) => {
   };
 
   useEffect(() => {
+
     grocery(4433).then((res) => {
       setData(res.data);
       //console.log('DATA', res.data);
@@ -60,7 +61,7 @@ const Header = (props) => {
 
   const {
     className,
-    theme,
+    theme="coborns",
     user,
     onMobileButtonClick,
     store,
@@ -113,17 +114,23 @@ const Header = (props) => {
     // We need to integrate with solor here on scroll
   };
 
+
   const tree = () => {
     var lst = [];
     for (var i = 0; i < data.length; i++) {
       lst.push(data[i].description);
     }
     return lst.map((dept) => (
-      <button onClick={() => navigate("/search?text=" + dept)} className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+      <button onClick={() => navigate("/search?text=" + dept)}  className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
         {dept}
       </button>
     ));
   };
+
+    
+  function refreshPage() {
+    window.location.reload(false);
+  }
 
 
   const handleCheckoutCart = () => {
@@ -147,13 +154,13 @@ const Header = (props) => {
     // window.location.replace(url + path)
     window.location.href = url + path;
   };
-
+ 
   return (
     <header className={componentClassName} {...rest}>
       <div className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
         {theme === 'coborns' && (
           <div className="flex flex-1 -mb-1 md:-mb-2">
-            <a href="#link">
+            <a href="/">
               <span className="sr-only">Coborn's</span>
               <img className="h-6 md:h-14 w-auto" src={cobornsLogo} alt="" />
             </a>
@@ -179,16 +186,12 @@ const Header = (props) => {
             </a>
           </div>
         )}
-        <div className="flex items-center justify-between text-right">
-          <button  onClick={() => navigate("/")}>
-            <img className="h-6 md:h-14 w-auto" style={{ marginRight: 1000}} src={cobornsLogo} alt="" />
-          </button>
-         
+        <div className="flex items-center justify-between text-right float right" > 
           <div className="hidden md:block">
             <div className="text-lg font-medium" >
               {user && `Welcome Back, ${user.firstName}`}
               {!user && 'Grocery Shopping Made Easy'}
-            </div>
+            </div> 
             <div className="text-xs font-medium space-x-2">
               <a className="underline" href='"/store-locator"'>
                 Store Locator
@@ -368,7 +371,10 @@ const Header = (props) => {
                                             {subItem.name}
                                           </a>
                                         ) : (
-                                          tree()
+                                          <div  className= "flex-1" onClick={refreshPage}>
+                                            {tree()}
+                                          </div>
+                                        
                                         )
                                       )}
                                     </Disclosure.Panel>
