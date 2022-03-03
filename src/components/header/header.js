@@ -52,6 +52,7 @@ const Header = (props) => {
   };
 
   useEffect(() => {
+
     grocery(4433).then((res) => {
       setData(res.data);
       //console.log('DATA', res.data);
@@ -113,17 +114,23 @@ const Header = (props) => {
     // We need to integrate with solor here on scroll
   };
 
+
   const tree = () => {
     var lst = [];
     for (var i = 0; i < data.length; i++) {
       lst.push(data[i].description);
     }
     return lst.map((dept) => (
-      <button onClick={() => navigate("/search?text=" + dept)} className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+      <button onClick={() => navigate("/search?text=" + dept)}  className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
         {dept}
       </button>
     ));
   };
+
+    
+  function refreshPage() {
+    window.location.reload(false);
+  }
 
 
   const handleCheckoutCart = () => {
@@ -368,7 +375,10 @@ const Header = (props) => {
                                             {subItem.name}
                                           </a>
                                         ) : (
-                                          tree()
+                                          <button onClick={refreshPage}>
+                                            {tree()}
+                                          </button>
+                                        
                                         )
                                       )}
                                     </Disclosure.Panel>
