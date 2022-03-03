@@ -32,8 +32,6 @@ const Header = (props) => {
   const [cookies, setCookie] = useCookies();
   const { facility } = cookies;
   const navigate = useNavigate()
-
-
   const fetch = async (itemName) => {
     if (itemName) {
       const sData = await search(itemName, 2037, 2);
@@ -59,18 +57,6 @@ const Header = (props) => {
       //console.log('DATA', res.data);
     });
   }, [props]);
-
-  const tree = () => {
-    var lst = [];
-    for (var i = 0; i < data.length; i++) {
-      lst.push(data[i].description);
-    }
-    return lst.map((dept) => (
-      <button onClick={() => navigate("/search?text=" + dept)} className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
-        {dept}
-      </button>
-    ));
-  };
 
   const {
     className,
@@ -125,6 +111,18 @@ const Header = (props) => {
 
   const onScroll = () => {
     // We need to integrate with solor here on scroll
+  };
+
+  const tree = () => {
+    var lst = [];
+    for (var i = 0; i < data.length; i++) {
+      lst.push(data[i].description);
+    }
+    return lst.map((dept) => (
+      <button onClick={() => navigate("/search?text=" + dept)} className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+        {dept}
+      </button>
+    ));
   };
 
 

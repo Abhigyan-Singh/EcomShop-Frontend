@@ -8,56 +8,58 @@ import moneyIcon from 'assets/icons/services-icon-money@2x.png';
 import postageIcon from 'assets/icons/services-icon-postage@2x.png';
 
 const shopNavigation1 = [
+  
   {
     name: 'Baby',
-    href: '#link'
+    href: '/search?text=Baby'
   },
   {
     name: 'Bakery',
-    href: '#link'
+    href: 'search?text=Bakery'
   },
   {
     name: 'Dairy',
-    href: '#link'
+    href: 'search?text=Diary'
   },
   {
     name: 'Deli',
-    href: '#link'
+    href: 'search?text=Deli'
   },
   {
     name: 'Floral',
-    href: '#link'
+    href: 'search?text=Floral'
   },
   {
     name: 'Frozen',
-    href: '#link'
+    href: 'search?text=Frozen'
   },
   {
     name: 'General Merchandise',
-    href: '#link'
+    href: 'search?text=General Merchandise'
   },
   {
     name: 'Grocery',
-    href: '#link'
+    href: 'search?text=Grocery'
   },
   {
     name: 'Meat & Seafood',
-    href: '#link'
+    href: 'search?text=Meat & Seafood'
   },
   {
     name: 'Pet',
-    href: '#link'
+    href: 'search?text=Pet'
   }
 ];
+
 
 const shopNavigation2 = [
   {
     name: 'Produce',
-    href: '#link'
+    href: ''
   },
   {
     name: 'Beer, Wine, & Spirits',
-    href: '#link'
+    href: ''
   },
   {
     name: 'Tobacco',
