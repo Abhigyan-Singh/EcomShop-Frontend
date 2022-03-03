@@ -61,7 +61,7 @@ const Header = (props) => {
 
   const {
     className,
-    theme,
+    theme="coborns",
     user,
     onMobileButtonClick,
     store,
@@ -154,13 +154,13 @@ const Header = (props) => {
     // window.location.replace(url + path)
     window.location.href = url + path;
   };
-
+ 
   return (
     <header className={componentClassName} {...rest}>
       <div className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
         {theme === 'coborns' && (
           <div className="flex flex-1 -mb-1 md:-mb-2">
-            <a href="#link">
+            <a href="/">
               <span className="sr-only">Coborn's</span>
               <img className="h-6 md:h-14 w-auto" src={cobornsLogo} alt="" />
             </a>
@@ -186,16 +186,12 @@ const Header = (props) => {
             </a>
           </div>
         )}
-        <div className="flex items-center justify-between text-right">
-          <button  onClick={() => navigate("/")}>
-            <img className="h-6 md:h-14 w-auto" style={{ marginRight: 1000}} src={cobornsLogo} alt="" />
-          </button>
-         
+        <div className="flex items-center justify-between text-right float right" > 
           <div className="hidden md:block">
             <div className="text-lg font-medium" >
               {user && `Welcome Back, ${user.firstName}`}
               {!user && 'Grocery Shopping Made Easy'}
-            </div>
+            </div> 
             <div className="text-xs font-medium space-x-2">
               <a className="underline" href='"/store-locator"'>
                 Store Locator
