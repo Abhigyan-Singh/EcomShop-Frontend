@@ -17,7 +17,7 @@ import slidesCashWise from 'data/slidesCashWise.json';
 import slidesMarketPlace from 'data/slidesMarketPlace.json';
 import MobileNav from 'components/mobile-nav/mobile-nav';
 import ShopGetPage from 'composites/shop-get';
-import { cartPage } from 'services/cart';
+import filter  from 'services/dropdownfilter';
 
 
 export default {
@@ -40,7 +40,7 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const [user, setUser] = useState({ firstName: 'Apple' });
 
   useEffect(() => {
-    cartPage(1000000, 1/100, "brand")
+    fetch()
       .then((res) => res.json())
       .then((res) => {
         setData(res.data)

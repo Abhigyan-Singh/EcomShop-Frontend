@@ -1,5 +1,6 @@
 .cbn-locator {
   @apply bg-white;
+  @apply shadow-sm;
   @apply flex;
   @apply items-center;
   @apply h-16;
@@ -48,8 +49,4 @@
   @apply text-white;
   @apply cashwise:bg-merlot;
   @apply marketplace:bg-forest;
-}
-.max-height-80{
-  max-height: 80ch;
-  overflow-y: scroll !important;
 }

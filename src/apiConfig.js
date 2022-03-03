@@ -19,7 +19,8 @@ export const API = {
   save_list_Details: '/userlistitems/save/',
   list_save: '/userList/save',
   previous_purchased: '/producthistorylist/productHistoryDetails',
-  cart_page: '/productn/findbyarea1/',
+  drop_down_filter: '/productn/findbyarea1/',
+  add_to_cart:'/cart/addtocart'
 };
 
 export const CookiesAge = 604800;

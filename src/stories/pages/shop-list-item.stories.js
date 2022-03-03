@@ -21,7 +21,7 @@ export default {
   }
 };
 
-export const ShopListItems = ({ isAuthenticated, logout, ...rest }) => {
+export const ShopListItems = ({ isAuthenticated, logout, ...rest }, onAdd) => {
   const [items, setItems] = useState([]);
   const location = useLocation();
   const [listItems, setListItems] = useState([]);
@@ -55,7 +55,7 @@ export const ShopListItems = ({ isAuthenticated, logout, ...rest }) => {
         <List fetchListItems={fetchListItems} isCustomListItem={true} />
         <div style={{ marginTop : 10 }} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
           {items.map((e, i) => (
-            <Item listItems={listItems} onFavoriteClick={ () => {
+            <Item onAdd={onAdd} listItems={listItems} onFavoriteClick={ () => {
               // favorites();
             }} item={e} key={i} />
           ))}

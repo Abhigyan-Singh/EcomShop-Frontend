@@ -12,7 +12,7 @@ const ItemDetails = () => {
   const { id } = useParams();
   const location = useLocation();
   const [itemDetailsData, setItemDetailsData] = useState(location.state);
-  console.log(itemDetailsData);
+  console.log( "ITEM", itemDetailsData);
   // const [isLoading, setLoading] = useState(false);
   // const [error, setError] = useState(false);
   const [tab, setTab] = useState('pd');

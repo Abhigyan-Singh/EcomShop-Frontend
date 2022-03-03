@@ -19,6 +19,8 @@ import {
 // import Button from 'components/button/button';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { saveListItem } from 'services/mylist';
+import { useCart } from "react-use-cart";
+
 
 const Item = (props) => {
   const {
@@ -43,6 +45,8 @@ const Item = (props) => {
   );
   const [quantity, setQuantity] = useState(0);
   const [favourite, setFavourite] = useState(item.favorite);
+  const { addItem } = useCart();
+
 
   const handleAddClick = () => {
     if (typeof onAddClick === 'function') {
@@ -149,12 +153,12 @@ const Item = (props) => {
             </Select>
           </div>
         )}
-        <div className="flex items-center space-x-2">
+        <div key={item.id} className="flex items-center space-x-2">
           <Counter disabled={item.isOutOfStock} onChange={setQuantity} />
           <Button
             disabled={item.isOutOfStock}
             label="Add"
-            onClick={handleAddClick}
+            //onClick={""}//() => addItem(item)}
           />
         </div>
       </div>

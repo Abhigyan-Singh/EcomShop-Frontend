@@ -19,13 +19,19 @@ import Modal from './Modal';
 import Backdrop from './Backdrop';
 import { search } from 'services/search';
 import { grocery } from 'services/groceryTree';
+import { useCookies } from 'react-cookie';
+import { CookiesAge } from 'apiConfig';
+
 
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
-
   const [searchList, setSearchList] = useState([]);
   const [data, setData] = useState();
+  const [cookies, setCookie] = useCookies();
+  const { facility } = cookies;
+
+
   const fetch = async (itemName) => {
     if (itemName) {
       const sData = await search(itemName, 2037, 2);
@@ -58,9 +64,9 @@ const Header = (props) => {
       lst.push(data[i].description);
     }
     return lst.map((dept) => (
-      <a className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+      <button id={dept} onClick={HandleClick} className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
         {dept}
-      </a>
+      </button>
     ));
   };
 
@@ -119,6 +125,16 @@ const Header = (props) => {
     // We need to integrate with solor here on scroll
   };
 
+    const HandleClick = (event) => {
+      setValue(event.target.id);
+      if (event.target.id.length > 0) {
+        searcher(  search(event.target.id, 2037, 2)
+        )
+      
+      }
+    };
+
+
   const handleCheckoutCart = () => {
     const urlObj = {
       localhost: 'https://devweb.shop.coborns.com',
@@ -173,8 +189,9 @@ const Header = (props) => {
           </div>
         )}
         <div className="flex items-center justify-between text-right">
+          <img className="h-6 md:h-14 w-auto" style={{ marginRight: 1000}} src={cobornsLogo} alt="" />
           <div className="hidden md:block">
-            <div className="text-lg font-medium">
+            <div className="text-lg font-medium" >
               {user && `Welcome Back, ${user.firstName}`}
               {!user && 'Grocery Shopping Made Easy'}
             </div>
@@ -419,7 +436,7 @@ const Header = (props) => {
             onClick={handleCheckoutCart}
           >
             <img className="w-6 h-auto" src={cartIcon} alt="" />
-            <span className="text-base md:text-lg font-bold ml-3">5</span>
+            <span className="text-base md:text-lg font-bold ml-3">0</span>
           </button>
         </div>
       </div>

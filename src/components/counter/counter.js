@@ -5,7 +5,7 @@ import { MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid';
 import './counter.css';
 import newId from 'utils/newId';
 
-const Counter = (props) => {
+export const Counter = (props) => {
   const { className, defaultValue, disabled, onChange, ...rest } = props;
   const inputRef = useRef(null);
   const [id] = useState(newId('counter'));

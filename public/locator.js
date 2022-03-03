@@ -14,7 +14,10 @@ import { map } from 'lodash';
 import { allStores } from 'services/facilities';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
-import Cart from '../../components/cart/cart.js';
+import Offcanvas from 'react-bootstrap/Offcanvas'
+import Basket from '../..composites/cart-page'
+
+
 const LocationOption = ({ option }) => (
   <Listbox.Option
     key={option.facilityName}
@@ -47,18 +50,20 @@ const Locator = (props) => {
   const [store, setStore] = useState([null]);
   const { facility, user } = cookies;
   const [hasLoaded, setHasLoaded] = useState(false);
-  const [showCart, setShowCart] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   useEffect(() => {
-    !hasLoaded &&
-      user &&
+    !hasLoaded && user &&
       allStores(7).then((res) => {
         setStore(res.data);
-        console.log('FACILITY', res.data);
-        setHasLoaded(true);
+        console.log("FACILITY", res.data);
+        setHasLoaded(true)
       });
   }, [user]);
 
   const [selected, setSelected] = useState(facility);
+  
 
   const handleOnChange = (option) => {
     setSelected(option);
@@ -71,18 +76,9 @@ const Locator = (props) => {
     }
   };
 
-  const handleCartClick = (event) => {
-    setShowCart(true)
-  };
 
-  const onClose=(event)=>{
-    setShowCart(false)
-  }
-
-
-  console.log(selected);
   return (
-    <div id="change_location" className={componentClassName} {...rest}>
+    <div className={componentClassName} {...rest}>
       <div className="flex flex-1 md:flex-none items-center divide-x">
         <div className="relative sm:mr-3 flex-1 md:flex-none">
           <Listbox value={selected} onChange={handleOnChange}>
@@ -157,25 +153,11 @@ const Locator = (props) => {
       <div className="hidden sm:flex items-center">
         <div className="hidden lg:flex items-center mx-6">
           <img className="h-8 w-auto mr-4" src={morerewardsLogo} alt="" />
-          <a
-            className="text-xs underline"
-            href="https://www.morerewards.com/"
-            target="_blank"
-          >
+          <a className="text-xs underline" href="https://www.morerewards.com/" target="_blank">
             My Rewards
           </a>
         </div>
-        <div className="border-l border-yellow-200">
-          <button
-            className="bg-yellow-100 flex items-center h-16 px-6 text-lg font-bold"
-            onClick={handleCartClick}
-          >
-            <span className="mr-12">Total</span>
-            <span className="mr-3">$0</span>
-            <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
-            <Cart  open={showCart} onClose={onClose} />
-          </button>      
-        </div>
+        <Basket cartItems={cartItems}></Basket>
       </div>
     </div>
   );
