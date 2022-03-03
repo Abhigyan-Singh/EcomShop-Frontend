@@ -16,7 +16,7 @@ import moneyIcon from 'assets/icons/services-icon-money@2x.png';
 import postageIcon from 'assets/icons/services-icon-postage@2x.png';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
-
+import { grocery } from 'services/groceryTree';
 
 
 const HomeServices = (props) => {
@@ -29,6 +29,8 @@ const HomeServices = (props) => {
   const { facility } = cookies;
   const [selected, setSelected] = useState(facility);
   const [serv, setServ] = useState([])
+  const [data, setData] = useState();
+
 
 
   useEffect(() => {
@@ -38,11 +40,18 @@ const HomeServices = (props) => {
   const servicesList = () => {
     inStoreServices(selected.facilityId).then((res) => {
       setServ(res.data);
-
     });
-   
   };
 
+ useEffect(() => {
+    grocery(4433).then((res) => {
+      setData(res.data);
+      console.log('DATA', res.data);
+    });
+  }, [props]);
+
+
+  
   return (
     <div  className="bg-yellow-100 p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">
