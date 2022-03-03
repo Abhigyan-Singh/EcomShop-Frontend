@@ -371,9 +371,9 @@ const Header = (props) => {
                                             {subItem.name}
                                           </a>
                                         ) : (
-                                          <button onClick={refreshPage}>
+                                          <div  className= "flex-1" onClick={refreshPage}>
                                             {tree()}
-                                          </button>
+                                          </div>
                                         
                                         )
                                       )}
