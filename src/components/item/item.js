@@ -18,9 +18,8 @@ import {
 } from '@heroicons/react/solid';
 // import Button from 'components/button/button';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { saveListItem } from 'services/mylist';
-import { useCart } from "react-use-cart";
-
+import { addList, saveListItem } from 'services/mylist';
+import { useCart } from 'react-use-cart';
 
 const Item = (props) => {
   const {
@@ -46,7 +45,8 @@ const Item = (props) => {
   const [quantity, setQuantity] = useState(0);
   const [favourite, setFavourite] = useState(item.favorite);
   const { addItem } = useCart();
-
+  const [formOpen, setForm] = useState(false);
+  const [list, setList] = useState('');
 
   const handleAddClick = () => {
     if (typeof onAddClick === 'function') {
@@ -81,14 +81,18 @@ const Item = (props) => {
     }
   };
 
+  const createList = async (description) => {
+    const userListRes = await addList({ description });
+  };
+
   const saveListItemMethod = async (each) => {
     await saveListItem(item.productId, {
       listId: each.id,
       itemText: item.productName
-    })
-  }
+    });
+  };
 
-  const color = favourite  ? '#ea1b21' : null;
+  const color = favourite ? '#ea1b21' : null;
   let heartProps = {};
   if (color) {
     heartProps = { stroke: color, fill: color };
@@ -191,22 +195,24 @@ const Item = (props) => {
               <Menu.Items className="absolute list-position w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="px-1 py-1 ">
                   <ul className="list-none pl-3">
-                   { listItems.map(each => <li>
-                      <label class="bsw-checkbox">
-                        <input
-                          type="checkbox"
-                          id="dmListId48920"
-                          onClick={() => saveListItemMethod(each)}
-                        />
-                        <span className="bsw-checkbox-placeholder"></span>
-                        <span
-                          className="bsw-checkbox-label"
-                          name="customListName"
-                        >
-                         {each.description}
-                        </span>
-                      </label>
-                    </li>) }
+                    {listItems.map((each) => (
+                      <li>
+                        <label class="bsw-checkbox">
+                          <input
+                            type="checkbox"
+                            id="dmListId48920"
+                            onClick={() => saveListItemMethod(each)}
+                          />
+                          <span className="bsw-checkbox-placeholder"></span>
+                          <span
+                            className="bsw-checkbox-label"
+                            name="customListName"
+                          >
+                            {each.description}
+                          </span>
+                        </label>
+                      </li>
+                    ))}
                     <li>
                       <a
                         href="#"
@@ -222,38 +228,41 @@ const Item = (props) => {
                   </ul>
 
                   <ul className="list-none py-2 m-0 border-t border-gray-100">
-                    {true && (
+                    {!formOpen && (
                       <li>
-                        <a
-                          className="bsw-dropmenu-new-list-link"
-                          href="#"
-                        >
-                          <PlusIcon   
-                          className="h-5 w-5  transform"
-                          aria-hidden="true"/>
+                        <a className="bsw-dropmenu-new-list-link" href="#">
+                          <PlusIcon
+                            className="h-5 w-5  transform"
+                            aria-hidden="true"
+                            onClick={() => setForm(true)}
+                          />
                           <span className="ml-2">Create New List</span>
                         </a>
                       </li>
                     )}
-                    {false && (
+                    {formOpen && (
                       <li>
-                        <a
-                          href="#"
-                          className="flex items-center text-sm py-1 hover:underline"
-                        >
+                        <div className="flex items-center text-sm py-1 hover:underline">
                           <div>
                             <input
                               name="list-input"
                               id="list-input"
                               type="text"
+                              onChange={(event) => setList(event.target.value)}
                             />
                             <Button
                               style={{ marginTop: 5, marginLeft: 50 }}
                               className="cbn-item__view-button group-hover:visible group-focus-within:visible"
                               label="Create"
+                              onClick={async () => {
+                                if (list) {
+                                  await createList(list);
+                                  setForm(false);
+                                }
+                              }}
                             />
                           </div>
-                        </a>
+                        </div>
                       </li>
                     )}
                   </ul>
