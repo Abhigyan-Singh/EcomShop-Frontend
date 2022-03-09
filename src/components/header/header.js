@@ -22,16 +22,39 @@ import { grocery } from 'services/groceryTree';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import { useNavigate } from 'react-router-dom'    
-
+import { CartState } from 'context/context';
 
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
+  const {
+    className,
+    theme="coborns",
+    user,
+    onMobileButtonClick,
+    store,
+    stores,
+    ...rest
+  } = props;
+  const componentClassName = classNames('cbn-header', {}, className);
+  const [value, setValue] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);  
   const [searchList, setSearchList] = useState([]);
   const [data, setData] = useState();
   const [cookies, setCookie] = useCookies();
-  const { facility } = cookies;
+  const { state: {cart}, dispatch } = CartState()
   const navigate = useNavigate()
+  const { facility } = cookies;
+
+
+  useEffect(() => {
+    grocery(4433).then((res) => {
+      setData(res.data);
+      //console.log('DATA', res.data);
+    });
+  }, [props]);
+
+
   const fetch = async (itemName) => {
     if (itemName) {
       const sData = await search(itemName, 2037, 2);
@@ -50,27 +73,6 @@ const Header = (props) => {
       ).innerHTML;
     }
   };
-
-  useEffect(() => {
-
-    grocery(4433).then((res) => {
-      setData(res.data);
-      //console.log('DATA', res.data);
-    });
-  }, [props]);
-
-  const {
-    className,
-    theme="coborns",
-    user,
-    onMobileButtonClick,
-    store,
-    stores,
-    ...rest
-  } = props;
-  const componentClassName = classNames('cbn-header', {}, className);
-  const [value, setValue] = useState('');
-  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const debounce = (func, delay) => {
     let debounceTimer;
@@ -114,7 +116,6 @@ const Header = (props) => {
     // We need to integrate with solor here on scroll
   };
 
-
   const tree = () => {
     var lst = [];
     for (var i = 0; i < data.length; i++) {
@@ -127,11 +128,9 @@ const Header = (props) => {
     ));
   };
 
-    
   function refreshPage() {
     window.location.reload(false);
   }
-
 
   const handleCheckoutCart = () => {
     const urlObj = {
@@ -436,7 +435,7 @@ const Header = (props) => {
             onClick={handleCheckoutCart}
           >
             <img className="w-6 h-auto" src={cartIcon} alt="" />
-            <span className="text-base md:text-lg font-bold ml-3">0</span>
+            <span className="text-base md:text-lg font-bold ml-3">{cart.length}</span>
           </button>
         </div>
       </div>

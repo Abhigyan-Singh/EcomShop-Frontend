@@ -2,13 +2,11 @@ import { ChevronRightIcon } from '@heroicons/react/solid';
 import Item from 'components/item/item';
 import Tabs from 'components/tabs/tabs';
 import itemData from 'data/item.json';
-import { useCart } from "react-use-cart";
-import { useEffect } from 'react';
+
 
  export const mockData = [
   {
     section: 'Grocery',
-    id: 1,
     price: 5.99,
     productId: '95436',
     facilityId: 2037,
@@ -139,7 +137,6 @@ import { useEffect } from 'react';
   },
   {
     section: 'Grocery',
-    id: 2,
     price: 5.99,
     productId: '95435',
     facilityId: 2037,
@@ -264,7 +261,6 @@ import { useEffect } from 'react';
   },
   {
     section: 'Grocery',
-    id: 3,
     price: 16.99,
     productId: '898890',
     facilityId: 2037,
@@ -360,7 +356,6 @@ import { useEffect } from 'react';
   },
   {
     section: 'Grocery',
-    id: 4,
     price: 4.29,
     productId: '4458',
     facilityId: 2037,
@@ -484,7 +479,6 @@ import { useEffect } from 'react';
   },
   {
     section: 'Wine & Spirits',
-    id: 5,
     price: 5.99,
     productId: '68188',
     facilityId: 2037,
@@ -615,7 +609,6 @@ import { useEffect } from 'react';
   },
   {
     section: 'Wine & Spirits',
-    id: 6,
     price: 5.99,
     productId: '89112',
     facilityId: 2037,
@@ -733,12 +726,7 @@ import { useEffect } from 'react';
 
 
 
-const HomeGetStarted = (props) => {
-  const { addItem } = useCart()
-  //addItem(mockData);
-
-
-  
+const HomeGetStarted = (props) => {  
   return (
     <div className="p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">

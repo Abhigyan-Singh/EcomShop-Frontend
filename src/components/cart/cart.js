@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 // import classNames from 'classnames';
 import { Dialog, Transition } from '@headlessui/react';
@@ -6,50 +6,57 @@ import { XIcon } from '@heroicons/react/solid';
 import Button from 'components/button/button';
 import Counter from 'components/counter/counter';
 import productData from 'data/product.json';
-//import { useCart } from "react-use-cart";
 import './cart.css';
+import { useCart } from "react-use-cart";
+import EmptyCart from '../../assets/images/CART.png'
+import { CartState } from 'context/context';
+import { mockData } from 'composites/home-get-started.js'
+
 
 // COBORNS TODO: Replace this with actual data from data source
-const cartData = {
-  sections: [
-    { id: 'groceries', label: 'Groceries', products: [...Array(1)] },
-    { id: 'wine-spirits', label: 'Wine & Spirits', products: [...Array(0)] }
-  ],
-  total: '$23.65'
-};
 
-
-const CartItem = (props) => {
+const Cart = (props) => {
+  const { state: {cart}, dispatch } = CartState()
+  const { open, onClose } = props;
+  const [total, setTotal] = useState();
   
+  useEffect(() => {
+    setTotal(cart.reduce((acc, curr) => acc + Number(curr.price), 0))
+    console.log("cart", cart)
+   
+  }, [cart]);
+  
+  const handleCartClose = (event) => {
+    if (typeof onClose === 'function') {
+      onClose(false)
+    }
+  };
+
+  
+const CartItem = (item) => {
+  //const id = item.item.productId
   // COBORNS TODO: Pull data from props instead of imported JSON
   return (
-    <div className="cbn-cart__item group" {...props}>
+    //<li style={{height: 30, justifyContent:'center', marginTop: 15, marginBottom: 5, marginLeft: 10}}>{item.item.prodDepartment} ({cart.length})</li>
+    <div className="cbn-cart__item group" {...item}>
       <div className="flex items-start space-x-3">
-        <Counter disabled={productData.isOutOfStock} onChange={() => {}} />
+        <Counter disabled={item.item.isOutOfStock} onChange={() => {}}/>
         <div>
-          <div className="text-sm leading-tight mb-1">{productData.name}</div>
+          <div className="text-sm leading-tight mb-1">{item.item.productName}</div>
           <div className="text-xs text-gray-400 leading-none mb-3">
-            {productData.size}
+            {item.item.sizeString} $0.{item.item.sizeNumber} /{item.item.sizeUom}
           </div>
           <div className="flex justify-between">
-            <div className="text-xs leading-none">{productData.price}</div>
-            <button  className="invisible font-medium text-xs leading-none underline group-hover:visible">
-              Remove
-            </button>
+            <div className="text-xs leading-none" style={{fontWeight:'bold'}}>{item.item.price}</div>
+       
+            <button onClick={() => dispatch({type: "REMOVE_FROM_CART", payload: item.item})}  className="invisible font-medium text-xs leading-none underline group-hover:visible">Remove
+               </button>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-const Cart = (props) => {
-  const { open, onClose } = props;
-  const handleCartClose = (event) => {
-    if (typeof onClose === 'function') {
-      onClose(false)
-    }
-  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -79,7 +86,7 @@ const Cart = (props) => {
             <div className="relative max-w-sm w-full h-full bg-white shadow flex flex-col md:max-w-xs">
               <div className="border-b flex items-start justify-between p-4">
                 <Dialog.Title className="text-lg font-medium">
-                  Shopping Cart
+                  Shopping Cart ({cart.length})
                 </Dialog.Title>
                 <div className="ml-3 h-7 flex items-center">
                   <button
@@ -91,25 +98,25 @@ const Cart = (props) => {
                   </button>
                 </div>
               </div>
-              {cartData ?
-                <div className="relative flex-1 overflow-y-auto">
-                {cartData.sections.map((section) => (
-                  <div className="border-b" key={section.id}>
-                    <div className="p-3">
-                      {section.label} ({section.products.length})
-                    </div>
-                    {section.products.map((product, index) => (
-                      <CartItem key={index} />
-                    ))}
-                  </div>
-                ))}
+              <div className="relative flex-1 overflow-y-auto">
+                {cart.length == 0
+                ? <div>
+                    <img src={EmptyCart} style={{paddingLeft:25}} />
+                  </div> 
+                :
+                  <ul>
+                    {cart.map((item) => (
+                      <li key={item.productId}>
+                         <CartItem item={item} ></CartItem>
+                         
+                      </li>
+                    ))} 
+                  </ul>
+                }
               </div>
-               : <div>HELLO</div> }
-
-
               <div className="bg-yellow-100 p-3">
-                <div className="text-lg mb-2 text-right">
-                  Order Total: {cartData.total}
+                <div className="text-lg mb-2 text-center" >
+                  Order Total: ${Math.floor(total)}.00
                 </div>
                 <Button className="block w-full" label="Checkout" />
               </div>

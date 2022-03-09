@@ -49,6 +49,8 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
       .catch((err) => {
         console.log(err);
       });
+
+    
   }, []);
 
   return (

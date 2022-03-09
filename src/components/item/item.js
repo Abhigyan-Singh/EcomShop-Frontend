@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ClipboardListIcon, HeartIcon } from '@heroicons/react/outline';
@@ -20,7 +20,9 @@ import {
 import { useNavigate, useLocation } from 'react-router-dom';
 import { saveListItem } from 'services/mylist';
 import { useCart } from "react-use-cart";
-
+import addtocart from 'services/addtocart.js';
+import Quickview from '../quickview/quickview';
+import { CartState } from '../../context/context';
 
 const Item = (props) => {
   const {
@@ -45,9 +47,9 @@ const Item = (props) => {
   );
   const [quantity, setQuantity] = useState(0);
   const [favourite, setFavourite] = useState(item.favorite);
-  const { addItem } = useCart();
-
-
+  const [showCart,setShowCart] = useState(false);
+  const { state: {cart}, dispatch } = CartState()
+  
   const handleAddClick = () => {
     if (typeof onAddClick === 'function') {
       onAddClick({ item: item.productId, quantity, sizeOption });
@@ -74,10 +76,15 @@ const Item = (props) => {
     }
   };
 
+
+  const onClose=(event)=>{
+    setShowCart(false)
+  }
+
   const handleViewClick = () => {
-    alert('hello');
     if (typeof onViewClick === 'function') {
-      onViewClick({ item: item.productId });
+      onViewClick({ item: item.productId }); 
+      setShowCart(true)
     }
   };
 
@@ -112,6 +119,7 @@ const Item = (props) => {
           label="Quick View"
           onClick={handleViewClick}
         />
+        <Quickview isOpen={showCart} data={item} onClose={onClose}/>
       </div>
       <div className="cbn-item__information">
         <div>
@@ -153,13 +161,13 @@ const Item = (props) => {
             </Select>
           </div>
         )}
-        <div key={item.id} className="flex items-center space-x-2">
-          <Counter disabled={item.isOutOfStock} onChange={setQuantity} />
-          <Button
-            disabled={item.isOutOfStock}
-            label="Add"
-            //onClick={""}//() => addItem(item)}
-          />
+        <div key={item.productId} className="flex items-center space-x-2">
+          <Counter disabled={item.isOutOfStock} onChange={setQuantity}/>
+            <Button
+              disabled={item.isOutOfStock}
+              label="Add"
+              onClick={() => dispatch({type: "ADD_TO_CART", payload: item})}
+            />
         </div>
       </div>
       <div className="cbn-item__actions invisible group-hover:visible group-focus-within:visible">
