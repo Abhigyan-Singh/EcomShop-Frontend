@@ -47,6 +47,7 @@ const Item = (props) => {
   const { addItem } = useCart();
   const [formOpen, setForm] = useState(false);
   const [list, setList] = useState('');
+  const navigate = useNavigate();
 
   const handleAddClick = () => {
     if (typeof onAddClick === 'function') {
@@ -98,7 +99,11 @@ const Item = (props) => {
     heartProps = { stroke: color, fill: color };
   }
   return (
-    <div className={componentClassName} {...rest}>
+    <div
+      onClick={() => navigate(`/item/${item.productId}`, { state: item })}
+      className={componentClassName}
+      {...rest}
+    >
       {item.onSale && (
         <img className="cbn-item__ribbon" src={saleRibbon} alt="Sale" />
       )}
@@ -197,7 +202,7 @@ const Item = (props) => {
                   <ul className="list-none pl-3">
                     {listItems.map((each) => (
                       <li>
-                        <label class="bsw-checkbox">
+                        <label className="bsw-checkbox">
                           <input
                             type="checkbox"
                             id="dmListId48920"

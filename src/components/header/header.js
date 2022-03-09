@@ -21,8 +21,7 @@ import { search } from 'services/search';
 import { grocery } from 'services/groceryTree';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
-import { useNavigate } from 'react-router-dom'    
-
+import { useNavigate } from 'react-router-dom';
 
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
@@ -31,7 +30,7 @@ const Header = (props) => {
   const [data, setData] = useState();
   const [cookies, setCookie] = useCookies();
   const { facility } = cookies;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const fetch = async (itemName) => {
     if (itemName) {
       const sData = await search(itemName, 2037, 2);
@@ -43,16 +42,12 @@ const Header = (props) => {
       document.getElementById('yext-facility-hours-getter') &&
       document.getElementById('yext-facility-hours-setter')
     ) {
-      document.getElementById(
-        'yext-facility-hours-getter'
-      ).innerHTML = document.getElementById(
-        'yext-facility-hours-setter'
-      ).innerHTML;
+      document.getElementById('yext-facility-hours-getter').innerHTML =
+        document.getElementById('yext-facility-hours-setter').innerHTML;
     }
   };
 
   useEffect(() => {
-
     grocery(4433).then((res) => {
       setData(res.data);
       //console.log('DATA', res.data);
@@ -61,7 +56,7 @@ const Header = (props) => {
 
   const {
     className,
-    theme="coborns",
+    theme = 'coborns',
     user,
     onMobileButtonClick,
     store,
@@ -114,47 +109,25 @@ const Header = (props) => {
     // We need to integrate with solor here on scroll
   };
 
-
   const tree = () => {
     var lst = [];
     for (var i = 0; i < data.length; i++) {
       lst.push(data[i].description);
     }
     return lst.map((dept) => (
-      <button onClick={() => navigate("/search?text=" + dept)}  className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+      <button
+        onClick={() => navigate('/search?text=' + dept)}
+        className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+      >
         {dept}
       </button>
     ));
   };
 
-    
   function refreshPage() {
     window.location.reload(false);
   }
 
-
-  const handleCheckoutCart = () => {
-    const urlObj = {
-      localhost: 'https://devweb.shop.coborns.com',
-      dev: 'https://devweb.shop.coborns.com',
-      prod: 'https://shop.coborns.com'
-    };
-    const path = '/checkautomaticpromotions';
-    const host = window.location.host;
-    let url = '';
-    if (host.includes('localhost')) {
-      url = urlObj['localhost'];
-    } else if (host.includes('devweb.shop.coborns.com')) {
-      url = urlObj['dev'];
-    } else if (host.includes('shop.coborns.com')) {
-      url = urlObj['prod'];
-    } else {
-      url = urlObj['localhost'];
-    }
-    // window.location.replace(url + path)
-    window.location.href = url + path;
-  };
- 
   return (
     <header className={componentClassName} {...rest}>
       <div className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
@@ -186,12 +159,12 @@ const Header = (props) => {
             </a>
           </div>
         )}
-        <div className="flex items-center justify-between text-right float right" > 
+        <div className="flex items-center justify-between text-right float right">
           <div className="hidden md:block">
-            <div className="text-lg font-medium" >
+            <div className="text-lg font-medium">
               {user && `Welcome Back, ${user.firstName}`}
               {!user && 'Grocery Shopping Made Easy'}
-            </div> 
+            </div>
             <div className="text-xs font-medium space-x-2">
               <a className="underline" href='"/store-locator"'>
                 Store Locator
@@ -371,10 +344,12 @@ const Header = (props) => {
                                             {subItem.name}
                                           </a>
                                         ) : (
-                                          <div  className= "flex-1" onClick={refreshPage}>
+                                          <div
+                                            className="flex-1"
+                                            onClick={refreshPage}
+                                          >
                                             {tree()}
                                           </div>
-                                        
                                         )
                                       )}
                                     </Disclosure.Panel>
@@ -431,10 +406,7 @@ const Header = (props) => {
               />
             </a>
           </div>
-          <button
-            className="cbn-header__cart-button"
-            onClick={handleCheckoutCart}
-          >
+          <button className="cbn-header__cart-button">
             <img className="w-6 h-auto" src={cartIcon} alt="" />
             <span className="text-base md:text-lg font-bold ml-3">0</span>
           </button>

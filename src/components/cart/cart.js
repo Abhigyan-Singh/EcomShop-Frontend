@@ -18,9 +18,7 @@ const cartData = {
   total: '$23.65'
 };
 
-
 const CartItem = (props) => {
-  
   // COBORNS TODO: Pull data from props instead of imported JSON
   return (
     <div className="cbn-cart__item group" {...props}>
@@ -33,7 +31,7 @@ const CartItem = (props) => {
           </div>
           <div className="flex justify-between">
             <div className="text-xs leading-none">{productData.price}</div>
-            <button  className="invisible font-medium text-xs leading-none underline group-hover:visible">
+            <button className="invisible font-medium text-xs leading-none underline group-hover:visible">
               Remove
             </button>
           </div>
@@ -47,8 +45,31 @@ const Cart = (props) => {
   const { open, onClose } = props;
   const handleCartClose = (event) => {
     if (typeof onClose === 'function') {
-      onClose(false)
+      onClose(false);
     }
+  };
+
+  const handleCheckoutCart = () => {
+    console.log('clicked...');
+    const urlObj = {
+      localhost: 'https://devweb.shop.coborns.com',
+      dev: 'https://devweb.shop.coborns.com',
+      prod: 'https://shop.coborns.com'
+    };
+    const path = '/checkautomaticpromotions';
+    const host = window.location.host;
+    let url = '';
+    if (host.includes('localhost')) {
+      url = urlObj['localhost'];
+    } else if (host.includes('devweb.shop.coborns.com')) {
+      url = urlObj['dev'];
+    } else if (host.includes('shop.coborns.com')) {
+      url = urlObj['prod'];
+    } else {
+      url = urlObj['localhost'];
+    }
+    // window.location.replace(url + path)
+    window.location.href = url + path;
   };
 
   return (
@@ -91,27 +112,32 @@ const Cart = (props) => {
                   </button>
                 </div>
               </div>
-              {cartData ?
+              {cartData ? (
                 <div className="relative flex-1 overflow-y-auto">
-                {cartData.sections.map((section) => (
-                  <div className="border-b" key={section.id}>
-                    <div className="p-3">
-                      {section.label} ({section.products.length})
+                  {cartData.sections.map((section) => (
+                    <div className="border-b" key={section.id}>
+                      <div className="p-3">
+                        {section.label} ({section.products.length})
+                      </div>
+                      {section.products.map((product, index) => (
+                        <CartItem key={index} />
+                      ))}
                     </div>
-                    {section.products.map((product, index) => (
-                      <CartItem key={index} />
-                    ))}
-                  </div>
-                ))}
-              </div>
-               : <div>HELLO</div> }
-
+                  ))}
+                </div>
+              ) : (
+                <div>HELLO</div>
+              )}
 
               <div className="bg-yellow-100 p-3">
                 <div className="text-lg mb-2 text-right">
                   Order Total: {cartData.total}
                 </div>
-                <Button className="block w-full" label="Checkout" />
+                <Button
+                  onClick={handleCheckoutCart}
+                  className="block w-full"
+                  label="Checkout"
+                />
               </div>
             </div>
           </Transition.Child>
@@ -119,7 +145,7 @@ const Cart = (props) => {
       </Dialog>
     </Transition.Root>
   );
-}
+};
 
 Cart.propTypes = {
   open: PropTypes.bool,

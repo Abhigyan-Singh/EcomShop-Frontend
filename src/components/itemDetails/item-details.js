@@ -7,16 +7,17 @@ import {
   MinusIcon
 } from '@heroicons/react/outline';
 import { useParams, useLocation } from 'react-router-dom';
+import { addFavorite, deleteFavorite } from 'services/favorites';
 // import { productDetails } from '../../services/search';
 const ItemDetails = () => {
   const { id } = useParams();
   const location = useLocation();
   const [itemDetailsData, setItemDetailsData] = useState(location.state);
-  console.log( "ITEM", itemDetailsData);
+  console.log('ITEM', itemDetailsData);
   // const [isLoading, setLoading] = useState(false);
   // const [error, setError] = useState(false);
   const [tab, setTab] = useState('pd');
-
+  const [favourite, setFavourite] = useState(itemDetailsData.favorite);
   // const sendQuery = useCallback(async () => {
   //   try {
   //     await setLoading(true);
@@ -48,6 +49,22 @@ const ItemDetails = () => {
   //     </div>
   //   );
   // }
+
+  const handleFavoriteClick = async () => {
+    if (!favourite) {
+      await addFavorite({ productId: itemDetailsData.productId });
+      setFavourite(true);
+    } else {
+      await deleteFavorite(itemDetailsData.productId);
+      setFavourite(false);
+    }
+  };
+
+  const color = favourite ? '#ea1b21' : null;
+  let heartProps = {};
+  if (color) {
+    heartProps = { stroke: color, fill: color };
+  }
 
   return (
     <>
@@ -114,7 +131,11 @@ const ItemDetails = () => {
               </div>
               <div className="flex space-x-4">
                 <button className="relative rounded-sm inline-flex items-center font-medium text-sm text-left">
-                  <HeartIcon className="h-6 w-6 font-medium" />
+                  <HeartIcon
+                    onClick={handleFavoriteClick}
+                    className="h-6 w-6 font-medium"
+                    {...heartProps}
+                  />
                   <span className="ml-2">Favorite</span>
                 </button>
                 <button className="relative rounded-sm inline-flex items-center font-medium text-sm text-left">
