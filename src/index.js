@@ -4,14 +4,15 @@ import './index.css';
 import App from './app/app';
 import { CookiesProvider } from 'react-cookie';
 import { CartProvider} from 'react-use-cart'
+import { Context } from 'context/context.js'
 
 ReactDOM.render(
   <React.StrictMode>
-    <CartProvider>
-      <CookiesProvider>
-        <App />
-      </CookiesProvider>
-    </CartProvider>
+    <CookiesProvider>
+      <Context>
+        <App/>
+      </Context>
+    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

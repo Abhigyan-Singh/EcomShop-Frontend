@@ -15,6 +15,10 @@ import { allStores } from 'services/facilities';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import Cart from '../../components/cart/cart.js';
+import { CartState } from '../../context/context';
+
+
+
 const LocationOption = ({ option }) => (
   <Listbox.Option
     key={option.facilityName}
@@ -48,6 +52,14 @@ const Locator = (props) => {
   const { facility, user } = cookies;
   const [hasLoaded, setHasLoaded] = useState(false);
   const [showCart, setShowCart] = useState(false);
+  const [total, setTotal] = useState();
+  const { state: {cart}, dispatch } = CartState()
+
+  useEffect(() => {
+    setTotal(cart.reduce((acc, curr) => acc + Number(curr.price), 0))
+  }, [cart]);
+
+
   useEffect(() => {
     !hasLoaded &&
       user &&
@@ -170,10 +182,10 @@ const Locator = (props) => {
             className="bg-yellow-100 flex items-center h-16 px-6 text-lg font-bold"
             onClick={handleCartClick}
           >
-            <span className="mr-12">Total</span>
-            <span className="mr-3">$0</span>
+            <span className="mr-12">Total:</span>
+            <span className="mr-3">${Math.floor(total)}.00</span>
             <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
-            <Cart  open={showCart} onClose={onClose} />
+            <Cart open={showCart} onClose={onClose} />
           </button>      
         </div>
       </div>

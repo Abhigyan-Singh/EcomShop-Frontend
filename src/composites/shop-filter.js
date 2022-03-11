@@ -6,45 +6,35 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
 import filter from 'services/dropdownfilter';
 import { search } from 'services/search';
+import { CartState } from 'context/context';
 
 
 
-const ShopFilter = (props, args, value) => {
+const ShopFilter = (props, args, value, item) => {
   const [Checked, setChecked] = useState([])
   const [searchList, setSearchList] = useState([]);
   const [handleCheck, setHandleCheck] = useState() 
+
+
+  const { itemState: {      
+    sort,
+    byAmys,
+    byBanquet,
+    byBrand,
+    byAll,
+    byLocal,
+    byOrganic,
+    byGlutenFree,
+    byNew,
+    bySale,
+    byName,
+    byPrice,
+    bySize
+  }, 
+    itemDispatch } = CartState()
   
-  // const filters = {brand: ""}
-  // const filterdItems = []
-
-
-  // const productSearch = () => {
-  //   fetch = async (itemName) => {
-  //     if (itemName) {
-  //       const sData = await search(itemName, 2037, 2);
-  //       setSearchList(sData?.data?.suggestionList);
-  //     }
-  //     return searchList;
-  //   };
-  // }
-
-  // const handleChange =  (e) => {
-  //   setHandleCheck({...handleCheck, [e.target.name]: e.target.checked})
-  // }
-
-
-  // useEffect(() => {
-  //   function filterItems () {
-  //     // convenience function for extracting the name from an object
-  //     const getName = ({name}) => name;
-      
-  //     // get the list of checked boxes and extract their names
-  //     const checked = [...inputsList.querySelectorAll(':checked')].map(getName);
-      
-  //     // return the hotels that include every checked amenity
-  //     return hotels.filter(h => checked.every(amenity => h[amenity])).map(getName);
-  //   }
-  // }, [])
+  
+  
   
   return (
     <div className="hidden lg:block">
@@ -91,17 +81,19 @@ const ShopFilter = (props, args, value) => {
                         height: 124
                       }}
                     >
-          
                     <Checkbox
                         {...args}
                         className="mb-4"
                         id="checkbox-1"
                         value="1"
                         label="All/Other"
-                        
+                        onClick={() => itemDispatch({
+                          type:"SORT_BY_BRAND"
+                        })}
+                        checked={byBrand}
                       />
-                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2" label="Amy's" />
-                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3" label="Banquet" />        
+                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2" label="Amy's" onClick={() => itemDispatch({type:"SORT_BY_AMYS"})} checked={byAmys}/>
+                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3" label="Banquet" onClick={() => itemDispatch({type:"SORT_BY_BANQUET"})}checked={byBanquet}/>        
                     </div>       
                     </Popover.Panel>
                   </Transition>
@@ -155,9 +147,26 @@ const ShopFilter = (props, args, value) => {
                         id="checkbox-1"
                         value="1"
                         label="Local"
+                        onClick={() => itemDispatch({
+                          type:"SORT_BY_LOCAL"
+                        })}
+                        checked={byLocal}
                       />
-                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2"  label="Organic &amp; Natural" />
-                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3"  label="Gluten Free"/>        
+
+                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2"  label="Organic &amp; Natural"   
+                        onClick={() => itemDispatch({
+                          type:"SORT_BY_ORGANIC"
+                        })}
+                        checked={byOrganic}
+                      />
+
+                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3"  label="Gluten Free"
+                        onClick={() => itemDispatch({
+                          type:"SORT_BY_GLUTENFREE"
+                        })}
+                        checked={byGlutenFree}
+                      
+                      />        
                     </div>       
                     </Popover.Panel>
                   </Transition>
@@ -210,8 +219,17 @@ const ShopFilter = (props, args, value) => {
                         id="checkbox-1"
                         value="1"
                         label="New Arrivals"
+                        onClick={() => itemDispatch({
+                          type:"SORT_BY_NEW"
+                        })}
+                        checked={byNew}
                       />
-                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2"  label="Sale Items" />
+                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2"  label="Sale Items"
+                        onClick={() => itemDispatch({
+                          type:"SORT_BY_SALE"
+                        })}
+                        checked={bySale}
+                      />
                     </div>       
                     </Popover.Panel>
                   </Transition>

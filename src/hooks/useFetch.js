@@ -5,14 +5,6 @@ import { useCart } from "react-use-cart";
 const facilityId = 2037;
 
 function useFetch(query, page) {
-  const {
-    items,
-    isEmpty,
-    totalUniqueItems,
-    updateItemQuantity,
-    removeItem,
-
-  } = useCart();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [list, setList] = useState([]);

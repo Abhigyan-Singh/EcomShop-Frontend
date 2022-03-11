@@ -21,16 +21,36 @@ import { search } from 'services/search';
 import { grocery } from 'services/groceryTree';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'    
+import { CartState } from 'context/context';
+import { map } from 'lodash';
 
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
+  const {
+    className,
+    theme="coborns",
+    user,
+    onMobileButtonClick,
+    store,
+    stores,
+    onDeptChange,
+    ...rest
+  } = props;
+  const componentClassName = classNames('cbn-header', {}, className);
+  const [value, setValue] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);  
   const [searchList, setSearchList] = useState([]);
   const [data, setData] = useState();
   const [cookies, setCookie] = useCookies();
-  const { facility } = cookies;
-  const navigate = useNavigate();
+  const { facility, dept } = cookies;
+  const { state: {cart}, dispatch } = CartState()
+  const [selected, setSelected] = useState(dept);
+  const navigate = useNavigate()
+
+
+
   const fetch = async (itemName) => {
     if (itemName) {
       const sData = await search(itemName, 2037, 2);
@@ -46,26 +66,6 @@ const Header = (props) => {
         document.getElementById('yext-facility-hours-setter').innerHTML;
     }
   };
-
-  useEffect(() => {
-    grocery(4433).then((res) => {
-      setData(res.data);
-      //console.log('DATA', res.data);
-    });
-  }, [props]);
-
-  const {
-    className,
-    theme = 'coborns',
-    user,
-    onMobileButtonClick,
-    store,
-    stores,
-    ...rest
-  } = props;
-  const componentClassName = classNames('cbn-header', {}, className);
-  const [value, setValue] = useState('');
-  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const debounce = (func, delay) => {
     let debounceTimer;
@@ -106,28 +106,57 @@ const Header = (props) => {
   const [searchArray, setSearchArray] = useState(searchList);
 
   const onScroll = () => {
+    navigate("/search?text=")
     // We need to integrate with solor here on scroll
   };
 
-  const tree = () => {
-    var lst = [];
-    for (var i = 0; i < data.length; i++) {
-      lst.push(data[i].description);
+
+  useEffect(() => {
+    grocery(4433).then((res) => {
+      setData(res.data);
+      console.log('HEADER DEPARTMENT STORAGE', dept)
+    });
+  }, []);
+
+
+  const handleDeptChange = (option) => {
+    setSelected(option);
+    setCookie('dept', option, {
+      path: '/',
+      maxAge: CookiesAge
+    });
+  
+    if (typeof onDeptChange === 'function') {
+      onDeptChange(option);
     }
-    return lst.map((dept) => (
-      <button
-        onClick={() => navigate('/search?text=' + dept)}
-        className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
-      >
-        {dept}
-      </button>
-    ));
   };
 
   function refreshPage() {
     window.location.reload(false);
   }
 
+  const handleCheckoutCart = () => {
+    const urlObj = {
+      localhost: 'https://devweb.shop.coborns.com',
+      dev: 'https://devweb.shop.coborns.com',
+      prod: 'https://shop.coborns.com'
+    };
+    const path = '/checkautomaticpromotions';
+    const host = window.location.host;
+    let url = '';
+    if (host.includes('localhost')) {
+      url = urlObj['localhost'];
+    } else if (host.includes('devweb.shop.coborns.com')) {
+      url = urlObj['dev'];
+    } else if (host.includes('shop.coborns.com')) {
+      url = urlObj['prod'];
+    } else {
+      url = urlObj['localhost'];
+    }
+    // window.location.replace(url + path)
+    window.location.href = url + path;
+  };
+ 
   return (
     <header className={componentClassName} {...rest}>
       <div className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
@@ -344,18 +373,21 @@ const Header = (props) => {
                                             {subItem.name}
                                           </a>
                                         ) : (
-                                          <div
-                                            className="flex-1"
-                                            onClick={refreshPage}
-                                          >
-                                            {tree()}
-                                          </div>
+                                          <div className= "flex-1" onClick={refreshPage}> 
+                                            {map(data, (option)=> ( 
+                                              <div onClick={() => navigate("/search?text=" + option.description)} >
+                                                <button key={option.id.area} option={option.description} onClick={() => handleDeptChange(option.description)}  className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+                                                  {option.description}
+                                                </button>
+                                              </div>                        
+                                            ))}                                         
+                                          </div>                                        
                                         )
                                       )}
                                     </Disclosure.Panel>
                                   </>
                                 )}
-                              </Disclosure>
+                              </Disclosure>       
                             )
                           )}
                         </div>
@@ -408,7 +440,7 @@ const Header = (props) => {
           </div>
           <button className="cbn-header__cart-button">
             <img className="w-6 h-auto" src={cartIcon} alt="" />
-            <span className="text-base md:text-lg font-bold ml-3">0</span>
+            <span className="text-base md:text-lg font-bold ml-3">{cart.length}</span>
           </button>
         </div>
       </div>
@@ -417,14 +449,21 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
+  onDeptChange: PropTypes.func,
   theme: PropTypes.string,
   // BSWING: refactor user object as needed.
   user: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     firstName: PropTypes.string,
     lastName: PropTypes.string,
-    email: PropTypes.string
+    email: PropTypes.string,
   })
 };
+
+
+Header.defaultProps = {
+  onDeptChange: () => {}
+};
+
 
 export default Header;

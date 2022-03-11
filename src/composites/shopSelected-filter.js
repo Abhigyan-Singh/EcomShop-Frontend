@@ -14,6 +14,7 @@ const ShopSelectedFilter = (props) => {
             <span className="inline-flex rounded-full border border-gray-200 items-center m-1 py-1.5 pl-3 pr-2 text-xs bg-white">
               <span>Banquet</span>
               <button
+                onClick={""}
                 type="button"
                 className="flex-shrink-0 ml-1 h-4 w-4 p-1 rounded-full inline-flex text-gray-400 hover:bg-gray-200 hover:text-gray-500"
               >
