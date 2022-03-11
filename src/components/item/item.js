@@ -53,6 +53,7 @@ const Item = (props) => {
   const [list, setList] = useState('');
   const navigate = useNavigate();
   const [showCart,setShowCart] = useState(false);
+  const { state: {cart}, dispatch } = CartState()
 
 
   const handleAddClick = () => {
@@ -163,7 +164,7 @@ const Item = (props) => {
           <Button
             disabled={item.isOutOfStock}
             label="Add"
-            //onClick={""}//() => addItem(item)}
+            onClick={() => dispatch({type: "ADD_TO_CART", payload: item})}
           />
         </div>
       </div>
