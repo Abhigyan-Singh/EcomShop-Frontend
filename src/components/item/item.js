@@ -20,6 +20,8 @@ import {
 import { useNavigate, useLocation } from 'react-router-dom';
 import { addList, saveListItem } from 'services/mylist';
 import { useCart } from 'react-use-cart';
+import Favorite from 'components/favorite/favorite';
+import Wishlist from 'components/wishllist/wishlist';
 
 const Item = (props) => {
   const {
@@ -55,20 +57,6 @@ const Item = (props) => {
     }
   };
 
-  const handleFavoriteClick = async () => {
-    if (typeof onFavoriteClick === 'function') {
-      if (!favourite) {
-        await addFavorite({ productId: item.productId });
-        setFavourite(true);
-        onFavoriteClick({ item: item.productId });
-      } else {
-        await deleteFavorite(item.productId);
-        setFavourite(false);
-        onFavoriteClick({ item: item.productId });
-      }
-    }
-  };
-
   const handleListClick = () => {
     if (typeof onListClick === 'function') {
       onListClick({ item: item.productId });
@@ -99,15 +87,16 @@ const Item = (props) => {
     heartProps = { stroke: color, fill: color };
   }
   return (
-    <div
-      onClick={() => navigate(`/item/${item.productId}`, { state: item })}
-      className={componentClassName}
-      {...rest}
-    >
+    <div className={componentClassName} {...rest}>
       {item.onSale && (
         <img className="cbn-item__ribbon" src={saleRibbon} alt="Sale" />
       )}
-      <div className="cbn-item__media">
+      <div
+        onClick={() =>
+          navigate(`/item/${item.productId}`, { state: { item, listItems } })
+        }
+        className="cbn-item__media"
+      >
         <a className="cbn-item__image-link" href="#link">
           <img
             className="cbn-item__image"
@@ -172,110 +161,12 @@ const Item = (props) => {
         </div>
       </div>
       <div className="cbn-item__actions invisible group-hover:visible group-focus-within:visible">
-        <button
-          style={{ marginLeft: 15 }}
-          className="block mb-2 ml-15"
-          onClick={handleFavoriteClick}
-        >
-          <HeartIcon className="h-6 w-6 text-gray-400" {...heartProps} />
-        </button>
-        <button className="block" onClick={handleListClick}>
-          <Menu
-            as="div"
-            className="relative inline-block text-left"
-            // style={{ zIndex: 99 }}
-          >
-            <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium  rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-              <ClipboardListIcon className="h-6 w-6 text-gray-400" />
-            </Menu.Button>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
-            >
-              <Menu.Items className="absolute list-position w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="px-1 py-1 ">
-                  <ul className="list-none pl-3">
-                    {listItems.map((each) => (
-                      <li>
-                        <label className="bsw-checkbox">
-                          <input
-                            type="checkbox"
-                            id="dmListId48920"
-                            onClick={() => saveListItemMethod(each)}
-                          />
-                          <span className="bsw-checkbox-placeholder"></span>
-                          <span
-                            className="bsw-checkbox-label"
-                            name="customListName"
-                          >
-                            {each.description}
-                          </span>
-                        </label>
-                      </li>
-                    ))}
-                    <li>
-                      <a
-                        href="#"
-                        className="flex items-center text-sm py-1 hover:underline"
-                      >
-                        <HeartIcon
-                          className="h-5 w-5 text-gray-300 transform"
-                          aria-hidden="true"
-                        />
-                        <span className="block flex-1 pl-1">Favorites</span>
-                      </a>
-                    </li>
-                  </ul>
-
-                  <ul className="list-none py-2 m-0 border-t border-gray-100">
-                    {!formOpen && (
-                      <li>
-                        <a className="bsw-dropmenu-new-list-link" href="#">
-                          <PlusIcon
-                            className="h-5 w-5  transform"
-                            aria-hidden="true"
-                            onClick={() => setForm(true)}
-                          />
-                          <span className="ml-2">Create New List</span>
-                        </a>
-                      </li>
-                    )}
-                    {formOpen && (
-                      <li>
-                        <div className="flex items-center text-sm py-1 hover:underline">
-                          <div>
-                            <input
-                              name="list-input"
-                              id="list-input"
-                              type="text"
-                              onChange={(event) => setList(event.target.value)}
-                            />
-                            <Button
-                              style={{ marginTop: 5, marginLeft: 50 }}
-                              className="cbn-item__view-button group-hover:visible group-focus-within:visible"
-                              label="Create"
-                              onClick={async () => {
-                                if (list) {
-                                  await createList(list);
-                                  setForm(false);
-                                }
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </li>
-                    )}
-                  </ul>
-                </div>
-              </Menu.Items>
-            </Transition>
-          </Menu>
-        </button>
+        <Favorite
+          isCard={true}
+          favorite={item.isFavorite}
+          productId={item.productId}
+        />
+        <Wishlist item={item} listItems={listItems} />
       </div>
     </div>
   );
