@@ -14,6 +14,11 @@ export default {
       control: 'boolean',
       defaultValue: true
     },
+    onDeptChange: {
+      table: {
+        disable: true
+      }
+    },
     theme: {
       table: {
         disable: true
@@ -28,7 +33,7 @@ export default {
 };
 
 export const HeaderStory = (
-  { isAuthenticated, ...rest },
+  { isAuthenticated, onDeptChange, ...rest },
   { globals: { theme } }
 ) => <Header {...rest} theme={theme} user={isAuthenticated ? user : null} />;
 

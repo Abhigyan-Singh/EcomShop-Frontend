@@ -12,6 +12,7 @@ function ShopGetPage() {
   const { loading, error, list } = useFetch(query, page);
   const [listItems, setListItems] = useState([]);
   const loader = useRef(null);
+ 
 
   const getListItems = async () => {
     const res = await getAllList();
@@ -24,6 +25,7 @@ function ShopGetPage() {
   useEffect(() => {
     handleChange();
     getListItems();
+    console.log("list", listItems)
   }, []);
 
   const handleObserver = useCallback((entries) => {

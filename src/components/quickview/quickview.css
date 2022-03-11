@@ -1,0 +1,64 @@
+.cbn-quickview {
+    @apply fixed;
+    @apply inset-0;
+    @apply overflow-y-auto;
+    @apply z-10;
+  }
+  
+  .cbn-quickview__ribbon {
+    @apply hidden;
+    @apply absolute;
+    @apply top-4;
+    @apply -left-1;
+    @apply h-10;
+    @apply w-auto;
+    @apply z-10;
+    @apply md:block;
+  }
+  
+  .cbn-quickview__image {
+    @apply object-center;
+    @apply object-cover;
+  }
+  
+  .cbn-quickview .cbn-quickview__name {
+    @apply font-bold;
+    @apply text-2xl;
+    @apply leading-tight;
+    @apply mb-2;
+    @apply sm:pr-12;
+  }
+  
+  .cbn-quickview .cbn-quickview__price {
+    @apply font-bold;
+    @apply text-lg;
+    @apply leading-none;
+  }
+  
+  .cbn-quickview.cbn-quickview--sale .cbn-quickview__price {
+    @apply text-red;
+  }
+  
+  .cbn-quickview .cbn-quickview__savings {
+    @apply text-red;
+    @apply text-sm;
+    @apply font-medium;
+    @apply leading-none;
+  }
+  
+  .cbn-quickview .cbn-quickview__sold-out {
+    @apply text-sm;
+    @apply font-medium;
+    @apply leading-none;
+  }
+  
+  .cbn-quickview__action-button {
+    @apply relative;
+    @apply rounded-sm;
+    @apply inline-flex;
+    @apply items-center;
+    @apply font-medium;
+    @apply text-sm;
+    @apply text-left;
+  }
+  

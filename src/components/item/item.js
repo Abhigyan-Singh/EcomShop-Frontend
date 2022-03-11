@@ -22,6 +22,8 @@ import { addList, saveListItem } from 'services/mylist';
 import { useCart } from 'react-use-cart';
 import Favorite from 'components/favorite/favorite';
 import Wishlist from 'components/wishllist/wishlist';
+import Quickview from '../quickview/quickview';
+import { CartState } from '../../context/context';
 
 const Item = (props) => {
   const {
@@ -50,6 +52,8 @@ const Item = (props) => {
   const [formOpen, setForm] = useState(false);
   const [list, setList] = useState('');
   const navigate = useNavigate();
+  const [showCart,setShowCart] = useState(false);
+
 
   const handleAddClick = () => {
     if (typeof onAddClick === 'function') {
@@ -64,11 +68,12 @@ const Item = (props) => {
   };
 
   const handleViewClick = () => {
-    alert('hello');
     if (typeof onViewClick === 'function') {
-      onViewClick({ item: item.productId });
+      onViewClick({ item: item.productId }); 
+      setShowCart(true)
     }
   };
+
 
   const createList = async (description) => {
     const userListRes = await addList({ description });
@@ -81,6 +86,12 @@ const Item = (props) => {
     });
   };
 
+  const onClose=(event)=>{
+    setShowCart(false)
+  }
+
+
+
   const color = favourite ? '#ea1b21' : null;
   let heartProps = {};
   if (color) {
@@ -91,12 +102,7 @@ const Item = (props) => {
       {item.onSale && (
         <img className="cbn-item__ribbon" src={saleRibbon} alt="Sale" />
       )}
-      <div
-        onClick={() =>
-          navigate(`/item/${item.productId}`, { state: { item, listItems } })
-        }
-        className="cbn-item__media"
-      >
+      <div className="cbn-item__media">
         <a className="cbn-item__image-link" href="#link">
           <img
             className="cbn-item__image"
@@ -110,6 +116,7 @@ const Item = (props) => {
           label="Quick View"
           onClick={handleViewClick}
         />
+        <Quickview isOpen={showCart} data={item} onClose={onClose}/>
       </div>
       <div className="cbn-item__information">
         <div>

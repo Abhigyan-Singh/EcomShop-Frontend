@@ -28,14 +28,20 @@ const App = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const location = Geolocation();
   const [user, setUser] = useState({ firstName: 'Apple' });
-  const { facility } = cookies;
+  const { facility, dept, subdept } = cookies;
   const [store, setStore] = useState(facility);
+  const [depart, setDepart] = useState(dept);
+  const [depart2, setDepart2] = useState(dept);
+  const [subdepart, setSubdepart] = useState(subdept);
 
   useEffect(() => {
     const { user } = cookies;
     if (user?.token) setIsAuthenticated(true);
     else setIsAuthenticated(false);
   }, [cookies]);
+
+
+
 
   const onLogout = () => {
     removeCookie('user');
@@ -44,6 +50,18 @@ const App = () => {
 
   const onStoreChange = (storeSel) => {
     setStore(storeSel);
+  };
+
+  const onDepartChange = (storeDept) => {
+    setDepart(storeDept);
+  };
+
+  const onDepartChange2 = (storeDept) => {
+    setDepart2(storeDept);
+  };
+
+  const onSubDepartChange = (substoreDept) => {
+    setSubdepart(substoreDept);
   };
 
   useEffect(() => {
@@ -85,7 +103,7 @@ const App = () => {
       {
         path: 'search',
         element: (
-          <ShopStory isAuthenticated={isAuthenticated} logout={onLogout} />
+          <ShopStory isAuthenticated={isAuthenticated} logout={onLogout} onDepartChange2={onDepartChange2} onSubDepartChange={onSubDepartChange} />
         )
       },
       {
@@ -143,6 +161,7 @@ const App = () => {
         user={isAuthenticated ? user : null}
         logout={onLogout}
         store={store}
+        onDeptChange={onDepartChange}
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
       <AppRoute />
