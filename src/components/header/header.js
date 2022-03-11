@@ -23,6 +23,7 @@ import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import { useNavigate } from 'react-router-dom'    
 import { CartState } from 'context/context';
+import { map } from 'lodash';
 
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
@@ -34,6 +35,7 @@ const Header = (props) => {
     onMobileButtonClick,
     store,
     stores,
+    onDeptChange,
     ...rest
   } = props;
   const componentClassName = classNames('cbn-header', {}, className);
@@ -42,17 +44,11 @@ const Header = (props) => {
   const [searchList, setSearchList] = useState([]);
   const [data, setData] = useState();
   const [cookies, setCookie] = useCookies();
+  const { facility, dept } = cookies;
   const { state: {cart}, dispatch } = CartState()
+  const [selected, setSelected] = useState(dept);
   const navigate = useNavigate()
-  const { facility } = cookies;
 
-
-  useEffect(() => {
-    grocery(4433).then((res) => {
-      setData(res.data);
-      //console.log('DATA', res.data);
-    });
-  }, [props]);
 
 
   const fetch = async (itemName) => {
@@ -113,19 +109,29 @@ const Header = (props) => {
   const [searchArray, setSearchArray] = useState(searchList);
 
   const onScroll = () => {
+    navigate("/search?text=")
     // We need to integrate with solor here on scroll
   };
 
-  const tree = () => {
-    var lst = [];
-    for (var i = 0; i < data.length; i++) {
-      lst.push(data[i].description);
+
+  useEffect(() => {
+    grocery(4433).then((res) => {
+      setData(res.data);
+      console.log('HEADER DEPARTMENT STORAGE', dept)
+    });
+  }, []);
+
+
+  const handleDeptChange = (option) => {
+    setSelected(option);
+    setCookie('dept', option, {
+      path: '/',
+      maxAge: CookiesAge
+    });
+  
+    if (typeof onDeptChange === 'function') {
+      onDeptChange(option);
     }
-    return lst.map((dept) => (
-      <button onClick={() => navigate("/search?text=" + dept)}  className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
-        {dept}
-      </button>
-    ));
   };
 
   function refreshPage() {
@@ -370,16 +376,21 @@ const Header = (props) => {
                                             {subItem.name}
                                           </a>
                                         ) : (
-                                          <div  className= "flex-1" onClick={refreshPage}>
-                                            {tree()}
-                                          </div>
-                                        
+                                          <div className= "flex-1" onClick={refreshPage}> 
+                                            {map(data, (option)=> ( 
+                                              <div onClick={() => navigate("/search?text=" + option.description)} >
+                                                <button key={option.id.area} option={option.description} onClick={() => handleDeptChange(option.description)}  className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+                                                  {option.description}
+                                                </button>
+                                              </div>                        
+                                            ))}                                         
+                                          </div>                                        
                                         )
                                       )}
                                     </Disclosure.Panel>
                                   </>
                                 )}
-                              </Disclosure>
+                              </Disclosure>       
                             )
                           )}
                         </div>
@@ -444,14 +455,21 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
+  onDeptChange: PropTypes.func,
   theme: PropTypes.string,
   // BSWING: refactor user object as needed.
   user: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     firstName: PropTypes.string,
     lastName: PropTypes.string,
-    email: PropTypes.string
+    email: PropTypes.string,
   })
 };
+
+
+Header.defaultProps = {
+  onDeptChange: () => {}
+};
+
 
 export default Header;

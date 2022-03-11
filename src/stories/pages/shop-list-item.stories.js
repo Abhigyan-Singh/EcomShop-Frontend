@@ -42,7 +42,7 @@ export const ShopListItems = ({ isAuthenticated, logout, ...rest }, onAdd) => {
       fetchListItemsMethod(location.state);
     }
     getListItems();
-    console.log("AHHHHHHHHHHHH", items)
+
   }, [])
 
   const fetchListItems = async  (listItem) => {

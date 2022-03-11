@@ -1,6 +1,16 @@
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/solid';
+import { useCookies } from 'react-cookie';
+import { map } from 'lodash';
+import { useState } from 'react';
 
 const ShopCategory = (props) => {
+  const [cookies, setCookie] = useCookies();
+  const [data, setData] = useState();
+  const { facility, dept, subdept } = cookies;
+
+
+
+
   return (
     <div className="mb-2 whitespace-nowrap md:mb-3">
       <nav className="lg:text-lg" aria-label="Breadcrumbs">
@@ -19,7 +29,7 @@ const ShopCategory = (props) => {
                 className="h-5 w-5 text-gray-300 transform"
                 aria-hidden="true"
               />
-              <a href="#link" className="ml-2 hover:underline">
+              <a href="/" className="ml-2 hover:underline">
                 Grocery
               </a>
             </div>
@@ -31,8 +41,8 @@ const ShopCategory = (props) => {
                 aria-hidden="true"
               />
               <a href="#link" className="ml-2 hover:underline">
-                Frozen
-              </a>
+                {dept}
+              </a>  
             </div>
           </li>
           <li>
@@ -46,7 +56,7 @@ const ShopCategory = (props) => {
                 className="ml-2 hover:underline"
                 aria-current="page"
               >
-                Frozen Meals &amp; Entrees
+                {subdept}
               </a>
             </div>
           </li>

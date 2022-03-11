@@ -18,6 +18,8 @@ import slidesMarketPlace from 'data/slidesMarketPlace.json';
 import MobileNav from 'components/mobile-nav/mobile-nav';
 import ShopGetPage from 'composites/shop-get';
 import filter  from 'services/dropdownfilter';
+import { grocery } from 'services/groceryTree';
+
 
 
 export default {
@@ -40,11 +42,9 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const [user, setUser] = useState({ firstName: 'Apple' });
 
   useEffect(() => {
-    fetch()
-      .then((res) => res.json())
-      .then((res) => {
-        setData(res.data)
-        console.log(data);
+    grocery(109791).then((res) => {
+      setData(res);
+        console.log("AHHHHHHHHHHHHHHHHHHHHHH", data);
       })
       .catch((err) => {
         console.log(err);
