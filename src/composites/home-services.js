@@ -18,42 +18,35 @@ import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import { grocery } from 'services/groceryTree';
 
-
 const HomeServices = (props) => {
-  const {
-    store,
-    stores,
-    ...rest
-  } = props;
-  const [cookies, setCookie] = useCookies();  
+  const { store, stores, ...rest } = props;
+  const [cookies, setCookie] = useCookies();
   const { facility } = cookies;
   const [selected, setSelected] = useState(facility);
-  const [serv, setServ] = useState([])
+  const [serv, setServ] = useState([]);
   const [data, setData] = useState();
 
-
-
   useEffect(() => {
-    servicesList(); 
+    servicesList();
   }, []);
-  
+
   const servicesList = () => {
-    inStoreServices(selected.facilityId).then((res) => {
-      setServ(res.data);
-    });
+    if (selected) {
+      inStoreServices(selected.facilityId).then((res) => {
+        setServ(res.data);
+      });
+    }
   };
 
- useEffect(() => {
+  useEffect(() => {
     grocery(4433).then((res) => {
       setData(res.data);
       console.log('DATA', res.data);
     });
   }, [props]);
 
-
-  
   return (
-    <div  className="bg-yellow-100 p-4 md:p-6">
+    <div className="bg-yellow-100 p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">
         <div className="font-serif text-lg tracking-widest uppercase mb-2 lg:mb-0">
           At Your Store
@@ -110,61 +103,54 @@ const HomeServices = (props) => {
         </div>
       </div>
       <div className="flex flex-col mt-6 mb-5 lg:items-end lg:flex-row lg:space-x-10">
-        <a href={`https://www.coborns.com/Cobstore${selected?.facilityId.toString()}`} 
-           target="_blank"
-           rel="noreferrer"
-           id="Services" 
-           className="font-serif text-lg tracking-widest uppercase">
+        <a
+          href={`https://www.coborns.com/Cobstore${selected?.facilityId.toString()}`}
+          target="_blank"
+          rel="noreferrer"
+          id="Services"
+          className="font-serif text-lg tracking-widest uppercase"
+        >
           In Store Services
         </a>
       </div>
-      <div  className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-3 text-center">
+      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-3 text-center">
         {serv.map((item) => (
           <div id="text" className="flex flex-col items-center" key={item.name}>
-            <div className="mb-2"> 
-              {item.name === "Flower Shoppe" 
-                ?  (<img className="w-20 h-20" src={flowerIcon} alt="" />) 
-                : (null)
-              } 
+            <div className="mb-2">
+              {item.name === 'Flower Shoppe' ? (
+                <img className="w-20 h-20" src={flowerIcon} alt="" />
+              ) : null}
 
-              {item.name === "Coffee Shops"
-                ? (<img className="w-20 h-20" src={coffeeIcon} alt="" />)
-                : (null)
-              }
+              {item.name === 'Coffee Shops' ? (
+                <img className="w-20 h-20" src={coffeeIcon} alt="" />
+              ) : null}
 
-              {item.name === "Convenience Stores"
-                ? (<img className="w-20 h-20" src={convenienceIcon} alt="" />)
-                : (null)
-              }
+              {item.name === 'Convenience Stores' ? (
+                <img className="w-20 h-20" src={convenienceIcon} alt="" />
+              ) : null}
 
-              {item.name === "Custom Cakes"
-                ? (<img className="w-20 h-20" src={cakesIcon} alt="" />)
-                : (null)
-              }
+              {item.name === 'Custom Cakes' ? (
+                <img className="w-20 h-20" src={cakesIcon} alt="" />
+              ) : null}
 
-              {item.name === "Lottery"
-                ? (<img className="w-20 h-20" src={lotteryIcon} alt="" />)
-                : (null)
-              }
+              {item.name === 'Lottery' ? (
+                <img className="w-20 h-20" src={lotteryIcon} alt="" />
+              ) : null}
 
-              {item.name === "Money Orders"
-                ? (<img className="w-20 h-20" src={moneyIcon} alt="" />)
-                : (null)
-              }
+              {item.name === 'Money Orders' ? (
+                <img className="w-20 h-20" src={moneyIcon} alt="" />
+              ) : null}
 
-              {item.name === "Postage"
-                ? (<img className="w-20 h-20" src={postageIcon} alt="" />)
-                : (null)
-              }
+              {item.name === 'Postage' ? (
+                <img className="w-20 h-20" src={postageIcon} alt="" />
+              ) : null}
 
-              {item.name === "Coborn's Pharmacy"
-                ? (<img className="w-20 h-20" src={pharmacyIcon} alt="" />)
-                : (null)
-              }  
+              {item.name === "Coborn's Pharmacy" ? (
+                <img className="w-20 h-20" src={pharmacyIcon} alt="" />
+              ) : null}
             </div>
             <div className="text-sm">{item.name}</div>
-            <div className="text-xs">
-            </div>
+            <div className="text-xs"></div>
           </div>
         ))}
       </div>
