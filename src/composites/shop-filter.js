@@ -9,7 +9,6 @@ import { search } from 'services/search';
 import { CartState } from 'context/context';
 
 
-
 const ShopFilter = (props, args, value, item) => {
   const [Checked, setChecked] = useState([])
   const [searchList, setSearchList] = useState([]);
@@ -32,8 +31,6 @@ const ShopFilter = (props, args, value, item) => {
     bySize
   }, 
     itemDispatch } = CartState()
-  
-  
   
   
   return (
