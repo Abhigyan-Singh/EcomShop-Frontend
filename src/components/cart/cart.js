@@ -32,31 +32,55 @@ const Cart = (props) => {
     }
   };
 
+
+  const handleCheckoutCart = () => {
+    console.log('clicked...');
+    const urlObj = {
+      localhost: 'https://devweb.shop.coborns.com',
+      dev: 'https://devweb.shop.coborns.com',
+      prod: 'https://shop.coborns.com'
+    };
+    const path = '/checkautomaticpromotions';
+    const host = window.location.host;
+    let url = '';
+    if (host.includes('localhost')) {
+      url = urlObj['localhost'];
+    } else if (host.includes('devweb.shop.coborns.com')) {
+      url = urlObj['dev'];
+    } else if (host.includes('shop.coborns.com')) {
+      url = urlObj['prod'];
+    } else {
+      url = urlObj['localhost'];
+    }
+    // window.location.replace(url + path)
+    window.location.href = url + path;
+  };
+
   
-const CartItem = (item) => {
-  //const id = item.item.productId
-  // COBORNS TODO: Pull data from props instead of imported JSON
-  return (
-    //<li style={{height: 30, justifyContent:'center', marginTop: 15, marginBottom: 5, marginLeft: 10}}>{item.item.prodDepartment} ({cart.length})</li>
-    <div className="cbn-cart__item group" {...item}>
-      <div className="flex items-start space-x-3">
-        <Counter disabled={item.item.isOutOfStock} onChange={() => {}}/>
-        <div>
-          <div className="text-sm leading-tight mb-1">{item.item.productName}</div>
-          <div className="text-xs text-gray-400 leading-none mb-3">
-            {item.item.sizeString} $0.{item.item.sizeNumber} /{item.item.sizeUom}
-          </div>
-          <div className="flex justify-between">
-            <div className="text-xs leading-none" style={{fontWeight:'bold'}}>{item.item.price}</div>
-       
-            <button onClick={() => dispatch({type: "REMOVE_FROM_CART", payload: item.item})}  className="invisible font-medium text-xs leading-none underline group-hover:visible">Remove
-               </button>
+  const CartItem = (item) => {
+    //const id = item.item.productId
+    // COBORNS TODO: Pull data from props instead of imported JSON
+    return (
+      //<li style={{height: 30, justifyContent:'center', marginTop: 15, marginBottom: 5, marginLeft: 10}}>{item.item.prodDepartment} ({cart.length})</li>
+      <div className="cbn-cart__item group" {...item}>
+        <div className="flex items-start space-x-3">
+          <Counter disabled={item.item.isOutOfStock} onChange={() => {}}/>
+          <div>
+            <div className="text-sm leading-tight mb-1">{item.item.productName}</div>
+            <div className="text-xs text-gray-400 leading-none mb-3">
+              {item.item.sizeString} $0.{item.item.sizeNumber} /{item.item.sizeUom}
+            </div>
+            <div className="flex justify-between">
+              <div className="text-xs leading-none" style={{fontWeight:'bold'}}>{item.item.price}</div>
+        
+              <button onClick={() => dispatch({type: "REMOVE_FROM_CART", payload: item.item})}  className="invisible font-medium text-xs leading-none underline group-hover:visible">Remove
+                </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -118,7 +142,11 @@ const CartItem = (item) => {
                 <div className="text-lg mb-2 text-center" >
                   Order Total: ${Math.floor(total)}.00
                 </div>
-                <Button className="block w-full" label="Checkout" />
+                <Button
+                  onClick={handleCheckoutCart}
+                  className="block w-full"
+                  label="Checkout"
+                />
               </div>
             </div>
           </Transition.Child>
@@ -126,7 +154,7 @@ const CartItem = (item) => {
       </Dialog>
     </Transition.Root>
   );
-}
+};
 
 Cart.propTypes = {
   open: PropTypes.bool,

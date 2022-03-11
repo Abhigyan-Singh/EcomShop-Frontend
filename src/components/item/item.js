@@ -161,7 +161,7 @@ const Item = (props) => {
             </Select>
           </div>
         )}
-        <div key={item.productId} className="flex items-center space-x-2">
+        <div key={item.productId} onClick={addtocart()} className="flex items-center space-x-2">
           <Counter disabled={item.isOutOfStock} onChange={setQuantity}/>
             <Button
               disabled={item.isOutOfStock}

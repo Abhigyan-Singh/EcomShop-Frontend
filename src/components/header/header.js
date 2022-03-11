@@ -62,11 +62,8 @@ const Header = (props) => {
       document.getElementById('yext-facility-hours-getter') &&
       document.getElementById('yext-facility-hours-setter')
     ) {
-      document.getElementById(
-        'yext-facility-hours-getter'
-      ).innerHTML = document.getElementById(
-        'yext-facility-hours-setter'
-      ).innerHTML;
+      document.getElementById('yext-facility-hours-getter').innerHTML =
+        document.getElementById('yext-facility-hours-setter').innerHTML;
     }
   };
 
@@ -191,12 +188,12 @@ const Header = (props) => {
             </a>
           </div>
         )}
-        <div className="flex items-center justify-between text-right float right" > 
+        <div className="flex items-center justify-between text-right float right">
           <div className="hidden md:block">
-            <div className="text-lg font-medium" >
+            <div className="text-lg font-medium">
               {user && `Welcome Back, ${user.firstName}`}
               {!user && 'Grocery Shopping Made Easy'}
-            </div> 
+            </div>
             <div className="text-xs font-medium space-x-2">
               <a className="underline" href='"/store-locator"'>
                 Store Locator
@@ -441,10 +438,7 @@ const Header = (props) => {
               />
             </a>
           </div>
-          <button
-            className="cbn-header__cart-button"
-            onClick={handleCheckoutCart}
-          >
+          <button className="cbn-header__cart-button">
             <img className="w-6 h-auto" src={cartIcon} alt="" />
             <span className="text-base md:text-lg font-bold ml-3">{cart.length}</span>
           </button>
