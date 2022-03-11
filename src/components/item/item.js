@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ClipboardListIcon, HeartIcon } from '@heroicons/react/outline';
@@ -18,9 +18,10 @@ import {
 } from '@heroicons/react/solid';
 // import Button from 'components/button/button';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { saveListItem } from 'services/mylist';
-import { useCart } from "react-use-cart";
-import addtocart from 'services/addtocart.js';
+import { addList, saveListItem } from 'services/mylist';
+import { useCart } from 'react-use-cart';
+import Favorite from 'components/favorite/favorite';
+import Wishlist from 'components/wishllist/wishlist';
 import Quickview from '../quickview/quickview';
 import { CartState } from '../../context/context';
 
@@ -47,26 +48,16 @@ const Item = (props) => {
   );
   const [quantity, setQuantity] = useState(0);
   const [favourite, setFavourite] = useState(item.favorite);
+  const { addItem } = useCart();
+  const [formOpen, setForm] = useState(false);
+  const [list, setList] = useState('');
+  const navigate = useNavigate();
   const [showCart,setShowCart] = useState(false);
-  const { state: {cart}, dispatch } = CartState()
-  
+
+
   const handleAddClick = () => {
     if (typeof onAddClick === 'function') {
       onAddClick({ item: item.productId, quantity, sizeOption });
-    }
-  };
-
-  const handleFavoriteClick = async () => {
-    if (typeof onFavoriteClick === 'function') {
-      if (!favourite) {
-        await addFavorite({ productId: item.productId });
-        setFavourite(true);
-        onFavoriteClick({ item: item.productId });
-      } else {
-        await deleteFavorite(item.productId);
-        setFavourite(false);
-        onFavoriteClick({ item: item.productId });
-      }
     }
   };
 
@@ -76,11 +67,6 @@ const Item = (props) => {
     }
   };
 
-
-  const onClose=(event)=>{
-    setShowCart(false)
-  }
-
   const handleViewClick = () => {
     if (typeof onViewClick === 'function') {
       onViewClick({ item: item.productId }); 
@@ -88,14 +74,25 @@ const Item = (props) => {
     }
   };
 
+
+  const createList = async (description) => {
+    const userListRes = await addList({ description });
+  };
+
   const saveListItemMethod = async (each) => {
     await saveListItem(item.productId, {
       listId: each.id,
       itemText: item.productName
-    })
+    });
+  };
+
+  const onClose=(event)=>{
+    setShowCart(false)
   }
 
-  const color = favourite  ? '#ea1b21' : null;
+
+
+  const color = favourite ? '#ea1b21' : null;
   let heartProps = {};
   if (color) {
     heartProps = { stroke: color, fill: color };
@@ -161,115 +158,22 @@ const Item = (props) => {
             </Select>
           </div>
         )}
-        <div key={item.productId} onClick={addtocart()} className="flex items-center space-x-2">
-          <Counter disabled={item.isOutOfStock} onChange={setQuantity}/>
-            <Button
-              disabled={item.isOutOfStock}
-              label="Add"
-              onClick={() => dispatch({type: "ADD_TO_CART", payload: item})}
-            />
+        <div key={item.id} className="flex items-center space-x-2">
+          <Counter disabled={item.isOutOfStock} onChange={setQuantity} />
+          <Button
+            disabled={item.isOutOfStock}
+            label="Add"
+            //onClick={""}//() => addItem(item)}
+          />
         </div>
       </div>
       <div className="cbn-item__actions invisible group-hover:visible group-focus-within:visible">
-        <button
-          style={{ marginLeft: 15 }}
-          className="block mb-2 ml-15"
-          onClick={handleFavoriteClick}
-        >
-          <HeartIcon className="h-6 w-6 text-gray-400" {...heartProps} />
-        </button>
-        <button className="block" onClick={handleListClick}>
-          <Menu
-            as="div"
-            className="relative inline-block text-left"
-            // style={{ zIndex: 99 }}
-          >
-            <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium  rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-              <ClipboardListIcon className="h-6 w-6 text-gray-400" />
-            </Menu.Button>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
-            >
-              <Menu.Items className="absolute list-position w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="px-1 py-1 ">
-                  <ul className="list-none pl-3">
-                   { listItems.map(each => <li>
-                      <label class="bsw-checkbox">
-                        <input
-                          type="checkbox"
-                          id="dmListId48920"
-                          onClick={() => saveListItemMethod(each)}
-                        />
-                        <span className="bsw-checkbox-placeholder"></span>
-                        <span
-                          className="bsw-checkbox-label"
-                          name="customListName"
-                        >
-                         {each.description}
-                        </span>
-                      </label>
-                    </li>) }
-                    <li>
-                      <a
-                        href="#"
-                        className="flex items-center text-sm py-1 hover:underline"
-                      >
-                        <HeartIcon
-                          className="h-5 w-5 text-gray-300 transform"
-                          aria-hidden="true"
-                        />
-                        <span className="block flex-1 pl-1">Favorites</span>
-                      </a>
-                    </li>
-                  </ul>
-
-                  <ul className="list-none py-2 m-0 border-t border-gray-100">
-                    {true && (
-                      <li>
-                        <a
-                          className="bsw-dropmenu-new-list-link"
-                          href="#"
-                        >
-                          <PlusIcon   
-                          className="h-5 w-5  transform"
-                          aria-hidden="true"/>
-                          <span className="ml-2">Create New List</span>
-                        </a>
-                      </li>
-                    )}
-                    {false && (
-                      <li>
-                        <a
-                          href="#"
-                          className="flex items-center text-sm py-1 hover:underline"
-                        >
-                          <div>
-                            <input
-                              name="list-input"
-                              id="list-input"
-                              type="text"
-                            />
-                            <Button
-                              style={{ marginTop: 5, marginLeft: 50 }}
-                              className="cbn-item__view-button group-hover:visible group-focus-within:visible"
-                              label="Create"
-                            />
-                          </div>
-                        </a>
-                      </li>
-                    )}
-                  </ul>
-                </div>
-              </Menu.Items>
-            </Transition>
-          </Menu>
-        </button>
+        <Favorite
+          isCard={true}
+          favorite={item.isFavorite}
+          productId={item.productId}
+        />
+        <Wishlist item={item} listItems={listItems} />
       </div>
     </div>
   );
