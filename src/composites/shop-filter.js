@@ -31,6 +31,11 @@ const ShopFilter = (props, args, value, item) => {
     bySize
   }, 
     itemDispatch } = CartState()
+
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   
   
   return (
@@ -77,6 +82,7 @@ const ShopFilter = (props, args, value, item) => {
                         width: 135.85,
                         height: 124
                       }}
+                      //onClick={refreshPage}
                     >
                     <Checkbox
                         {...args}

@@ -18,7 +18,7 @@ export const Context = ({children}) => {
      
     const data = {mockData}
     const [state, dispatch]= useReducer(cartReducer, {
-        data: data,
+        data: list,
         cart: []
     });
 
