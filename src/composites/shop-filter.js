@@ -37,7 +37,6 @@ const ShopFilter = (props, args, value, item) => {
   }
 
   
-  
   return (
     <div className="hidden lg:block">
       <div className="flow-root">
@@ -90,13 +89,9 @@ const ShopFilter = (props, args, value, item) => {
                         id="checkbox-1"
                         value="1"
                         label="All/Other"
-                        onClick={() => itemDispatch({
-                          type:"SORT_BY_BRAND"
-                        })}
-                        checked={byBrand}
                       />
-                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2" label="Amy's" onClick={() => itemDispatch({type:"SORT_BY_AMYS"})} checked={byAmys}/>
-                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3" label="Banquet" onClick={() => itemDispatch({type:"SORT_BY_BANQUET"})}checked={byBanquet}/>        
+                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2" label="Amy's" />
+                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3" label="Banquet" />        
                     </div>       
                     </Popover.Panel>
                   </Transition>
@@ -149,26 +144,14 @@ const ShopFilter = (props, args, value, item) => {
                         className="mb-4"
                         id="checkbox-1"
                         value="1"
-                        label="Local"
-                        onClick={() => itemDispatch({
-                          type:"SORT_BY_LOCAL"
-                        })}
-                        checked={byLocal}
+                        label="Local"                
                       />
 
-                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2"  label="Organic &amp; Natural"   
-                        onClick={() => itemDispatch({
-                          type:"SORT_BY_ORGANIC"
-                        })}
-                        checked={byOrganic}
+                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2"  label="Organic &amp; Natural"                       
                       />
 
-                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3"  label="Gluten Free"
-                        onClick={() => itemDispatch({
-                          type:"SORT_BY_GLUTENFREE"
-                        })}
-                        checked={byGlutenFree}
-                      
+                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3"  label="Gluten Free"                        
+                        checked={byGlutenFree}                      
                       />        
                     </div>       
                     </Popover.Panel>
@@ -221,17 +204,9 @@ const ShopFilter = (props, args, value, item) => {
                         className="mb-4"
                         id="checkbox-1"
                         value="1"
-                        label="New Arrivals"
-                        onClick={() => itemDispatch({
-                          type:"SORT_BY_NEW"
-                        })}
-                        checked={byNew}
+                        label="New Arrivals"                      
                       />
-                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2"  label="Sale Items"
-                        onClick={() => itemDispatch({
-                          type:"SORT_BY_SALE"
-                        })}
-                        checked={bySale}
+                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2"  label="Sale Items"                      
                       />
                     </div>       
                     </Popover.Panel>

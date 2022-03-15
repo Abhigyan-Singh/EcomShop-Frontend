@@ -7,10 +7,7 @@ import React, { Fragment } from 'react';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
 import { CartState } from 'context/context';
 
-
-
 const ShopSort = (props) => {
-
 
   const { itemState: {      
     sort,
@@ -28,7 +25,6 @@ const ShopSort = (props) => {
     bySize
   }, 
     itemDispatch } = CartState()
-
 
   return (
     <div className="relative inline-block text-left pr-4">
@@ -79,7 +75,7 @@ const ShopSort = (props) => {
                       <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-17" role="menuitem" tabindex="-1">Brand: A to Z</a>
                       <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-17" role="menuitem" tabindex="-1">Brand: A to Z</a>
                       <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-17" role="menuitem" tabindex="-1">Brand: A to Z</a>
-                      <button onClick={() => itemDispatch({type:"SORT_BY_PRICE", payload: "lowToHigh"})} class="block px-4 py-2 text-sm" id="headlessui-menu-item-20" role="menuitem" tabindex="-1">Price: Low to High</button>
+                      <button class="block px-4 py-2 text-sm" id="headlessui-menu-item-20" role="menuitem" tabindex="-1">Price: Low to High</button>
                       <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-20" role="menuitem" tabindex="-1">Price: High to Low</a>
                       <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-22" role="menuitem" tabindex="-1">Size: Large to Small</a>
 
