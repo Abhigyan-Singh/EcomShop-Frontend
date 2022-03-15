@@ -44,7 +44,7 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   useEffect(() => {
     grocery(109791).then((res) => {
       setData(res);
-        console.log("AHHHHHHHHHHHHHHHHHHHHHH", data);
+        console.log("DATA", data);
       })
       .catch((err) => {
         console.log(err);
@@ -52,6 +52,8 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
 
     
   }, []);
+
+
 
   return (
     <Fragment>

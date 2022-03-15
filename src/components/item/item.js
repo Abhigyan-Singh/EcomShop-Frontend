@@ -24,6 +24,7 @@ import Favorite from 'components/favorite/favorite';
 import Wishlist from 'components/wishllist/wishlist';
 import Quickview from '../quickview/quickview';
 import { CartState } from '../../context/context';
+import addtocart from 'services/addtocart';
 
 const Item = (props) => {
   const {
@@ -159,14 +160,14 @@ const Item = (props) => {
             </Select>
           </div>
         )}
-        <div key={item.id} className="flex items-center space-x-2">
+        <a key={item.id} href="#homer" className="flex items-center space-x-2">
           <Counter disabled={item.isOutOfStock} onChange={setQuantity} />
           <Button
             disabled={item.isOutOfStock}
             label="Add"
             onClick={() => dispatch({type: "ADD_TO_CART", payload: item})}
           />
-        </div>
+        </a>
       </div>
       <div className="cbn-item__actions invisible group-hover:visible group-focus-within:visible">
         <Favorite

@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import Item from 'components/item/item';
 import Tabs from 'components/tabs/tabs';
-import itemData from 'data/item.json';
+
 
 
  export const mockData = [

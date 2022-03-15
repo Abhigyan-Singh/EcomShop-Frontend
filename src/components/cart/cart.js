@@ -58,10 +58,9 @@ const Cart = (props) => {
 
   
   const CartItem = (item) => {
-    //const id = item.item.productId
+    const dept1 = item.item.prodDepartment
     // COBORNS TODO: Pull data from props instead of imported JSON
     return (
-      //<li style={{height: 30, justifyContent:'center', marginTop: 15, marginBottom: 5, marginLeft: 10}}>{item.item.prodDepartment} ({cart.length})</li>
       <div className="cbn-cart__item group" {...item}>
         <div className="flex items-start space-x-3">
           <Counter disabled={item.item.isOutOfStock} onChange={() => {}}/>
@@ -72,7 +71,6 @@ const Cart = (props) => {
             </div>
             <div className="flex justify-between">
               <div className="text-xs leading-none" style={{fontWeight:'bold'}}>{item.item.price}</div>
-        
               <button onClick={() => dispatch({type: "REMOVE_FROM_CART", payload: item.item})}  className="invisible font-medium text-xs leading-none underline group-hover:visible">Remove
                 </button>
             </div>
@@ -129,11 +127,21 @@ const Cart = (props) => {
                   </div> 
                 :
                   <ul>
+                    {cart.map((item) => {
+                       <li key={item.productId} style={{height: 30, justifyContent:'center', marginTop: 15, marginBottom: 5, marginLeft: 10}}>{item.prodDepartment} ({cart.length})</li>
+              
+                    })}
+                    
                     {cart.map((item) => (
+                      
                       <li key={item.productId}>
-                         <CartItem item={item} ></CartItem>
-                         
+                        
+                         <CartItem item={item}></CartItem>
+                        <li>
+                          
+                        </li>
                       </li>
+                     
                     ))} 
                   </ul>
                 }

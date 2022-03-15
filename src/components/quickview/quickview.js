@@ -98,7 +98,7 @@ const Quickview = (props) => {
                   <XIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
 
-                {data.isOnSale && (
+                {data.onSale && (
                   <img
                     className="cbn-quickview__ribbon"
                     src={saleRibbon}

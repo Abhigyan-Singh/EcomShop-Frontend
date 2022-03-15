@@ -5,10 +5,31 @@ import {
 } from '@heroicons/react/solid';
 import React, { Fragment } from 'react';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
+import { CartState } from 'context/context';
 
 
 
 const ShopSort = (props) => {
+
+
+  const { itemState: {      
+    sort,
+    byAmys,
+    byBanquet,
+    byBrand,
+    byAll,
+    byLocal,
+    byOrganic,
+    byGlutenFree,
+    byNew,
+    bySale,
+    byName,
+    byPrice,
+    bySize
+  }, 
+    itemDispatch } = CartState()
+
+
   return (
     <div className="relative inline-block text-left pr-4">
       <Popover className="relative">
@@ -52,13 +73,13 @@ const ShopSort = (props) => {
                       width: 160,
                       height: 332
                     }}>
-                      <button href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-126" role="menuitem" tabindex="-1">Default (Relevance)</button>
+                      <button class="block px-4 py-2 text-sm" id="headlessui-menu-item-126" role="menuitem" tabindex="-1">Default (Relevance)</button>
                       <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-127" role="menuitem" tabindex="-1">Name: A to Z</a>
                       <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-16" role="menuitem" tabindex="-1">Name: Z to A</a>
                       <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-17" role="menuitem" tabindex="-1">Brand: A to Z</a>
                       <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-17" role="menuitem" tabindex="-1">Brand: A to Z</a>
                       <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-17" role="menuitem" tabindex="-1">Brand: A to Z</a>
-                      <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-20" role="menuitem" tabindex="-1">Price: High to Low</a>
+                      <button onClick={() => itemDispatch({type:"SORT_BY_PRICE", payload: "lowToHigh"})} class="block px-4 py-2 text-sm" id="headlessui-menu-item-20" role="menuitem" tabindex="-1">Price: Low to High</button>
                       <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-20" role="menuitem" tabindex="-1">Price: High to Low</a>
                       <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-22" role="menuitem" tabindex="-1">Size: Large to Small</a>
 
