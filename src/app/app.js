@@ -32,6 +32,7 @@ const App = () => {
   const [store, setStore] = useState(facility);
   const [depart, setDepart] = useState(dept);
   const [depart2, setDepart2] = useState(dept);
+  const [depart3, setDepart3] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
 
   useEffect(() => {
@@ -39,9 +40,6 @@ const App = () => {
     if (user?.token) setIsAuthenticated(true);
     else setIsAuthenticated(false);
   }, [cookies]);
-
-
-
 
   const onLogout = () => {
     removeCookie('user');
@@ -58,6 +56,10 @@ const App = () => {
 
   const onDepartChange2 = (storeDept) => {
     setDepart2(storeDept);
+  };
+
+  const onDepartChange3 = (storeDept) => {
+    setDepart3(storeDept);
   };
 
   const onSubDepartChange = (substoreDept) => {
@@ -103,7 +105,7 @@ const App = () => {
       {
         path: 'search',
         element: (
-          <ShopStory isAuthenticated={isAuthenticated} logout={onLogout} onDepartChange2={onDepartChange2} onSubDepartChange={onSubDepartChange} />
+          <ShopStory isAuthenticated={isAuthenticated} logout={onLogout} onDepartChange2={onDepartChange2} onDepartChange3={onDepartChange3} onSubDepartChange={onSubDepartChange} />
         )
       },
       {

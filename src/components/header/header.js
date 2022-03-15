@@ -159,7 +159,7 @@ const Header = (props) => {
  
   return (
     <header className={componentClassName} {...rest}>
-      <div className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
+      <div id="homer" className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
         {theme === 'coborns' && (
           <div className="flex flex-1 -mb-1 md:-mb-2">
             <a href="/">

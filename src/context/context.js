@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useState } from 'react'
+import { createContext, useContext, useReducer, useState, useEffect } from 'react'
 import { mockData } from 'composites/home-get-started.js'
 import { cartReducer, itemReducer } from "./reducers"
 import useFetch from '../hooks/useFetch';
@@ -15,10 +15,14 @@ export const Context = ({children}) => {
     const handleChange = (e) => {
         setQuery(e?.target?.value);
       };
+
+      useEffect(() => {
+        handleChange();
+      }, []);
      
-    const data = {mockData}
+    const datas = {mockData}
     const [state, dispatch]= useReducer(cartReducer, {
-        data: data,
+        data: list,
         cart: []
     });
 

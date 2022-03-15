@@ -8,8 +8,7 @@ function useFetch(query, page) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [list, setList] = useState([]);
-  //const { addItem } = useCart();
-  
+
 
 
   console.log(query);
@@ -30,7 +29,6 @@ function useFetch(query, page) {
                 favorite = true;
               }
             })
-            //addItem(list)
             return ({ ...each, favorite })
           })
           return [...new Set(formattedListData)];
