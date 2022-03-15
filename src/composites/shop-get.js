@@ -47,45 +47,11 @@ function ShopGetPage() {
     if (loader.current) observer.observe(loader.current);
   }, [handleObserver]);
 
-  
-  const { state: {data}, dispatch } = CartState()
-
-
-  const { itemState: {      
-    sort,
-    byAmys,
-    byBanquet,
-    byBrand,
-    byAll,
-    byLocal,
-    byOrganic,
-    byGlutenFree,
-    byNew,
-    bySale,
-    byName,
-    byPrice,
-    bySize
-  }, 
-    itemDispatch } = CartState()
-
-
-
-  const sortedItems = () => {
-    let sorted = data
-
-    if (sort) {
-      sorted = sorted.sort((a,b) => (
-         sort === "lowToHigh" ? a.price - b.price : b.price - a.price
-      ))
-    }
-    return sorted;
-  }
-
 
   return (
     <div className="App">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
-        {sortedItems().map((e, i) => (
+        {list.map((e, i) => (
           <Item listItems={listItems} item={e} key={i} />
         ))}
       </div>
