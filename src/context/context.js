@@ -20,9 +20,9 @@ export const Context = ({children}) => {
         handleChange();
       }, []);
      
-    const datas = {mockData}
+    const data = {list}
     const [state, dispatch]= useReducer(cartReducer, {
-        data: list,
+        data: data,
         cart: []
     });
 
