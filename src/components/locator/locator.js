@@ -56,7 +56,7 @@ const Locator = (props) => {
   const { state: {cart}, dispatch } = CartState()
 
   useEffect(() => {
-    setTotal(cart.reduce((acc, curr) => acc + Number(curr.price), 0))
+    setTotal(cart.reduce((acc, curr) => acc + Number(curr.currentPrice), 0))
   }, [cart]);
 
 
