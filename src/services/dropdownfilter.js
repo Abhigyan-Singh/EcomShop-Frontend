@@ -1,14 +1,18 @@
 import { config, API } from 'apiConfig';
 import apiClient from './api';
 
-const filter = (paretnAreaCode, pageNo, brand, asc) => {
-  return apiClient.get(API.drop_down_filter, {
+const filter = (parentAreaName, pageNo, brand, asc) => {
+  return apiClient.post(API.drop_down_filter, {
     params: {
-      paretnAreaCode: paretnAreaCode,
+      parentAreaName: parentAreaName,
       pageNo: pageNo,
-      brand: brand,
       asc: asc
-    }
+    },
+    body: {
+      "lifestyleAndDietary": [""],
+      "brand": [brand],
+      "newAndSale": [""]
+    },
   });
 };
 
