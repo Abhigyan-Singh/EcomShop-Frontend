@@ -118,7 +118,7 @@ const Item = (props) => {
           label="Quick View"
           onClick={handleViewClick}
         />
-        <Quickview isOpen={showCart} data={item} onClose={onClose}/>
+        <Quickview isOpen={showCart} listItems={listItems} data={item} onClose={onClose}/>
       </div>
       <div className="cbn-item__information">
         <div>
@@ -155,7 +155,7 @@ const Item = (props) => {
               aria-label="Size Options"
             >
               {item.keywords.map((option) => (
-                <option key={option}>{option}</option>
+                <option key={option}>{item.sizeString}</option>
               ))}
             </Select>
           </div>

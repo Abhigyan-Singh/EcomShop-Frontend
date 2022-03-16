@@ -1,6 +1,16 @@
 import { XIcon } from '@heroicons/react/solid';
+import { useCookies } from 'react-cookie';
+import { CookiesAge } from 'apiConfig';
+
+
 
 const ShopSelectedFilter = (props) => {
+  const [cookies, setCookie] = useCookies();
+  const { facility, dept } = cookies;
+
+
+
+
   return (
     <div className="bg-gray-100 border-b hidden lg:block">
       <div className="flex items-center px-5 py-1">
@@ -12,7 +22,7 @@ const ShopSelectedFilter = (props) => {
         <div className="mt-0 ml-3">
           <div className="flex flex-wrap items-center">
             <span className="inline-flex rounded-full border border-gray-200 items-center m-1 py-1.5 pl-3 pr-2 text-xs bg-white">
-              <span>{""}</span>
+              <span>{dept}</span>
               <button
                 onClick={""}
                 type="button"

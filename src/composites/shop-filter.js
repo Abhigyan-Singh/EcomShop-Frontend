@@ -16,13 +16,8 @@ const ShopFilter = (props, args, value, item) => {
   const [searchList, setSearchList] = useState([]);
   const [handleCheck, setHandleCheck] = useState()
   const [data, setData] = useState();
-
   const [cookies, setCookie] = useCookies();
-
-  const { facility, dept, subdept } = cookies;
-
-
- 
+  const { facility, dept, subdept } = cookies; 
   function refreshPage() {
     window.location.reload(false);
   }
@@ -44,7 +39,7 @@ const ShopFilter = (props, args, value, item) => {
                       >
                         <span>Brand</span>
                         <span className="ml-1.5 rounded py-0.5 px-1.5 bg-green text-white text-xs tabular-nums cashwise:bg-merlot marketplace:bg-forest">
-                          1
+                          {0}
                         </span>
                         <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
                     </Popover.Button>

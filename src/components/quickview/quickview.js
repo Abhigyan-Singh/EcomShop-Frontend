@@ -8,6 +8,8 @@ import Button from 'components/button/button';
 import Counter from 'components/counter/counter';
 import './quickview.css';
 import { CartState } from '../../context/context';
+import Favorite from 'components/favorite/favorite';
+import Wishlist from 'components/wishllist/wishlist';
 
 
 const Quickview = (props) => {
@@ -21,10 +23,12 @@ const Quickview = (props) => {
     className,
     item,
     layout,
+    listItems = []
   } = props;
 
 
   const [quantity, setQuantity] = useState(0);
+  const [favourite, setFavourite] = useState(data.favorite);
   const { state: {cart}, dispatch } = CartState()
  
   const handleOnClose = (event) => {
@@ -50,6 +54,12 @@ const Quickview = (props) => {
       onListClick({ item: item.id });
     }
   };
+  
+  const color = favourite ? '#ea1b21' : null;
+  let heartProps = {};
+  if (color) {
+    heartProps = { stroke: color, fill: color };
+  }
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -165,28 +175,20 @@ const Quickview = (props) => {
                           onClick={() => dispatch({type: "ADD_TO_CART", payload: data})}
                         />
                       </div>
-
                       <div className="flex space-x-4">
-                        <button
-                          className="cbn-quickview__action-button"
-                          onClick={handleFavoriteClick}
-                        >
-                          <HeartIcon
-                            className={classNames(
-                              'h-6 w-6 text-gray-400',
-                              data.isFavorited ? 'fill-current text-red' : ''
-                            )}
+                          <Favorite                     
+                            isCard={true}
+                            favorite={data.isFavorite}
+                            productId={data.productId}
                           />
-                          <span className="ml-2">
+                          <span >
                             {data.isFavorited ? 'Favorited' : 'Favorite'}
                           </span>
-                        </button>
                         <button
-                          className="cbn-quickview__action-button"
-                          onClick={handleListClick}
-                        >
-                          <ClipboardListIcon className="h-6 w-6 text-gray-400" />
-                          <span className="ml-2">Add to List</span>
+                          className="cbn-quickview__action-button"               
+                        >                      
+                          <Wishlist item={data} listItems={listItems}/>
+                          <div>Add to List</div>
                         </button>
                       </div>
                     </section>
