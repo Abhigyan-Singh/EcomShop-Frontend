@@ -173,7 +173,7 @@ import Tabs from 'components/tabs/tabs';
     coolInfo: null,
     promotionMsg: ' ',
     keywordsString: null,
-    priceCondCode: 'Reg                 ',
+    priceCondCode: 'Reg',
     additionalSalesText: null,
     isNew: false,
     productDetails:
