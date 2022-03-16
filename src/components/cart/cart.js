@@ -70,7 +70,7 @@ const Cart = (props) => {
               {item.item.sizeString} $0.{item.item.sizeNumber} /{item.item.sizeUom}
             </div>
             <div className="flex justify-between">
-              <div className="text-xs leading-none" style={{fontWeight:'bold'}}>{item.item.price}</div>
+              <div className="text-xs leading-none" style={{fontWeight:'bold'}}>{item.item.currentPrice}</div>
               <button onClick={() => dispatch({type: "REMOVE_FROM_CART", payload: item.item})}  className="invisible font-medium text-xs leading-none underline group-hover:visible">Remove
                 </button>
             </div>
