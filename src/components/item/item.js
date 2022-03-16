@@ -160,7 +160,7 @@ const Item = (props) => {
             </Select>
           </div>
         )}
-        <a key={item.id} href="#homer" className="flex items-center space-x-2">
+        <a key={item.id}  className="flex items-center space-x-2">
           <Counter disabled={item.isOutOfStock} onChange={setQuantity} />
           <Button
             disabled={item.isOutOfStock}

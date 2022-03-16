@@ -128,20 +128,14 @@ const Cart = (props) => {
                 :
                   <ul>
                     {cart.map((item) => {
-                       <li key={item.productId} style={{height: 30, justifyContent:'center', marginTop: 15, marginBottom: 5, marginLeft: 10}}>{item.prodDepartment} ({cart.length})</li>
-              
-                    })}
-                    
-                    {cart.map((item) => (
-                      
+                       <li key={item.productId} style={{height: 30, justifyContent:'center', marginTop: 15, marginBottom: 5, marginLeft: 10}}>{item.prodDepartment} ({cart.length})</li>              
+                    })}                    
+                    {cart.map((item) => (                      
                       <li key={item.productId}>
-                        
                          <CartItem item={item}></CartItem>
                         <li>
-                          
                         </li>
                       </li>
-                     
                     ))} 
                   </ul>
                 }

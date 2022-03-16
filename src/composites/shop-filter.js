@@ -6,37 +6,27 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
 import filter from 'services/dropdownfilter';
 import { search } from 'services/search';
-import { CartState } from 'context/context';
+import { useCookies } from 'react-cookie';
+import { CookiesAge } from 'apiConfig';
+
 
 
 const ShopFilter = (props, args, value, item) => {
   const [Checked, setChecked] = useState([])
   const [searchList, setSearchList] = useState([]);
-  const [handleCheck, setHandleCheck] = useState() 
+  const [handleCheck, setHandleCheck] = useState()
+  const [data, setData] = useState();
+
+  const [cookies, setCookie] = useCookies();
+
+  const { facility, dept, subdept } = cookies;
 
 
-  const { itemState: {      
-    sort,
-    byAmys,
-    byBanquet,
-    byBrand,
-    byAll,
-    byLocal,
-    byOrganic,
-    byGlutenFree,
-    byNew,
-    bySale,
-    byName,
-    byPrice,
-    bySize
-  }, 
-    itemDispatch } = CartState()
-
+ 
   function refreshPage() {
     window.location.reload(false);
   }
 
-  
   return (
     <div className="hidden lg:block">
       <div className="flow-root">
@@ -89,8 +79,9 @@ const ShopFilter = (props, args, value, item) => {
                         id="checkbox-1"
                         value="1"
                         label="All/Other"
+                        
                       />
-                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2" label="Amy's" />
+                      <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2" label="Amy's"   onClick={() =>  filter(dept.parentAreaName, "1/100", "Amy's", "asc" )}/>
                       <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3" label="Banquet" />        
                     </div>       
                     </Popover.Panel>
@@ -146,12 +137,9 @@ const ShopFilter = (props, args, value, item) => {
                         value="1"
                         label="Local"                
                       />
-
                       <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2"  label="Organic &amp; Natural"                       
                       />
-
-                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3"  label="Gluten Free"                        
-                        checked={byGlutenFree}                      
+                      <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3"  label="Gluten Free"                                                                 
                       />        
                     </div>       
                     </Popover.Panel>

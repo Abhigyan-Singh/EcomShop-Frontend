@@ -6,19 +6,11 @@ import queryString from 'query-string';
 
 
 const Cart = createContext();
-export const Context = ({children}) => {
-    const params = window.location.href.split('?')[1];
-    const { text: searchText } = queryString.parse(params);
-    const [query, setQuery] = useState(searchText);
-    const { list } = useFetch(query)
-
-    const handleChange = (e) => {
-        setQuery(e?.target?.value);
-      };
-     
-    const data = {mockData}
+export const Context = ({children}, data) => {
+ 
+    const items = {data}
     const [state, dispatch]= useReducer(cartReducer, {
-        data: list,
+        data: items,
         cart: []
     });
 

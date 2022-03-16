@@ -3,10 +3,11 @@ import useFetch from '../hooks/useFetch';
 import queryString from 'query-string';
 import Item from 'components/item/item';
 import { getAllList } from 'services/mylist';
-import { CartState } from 'context/context';
+import { Context } from 'context/context';
 
 
-function ShopGetPage() {
+
+const ShopGetPage = () =>  {
   const params = window.location.href.split('?')[1];
   const { text: searchText } = queryString.parse(params);
   const [query, setQuery] = useState(searchText);
@@ -27,7 +28,7 @@ function ShopGetPage() {
   useEffect(() => {
     handleChange();
     getListItems();
-    console.log("list", listItems)
+    console.log("LIST", list)
   }, []);
 
   const handleObserver = useCallback((entries) => {
@@ -48,11 +49,24 @@ function ShopGetPage() {
   }, [handleObserver]);
 
 
+  const filter = () => {
+    list.filter(item => item.brand === "Amy's").map(filterdItems => (
+      <Item item={filterdItems}></Item>
+    ))
+  }
+  
+
+
+
+ 
   return (
     <div className="App">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
         {list.map((e, i) => (
           <Item listItems={listItems} item={e} key={i} />
+        ))}
+        {list.map((e, i) => (
+          <Context data={e} key={i}></Context>
         ))}
       </div>
       {loading && <p>Loading...</p>}
@@ -62,4 +76,7 @@ function ShopGetPage() {
   );
 }
 
+
+
 export default ShopGetPage;
+

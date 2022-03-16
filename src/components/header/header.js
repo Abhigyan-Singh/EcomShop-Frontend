@@ -106,7 +106,6 @@ const Header = (props) => {
   const [searchArray, setSearchArray] = useState(searchList);
 
   const onScroll = () => {
-    navigate("/search?text=")
     // We need to integrate with solor here on scroll
   };
 
@@ -159,7 +158,7 @@ const Header = (props) => {
  
   return (
     <header className={componentClassName} {...rest}>
-      <div id="homer" className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
+      <div id="home" className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
         {theme === 'coborns' && (
           <div className="flex flex-1 -mb-1 md:-mb-2">
             <a href="/">
