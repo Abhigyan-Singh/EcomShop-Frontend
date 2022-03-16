@@ -21,7 +21,7 @@ const Cart = (props) => {
   const [total, setTotal] = useState();
   
   useEffect(() => {
-    setTotal(cart.reduce((acc, curr) => acc + Number(curr.price), 0))
+    setTotal(cart.reduce((acc, curr) => acc + Number(curr.currentPrice), 0))
     console.log("cart", cart)
    
   }, [cart]);
@@ -142,7 +142,7 @@ const Cart = (props) => {
               </div>
               <div className="bg-yellow-100 p-3">
                 <div className="text-lg mb-2 text-center" >
-                  Order Total: ${Math.floor(total)}.00
+                  Order Total: ${parseFloat(total).toFixed(2)}
                 </div>
                 <Button
                   onClick={handleCheckoutCart}

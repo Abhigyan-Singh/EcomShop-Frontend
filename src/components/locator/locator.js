@@ -183,7 +183,7 @@ const Locator = (props) => {
             onClick={handleCartClick}
           >
             <span className="mr-12">Total:</span>
-            <span className="mr-3">${Math.floor(total)}.00</span>
+            <span className="mr-3">${parseFloat(total).toFixed(2)}</span>
             <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
             <Cart open={showCart} onClose={onClose} />
           </button>      
