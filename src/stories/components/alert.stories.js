@@ -16,9 +16,7 @@ export default {
 export const AlertStory = (args) => (
   <Alert {...args}>
     COVID-19 Vaccinations are now available in select locations.{' '}
-    <a className="underline" href="#link">
-      Check Availability
-    </a>
+    <a className="underline">Check Availability</a>
   </Alert>
 );
 

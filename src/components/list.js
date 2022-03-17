@@ -66,27 +66,23 @@ export default function List({ isCustomListItem, fetchListItems }) {
             className="relative inline-block text-left bsw-page-head-header"
             // style={{ zIndex: 99 }}
           >
-          
-              <Menu.Button className="inline-flex  w-full px-4 py-2 rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="bsw-icon"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                {'My List: '}
-                {selected}
-                <ChevronDownIcon
-                  className="bsw-icon"
-                  aria-hidden="true"
+            <Menu.Button className="inline-flex  w-full px-4 py-2 rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="bsw-icon"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                  clipRule="evenodd"
                 />
-              </Menu.Button>
+              </svg>
+              {'My List: '}
+              {selected}
+              <ChevronDownIcon className="bsw-icon" aria-hidden="true" />
+            </Menu.Button>
 
             <Transition
               as={Fragment}
@@ -101,10 +97,7 @@ export default function List({ isCustomListItem, fetchListItems }) {
                 <div className="px-1 py-1 ">
                   <ul className="list-none py-2 m-0">
                     <li>
-                      <a
-                        href="#"
-                        className="flex items-center text-sm py-1 hover:underline"
-                      >
+                      <a className="flex items-center text-sm py-1 hover:underline">
                         <span className="block flex-1  text-gray-300">
                           My Lists
                         </span>
@@ -114,10 +107,7 @@ export default function List({ isCustomListItem, fetchListItems }) {
                           <li
                             onClick={() => handleSelect('Previously Purchased')}
                           >
-                            <a
-                              href="#"
-                              className="flex items-center text-sm py-1 hover:underline"
-                            >
+                            <a className="flex items-center text-sm py-1 hover:underline">
                               <span className="block flex-1 pl-1">
                                 Previously Purchased
                               </span>
@@ -126,10 +116,7 @@ export default function List({ isCustomListItem, fetchListItems }) {
                         </Menu.Item>
                         <Menu.Item>
                           <li onClick={() => handleSelect('Favorites')}>
-                            <a
-                              href="#"
-                              className="flex items-center text-sm py-1 hover:underline"
-                            >
+                            <a className="flex items-center text-sm py-1 hover:underline">
                               <HeartIcon
                                 className="h-5 w-5 text-gray-300 transform"
                                 aria-hidden="true"
@@ -143,10 +130,7 @@ export default function List({ isCustomListItem, fetchListItems }) {
                         {menu.map((menu) => (
                           <Menu.Item>
                             <li onClick={() => handleSelect(menu)}>
-                              <a
-                                href="#"
-                                className="flex items-center text-sm py-1 hover:underline"
-                              >
+                              <a className="flex items-center text-sm py-1 hover:underline">
                                 <span className="block flex-1 pl-1">
                                   {menu.description}
                                 </span>
@@ -161,11 +145,10 @@ export default function List({ isCustomListItem, fetchListItems }) {
                     {!formOpen && (
                       <li>
                         <a
-                          href="#"
                           className="flex items-center text-sm py-1 hover:underline"
                           onClick={() => setForm(true)}
                         >
-                          <a className="bsw-dropmenu-new-list-link" href="#">
+                          <a className="bsw-dropmenu-new-list-link">
                             <PlusIcon
                               className="h-5 w-5 transform"
                               aria-hidden="true"
@@ -177,10 +160,7 @@ export default function List({ isCustomListItem, fetchListItems }) {
                     )}
                     {formOpen && (
                       <li>
-                        <a
-                          href="#"
-                          className="flex items-center text-sm py-1 hover:underline"
-                        >
+                        <a className="flex items-center text-sm py-1 hover:underline">
                           <div>
                             <input
                               name="list-input"
@@ -213,33 +193,34 @@ export default function List({ isCustomListItem, fetchListItems }) {
               </Menu.Items>
             </Transition>
             <p style={{ marginLeft: 30, marginRight: 10 }}>
-        Your Previously Purchased list includes all items from your past 12
-        orders, sorted by category. It is an ever-changing list that is updated
-        every time you shop, and the best place to find items you purchase
-        regularly. You cannot add or remove items from this list.
-        <a href="#" style={{ whiteSpace: 'noWrap' }}>
-          Learn More
-        </a>
-      </p>
-      <span style={{ marginLeft: 
-        30, marginRight: 10 }} className="page-head-left-store-name display-block">
-        <span>
-          Currently displaying your Previously Purchased List for St. Cloud, MN
-          Cooper Ave.
-        </span>
-        <div className="inline-block">
-          <div className="info-tooltip-wrap content-underline">
-            Why are not all items available at this store?
-          </div>
-          <div className="info-tooltip">
-            <span>
-              Product selection varies between store locations and some items
-              may not be available if you are currently shopping a different
-              store from where this item was previously purchased.
+              Your Previously Purchased list includes all items from your past
+              12 orders, sorted by category. It is an ever-changing list that is
+              updated every time you shop, and the best place to find items you
+              purchase regularly. You cannot add or remove items from this list.
+              <a style={{ whiteSpace: 'noWrap' }}>Learn More</a>
+            </p>
+            <span
+              style={{ marginLeft: 30, marginRight: 10 }}
+              className="page-head-left-store-name display-block"
+            >
+              <span>
+                Currently displaying your Previously Purchased List for St.
+                Cloud, MN Cooper Ave.
+              </span>
+              <div className="inline-block">
+                <div className="info-tooltip-wrap content-underline">
+                  Why are not all items available at this store?
+                </div>
+                <div className="info-tooltip">
+                  <span>
+                    Product selection varies between store locations and some
+                    items may not be available if you are currently shopping a
+                    different store from where this item was previously
+                    purchased.
+                  </span>
+                </div>
+              </div>
             </span>
-          </div>
-        </div>
-      </span>
           </Menu>
         </div>
         <div>
@@ -280,7 +261,7 @@ export default function List({ isCustomListItem, fetchListItems }) {
                   {listActionType === 'default' && isCustomListItem && (
                     <ul className="list-none py-2 m-0 border-b border-gray-100">
                       <li>
-                        <a className="bsw-dropmenu-new-list-link" href="#">
+                        <a className="bsw-dropmenu-new-list-link">
                           <span className="ml-2">Delete List</span>
                         </a>
                       </li>
@@ -311,7 +292,7 @@ export default function List({ isCustomListItem, fetchListItems }) {
                   <ul className="list-none pl-3">
                     {listActionType === 'default' && (
                       <li onClick={() => setListActionType('copyExist')}>
-                        <a className="bsw-dropmenu-new-list-link" href="#">
+                        <a className="bsw-dropmenu-new-list-link">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-6 w-6"
@@ -338,7 +319,7 @@ export default function List({ isCustomListItem, fetchListItems }) {
                     {(listActionType === 'default' ||
                       listActionType === 'copyExist') && (
                       <li onClick={() => setListActionType('copyNew')}>
-                        <a className="bsw-dropmenu-new-list-link" href="#">
+                        <a className="bsw-dropmenu-new-list-link">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-6 w-6"
@@ -366,7 +347,7 @@ export default function List({ isCustomListItem, fetchListItems }) {
                   {listActionType === 'default' && isCustomListItem && (
                     <ul className="list-none py-2 m-0 border-t border-gray-100">
                       <li>
-                        <a className="bsw-dropmenu-new-list-link" href="#">
+                        <a className="bsw-dropmenu-new-list-link">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="h-6 w-6"
@@ -392,7 +373,6 @@ export default function List({ isCustomListItem, fetchListItems }) {
           </Menu>
         </div>
       </div>
-     
     </div>
   );
 }

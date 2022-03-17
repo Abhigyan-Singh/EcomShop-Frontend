@@ -8,9 +8,6 @@ const ShopCategory = (props) => {
   const [data, setData] = useState();
   const { facility, dept, subdept } = cookies;
 
-
-
-
   return (
     <div className="mb-2 whitespace-nowrap md:mb-3">
       <nav className="lg:text-lg" aria-label="Breadcrumbs">
@@ -40,9 +37,7 @@ const ShopCategory = (props) => {
                 className="h-5 w-5 text-gray-300 transform"
                 aria-hidden="true"
               />
-              <a href="#link" className="ml-2 hover:underline">
-                {dept}
-              </a>  
+              <a className="ml-2 hover:underline">{dept}</a>
             </div>
           </li>
           <li>
@@ -51,11 +46,7 @@ const ShopCategory = (props) => {
                 className="h-5 w-5 text-gray-300 transform"
                 aria-hidden="true"
               />
-              <a
-                href="#link"
-                className="ml-2 hover:underline"
-                aria-current="page"
-              >
+              <a className="ml-2 hover:underline" aria-current="page">
                 {subdept}
               </a>
             </div>
@@ -67,4 +58,3 @@ const ShopCategory = (props) => {
 };
 
 export default ShopCategory;
-

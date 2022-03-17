@@ -168,7 +168,7 @@ const Modal = ({ onClose }) => {
         </p>
         <div className="modal-bottom-border">
           <div className="modal-bottom-btn">
-            <span>New to Coborn’s? </span>
+            <span style={{ color: '#2c6b2c' }}>New to Coborn’s? </span>
             <a href="https://devweb.shop.coborns.com/createaccount">
               <button type="button" className="modal-signUp">
                 Register

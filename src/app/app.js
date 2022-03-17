@@ -105,7 +105,13 @@ const App = () => {
       {
         path: 'search',
         element: (
-          <ShopStory isAuthenticated={isAuthenticated} logout={onLogout} onDepartChange2={onDepartChange2} onDepartChange3={onDepartChange3} onSubDepartChange={onSubDepartChange} />
+          <ShopStory
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+            onDepartChange2={onDepartChange2}
+            onDepartChange3={onDepartChange3}
+            onSubDepartChange={onSubDepartChange}
+          />
         )
       },
       {
@@ -154,9 +160,7 @@ const App = () => {
         <span>
           COVID-19 Vaccinations are now available in select locations.
         </span>{' '}
-        <a className="underline" href="#link">
-          Check Availability
-        </a>
+        <a className="underline">Check Availability</a>
       </Alert>
       <Header
         onMobileButtonClick={handleMobileButtonClick}

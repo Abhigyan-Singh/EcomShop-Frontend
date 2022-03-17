@@ -11,11 +11,18 @@ import { addFavorite, deleteFavorite } from 'services/favorites';
 import Favorite from 'components/favorite/favorite';
 // import { productDetails } from '../../services/search';
 import Wishlist from 'components/wishllist/wishlist';
+import { CartState } from '../../context/context';
+import Counter from 'components/counter/counter';
 
 const ItemDetails = () => {
   const { id } = useParams();
   const location = useLocation();
-  const [itemDetailsData, setItemDetailsData] = useState(location.state.item);
+  const {
+    state: { cart },
+    dispatch
+  } = CartState();
+  const [itemDetailsData, setItemDetailsData] = useState(location.state?.item);
+  const [listItems, setListItems] = useState(location.state?.listItems);
   // const [isLoading, setLoading] = useState(false);
   // const [error, setError] = useState(false);
   const [tab, setTab] = useState('pd');
@@ -50,6 +57,10 @@ const ItemDetails = () => {
   //     </div>
   //   );
   // }
+
+  if (!itemDetailsData) {
+    return null;
+  }
 
   return (
     <>
@@ -89,7 +100,8 @@ const ItemDetails = () => {
                 Product options
               </h3>
               <div className="flex items-center space-x-2 mb-6">
-                <div className="cbn-counter">
+                <Counter disabled={false} onChange={() => {}} />
+                {/* <div className="cbn-counter">
                   <button className="cbn-counter__button cbn-counter__button--left">
                     <MinusIcon className="h-4 w-4" />
                     <span className="sr-only">Decrement</span>
@@ -109,8 +121,13 @@ const ItemDetails = () => {
                     <PlusIcon className="h-4 w-4" />
                     <span className="sr-only">Increment</span>
                   </button>
-                </div>
-                <button className="cbn-button">
+                </div> */}
+                <button
+                  className="cbn-button"
+                  onClick={() =>
+                    dispatch({ type: 'ADD_TO_CART', payload: itemDetailsData })
+                  }
+                >
                   <span>Add to Cart</span>
                 </button>
               </div>
@@ -123,7 +140,7 @@ const ItemDetails = () => {
                 <Wishlist
                   showLabel={true}
                   item={itemDetailsData}
-                  listItems={location.state.listItems}
+                  listItems={listItems}
                 />
               </div>
             </section>

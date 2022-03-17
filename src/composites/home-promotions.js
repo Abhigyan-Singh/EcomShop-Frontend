@@ -9,7 +9,6 @@ const HomePromotions = (props) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {[...Array(2)].map((e, i) => (
           <a
-            href="#link"
             className="flex flex-col md:flex-row relative bg-clementine rounded-sm shadow-sm ring-1 ring-black ring-opacity-5 overflow-hidden"
             key={i}
           >
