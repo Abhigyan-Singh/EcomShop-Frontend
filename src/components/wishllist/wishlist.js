@@ -70,10 +70,7 @@ const Favorite = (props) => {
                   </li>
                 ))}
                 <li>
-                  <a
-                    href="#"
-                    className="flex items-center text-sm py-1 hover:underline"
-                  >
+                  <a className="flex items-center text-sm py-1 hover:underline">
                     <HeartIcon
                       className="h-5 w-5 text-gray-300 transform"
                       aria-hidden="true"
@@ -86,7 +83,7 @@ const Favorite = (props) => {
               <ul className="list-none py-2 m-0 border-t border-gray-100">
                 {!formOpen && (
                   <li>
-                    <a className="bsw-dropmenu-new-list-link" href="#">
+                    <a className="bsw-dropmenu-new-list-link">
                       <PlusIcon
                         className="h-5 w-5  transform"
                         aria-hidden="true"

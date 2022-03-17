@@ -64,9 +64,7 @@ const MobileNav = (props) => {
                         Open today until 10pm
                       </div>
                       <div className="text-xs font-medium">
-                        <a className="underline" href="#link">
-                          View Store Details
-                        </a>
+                        <a className="underline">View Store Details</a>
                       </div>
                     </div>
                     <div className="relative grid grid-cols-1 bg-white">

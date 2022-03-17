@@ -8,31 +8,32 @@ import { Disclosure, Popover, Transition } from '@headlessui/react';
 import { CartState } from 'context/context';
 
 const ShopSort = (props) => {
-
-  const { itemState: {      
-    sort,
-    byAmys,
-    byBanquet,
-    byBrand,
-    byAll,
-    byLocal,
-    byOrganic,
-    byGlutenFree,
-    byNew,
-    bySale,
-    byName,
-    byPrice,
-    bySize
-  }, 
-    itemDispatch } = CartState()
+  const {
+    itemState: {
+      sort,
+      byAmys,
+      byBanquet,
+      byBrand,
+      byAll,
+      byLocal,
+      byOrganic,
+      byGlutenFree,
+      byNew,
+      bySale,
+      byName,
+      byPrice,
+      bySize
+    },
+    itemDispatch
+  } = CartState();
 
   return (
     <div className="relative inline-block text-left pr-4">
       <Popover className="relative">
-        {({open}) => {
+        {({ open }) => {
           return (
             <Fragment>
-              <Popover.Button 
+              <Popover.Button
                 className="inline-flex justify-center text-sm font-medium px-2 py-1"
                 id="headlessui-popover-button-26"
                 type="button"
@@ -59,42 +60,112 @@ const ShopSort = (props) => {
                   static
                   className="absolute ml-12 mt-0"
                   style={{ zIndex: 9999 }}
-                  >
-                  
-                  <div className="relative border shadow-lg p--1 bg-white rounded justify-center"
+                >
+                  <div
+                    className="relative border shadow-lg p--1 bg-white rounded justify-center"
                     style={{
                       backgroundColor: 'rgb(255, 255, 0, 1)',
                       margin: -3,
                       color: 'black',
                       width: 160,
                       height: 332
-                    }}>
-                      <button class="block px-4 py-2 text-sm" id="headlessui-menu-item-126" role="menuitem" tabindex="-1">Default (Relevance)</button>
-                      <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-127" role="menuitem" tabindex="-1">Name: A to Z</a>
-                      <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-16" role="menuitem" tabindex="-1">Name: Z to A</a>
-                      <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-17" role="menuitem" tabindex="-1">Brand: A to Z</a>
-                      <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-17" role="menuitem" tabindex="-1">Brand: A to Z</a>
-                      <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-17" role="menuitem" tabindex="-1">Brand: A to Z</a>
-                      <button class="block px-4 py-2 text-sm" id="headlessui-menu-item-20" role="menuitem" tabindex="-1">Price: Low to High</button>
-                      <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-20" role="menuitem" tabindex="-1">Price: High to Low</a>
-                      <a href="#" class="block px-4 py-2 text-sm" id="headlessui-menu-item-22" role="menuitem" tabindex="-1">Size: Large to Small</a>
-
+                    }}
+                  >
+                    <button
+                      class="block px-4 py-2 text-sm"
+                      id="headlessui-menu-item-126"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Default (Relevance)
+                    </button>
+                    <a
+                      class="block px-4 py-2 text-sm"
+                      id="headlessui-menu-item-127"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Name: A to Z
+                    </a>
+                    <a
+                      class="block px-4 py-2 text-sm"
+                      id="headlessui-menu-item-16"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Name: Z to A
+                    </a>
+                    <a
+                      class="block px-4 py-2 text-sm"
+                      id="headlessui-menu-item-17"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Brand: A to Z
+                    </a>
+                    <a
+                      class="block px-4 py-2 text-sm"
+                      id="headlessui-menu-item-17"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Brand: A to Z
+                    </a>
+                    <a
+                      class="block px-4 py-2 text-sm"
+                      id="headlessui-menu-item-17"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Brand: A to Z
+                    </a>
+                    <button
+                      class="block px-4 py-2 text-sm"
+                      id="headlessui-menu-item-20"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Price: Low to High
+                    </button>
+                    <a
+                      class="block px-4 py-2 text-sm"
+                      id="headlessui-menu-item-20"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Price: High to Low
+                    </a>
+                    <a
+                      class="block px-4 py-2 text-sm"
+                      id="headlessui-menu-item-22"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Size: Large to Small
+                    </a>
                   </div>
                 </Popover.Panel>
               </Transition>
-              <button type="button" className="p-1 ml-3 rounded-full ring-2 ring-gray-200">
+              <button
+                type="button"
+                className="p-1 ml-3 rounded-full ring-2 ring-gray-200"
+              >
                 <span className="sr-only">View grid</span>
-                <ViewGridIcon className="h-5 w-5 text-black-300" aria-hidden="true" />
-              </button>
-        
-              <button type="button" className="p-1 ml-3 rounded-full">
-                <span className="sr-only">View list</span>
-                <ViewListIcon className="h-5 w-5 text-black-300" aria-hidden="true" />
+                <ViewGridIcon
+                  className="h-5 w-5 text-black-300"
+                  aria-hidden="true"
+                />
               </button>
 
+              <button type="button" className="p-1 ml-3 rounded-full">
+                <span className="sr-only">View list</span>
+                <ViewListIcon
+                  className="h-5 w-5 text-black-300"
+                  aria-hidden="true"
+                />
+              </button>
             </Fragment>
-                          
-          )
+          );
         }}
       </Popover>
     </div>

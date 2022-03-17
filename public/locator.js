@@ -14,9 +14,8 @@ import { map } from 'lodash';
 import { allStores } from 'services/facilities';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
-import Offcanvas from 'react-bootstrap/Offcanvas'
-import Basket from '../..composites/cart-page'
-
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import Basket from '../..composites/cart-page';
 
 const LocationOption = ({ option }) => (
   <Listbox.Option
@@ -54,16 +53,16 @@ const Locator = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   useEffect(() => {
-    !hasLoaded && user &&
+    !hasLoaded &&
+      user &&
       allStores(7).then((res) => {
         setStore(res.data);
-        console.log("FACILITY", res.data);
-        setHasLoaded(true)
+        console.log('FACILITY', res.data);
+        setHasLoaded(true);
       });
   }, [user]);
 
   const [selected, setSelected] = useState(facility);
-  
 
   const handleOnChange = (option) => {
     setSelected(option);
@@ -75,7 +74,6 @@ const Locator = (props) => {
       onLocationChange(option);
     }
   };
-
 
   return (
     <div className={componentClassName} {...rest}>
@@ -141,7 +139,7 @@ const Locator = (props) => {
           </Listbox>
         </div>
         <div className="hidden md:block pl-3">
-          <a className="cbn-locator__button" href="#link">
+          <a className="cbn-locator__button">
             <TruckIcon className="h-6 w-6" aria-hidden="true" />
             <div className="ml-2 leading-none">
               <div className="leading-none mb-0.5">Delivery</div>
@@ -153,7 +151,11 @@ const Locator = (props) => {
       <div className="hidden sm:flex items-center">
         <div className="hidden lg:flex items-center mx-6">
           <img className="h-8 w-auto mr-4" src={morerewardsLogo} alt="" />
-          <a className="text-xs underline" href="https://www.morerewards.com/" target="_blank">
+          <a
+            className="text-xs underline"
+            href="https://www.morerewards.com/"
+            target="_blank"
+          >
             My Rewards
           </a>
         </div>

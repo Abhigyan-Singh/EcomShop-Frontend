@@ -696,7 +696,7 @@ const BestSeller = (props) => {
     <div className="p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">
         <div>
-          <a href="#link">
+          <a>
             <span className="flex items-center">
               <span>See All</span>
               <ChevronRightIcon className="h-5 w-5 ml-2" aria-hidden="true" />
