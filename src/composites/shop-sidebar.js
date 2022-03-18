@@ -189,13 +189,13 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
                               <Popover.Panel
                                 static
                                 className="absolute -ml-0 mt-1 absolute border shadow-lg "
-
                                 style={{ 
                                   zIndex: 9999, 
                                   backgroundColor: "white", 
-                                  borderRadius: 20,  
+                                  borderRadius: 5,  
                                   width: 225, 
-                                  height: 520,                  
+                                  height: 525,
+                                  paddingTop: 10
                                 }}
                                   >
                                 <ul>
