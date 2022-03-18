@@ -73,8 +73,7 @@ const ShopFilter = (props, args, value, item) => {
                         className="mb-4"
                         id="checkbox-1"
                         value="1"
-                        label="All/Other"
-                        
+                        label="All/Other"                        
                       />
                       <Checkbox {...args}  className="mb-4" id="checkbox-2" value="2" label="Amy's"   onClick={() =>  filter(dept.parentAreaName, "1/100", "Amy's", "asc" )}/>
                       <Checkbox {...args}  cclassName="mb-2" id="checkbox-3" value="3" label="Banquet" />        

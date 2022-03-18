@@ -47,6 +47,7 @@ const Locator = (props) => {
   const componentClassName = classNames('cbn-locator', {}, className);
   const [cookies, setCookie] = useCookies();
   const [store, setStore] = useState([null]);
+  const [storeDelivery, setStoreDelivery] = useState([null]);
   const { facility, user } = cookies;
   const [hasLoaded, setHasLoaded] = useState(false);
   const [showCart, setShowCart] = useState(false);
@@ -62,13 +63,23 @@ const Locator = (props) => {
 
   useEffect(() => {
     !hasLoaded &&
-      user &&
-      allStores(7).then((res) => {
+      allStores(5).then((res) => {
         setStore(res.data);
         console.log('FACILITY', res.data);
         setHasLoaded(true);
       });
   }, [user]);
+
+
+  
+  useEffect(() => {
+    !hasLoaded &&
+      allStores(7).then((res) => {
+        setStoreDelivery(res.data);
+        setHasLoaded(true);
+      });
+  }, [user]);
+
 
   const [selected, setSelected] = useState(facility);
 
@@ -129,7 +140,7 @@ const Locator = (props) => {
                           Delivery &amp; Pick Up
                         </div>
                         {store &&
-                          map(store.facilitiesDeliveryOrPickup, (option) => (
+                          map(storeDelivery.facilitiesDeliveryOrPickup, (option) => (
                             <LocationOption
                               key={option.facilityDtl.facilityName}
                               option={option.facilityDtl}

@@ -152,7 +152,9 @@ const Item = (props) => {
         )}
       </div>
       <div className="cbn-item__controls">
-        {item.keywords && (
+      {item.weightedFlag !== "N" ?  
+        <div>
+          {item.keywords && (
           <div className="mb-2">
             <Select
               className="w-full"
@@ -166,7 +168,10 @@ const Item = (props) => {
             </Select>
           </div>
         )}
-        <a key={item.id} className="flex items-center space-x-2">
+        </div>
+        : null}
+        <a key={item.id}  className="flex items-center space-x-2">
+          {cart.some(i => i.id === item.productId) }
           <Counter disabled={item.isOutOfStock} onChange={setQuantity} />
           <Button
             disabled={item.isOutOfStock}

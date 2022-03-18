@@ -200,9 +200,10 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
                               style={{
                                 zIndex: 9999,
                                 backgroundColor: 'white',
-                                borderRadius: 20,
-                                width: 225,
-                                height: 520
+                                borderRadius: 5,  
+                                width: 225, 
+                                height: 525,
+                                paddingTop: 10
                               }}
                             >
                               <ul>
