@@ -8,7 +8,7 @@ const HomeRecipes = (props) => {
           Weeknight Meals
         </div>
         <div>
-          <a href="#link">
+          <a>
             <span className="flex items-center">
               <span>See More Recipes</span>
               <ChevronRightIcon className="h-5 w-5 ml-2" aria-hidden="true" />
@@ -19,7 +19,6 @@ const HomeRecipes = (props) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {[...Array(4)].map((e, i) => (
           <a
-            href="#link"
             className="block relative rounded-sm shadow-sm ring-1 ring-black ring-opacity-5 bg-white overflow-hidden"
             key={i}
           >

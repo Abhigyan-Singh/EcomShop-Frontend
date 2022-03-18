@@ -58,7 +58,7 @@ const HomeServices = (props) => {
           </a>
         </div>
         <div>
-          <a href="#link">
+          <a>
             <span className="flex items-center">
               <span>More From Your Store</span>
               <ChevronRightIcon className="h-5 w-5 ml-2" aria-hidden="true" />

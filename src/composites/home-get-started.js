@@ -2,9 +2,7 @@ import { ChevronRightIcon } from '@heroicons/react/solid';
 import Item from 'components/item/item';
 import Tabs from 'components/tabs/tabs';
 
-
-
- export const mockData = [
+export const mockData = [
   {
     section: 'Grocery',
     price: 5.99,
@@ -131,9 +129,7 @@ import Tabs from 'components/tabs/tabs';
     quickSaleProduct: false,
     attributeImages: [],
     iconAttributeCode: [],
-    sections: [
-      {id: 'groceries', label: 'Groceries'}
-    ]
+    sections: [{ id: 'groceries', label: 'Groceries' }]
   },
   {
     section: 'Grocery',
@@ -255,9 +251,7 @@ import Tabs from 'components/tabs/tabs';
     quickSaleProduct: false,
     attributeImages: [],
     iconAttributeCode: [],
-    sections: [
-      {id: 'groceries', label: 'Groceries'}
-    ]
+    sections: [{ id: 'groceries', label: 'Groceries' }]
   },
   {
     section: 'Grocery',
@@ -350,9 +344,7 @@ import Tabs from 'components/tabs/tabs';
     quickSaleProduct: false,
     attributeImages: [],
     iconAttributeCode: [],
-    sections: [
-      {id: 'groceries', label: 'Groceries'}
-    ]
+    sections: [{ id: 'groceries', label: 'Groceries' }]
   },
   {
     section: 'Grocery',
@@ -473,9 +465,7 @@ import Tabs from 'components/tabs/tabs';
     quickSaleProduct: false,
     attributeImages: [],
     iconAttributeCode: [],
-    sections: [
-      {id: 'groceries', label: 'Groceries'}
-    ]
+    sections: [{ id: 'groceries', label: 'Groceries' }]
   },
   {
     section: 'Wine & Spirits',
@@ -603,9 +593,7 @@ import Tabs from 'components/tabs/tabs';
     quickSaleProduct: false,
     attributeImages: [],
     iconAttributeCode: [],
-    sections: [
-      {id: 'wine-spirits', label: 'Wine & Spirits'}
-    ]
+    sections: [{ id: 'wine-spirits', label: 'Wine & Spirits' }]
   },
   {
     section: 'Wine & Spirits',
@@ -716,17 +704,11 @@ import Tabs from 'components/tabs/tabs';
     quickSaleProduct: false,
     attributeImages: [],
     iconAttributeCode: [],
-    sections: [
-      {id: 'wine-spirits', label: 'Wine & Spirits'}
-    ]
+    sections: [{ id: 'wine-spirits', label: 'Wine & Spirits' }]
   }
 ];
 
-
-
-
-
-const HomeGetStarted = (props) => {  
+const HomeGetStarted = (props) => {
   return (
     <div className="p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">
@@ -744,7 +726,7 @@ const HomeGetStarted = (props) => {
           />
         </div>
         <div>
-          <a href="#link">
+          <a>
             <span className="flex items-center">
               <span>See All</span>
               <ChevronRightIcon className="h-5 w-5 ml-2" aria-hidden="true" />
@@ -754,13 +736,11 @@ const HomeGetStarted = (props) => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
         {mockData.map((e, i) => (
-        
           <Item item={e} key={i} />
         ))}
       </div>
     </div>
   );
 };
-
 
 export default HomeGetStarted;

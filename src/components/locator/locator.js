@@ -17,8 +17,6 @@ import { CookiesAge } from 'apiConfig';
 import Cart from '../../components/cart/cart.js';
 import { CartState } from '../../context/context';
 
-
-
 const LocationOption = ({ option }) => (
   <Listbox.Option
     key={option.facilityName}
@@ -54,12 +52,14 @@ const Locator = (props) => {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [total, setTotal] = useState();
-  const { state: {cart}, dispatch } = CartState()
+  const {
+    state: { cart },
+    dispatch
+  } = CartState();
 
   useEffect(() => {
-    setTotal(cart.reduce((acc, curr) => acc + Number(curr.currentPrice), 0))
+    setTotal(cart.reduce((acc, curr) => acc + Number(curr.currentPrice), 0));
   }, [cart]);
-
 
   useEffect(() => {
     !hasLoaded &&
@@ -95,13 +95,12 @@ const Locator = (props) => {
   };
 
   const handleCartClick = (event) => {
-    setShowCart(true)
+    setShowCart(true);
   };
 
-  const onClose=(event)=>{
-    setShowCart(false)
-  }
-
+  const onClose = (event) => {
+    setShowCart(false);
+  };
 
   console.log(selected);
   return (
@@ -168,7 +167,7 @@ const Locator = (props) => {
           </Listbox>
         </div>
         <div className="hidden md:block pl-3">
-          <a className="cbn-locator__button" href="#link">
+          <a className="cbn-locator__button">
             <TruckIcon className="h-6 w-6" aria-hidden="true" />
             <div className="ml-2 leading-none">
               <div className="leading-none mb-0.5">Delivery</div>
@@ -197,7 +196,7 @@ const Locator = (props) => {
             <span className="mr-3">${parseFloat(total).toFixed(2)}</span>
             <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
             <Cart open={showCart} onClose={onClose} />
-          </button>      
+          </button>
         </div>
       </div>
     </div>

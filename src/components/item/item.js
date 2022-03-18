@@ -53,9 +53,11 @@ const Item = (props) => {
   const [formOpen, setForm] = useState(false);
   const [list, setList] = useState('');
   const navigate = useNavigate();
-  const [showCart,setShowCart] = useState(false);
-  const { state: {cart}, dispatch } = CartState()
-
+  const [showCart, setShowCart] = useState(false);
+  const {
+    state: { cart },
+    dispatch
+  } = CartState();
 
   const handleAddClick = () => {
     if (typeof onAddClick === 'function') {
@@ -71,11 +73,10 @@ const Item = (props) => {
 
   const handleViewClick = () => {
     if (typeof onViewClick === 'function') {
-      onViewClick({ item: item.productId }); 
-      setShowCart(true)
+      onViewClick({ item: item.productId });
+      setShowCart(true);
     }
   };
-
 
   const createList = async (description) => {
     const userListRes = await addList({ description });
@@ -88,11 +89,9 @@ const Item = (props) => {
     });
   };
 
-  const onClose=(event)=>{
-    setShowCart(false)
-  }
-
-
+  const onClose = (event) => {
+    setShowCart(false);
+  };
 
   const color = favourite ? '#ea1b21' : null;
   let heartProps = {};
@@ -105,7 +104,7 @@ const Item = (props) => {
         <img className="cbn-item__ribbon" src={saleRibbon} alt="Sale" />
       )}
       <div className="cbn-item__media">
-        <a className="cbn-item__image-link" href="#link">
+        <a className="cbn-item__image-link">
           <img
             className="cbn-item__image"
             src={`https://cdn1.cobornsinc.com/cdwebimages/100x100/${item.imagePath}`}
@@ -118,14 +117,21 @@ const Item = (props) => {
           label="Quick View"
           onClick={handleViewClick}
         />
-        <Quickview isOpen={showCart} listItems={listItems} data={item} onClose={onClose}/>
+        <Quickview
+          isOpen={showCart}
+          listItems={listItems}
+          data={item}
+          onClose={onClose}
+        />
       </div>
       <div className="cbn-item__information">
-        <div>
+        <div
+          onClick={() =>
+            navigate(`/item/${item.productId}`, { state: { item, listItems } })
+          }
+        >
           <div className="cbn-item__name">
-            <a className="block" href="#link">
-              {item.productName}
-            </a>
+            <a className="block">{item.productName}</a>
           </div>
           <div className="cbn-item__number">Item #: {item.productId}</div>
         </div>
@@ -170,7 +176,7 @@ const Item = (props) => {
           <Button
             disabled={item.isOutOfStock}
             label="Add"
-            onClick={() => dispatch({type: "ADD_TO_CART", payload: item})}
+            onClick={() => dispatch({ type: 'ADD_TO_CART', payload: item })}
           />
         </a>
       </div>

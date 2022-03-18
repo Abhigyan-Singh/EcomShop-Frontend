@@ -21,7 +21,7 @@ import { search } from 'services/search';
 import { grocery } from 'services/groceryTree';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
-import { useNavigate } from 'react-router-dom'    
+import { useNavigate } from 'react-router-dom';
 import { CartState } from 'context/context';
 import { map } from 'lodash';
 
@@ -30,7 +30,7 @@ const Header = (props) => {
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
   const {
     className,
-    theme="coborns",
+    theme = 'coborns',
     user,
     onMobileButtonClick,
     store,
@@ -40,16 +40,17 @@ const Header = (props) => {
   } = props;
   const componentClassName = classNames('cbn-header', {}, className);
   const [value, setValue] = useState('');
-  const [modalIsOpen, setModalIsOpen] = useState(false);  
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [searchList, setSearchList] = useState([]);
   const [data, setData] = useState();
   const [cookies, setCookie] = useCookies();
   const { facility, dept } = cookies;
-  const { state: {cart}, dispatch } = CartState()
+  const {
+    state: { cart },
+    dispatch
+  } = CartState();
   const [selected, setSelected] = useState(dept);
-  const navigate = useNavigate()
-
-
+  const navigate = useNavigate();
 
   const fetch = async (itemName) => {
     if (itemName) {
@@ -109,14 +110,12 @@ const Header = (props) => {
     // We need to integrate with solor here on scroll
   };
 
-
   useEffect(() => {
     grocery(4433).then((res) => {
       setData(res.data);
-      console.log('HEADER DEPARTMENT STORAGE', dept)
+      console.log('HEADER DEPARTMENT STORAGE', dept);
     });
   }, []);
-
 
   const handleDeptChange = (option) => {
     setSelected(option);
@@ -124,7 +123,7 @@ const Header = (props) => {
       path: '/',
       maxAge: CookiesAge
     });
-  
+
     if (typeof onDeptChange === 'function') {
       onDeptChange(option);
     }
@@ -155,10 +154,13 @@ const Header = (props) => {
     // window.location.replace(url + path)
     window.location.href = url + path;
   };
- 
+
   return (
     <header className={componentClassName} {...rest}>
-      <div id="home" className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28">
+      <div
+        id="home"
+        className="flex justify-between items-center px-4 lg:px-6 h-16 md:h-28"
+      >
         {theme === 'coborns' && (
           <div className="flex flex-1 -mb-1 md:-mb-2">
             <a href="/">
@@ -169,7 +171,7 @@ const Header = (props) => {
         )}
         {theme === 'cashwise' && (
           <div className="flex flex-1">
-            <a href="#link">
+            <a>
               <span className="sr-only">Cashwise</span>
               <img className="h-12 md:h-24 w-auto" src={cashwiseLogo} alt="" />
             </a>
@@ -177,7 +179,7 @@ const Header = (props) => {
         )}
         {theme === 'marketplace' && (
           <div className="flex flex-1 -mb-1 md:-mb-2">
-            <a href="#link">
+            <a>
               <span className="sr-only">MarketPlace Foods</span>
               <img
                 className="h-6 md:h-14 w-auto"
@@ -197,11 +199,7 @@ const Header = (props) => {
               <a className="underline" href='"/store-locator"'>
                 Store Locator
               </a>
-              {user && (
-                <a className="underline" href="#link">
-                  My Account
-                </a>
-              )}
+              {user && <a className="underline">My Account</a>}
               {!user && (
                 <a
                   className="underline"
@@ -211,7 +209,7 @@ const Header = (props) => {
                 </a>
               )}
               {user && (
-                <a className="underline" href="#link" onClick={props.logout}>
+                <a className="underline" onClick={props.logout}>
                   Sign Out
                 </a>
               )}
@@ -372,21 +370,40 @@ const Header = (props) => {
                                             {subItem.name}
                                           </a>
                                         ) : (
-                                          <div className= "flex-1" onClick={refreshPage}> 
-                                            {map(data, (option)=> ( 
-                                              <div onClick={() => navigate("/search?text=" + option.description)} >
-                                                <button key={option.id.area} option={option.description} onClick={() => handleDeptChange(option.description)}  className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+                                          <div
+                                            className="flex-1"
+                                            onClick={refreshPage}
+                                          >
+                                            {map(data, (option) => (
+                                              <div
+                                                onClick={() =>
+                                                  navigate(
+                                                    '/search?text=' +
+                                                      option.description
+                                                  )
+                                                }
+                                              >
+                                                <button
+                                                  key={option.id.area}
+                                                  option={option.description}
+                                                  onClick={() =>
+                                                    handleDeptChange(
+                                                      option.description
+                                                    )
+                                                  }
+                                                  className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+                                                >
                                                   {option.description}
                                                 </button>
-                                              </div>                        
-                                            ))}                                         
-                                          </div>                                        
+                                              </div>
+                                            ))}
+                                          </div>
                                         )
                                       )}
                                     </Disclosure.Panel>
                                   </>
                                 )}
-                              </Disclosure>       
+                              </Disclosure>
                             )
                           )}
                         </div>
@@ -439,7 +456,9 @@ const Header = (props) => {
           </div>
           <button className="cbn-header__cart-button">
             <img className="w-6 h-auto" src={cartIcon} alt="" />
-            <span className="text-base md:text-lg font-bold ml-3">{cart.length}</span>
+            <span className="text-base md:text-lg font-bold ml-3">
+              {cart.length}
+            </span>
           </button>
         </div>
       </div>
@@ -455,14 +474,12 @@ Header.propTypes = {
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     firstName: PropTypes.string,
     lastName: PropTypes.string,
-    email: PropTypes.string,
+    email: PropTypes.string
   })
 };
-
 
 Header.defaultProps = {
   onDeptChange: () => {}
 };
-
 
 export default Header;
