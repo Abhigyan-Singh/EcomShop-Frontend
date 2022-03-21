@@ -120,21 +120,26 @@ const Item = (props) => {
         )}
       </div>
       <div className="cbn-item__controls">
-        {/* {item.keywords && (
-          <div className="mb-2">
-            <Select
-              className="w-full"
-              hasRoundedCorners={true}
-              onChange={(event) => setSizeOption(event.target.value)}
-              aria-label="Size Options"
-            >
-              {item.keywords.map((option) => (
-                <option key={option}>{item.sizeString}</option>
-              ))}
-            </Select>
+        {item.weightedFlag !== 'N' ? (
+          <div>
+            {item.keywords && (
+              <div className="mb-2">
+                <Select
+                  className="w-full"
+                  hasRoundedCorners={true}
+                  onChange={(event) => setSizeOption(event.target.value)}
+                  aria-label="Size Options"
+                >
+                  {item.keywords.map((option) => (
+                    <option key={option}>{item.sizeString}</option>
+                  ))}
+                </Select>
+              </div>
+            )}
           </div>
-        )} */}
+        ) : null}
         <a key={item.id} className="flex items-center space-x-2">
+          {cart.some((i) => i.id === item.productId)}
           <Counter disabled={item.isOutOfStock} onChange={setQuantity} />
           <Button
             disabled={item.isOutOfStock}
