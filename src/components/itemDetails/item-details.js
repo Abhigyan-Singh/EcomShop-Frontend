@@ -134,7 +134,7 @@ const ItemDetails = () => {
               <div className="flex space-x-4">
                 <Favorite
                   showLabel={true}
-                  favorite={itemDetailsData.isFavorite}
+                  favorite={itemDetailsData.favorite}
                   productId={itemDetailsData.productId}
                 />
                 <Wishlist
