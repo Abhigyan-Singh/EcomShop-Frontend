@@ -82,12 +82,11 @@ const Favorite = (props) => {
 
               <ul className="list-none py-2 m-0 border-t border-gray-100">
                 {!formOpen && (
-                  <li>
+                  <li onClick={() => setForm(true)}>
                     <a className="bsw-dropmenu-new-list-link">
                       <PlusIcon
                         className="h-5 w-5  transform"
                         aria-hidden="true"
-                        onClick={() => setForm(true)}
                       />
                       <span className="ml-2">Create New List</span>
                     </a>
@@ -105,7 +104,7 @@ const Favorite = (props) => {
                         />
                         <Button
                           style={{ marginTop: 5, marginLeft: 50 }}
-                          className="cbn-item__view-button group-hover:visible group-focus-within:visible"
+                          className=""
                           label="Create"
                           onClick={async () => {
                             if (list) {

@@ -11,7 +11,6 @@ import { CartState } from '../../context/context';
 import Favorite from 'components/favorite/favorite';
 import Wishlist from 'components/wishllist/wishlist';
 
-
 const Quickview = (props) => {
   const {
     data,
@@ -26,11 +25,13 @@ const Quickview = (props) => {
     listItems = []
   } = props;
 
-
   const [quantity, setQuantity] = useState(0);
   const [favourite, setFavourite] = useState(data.favorite);
-  const { state: {cart}, dispatch } = CartState()
- 
+  const {
+    state: { cart },
+    dispatch
+  } = CartState();
+
   const handleOnClose = (event) => {
     if (typeof onClose === 'function') {
       onClose(event);
@@ -39,7 +40,7 @@ const Quickview = (props) => {
 
   const handleAddClick = () => {
     if (typeof onAddClick === 'function') {
-      onAddClick("");
+      onAddClick('');
     }
   };
 
@@ -54,7 +55,7 @@ const Quickview = (props) => {
       onListClick({ item: item.id });
     }
   };
-  
+
   const color = favourite ? '#ea1b21' : null;
   let heartProps = {};
   if (color) {
@@ -121,7 +122,7 @@ const Quickview = (props) => {
                     <div className="aspect-w-1 aspect-h-1 rounded bg-white-100 overflow-hidden">
                       <img
                         src={`https://cdn1.cobornsinc.com/cdwebimages/100x100/${data.imagePath}`}
-                        style={{marginLeft: "35%", marginTop: 50, }}
+                        style={{ marginLeft: '35%', marginTop: 50 }}
                         //className="cbn-quickview__image"
                       />
                     </div>
@@ -135,13 +136,12 @@ const Quickview = (props) => {
                       </h3>
 
                       <div className="text-xs text-gray-300 mb-4">
-                        Item Size: {data.sizeNumber} OZ $0.25 / {data.sizeUom} - Item #: {data.productId} - Price
-                        per count:  $0.99
+                        Item Size: {data.sizeNumber} OZ $0.25 / {data.sizeUom} -
+                        Item #: {data.productId} - Price per count: $0.99
                       </div>
 
                       <div className="mb-6">
                         <h4 className="sr-only">Description</h4>
-                        
                       </div>
 
                       <div className="flex items-end space-x-2 mb-4">
@@ -172,22 +172,22 @@ const Quickview = (props) => {
                         <Button
                           disabled={data.isOutOfStock}
                           label="Add to Cart"
-                          onClick={() => dispatch({type: "ADD_TO_CART", payload: data})}
+                          onClick={() =>
+                            dispatch({ type: 'ADD_TO_CART', payload: data })
+                          }
                         />
                       </div>
                       <div className="flex space-x-4">
-                          <Favorite                     
-                            isCard={true}
-                            favorite={data.isFavorite}
-                            productId={data.productId}
-                          />
-                          <span >
-                            {data.isFavorited ? 'Favorited' : 'Favorite'}
-                          </span>
-                        <button
-                          className="cbn-quickview__action-button"               
-                        >                      
-                          <Wishlist item={data} listItems={listItems}/>
+                        <Favorite
+                          isCard={true}
+                          favorite={data.isFavorite}
+                          productId={data.productId}
+                        />
+                        <span>
+                          {data.isFavorited ? 'Favorited' : 'Favorite'}
+                        </span>
+                        <button className="cbn-quickview__action-button">
+                          <Wishlist item={data} listItems={listItems} />
                           <div>Add to List</div>
                         </button>
                       </div>

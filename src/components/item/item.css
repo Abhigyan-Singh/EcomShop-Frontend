@@ -9,8 +9,9 @@
   @apply px-4;
   @apply pt-6;
   @apply pb-4;
-  @apply h-88;
+  /* @apply h-18; */
   @apply w-full;
+  height: 18rem;
 }
 
 .cbn-item .cbn-item__media {
@@ -195,7 +196,7 @@
   min-width: 16px;
 }
 
-.bsw-checkbox [type=checkbox] {
+.bsw-checkbox [type='checkbox'] {
   display: none;
   margin-right: 7.5px;
 }
@@ -207,11 +208,12 @@
   top: 1px;
 }
 
-.bsw-checkbox [type=checkbox]:checked + .bsw-checkbox-placeholder {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAfklEQVQ4T9WS0Q2AMAhEjw3cREfQyXUE3cQNMBg+EERJ+mHsJ+294wqExkONevwIwMydxCWi3cYuRVDxrMLJQgLAOxnxAGADMKYA76SO4nwrPiPZPApYAPQAVr1LxQEgBQeRUmj79RMNRN5eMvvFS6eQja0MqK54aQ+eYN8DDmc1MBFpIwu0AAAAAElFTkSuQmCC) center center no-repeat #2c6b2c;
+.bsw-checkbox [type='checkbox']:checked + .bsw-checkbox-placeholder {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAfklEQVQ4T9WS0Q2AMAhEjw3cREfQyXUE3cQNMBg+EERJ+mHsJ+294wqExkONevwIwMydxCWi3cYuRVDxrMLJQgLAOxnxAGADMKYA76SO4nwrPiPZPApYAPQAVr1LxQEgBQeRUmj79RMNRN5eMvvFS6eQja0MqK54aQ+eYN8DDmc1MBFpIwu0AAAAAElFTkSuQmCC)
+    center center no-repeat #2c6b2c;
   border: 1px solid #2c6b2c;
 }
-.bsw-dropmenu-new-list-link  {
+.bsw-dropmenu-new-list-link {
   color: #2c6b2c;
   display: flex;
   margin: 0;
@@ -219,5 +221,6 @@
 }
 
 .list-position {
-  top: 25px; right: 35px;
+  top: 25px;
+  right: 35px;
 }
