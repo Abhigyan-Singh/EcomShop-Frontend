@@ -16,16 +16,10 @@ import { mockData } from 'composites/home-get-started.js';
 
 const Cart = (props) => {
   const {
-    state: { cart },
+    state: { cart, total },
     dispatch
   } = CartState();
   const { open, onClose } = props;
-  const [total, setTotal] = useState();
-
-  useEffect(() => {
-    setTotal(cart.reduce((acc, curr) => acc + Number(curr.currentPrice), 0));
-    console.log('cart', cart);
-  }, [cart]);
 
   const handleCartClose = (event) => {
     if (typeof onClose === 'function') {
