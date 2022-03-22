@@ -25,6 +25,14 @@ import { useNavigate } from 'react-router-dom';
 import { CartState } from 'context/context';
 import { map } from 'lodash';
 
+export const facilityStoremapping = {
+  605: 2029,
+  500: 2032,
+  604: 2038,
+  603: 2042,
+  600: 2046
+};
+
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
@@ -275,7 +283,13 @@ const Header = (props) => {
                           <div className="text-xs font-medium">
                             <a
                               className="underline"
-                              href={`https://www.coborns.com/Cobstore${store?.facilityId.toString()}`}
+                              href={`https://www.coborns.com/Cobstore${
+                                facilityStoremapping[store?.facilityId]
+                                  ? facilityStoremapping[
+                                      store?.facilityId
+                                    ].toString()
+                                  : store?.facilityId.toString()
+                              }`}
                               target="_blank"
                               rel="noreferrer"
                             >

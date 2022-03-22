@@ -48,10 +48,6 @@ const Item = (props) => {
     item.sizeOptions && item.sizeOptions[0]
   );
   const [quantity, setQuantity] = useState(0);
-  const [favourite, setFavourite] = useState(item.favorite);
-  const { addItem } = useCart();
-  const [formOpen, setForm] = useState(false);
-  const [list, setList] = useState('');
   const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
   const {state: { cart, counter }, dispatch} = CartState();
@@ -63,18 +59,6 @@ const Item = (props) => {
   }, [])
   
 
-  const handleAddClick = () => {
-    if (typeof onAddClick === 'function') {
-      onAddClick({ item: item.productId, quantity, sizeOption });
-    }
-  };
-
-  const handleListClick = () => {
-    if (typeof onListClick === 'function') {
-      onListClick({ item: item.productId });
-    }
-  };
-
   const handleViewClick = () => {
     if (typeof onViewClick === 'function') {
       onViewClick({ item: item.productId });
@@ -82,26 +66,10 @@ const Item = (props) => {
     }
   };
 
-  const createList = async (description) => {
-    const userListRes = await addList({ description });
-  };
-
-  const saveListItemMethod = async (each) => {
-    await saveListItem(item.productId, {
-      listId: each.id,
-      itemText: item.productName
-    });
-  };
-
   const onClose = (event) => {
     setShowCart(false);
   };
 
-  const color = favourite ? '#ea1b21' : null;
-  let heartProps = {};
-  if (color) {
-    heartProps = { stroke: color, fill: color };
-  }
   return (
     <div className={componentClassName} {...rest}>
       {item.onSale && (
@@ -156,26 +124,26 @@ const Item = (props) => {
         )}
       </div>
       <div className="cbn-item__controls">
-      {item.weightedFlag !== "N" ?  
-        <div>
-          {item.keywords && (
-          <div className="mb-2">
-            <Select
-              className="w-full"
-              hasRoundedCorners={true}
-              onChange={(event) => setSizeOption(event.target.value)}
-              aria-label="Size Options"
-            >
-              {item.keywords.map((option) => (
-                <option key={option}>{item.sizeString}</option>
-              ))}
-            </Select>
+        {item.weightedFlag !== 'N' ? (
+          <div>
+            {item.keywords && (
+              <div className="mb-2">
+                <Select
+                  className="w-full"
+                  hasRoundedCorners={true}
+                  onChange={(event) => setSizeOption(event.target.value)}
+                  aria-label="Size Options"
+                >
+                  {item.keywords.map((option) => (
+                    <option key={option}>{item.sizeString}</option>
+                  ))}
+                </Select>
+              </div>
+            )}
           </div>
-        )}
-        </div>
-        : null}
-        <a key={item.id}  className="flex items-center space-x-2">
-          {cart.some(i => i.id === item.productId) }
+        ) : null}
+        <a key={item.id} className="flex items-center space-x-2">
+          {cart.some((i) => i.id === item.productId)}
           <Counter disabled={item.isOutOfStock} onChange={() => item.qty += 1} />
           <Button
             disabled={item.isOutOfStock}
@@ -187,7 +155,7 @@ const Item = (props) => {
       <div className="cbn-item__actions invisible group-hover:visible group-focus-within:visible">
         <Favorite
           isCard={true}
-          favorite={item.isFavorite}
+          favorite={item.favorite}
           productId={item.productId}
         />
         <Wishlist item={item} listItems={listItems} />

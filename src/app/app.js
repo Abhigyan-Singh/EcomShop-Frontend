@@ -22,6 +22,14 @@ import { Mapquest } from 'stories/pages/storelocator.js';
 import { Geolocation } from '../services/geolocation.js';
 import { allStores } from 'services/facilities.js';
 
+export const facilityStoremapping = {
+  605: 2029,
+  500: 2032,
+  604: 2038,
+  603: 2042,
+  600: 2046
+};
+
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -152,7 +160,11 @@ const App = () => {
         <p>
           <span
             data-yext-field="hours"
-            data-yext-id={store?.facilityId.toString()}
+            data-yext-id={
+              facilityStoremapping[store?.facilityId]
+                ? facilityStoremapping[store?.facilityId].toString()
+                : store?.facilityId.toString()
+            }
           ></span>
         </p>
       </div>
