@@ -46,7 +46,7 @@ const Header = (props) => {
   const [cookies, setCookie] = useCookies();
   const { facility, dept } = cookies;
   const {
-    state: { cart },
+    state: { cart, qty },
     dispatch
   } = CartState();
   const [selected, setSelected] = useState(dept);
@@ -456,7 +456,7 @@ const Header = (props) => {
           </div>
           <button className="cbn-header__cart-button">
             <img className="w-6 h-auto" src={cartIcon} alt="" />
-            <span className="text-base md:text-lg font-bold ml-3">
+            <span className="text-base md:text-lg font-bold ml-3">          
               {cart.length}
             </span>
           </button>

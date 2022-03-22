@@ -12,26 +12,17 @@ import EmptyCart from '../../assets/images/CART.png'
 import { CartState } from 'context/context';
 import { mockData } from 'composites/home-get-started.js'
 
-
 // COBORNS TODO: Replace this with actual data from data source
 
 const Cart = (props) => {
-  const { state: {cart}, dispatch } = CartState()
+  const { state: {cart, total}, dispatch } = CartState()
   const { open, onClose } = props;
-  const [total, setTotal] = useState();
-  
-  useEffect(() => {
-    setTotal(cart.reduce((acc, curr) => acc + Number(curr.currentPrice), 0))
-    console.log("cart", cart)
-   
-  }, [cart]);
-  
+
   const handleCartClose = (event) => {
     if (typeof onClose === 'function') {
       onClose(false)
     }
   };
-
 
   const handleCheckoutCart = () => {
     console.log('clicked...');
@@ -55,7 +46,6 @@ const Cart = (props) => {
     // window.location.replace(url + path)
     window.location.href = url + path;
   };
-
   
   const CartItem = (item) => {
     const dept1 = item.item.prodDepartment
@@ -63,7 +53,7 @@ const Cart = (props) => {
     return (
       <div className="cbn-cart__item group" {...item}>
         <div className="flex items-start space-x-3">
-          <Counter disabled={item.item.isOutOfStock} onChange={() => {}}/>
+          <Counter value={item.item.qty} disabled={item.item.isOutOfStock} onChange={() =>{}}/>
           <div>
             <div className="text-sm leading-tight mb-1">{item.item.productName}</div>
             <div className="text-xs text-gray-400 leading-none mb-3">
@@ -107,9 +97,10 @@ const Cart = (props) => {
           >
             <div className="relative max-w-sm w-full h-full bg-white shadow flex flex-col md:max-w-xs">
               <div className="border-b flex items-start justify-between p-4">
-                <Dialog.Title className="text-lg font-medium">
-                  Shopping Cart ({cart.length})
-                </Dialog.Title>
+              <Dialog.Title className="text-lg font-medium">
+                    Shopping Cart ({cart.length})
+                  </Dialog.Title>     
+                  
                 <div className="ml-3 h-7 flex items-center">
                   <button
                     className="cbn-cart__close-button"
