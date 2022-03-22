@@ -30,10 +30,10 @@ const mainNavigation = [
     name: 'Digital Coupons',
     href: 'https://www.morerewards.com/digitalcoupons'
   },
-  {
-    name: 'Pharmacy',
-    href: 'https://www.coborns.com/pharmacy'
-  },
+  // {
+  //   name: 'Pharmacy',
+  //   href: 'https://www.coborns.com/pharmacy'
+  // },
   {
     name: 'Our Brands',
     href: '#link',
