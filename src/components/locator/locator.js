@@ -51,15 +51,12 @@ const Locator = (props) => {
   const { facility, user } = cookies;
   const [hasLoaded, setHasLoaded] = useState(false);
   const [showCart, setShowCart] = useState(false);
-  const [total, setTotal] = useState();
+  //const [total, setTotal] = useState();
   const {
-    state: { cart },
+    state: { cart, total, },
     dispatch
   } = CartState();
 
-  useEffect(() => {
-    setTotal(cart.reduce((acc, curr) => acc + Number(curr.currentPrice), 0));
-  }, [cart]);
 
   useEffect(() => {
     !hasLoaded &&
@@ -68,7 +65,7 @@ const Locator = (props) => {
         console.log('FACILITY', res.data);
         setHasLoaded(true);
       });
-  }, [user]);
+  }, [props]);
 
 
   
@@ -78,7 +75,7 @@ const Locator = (props) => {
         setStoreDelivery(res.data);
         setHasLoaded(true);
       });
-  }, [user]);
+  }, [props]);
 
 
   const [selected, setSelected] = useState(facility);
@@ -193,7 +190,8 @@ const Locator = (props) => {
             onClick={handleCartClick}
           >
             <span className="mr-12">Total:</span>
-            <span className="mr-3">${parseFloat(total).toFixed(2)}</span>
+            {isNaN(total) ? <span className="mr-3">${Number(parseFloat(total|| 0).toFixed(2))}</span>: <span className="mr-3">${parseFloat(total).toFixed(2)}</span> }
+            
             <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
             <Cart open={showCart} onClose={onClose} />
           </button>

@@ -62,7 +62,11 @@ const Cart = (props) => {
     return (
       <div className="cbn-cart__item group" {...item}>
         <div className="flex items-start space-x-3">
-          <Counter disabled={item.item.isOutOfStock} onChange={() => {}} />
+          <Counter
+            value={item.item.qty}
+            disabled={item.item.isOutOfStock}
+            onChange={() => {}}
+          />
           <div>
             <div className="text-sm leading-tight mb-1">
               {item.item.productName}
@@ -123,6 +127,7 @@ const Cart = (props) => {
                 <Dialog.Title className="text-lg font-medium">
                   Shopping Cart ({cart.length})
                 </Dialog.Title>
+
                 <div className="ml-3 h-7 flex items-center">
                   <button
                     className="cbn-cart__close-button"

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ClipboardListIcon, HeartIcon } from '@heroicons/react/outline';
@@ -50,10 +50,14 @@ const Item = (props) => {
   const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
-  const {
-    state: { cart },
-    dispatch
-  } = CartState();
+  const {state: { cart, counter }, dispatch} = CartState();
+
+
+
+  useEffect(() => {
+    console.log("COUNTERERER", counter)
+  }, [])
+  
 
   const handleViewClick = () => {
     if (typeof onViewClick === 'function') {
@@ -140,11 +144,11 @@ const Item = (props) => {
         ) : null}
         <a key={item.id} className="flex items-center space-x-2">
           {cart.some((i) => i.id === item.productId)}
-          <Counter disabled={item.isOutOfStock} onChange={setQuantity} />
+          <Counter disabled={item.isOutOfStock} onChange={() => item.qty += 1} />
           <Button
             disabled={item.isOutOfStock}
             label="Add"
-            onClick={() => dispatch({ type: 'ADD_TO_CART', payload: item })}
+            onClick={() => dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })}
           />
         </a>
       </div>
