@@ -74,7 +74,6 @@ export const itemReducer = (state, action) => {
 export const favoriteReducer = (state, action) => {
   switch (action.type) {
     case 'SET_FAVORITE': {
-      console.log('set favorites');
       return {
         ...state,
         favorites: action.payload

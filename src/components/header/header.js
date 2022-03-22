@@ -143,8 +143,8 @@ const Header = (props) => {
 
   const handleCheckoutCart = () => {
     const urlObj = {
-      localhost: 'https://devweb.shop.coborns.com',
-      dev: 'https://devweb.shop.coborns.com',
+      localhost: 'https://devweb2.shop.coborns.com',
+      dev: 'https://devweb2.shop.coborns.com',
       prod: 'https://shop.coborns.com'
     };
     const path = '/checkautomaticpromotions';
@@ -152,7 +152,7 @@ const Header = (props) => {
     let url = '';
     if (host.includes('localhost')) {
       url = urlObj['localhost'];
-    } else if (host.includes('devweb.shop.coborns.com')) {
+    } else if (host.includes('devweb2.shop.coborns.com')) {
       url = urlObj['dev'];
     } else if (host.includes('shop.coborns.com')) {
       url = urlObj['prod'];
@@ -211,7 +211,7 @@ const Header = (props) => {
               {!user && (
                 <a
                   className="underline"
-                  href="https://testweb.shop.coborns.com/createaccount"
+                  href="https://devFdevweweb.shop.coborns.com/createaccount"
                 >
                   Register
                 </a>
