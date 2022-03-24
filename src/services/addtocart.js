@@ -1,7 +1,7 @@
 import { config, API } from 'apiConfig';
 import apiClient from './api';
+import { useCookies } from 'react-cookie';
 import { CartState } from '../context/context';
-import { Cookies } from 'react-cookie';
 
 export const addtocart = (userName, productId, quantity, facilityId) => {
   return apiClient.get(
@@ -15,11 +15,13 @@ export const getCartData = (userName) => {
 
 const useCart = () => {
   const { dispatch } = CartState();
-  const cookies = new Cookies();
-  const jwt = cookies.get('user');
+  const [cookies] = useCookies(['user']);
+  const { user } = cookies;
 
   const getCartDetails = async (userName) => {
-    const cartData = await getCartData(jwt?.userName ? jwt.userName : userName);
+    const cartData = await getCartData(
+      user?.userName ? user.userName : userName
+    );
     const cart = cartData.data.map((each) => ({
       ...each.id.product,
       currentPrice: each.itemTotal,
@@ -29,7 +31,7 @@ const useCart = () => {
   };
 
   const updateCart = async (item) => {
-    await addtocart(jwt?.userName, item.productId, 1, 2037);
+    await addtocart(user?.userName, item.productId, 1, 2037);
     getCartDetails();
   };
   return {

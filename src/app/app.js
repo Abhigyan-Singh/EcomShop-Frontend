@@ -5,7 +5,6 @@ import {
   Route,
   useRoutes
 } from 'react-router-dom';
-import { Cookies } from 'react-cookie';
 import { HomeStory } from 'stories/pages/home.stories';
 import { useCookies } from 'react-cookie';
 import { useState, useEffect } from 'react';
@@ -36,10 +35,8 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const location = Geolocation();
-  const cookiesPrev = new Cookies();
-  const jwt = cookiesPrev.get('user');
-  const [user, setUser] = useState({ firstName: jwt?.userName });
-  const { facility, dept, subdept } = cookies;
+  const { facility, dept, user, subdept } = cookies;
+
   const [store, setStore] = useState(facility);
   const [depart, setDepart] = useState(dept);
   const [depart2, setDepart2] = useState(dept);
@@ -157,6 +154,7 @@ const App = () => {
   };
 
   // console.log('app', store);
+  console.log(store, facilityStoremapping[store?.facilityId]);
   return (
     <Router>
       <div id="yext-facility-hours-setter" style={{ visibility: 'hidden' }}>
@@ -165,8 +163,8 @@ const App = () => {
             data-yext-field="hours"
             data-yext-id={
               facilityStoremapping[store?.facilityId]
-                ? facilityStoremapping[store?.facilityId].toString()
-                : store?.facilityId.toString()
+                ? facilityStoremapping[store?.facilityId]?.toString()
+                : store?.facilityId?.toString()
             }
           ></span>
         </p>
@@ -179,7 +177,7 @@ const App = () => {
       </Alert>
       <Header
         onMobileButtonClick={handleMobileButtonClick}
-        user={isAuthenticated ? { firstName: jwt.userName } : null}
+        user={isAuthenticated ? { firstName: user.userName } : null}
         logout={onLogout}
         store={store}
         onDeptChange={onDepartChange}
