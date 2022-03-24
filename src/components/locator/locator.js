@@ -68,7 +68,7 @@ const Locator = (props) => {
         setSelected(defaultFacility[0]?.facilityDtl);
         setHasLoaded(true);
       });
-  }, [props]);
+  }, [user]);
 
   useEffect(() => {
     !hasLoaded &&
@@ -76,7 +76,7 @@ const Locator = (props) => {
         setStoreDelivery(res.data);
         setHasLoaded(true);
       });
-  }, [props]);
+  }, [user]);
 
   const [selected, setSelected] = useState(facility);
 
