@@ -19,7 +19,6 @@ import MobileNav from 'components/mobile-nav/mobile-nav';
 import ShopGetPage from 'composites/shop-get';
 import filter from 'services/dropdownfilter';
 import { grocery } from 'services/groceryTree';
-import { Cookies } from 'react-cookie';
 export default {
   title: 'Pages/Home',
   argTypes: {
@@ -37,9 +36,6 @@ export default {
 export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
-  const cookies = new Cookies();
-  const jwt = cookies.get('user');
-  const [user, setUser] = useState({ firstName: jwt?.userName });
 
   useEffect(() => {
     grocery(109791)

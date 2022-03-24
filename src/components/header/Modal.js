@@ -5,12 +5,14 @@ import { authenticate } from 'services/auth';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import useCart from 'services/addtocart';
+import { CartState } from 'context/context';
 
 const Modal = ({ onClose }) => {
   const [cookies, setCookie] = useCookies(['user']);
   const [loginFailed, setLoginFailed] = useState(false);
   const [visibility, setVisibility] = useState(false);
   const { getCartDetails } = useCart();
+  const { dispatchUser } = CartState();
   const {
     register,
     handleSubmit,
@@ -23,6 +25,10 @@ const Modal = ({ onClose }) => {
         setCookie('user', res.data, {
           path: '/',
           maxAge: CookiesAge
+        });
+        dispatchUser({
+          type: 'SET_USER',
+          payload: { userName: data.userName }
         });
         getCartDetails(res.data.userName);
         onClose();
