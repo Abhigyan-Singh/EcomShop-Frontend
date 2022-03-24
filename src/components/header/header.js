@@ -211,7 +211,7 @@ const Header = (props) => {
               {!user && (
                 <a
                   className="underline"
-                  href="https://devFdevweweb.shop.coborns.com/createaccount"
+                  href="https://devweb2.shop.coborns.com/createaccount"
                 >
                   Register
                 </a>
@@ -470,7 +470,7 @@ const Header = (props) => {
           </div>
           <button className="cbn-header__cart-button">
             <img className="w-6 h-auto" src={cartIcon} alt="" />
-            <span className="text-base md:text-lg font-bold ml-3">          
+            <span className="text-base md:text-lg font-bold ml-3">
               {cart.length}
             </span>
           </button>

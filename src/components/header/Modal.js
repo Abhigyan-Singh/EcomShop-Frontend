@@ -4,11 +4,13 @@ import { useForm } from 'react-hook-form';
 import { authenticate } from 'services/auth';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
+import useCart from 'services/addtocart';
 
 const Modal = ({ onClose }) => {
   const [cookies, setCookie] = useCookies(['user']);
   const [loginFailed, setLoginFailed] = useState(false);
   const [visibility, setVisibility] = useState(false);
+  const { getCartDetails } = useCart();
   const {
     register,
     handleSubmit,
@@ -22,6 +24,7 @@ const Modal = ({ onClose }) => {
           path: '/',
           maxAge: CookiesAge
         });
+        getCartDetails(res.data.userName);
         onClose();
       } else {
         setLoginFailed(true);
