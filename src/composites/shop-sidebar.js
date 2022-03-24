@@ -166,12 +166,12 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
                 <div className="flex-shrink-0 font-serif uppercase tracking-widest mb-4">
                   Departments
                 </div>
-                <nav className="flex-1" aria-label="Sidebar Navigation" >
+                <nav className="flex-1" aria-label="Sidebar Navigation">
                   <Popover className="flex-1" aria-label="Sidebar Navigation">
                     {({ open }) => {
                       return (
                         <Fragment>
-                          <Popover.Button >
+                          <Popover.Button>
                             <button
                               style={{ marginBottom: -30, fontWeight: 'bold' }}
                               className="flex items-center text-sm py-1 hover:underline"
@@ -181,10 +181,10 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
                             <ChevronDownIcon
                               className="h-5 w-5 text-gray-300 transform"
                               aria-hidden="true"
-                              style={{ marginLeft: 200}}
+                              style={{ marginLeft: 200 }}
                             />
                           </Popover.Button>
-                          <Transition                                                    
+                          <Transition
                             show={open}
                             as={Fragment}
                             enter="transition ease-out duration-200"
@@ -200,13 +200,13 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
                               style={{
                                 zIndex: 9999,
                                 backgroundColor: 'white',
-                                borderRadius: 5,  
-                                width: 235, 
+                                borderRadius: 5,
+                                width: 235,
                                 height: 545,
-                                paddingTop: 15,                                
+                                paddingTop: 15
                               }}
                             >
-                              <ul >
+                              <ul>
                                 {map(data2, (option2) => (
                                   <li
                                     onClick={() =>
@@ -234,9 +234,7 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
                     }}
                   </Popover>
                   <ul className="list-none py-2 m-0 border-t border-gray-100">
-                    <li>                  
-                      {tree()}
-                    </li>
+                    <li>{tree()}</li>
                   </ul>
                   <ul className="list-none py-2 m-0 border-t border-gray-100">
                     <li>

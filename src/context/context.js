@@ -16,6 +16,10 @@ export const Context = ({ children }, data) => {
     favorites: []
   });
 
+  const [userStore, dispatchUser] = useReducer(favoriteReducer, {
+    user: {}
+  });
+
   const [itemState, itemDispatch] = useReducer(itemReducer, {
     byAmys: false,
     byBanquet: false,
@@ -37,7 +41,9 @@ export const Context = ({ children }, data) => {
         itemState,
         itemDispatch,
         favorites,
-        dispatchFavorites
+        dispatchFavorites,
+        userStore,
+        dispatchUser
       }}
     >
       {children}

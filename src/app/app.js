@@ -179,7 +179,7 @@ const App = () => {
       </Alert>
       <Header
         onMobileButtonClick={handleMobileButtonClick}
-        user={isAuthenticated ? user : null}
+        user={isAuthenticated ? { firstName: jwt.userName } : null}
         logout={onLogout}
         store={store}
         onDeptChange={onDepartChange}
