@@ -14,17 +14,20 @@ import cakesIcon from 'assets/icons/services-icon-cakes@2x.png';
 import lotteryIcon from 'assets/icons/services-icon-lottery@2x.png';
 import moneyIcon from 'assets/icons/services-icon-money@2x.png';
 import postageIcon from 'assets/icons/services-icon-postage@2x.png';
-import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import { grocery } from 'services/groceryTree';
+import { useCookies } from 'react-cookie';
 
-const HomeServices = (props) => {
+
+const HomeServices = (props, onDepartChange4) => {
   const { store, stores, ...rest } = props;
   const [cookies, setCookie] = useCookies();
-  const { facility } = cookies;
+  const { facility, dept } = cookies;
   const [selected, setSelected] = useState(facility);
   const [serv, setServ] = useState([]);
-  const [data, setData] = useState();
+  const [data2, setData2] = useState();
+  const [selected2, setSelected2] = useState(dept);
+  
 
   useEffect(() => {
     servicesList();
@@ -40,10 +43,20 @@ const HomeServices = (props) => {
 
   useEffect(() => {
     grocery(4433).then((res) => {
-      setData(res.data);
+      setData2(res.data);
       console.log('DATA', res.data);
     });
-  }, [props]);
+  }, [props, onDepartChange4]);
+  
+
+  const handleDeptChange4 = (option) => {
+    setSelected2(option);
+    setCookie('dept', option, {
+      path: '/',
+      maxAge: CookiesAge
+    });
+  };
+
 
   return (
     <div className="bg-yellow-100 p-4 md:p-6">
@@ -69,19 +82,19 @@ const HomeServices = (props) => {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <div className="bg-white rounded-sm overflow-hidden col-span-2 p-5 md:p-6">
           <div className="grid grid-cols-1 space-y-2 md:grid-cols-2 md:space-y-0">
-            <ul className="list-none space-y-2">
-              {shopNavigation1.map((item) => (
-                <li key={item.name}>
-                  {item.href && <a href={item.href}>{item.name}</a>}
-                  {!item.href && <span>{item.name}</span>}
+            <ul className="list-none space-y-2" >
+              {shopNavigation1.map((option) => (
+                <li key={option.name}  onClick={() => handleDeptChange4( option.name)}>
+                  {option.href && <a href={option.href}>{option.name}</a>}
+                  {!option.href && <span>{option.name}</span>}
                 </li>
               ))}
             </ul>
-            <ul className="list-none space-y-2">
-              {shopNavigation2.map((item) => (
-                <li key={item.name}>
-                  {item.href && <a href={item.href}>{item.name}</a>}
-                  {!item.href && <span>{item.name}</span>}
+            <ul className="list-none space-y-2" >
+              {shopNavigation2.map((option) => (
+                <li key={option.name} onClick={() => handleDeptChange4( option.name)} >
+                  {option.href && <a href={option.href}>{option.name}</a>}
+                  {!option.href && <span>{option.name}</span>}
                 </li>
               ))}
             </ul>

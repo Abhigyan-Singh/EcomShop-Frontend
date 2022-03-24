@@ -4,6 +4,9 @@ import queryString from 'query-string';
 import Item from 'components/item/item';
 import { getAllList } from 'services/mylist';
 import { Context } from 'context/context';
+import { useCookies } from 'react-cookie';
+import { CookiesAge } from 'apiConfig';
+
 import useCart from 'services/addtocart';
 import { useDeleteFavorite } from 'services/favorites';
 
@@ -56,11 +59,11 @@ const ShopGetPage = () => {
   }, [handleObserver]);
 
   const filter = () => {
-    list
-      .filter((item) => item.brand === "Amy's")
-      .map((filterdItems) => <Item item={filterdItems}></Item>);
-  };
-
+    list.filter(item => item.brand === "Amy's").map(filterdItems => (
+      <Item item={filterdItems}></Item>
+    ))
+  }
+  
   return (
     <div className="App">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">

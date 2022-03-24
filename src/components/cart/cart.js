@@ -151,7 +151,7 @@ const Cart = (props) => {
                         }}
                       >
                         {item.prodDepartment} ({cart.length})
-                      </li>;
+                      </li>
                     })}
                     {cart.map((item) => (
                       <li key={item.productId}>
@@ -163,9 +163,9 @@ const Cart = (props) => {
                 )}
               </div>
               <div className="bg-yellow-100 p-3">
-                <div className="text-lg mb-2 text-center">
-                  Order Total: ${parseFloat(total).toFixed(2)}
-                </div>
+                <div className="text-lg mb-2 text-center" >
+                  Order Total: {isNaN(total) ? <span className="mr-3">${Number(parseFloat(total|| 0).toFixed(2))}</span>: <span className="mr-3">${parseFloat(total).toFixed(2)}</span> }
+                </div> 
                 <Button
                   onClick={handleCheckoutCart}
                   className="block w-full"
