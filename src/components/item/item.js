@@ -151,7 +151,9 @@ const Item = (props) => {
           <Button
             disabled={item.isOutOfStock}
             label="Add"
-            onClick={() => updateCart(item)}
+            onClick={() =>
+              dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })
+            }
           />
         </a>
       </div>
