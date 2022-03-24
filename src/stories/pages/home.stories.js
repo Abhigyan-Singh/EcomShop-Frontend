@@ -33,6 +33,7 @@ export const HomeStory = ({
   isAuthenticated,
   logout,
   onStoreChange,
+  onDepartChange4,
   ...rest
 }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -92,7 +93,7 @@ export const HomeStory = ({
       <Hero slides={getSlides(brandName)} brandName={brandName} />
       <HomeGetStarted />
       <HomePromotions />
-      <HomeServices />
+      <HomeServices onDepartChange4={onDepartChange4} />
       <HomeRecipes />
     </Fragment>
   );

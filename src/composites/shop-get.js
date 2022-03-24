@@ -4,6 +4,9 @@ import queryString from 'query-string';
 import Item from 'components/item/item';
 import { getAllList } from 'services/mylist';
 import { Context } from 'context/context';
+import { useCookies } from 'react-cookie';
+import { CookiesAge } from 'apiConfig';
+
 
 
 
@@ -15,7 +18,8 @@ const ShopGetPage = () =>  {
   const { loading, error, list } = useFetch(query, page);
   const [listItems, setListItems] = useState([]);
   const loader = useRef(null);
- 
+
+
 
   const getListItems = async () => {
     const res = await getAllList();
@@ -28,6 +32,7 @@ const ShopGetPage = () =>  {
   useEffect(() => {
     handleChange();
     getListItems();
+    
     console.log("LIST", list)
   }, []);
 
@@ -55,10 +60,6 @@ const ShopGetPage = () =>  {
     ))
   }
   
-
-
-
- 
   return (
     <div className="App">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">

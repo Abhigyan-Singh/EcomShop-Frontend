@@ -55,23 +55,23 @@ const shopNavigation1 = [
 const shopNavigation2 = [
   {
     name: 'Produce',
-    href: ''
+    href: 'search?text=Produce'
   },
   {
-    name: 'Beer, Wine, & Spirits',
-    href: ''
+    name: 'Beer',
+    href: 'search?text=Beer'
   },
   {
     name: 'Tobacco',
-    href: '#link'
+    href: 'search?text=Tobacco'
   },
   {
     name: 'Health & Beauty',
-    href: '#link'
+    href: 'search?text=Health & Beauty'
   },
   {
     name: 'Natural Foods',
-    href: '#link'
+    href: 'search?text=Natural Foods'
   },
   {
     name: '—',
@@ -83,7 +83,7 @@ const shopNavigation2 = [
   },
   {
     name: 'Favorites',
-    href: '#link'
+    href: '/favorites'
   },
   {
     name: 'Previously Purchased',

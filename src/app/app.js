@@ -41,6 +41,7 @@ const App = () => {
   const [depart, setDepart] = useState(dept);
   const [depart2, setDepart2] = useState(dept);
   const [depart3, setDepart3] = useState(dept);
+  const [depart4, setDepart4] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
 
   useEffect(() => {
@@ -69,6 +70,11 @@ const App = () => {
   const onDepartChange3 = (storeDept) => {
     setDepart3(storeDept);
   };
+
+  const onDepartChange4 = (storeDept) => {
+    setDepart4(storeDept);
+  };
+
 
   const onSubDepartChange = (substoreDept) => {
     setSubdepart(substoreDept);
@@ -106,6 +112,7 @@ const App = () => {
           <HomeStory
             isAuthenticated={isAuthenticated}
             onStoreChange={onStoreChange}
+            onDepartChange4={onDepartChange4}
             logout={onLogout}
           />
         )

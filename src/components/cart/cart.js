@@ -117,12 +117,10 @@ const Cart = (props) => {
                     <img src={EmptyCart} style={{paddingLeft:25}} />
                   </div> 
                 :
-                  <ul>
-                    {cart.map((item) => {
-                       <li key={item.productId} style={{height: 30, justifyContent:'center', marginTop: 15, marginBottom: 5, marginLeft: 10}}>{item.prodDepartment} ({cart.length})</li>              
-                    })}                    
-                    {cart.map((item) => (                      
-                      <li key={item.productId}>
+                  <ul>               
+                    {cart.map((item) => (                
+                   
+                      <li key={item.productId}>                
                          <CartItem item={item}></CartItem>
                         <li>
                         </li>
@@ -133,8 +131,8 @@ const Cart = (props) => {
               </div>
               <div className="bg-yellow-100 p-3">
                 <div className="text-lg mb-2 text-center" >
-                  Order Total: ${parseFloat(total).toFixed(2)}
-                </div>
+                Order Total: {isNaN(total) ? <span className="mr-3">${Number(parseFloat(total|| 0).toFixed(2))}</span>: <span className="mr-3">${parseFloat(total).toFixed(2)}</span> }
+                </div> 
                 <Button
                   onClick={handleCheckoutCart}
                   className="block w-full"

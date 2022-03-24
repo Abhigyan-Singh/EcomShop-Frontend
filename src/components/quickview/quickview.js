@@ -136,8 +136,9 @@ const Quickview = (props) => {
                       </h3>
 
                       <div className="text-xs text-gray-300 mb-4">
-                        Item Size: {data.sizeNumber} OZ $0.25 / {data.sizeUom} -
-                        Item #: {data.productId} - Price per count: $0.99
+            
+                        Item Size: {data.sizeString} 0.{data.sizeNumber} / {data.sizeUom}   -
+                        Item #: {data.productId} - Price per count: 0.{data.sizeNumber} 
                       </div>
 
                       <div className="mb-6">
@@ -177,18 +178,18 @@ const Quickview = (props) => {
                           }
                         />
                       </div>
-                      <div className="flex space-x-4">
+                      <div className="flex space-x-4" >
                         <Favorite
                           isCard={true}
                           favorite={data.isFavorite}
                           productId={data.productId}
                         />
-                        <span>
+                        <span style={{marginTop: 5}}>
                           {data.isFavorited ? 'Favorited' : 'Favorite'}
                         </span>
-                        <button className="cbn-quickview__action-button">
-                          <Wishlist item={data} listItems={listItems} />
-                          <div>Add to List</div>
+                        <button className="cbn-quickview__action-button" >
+                          <Wishlist item={data} listItems={listItems}/>
+                          <span style={{marginBottom:10, marginTop:10, fontSize: 15 }}>Add to List</span>                         
                         </button>
                       </div>
                     </section>
