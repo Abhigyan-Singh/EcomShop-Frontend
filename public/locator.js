@@ -52,17 +52,26 @@ const Locator = (props) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [selected, setSelected] = useState(facility);
   useEffect(() => {
     !hasLoaded &&
       user &&
       allStores(7).then((res) => {
         setStore(res.data);
         console.log('FACILITY', res.data);
+        const defaultFacility = res.data.filter(
+          (each) => each.facilityId !== user.defaultFacilityId
+        );
+        console.log(
+          'facility 123',
+          defaultFacility,
+          user.defaultFacilityId,
+          res.data
+        );
+        setSelected(defaultFacility);
         setHasLoaded(true);
       });
   }, [user]);
-
-  const [selected, setSelected] = useState(facility);
 
   const handleOnChange = (option) => {
     setSelected(option);

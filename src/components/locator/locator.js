@@ -62,6 +62,10 @@ const Locator = (props) => {
       allStores(5).then((res) => {
         setStore(res.data);
         console.log('FACILITY', res.data);
+        const defaultFacility = res.data.facilitiesPickup.filter(
+          (each) => each.facilityDtl.facilityId !== user.defaultFacilityId
+        );
+        setSelected(defaultFacility[0]?.facilityDtl);
         setHasLoaded(true);
       });
   }, [props]);

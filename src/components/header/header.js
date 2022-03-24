@@ -287,8 +287,8 @@ const Header = (props) => {
                                 facilityStoremapping[store?.facilityId]
                                   ? facilityStoremapping[
                                       store?.facilityId
-                                    ].toString()
-                                  : store?.facilityId.toString()
+                                    ]?.toString()
+                                  : store?.facilityId?.toString()
                               }`}
                               target="_blank"
                               rel="noreferrer"
