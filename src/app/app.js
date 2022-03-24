@@ -5,6 +5,7 @@ import {
   Route,
   useRoutes
 } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 import { HomeStory } from 'stories/pages/home.stories';
 import { useCookies } from 'react-cookie';
 import { useState, useEffect } from 'react';
@@ -35,7 +36,9 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const location = Geolocation();
-  const [user, setUser] = useState({ firstName: 'Apple' });
+  const cookiesPrev = new Cookies();
+  const jwt = cookiesPrev.get('user');
+  const [user, setUser] = useState({ firstName: jwt?.userName });
   const { facility, dept, subdept } = cookies;
   const [store, setStore] = useState(facility);
   const [depart, setDepart] = useState(dept);

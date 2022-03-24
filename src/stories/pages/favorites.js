@@ -4,7 +4,6 @@ import Item from 'components/item/item';
 import { getAllFavorites } from 'services/favorites';
 import { getAllList } from 'services/mylist';
 import { CartState } from 'context/context';
-import { addFavorite, useDeleteFavorite } from 'services/favorites';
 
 export default {
   title: 'Pages/Home',
@@ -23,7 +22,7 @@ export default {
 export const Favorites = ({ isAuthenticated, logout, ...rest }) => {
   const [listItems, setListItems] = useState([]);
   const { favorites } = CartState();
-  useDeleteFavorite();
+
   const getListItems = async () => {
     const res = await getAllList();
     setListItems(res.data);

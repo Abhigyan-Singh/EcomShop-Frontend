@@ -4,10 +4,10 @@ import queryString from 'query-string';
 import Item from 'components/item/item';
 import { getAllList } from 'services/mylist';
 import { Context } from 'context/context';
+import useCart from 'services/addtocart';
+import { useDeleteFavorite } from 'services/favorites';
 
-
-
-const ShopGetPage = () =>  {
+const ShopGetPage = () => {
   const params = window.location.href.split('?')[1];
   const { text: searchText } = queryString.parse(params);
   const [query, setQuery] = useState(searchText);
@@ -15,7 +15,14 @@ const ShopGetPage = () =>  {
   const { loading, error, list } = useFetch(query, page);
   const [listItems, setListItems] = useState([]);
   const loader = useRef(null);
- 
+
+  const { getCartDetails } = useCart();
+  const { fetchFavorites } = useDeleteFavorite();
+
+  useEffect(() => {
+    getCartDetails();
+    fetchFavorites();
+  }, []);
 
   const getListItems = async () => {
     const res = await getAllList();
@@ -28,7 +35,7 @@ const ShopGetPage = () =>  {
   useEffect(() => {
     handleChange();
     getListItems();
-    console.log("LIST", list)
+    console.log('LIST', list);
   }, []);
 
   const handleObserver = useCallback((entries) => {
@@ -48,17 +55,12 @@ const ShopGetPage = () =>  {
     if (loader.current) observer.observe(loader.current);
   }, [handleObserver]);
 
-
   const filter = () => {
-    list.filter(item => item.brand === "Amy's").map(filterdItems => (
-      <Item item={filterdItems}></Item>
-    ))
-  }
-  
+    list
+      .filter((item) => item.brand === "Amy's")
+      .map((filterdItems) => <Item item={filterdItems}></Item>);
+  };
 
-
-
- 
   return (
     <div className="App">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
@@ -74,9 +76,6 @@ const ShopGetPage = () =>  {
       <div ref={loader} />
     </div>
   );
-}
-
-
+};
 
 export default ShopGetPage;
-
