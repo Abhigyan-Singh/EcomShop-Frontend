@@ -16,8 +16,6 @@ const Favorite = (props) => {
 
   const color = '#ea1b21';
 
-  console.log(props);
-
   const { showLabel = false } = props;
   const style = props.isCard ? { marginLeft: 15 } : {};
   const styleClass = props.isCard

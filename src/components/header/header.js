@@ -143,8 +143,8 @@ const Header = (props) => {
 
   const handleCheckoutCart = () => {
     const urlObj = {
-      localhost: 'https://devweb.shop.coborns.com',
-      dev: 'https://devweb.shop.coborns.com',
+      localhost: 'https://devweb2.shop.coborns.com',
+      dev: 'https://devweb2.shop.coborns.com',
       prod: 'https://shop.coborns.com'
     };
     const path = '/checkautomaticpromotions';
@@ -152,7 +152,7 @@ const Header = (props) => {
     let url = '';
     if (host.includes('localhost')) {
       url = urlObj['localhost'];
-    } else if (host.includes('devweb.shop.coborns.com')) {
+    } else if (host.includes('devweb2.shop.coborns.com')) {
       url = urlObj['dev'];
     } else if (host.includes('shop.coborns.com')) {
       url = urlObj['prod'];
@@ -211,7 +211,7 @@ const Header = (props) => {
               {!user && (
                 <a
                   className="underline"
-                  href="https://testweb.shop.coborns.com/createaccount"
+                  href="https://devweb2.shop.coborns.com/createaccount"
                 >
                   Register
                 </a>
@@ -287,8 +287,8 @@ const Header = (props) => {
                                 facilityStoremapping[store?.facilityId]
                                   ? facilityStoremapping[
                                       store?.facilityId
-                                    ].toString()
-                                  : store?.facilityId.toString()
+                                    ]?.toString()
+                                  : store?.facilityId?.toString()
                               }`}
                               target="_blank"
                               rel="noreferrer"
@@ -470,7 +470,7 @@ const Header = (props) => {
           </div>
           <button className="cbn-header__cart-button">
             <img className="w-6 h-auto" src={cartIcon} alt="" />
-            <span className="text-base md:text-lg font-bold ml-3">          
+            <span className="text-base md:text-lg font-bold ml-3">
               {cart.length}
             </span>
           </button>

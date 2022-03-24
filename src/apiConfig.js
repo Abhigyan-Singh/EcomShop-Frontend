@@ -1,4 +1,4 @@
-import  envConfig from './environments/config';
+import envConfig from './environments/config';
 
 export const config = {
   baseUrl: envConfig.url
@@ -20,7 +20,8 @@ export const API = {
   list_save: '/userList/save',
   previous_purchased: '/producthistorylist/productHistoryDetails',
   drop_down_filter: '/productn/findbyarea1/',
-  add_to_cart:'/cart/addtocart'
+  add_to_cart: '/cart/addtocart',
+  get_cart_items: '/cart/getCartItems'
 };
 
 export const CookiesAge = 604800;

@@ -53,30 +53,30 @@ const Locator = (props) => {
   const [showCart, setShowCart] = useState(false);
   //const [total, setTotal] = useState();
   const {
-    state: { cart, total, },
+    state: { cart, total },
     dispatch
   } = CartState();
-
 
   useEffect(() => {
     !hasLoaded &&
       allStores(5).then((res) => {
         setStore(res.data);
         console.log('FACILITY', res.data);
+        const defaultFacility = res.data.facilitiesPickup.filter(
+          (each) => each.facilityDtl.facilityId !== user.defaultFacilityId
+        );
+        setSelected(defaultFacility[0]?.facilityDtl);
         setHasLoaded(true);
       });
-  }, [props]);
+  }, [user]);
 
-
-  
   useEffect(() => {
     !hasLoaded &&
       allStores(7).then((res) => {
         setStoreDelivery(res.data);
         setHasLoaded(true);
       });
-  }, [props]);
-
+  }, [user]);
 
   const [selected, setSelected] = useState(facility);
 
@@ -99,7 +99,6 @@ const Locator = (props) => {
     setShowCart(false);
   };
 
-  console.log(selected);
   return (
     <div id="change_location" className={componentClassName} {...rest}>
       <div className="flex flex-1 md:flex-none items-center divide-x">
@@ -137,12 +136,15 @@ const Locator = (props) => {
                           Delivery &amp; Pick Up
                         </div>
                         {store &&
-                          map(storeDelivery.facilitiesDeliveryOrPickup, (option) => (
-                            <LocationOption
-                              key={option.facilityDtl.facilityName}
-                              option={option.facilityDtl}
-                            />
-                          ))}
+                          map(
+                            storeDelivery.facilitiesDeliveryOrPickup,
+                            (option) => (
+                              <LocationOption
+                                key={option.facilityDtl.facilityName}
+                                option={option.facilityDtl}
+                              />
+                            )
+                          )}
                       </div>
                       <div>
                         <div className="cbn-locator__group-label">
@@ -190,8 +192,14 @@ const Locator = (props) => {
             onClick={handleCartClick}
           >
             <span className="mr-12">Total:</span>
-            {isNaN(total) ? <span className="mr-3">${Number(parseFloat(total|| 0).toFixed(2))}</span>: <span className="mr-3">${parseFloat(total).toFixed(2)}</span> }
-            
+            {isNaN(total) ? (
+              <span className="mr-3">
+                ${Number(parseFloat(total || 0).toFixed(2))}
+              </span>
+            ) : (
+              <span className="mr-3">${parseFloat(total).toFixed(2)}</span>
+            )}
+
             <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
             <Cart open={showCart} onClose={onClose} />
           </button>

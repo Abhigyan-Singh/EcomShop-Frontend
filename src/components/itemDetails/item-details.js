@@ -13,6 +13,7 @@ import Favorite from 'components/favorite/favorite';
 import Wishlist from 'components/wishllist/wishlist';
 import { CartState } from '../../context/context';
 import Counter from 'components/counter/counter';
+import useCart from 'services/addtocart';
 
 const ItemDetails = () => {
   const { id } = useParams();
@@ -26,6 +27,7 @@ const ItemDetails = () => {
   // const [isLoading, setLoading] = useState(false);
   // const [error, setError] = useState(false);
   const [tab, setTab] = useState('pd');
+  const { updateCart } = useCart();
   // const sendQuery = useCallback(async () => {
   //   try {
   //     await setLoading(true);
@@ -124,9 +126,7 @@ const ItemDetails = () => {
                 </div> */}
                 <button
                   className="cbn-button"
-                  onClick={() =>
-                    dispatch({ type: 'ADD_TO_CART', payload: itemDetailsData })
-                  }
+                  onClick={() => updateCart(itemDetailsData)}
                 >
                   <span>Add to Cart</span>
                 </button>

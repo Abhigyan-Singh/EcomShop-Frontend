@@ -4,11 +4,15 @@ import { useForm } from 'react-hook-form';
 import { authenticate } from 'services/auth';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
+import useCart from 'services/addtocart';
+import { CartState } from 'context/context';
 
 const Modal = ({ onClose }) => {
   const [cookies, setCookie] = useCookies(['user']);
   const [loginFailed, setLoginFailed] = useState(false);
   const [visibility, setVisibility] = useState(false);
+  const { getCartDetails } = useCart();
+  const { dispatchUser } = CartState();
   const {
     register,
     handleSubmit,
@@ -22,6 +26,11 @@ const Modal = ({ onClose }) => {
           path: '/',
           maxAge: CookiesAge
         });
+        dispatchUser({
+          type: 'SET_USER',
+          payload: { userName: data.userName }
+        });
+        getCartDetails(res.data.userName);
         onClose();
       } else {
         setLoginFailed(true);
@@ -162,14 +171,14 @@ const Modal = ({ onClose }) => {
           </button>
         </div>
         <p className="modal-forget-pass-container">
-          <a href="https://devweb.shop.coborns.com/chooseresetoption">
+          <a href="https://devweb2.shop.coborns.com/chooseresetoption">
             <span>Forgot User Name </span>/<span> Password</span>
           </a>
         </p>
         <div className="modal-bottom-border">
           <div className="modal-bottom-btn">
             <span style={{ color: '#2c6b2c' }}>New to Coborn’s? </span>
-            <a href="https://devweb.shop.coborns.com/createaccount">
+            <a href="https://devweb2.shop.coborns.com/createaccount">
               <button type="button" className="modal-signUp">
                 Register
               </button>

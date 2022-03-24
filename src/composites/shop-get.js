@@ -7,10 +7,10 @@ import { Context } from 'context/context';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 
+import useCart from 'services/addtocart';
+import { useDeleteFavorite } from 'services/favorites';
 
-
-
-const ShopGetPage = () =>  {
+const ShopGetPage = () => {
   const params = window.location.href.split('?')[1];
   const { text: searchText } = queryString.parse(params);
   const [query, setQuery] = useState(searchText);
@@ -19,7 +19,13 @@ const ShopGetPage = () =>  {
   const [listItems, setListItems] = useState([]);
   const loader = useRef(null);
 
+  const { getCartDetails } = useCart();
+  const { fetchFavorites } = useDeleteFavorite();
 
+  useEffect(() => {
+    getCartDetails();
+    fetchFavorites();
+  }, []);
 
   const getListItems = async () => {
     const res = await getAllList();
@@ -32,8 +38,7 @@ const ShopGetPage = () =>  {
   useEffect(() => {
     handleChange();
     getListItems();
-    
-    console.log("LIST", list)
+    console.log('LIST', list);
   }, []);
 
   const handleObserver = useCallback((entries) => {
@@ -52,7 +57,6 @@ const ShopGetPage = () =>  {
     const observer = new IntersectionObserver(handleObserver, option);
     if (loader.current) observer.observe(loader.current);
   }, [handleObserver]);
-
 
   const filter = () => {
     list.filter(item => item.brand === "Amy's").map(filterdItems => (
@@ -75,9 +79,6 @@ const ShopGetPage = () =>  {
       <div ref={loader} />
     </div>
   );
-}
-
-
+};
 
 export default ShopGetPage;
-

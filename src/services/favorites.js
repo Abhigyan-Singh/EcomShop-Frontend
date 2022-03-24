@@ -20,10 +20,6 @@ export const useDeleteFavorite = () => {
     });
     dispatchFavorites({ type: 'SET_FAVORITE', payload: items });
   };
-  useEffect(() => {
-    console.log('fetch favorites');
-    fetchFavorites();
-  }, []);
 
   const deleteFavorite = async (productId) => {
     await apiClient.delete(
@@ -33,7 +29,8 @@ export const useDeleteFavorite = () => {
     fetchFavorites();
   };
   return {
-    deleteFavorite
+    deleteFavorite,
+    fetchFavorites
   };
 };
 

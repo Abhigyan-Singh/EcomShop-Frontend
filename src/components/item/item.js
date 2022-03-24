@@ -19,12 +19,11 @@ import {
 // import Button from 'components/button/button';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { addList, saveListItem } from 'services/mylist';
-import { useCart } from 'react-use-cart';
 import Favorite from 'components/favorite/favorite';
 import Wishlist from 'components/wishllist/wishlist';
 import Quickview from '../quickview/quickview';
 import { CartState } from '../../context/context';
-import addtocart from 'services/addtocart';
+import useCart from 'services/addtocart';
 
 const Item = (props) => {
   const {
@@ -50,14 +49,15 @@ const Item = (props) => {
   const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
-  const {state: { cart, counter }, dispatch} = CartState();
-
-
+  const {
+    state: { cart, counter },
+    dispatch
+  } = CartState();
+  const { updateCart } = useCart();
 
   useEffect(() => {
-    console.log("COUNTERERER", counter)
-  }, [])
-  
+    console.log('COUNTERERER', counter);
+  }, []);
 
   const handleViewClick = () => {
     if (typeof onViewClick === 'function') {
@@ -144,11 +144,16 @@ const Item = (props) => {
         ) : null}
         <a key={item.id} className="flex items-center space-x-2">
           {cart.some((i) => i.id === item.productId)}
-          <Counter disabled={item.isOutOfStock} onChange={() => item.qty += 1} />
+          <Counter
+            disabled={item.isOutOfStock}
+            onChange={() => (item.qty += 1)}
+          />
           <Button
             disabled={item.isOutOfStock}
             label="Add"
-            onClick={() => dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })}
+            onClick={() =>
+              dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })
+            }
           />
         </a>
       </div>

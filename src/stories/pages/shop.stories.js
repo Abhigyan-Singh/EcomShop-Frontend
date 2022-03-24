@@ -17,11 +17,8 @@ import slidesCashWise from 'data/slidesCashWise.json';
 import slidesMarketPlace from 'data/slidesMarketPlace.json';
 import MobileNav from 'components/mobile-nav/mobile-nav';
 import ShopGetPage from 'composites/shop-get';
-import filter  from 'services/dropdownfilter';
+import filter from 'services/dropdownfilter';
 import { grocery } from 'services/groceryTree';
-
-
-
 export default {
   title: 'Pages/Home',
   argTypes: {
@@ -39,21 +36,17 @@ export default {
 export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [user, setUser] = useState({ firstName: 'Apple' });
 
   useEffect(() => {
-    grocery(109791).then((res) => {
-      setData(res);
-        console.log("DATA", data);
+    grocery(109791)
+      .then((res) => {
+        setData(res);
+        console.log('DATA', data);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    
   }, []);
-
-
 
   return (
     <Fragment>
@@ -80,4 +73,3 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
 };
 
 ShopStory.storyName = 'Home';
-

@@ -35,8 +35,8 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const location = Geolocation();
-  const [user, setUser] = useState({ firstName: 'Apple' });
-  const { facility, dept, subdept } = cookies;
+  const { facility, dept, user, subdept } = cookies;
+
   const [store, setStore] = useState(facility);
   const [depart, setDepart] = useState(dept);
   const [depart2, setDepart2] = useState(dept);
@@ -161,6 +161,7 @@ const App = () => {
   };
 
   // console.log('app', store);
+  console.log(store, facilityStoremapping[store?.facilityId]);
   return (
     <Router>
       <div id="yext-facility-hours-setter" style={{ visibility: 'hidden' }}>
@@ -169,8 +170,8 @@ const App = () => {
             data-yext-field="hours"
             data-yext-id={
               facilityStoremapping[store?.facilityId]
-                ? facilityStoremapping[store?.facilityId].toString()
-                : store?.facilityId.toString()
+                ? facilityStoremapping[store?.facilityId]?.toString()
+                : store?.facilityId?.toString()
             }
           ></span>
         </p>
@@ -183,7 +184,7 @@ const App = () => {
       </Alert>
       <Header
         onMobileButtonClick={handleMobileButtonClick}
-        user={isAuthenticated ? user : null}
+        user={isAuthenticated ? { firstName: user.userName } : null}
         logout={onLogout}
         store={store}
         onDeptChange={onDepartChange}
