@@ -87,7 +87,7 @@ const shopNavigation2 = [
   },
   {
     name: 'Previously Purchased',
-    href: '#link'
+    href: '/dispmyshoppinglistdetails'
   }
 ];
 
