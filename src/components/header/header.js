@@ -144,7 +144,7 @@ const Header = (props) => {
   const handleCheckoutCart = () => {
     const urlObj = {
       localhost: 'https://devweb2.shop.coborns.com',
-      dev: 'https://devweb2.shop.coborns.com',
+      dev: 'https://devweb.shop.coborns.com',
       prod: 'https://shop.coborns.com'
     };
     const path = '/checkautomaticpromotions';
