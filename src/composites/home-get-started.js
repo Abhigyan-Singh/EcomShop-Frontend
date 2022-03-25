@@ -714,7 +714,7 @@ const HomeGetStarted = (props) => {
   const { getCartDetails } = useCart();
   useEffect(() => {
     getCartDetails();
-  });
+  }, []);
   return (
     <div className="p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">
