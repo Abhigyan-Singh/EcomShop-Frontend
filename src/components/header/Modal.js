@@ -12,6 +12,7 @@ const Modal = ({ onClose }) => {
   const [loginFailed, setLoginFailed] = useState(false);
   const [visibility, setVisibility] = useState(false);
   const { getCartDetails } = useCart();
+
   const { dispatchUser } = CartState();
   const {
     register,
