@@ -1,13 +1,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import { HeartIcon } from '@heroicons/react/outline';
-import { addFavorite, useDeleteFavorite } from 'services/favorites';
+import { useDeleteFavorite } from 'services/favorites';
+import { CartState } from 'context/context';
 
 const Favorite = (props) => {
-  const { deleteFavorite } = useDeleteFavorite();
+  const { addFavorite, deleteFavorite } = useDeleteFavorite();
+  const { favorites } = CartState();
+  let isFavorite = false;
+
+  favorites.favorites.map((each) => {
+    if (each.productId === props.productId) {
+      isFavorite = true;
+    }
+  });
 
   const handleFavoriteClick = async () => {
-    if (!props.favorite) {
+    if (!isFavorite) {
       await addFavorite({ productId: props.productId });
     } else {
       await deleteFavorite(props.productId);
@@ -21,6 +30,7 @@ const Favorite = (props) => {
   const styleClass = props.isCard
     ? 'block mb-2 ml-15'
     : 'relative rounded-sm inline-flex items-center font-medium text-sm text-left';
+
   return (
     <button
       key={props.productId}
@@ -28,7 +38,7 @@ const Favorite = (props) => {
       onClick={handleFavoriteClick}
       className={styleClass}
     >
-      {props.favorite ? (
+      {isFavorite ? (
         <HeartIcon
           className="h-6 w-6 font-medium"
           stroke={color}

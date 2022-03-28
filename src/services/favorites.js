@@ -3,7 +3,7 @@ import { config, API } from 'apiConfig';
 import apiClient from './api';
 import { CartState } from 'context/context';
 
-export const addFavorite = (payload) => {
+export const addFavoriteApi = (payload) => {
   return apiClient.post(config.baseUrl + API.add_favorite, payload);
 };
 
@@ -28,9 +28,16 @@ export const useDeleteFavorite = () => {
     );
     fetchFavorites();
   };
+
+  const addFavorite = async (payload) => {
+    await addFavoriteApi(payload);
+    fetchFavorites();
+  };
+
   return {
     deleteFavorite,
-    fetchFavorites
+    fetchFavorites,
+    addFavorite
   };
 };
 
