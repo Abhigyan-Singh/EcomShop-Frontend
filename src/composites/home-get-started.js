@@ -3,6 +3,7 @@ import Item from 'components/item/item';
 import Tabs from 'components/tabs/tabs';
 import { useEffect } from 'react';
 import useCart from 'services/addtocart';
+import { useDeleteFavorite } from 'services/favorites';
 
 export const mockData = [
   {
@@ -712,9 +713,11 @@ export const mockData = [
 
 const HomeGetStarted = (props) => {
   const { getCartDetails } = useCart();
+  const { fetchFavorites } = useDeleteFavorite();
   useEffect(() => {
     getCartDetails();
-  });
+    fetchFavorites();
+  }, []);
   return (
     <div className="p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">

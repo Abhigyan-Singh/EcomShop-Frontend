@@ -14,6 +14,7 @@ import Wishlist from 'components/wishllist/wishlist';
 import { CartState } from '../../context/context';
 import Counter from 'components/counter/counter';
 import useCart from 'services/addtocart';
+import './item-details.css';
 
 const ItemDetails = () => {
   const { id } = useParams();
@@ -24,6 +25,7 @@ const ItemDetails = () => {
   } = CartState();
   const [itemDetailsData, setItemDetailsData] = useState(location.state?.item);
   const [listItems, setListItems] = useState(location.state?.listItems);
+  const [showProdInfo, setShowProdInfo] = useState(false);
   // const [isLoading, setLoading] = useState(false);
   // const [error, setError] = useState(false);
   const [tab, setTab] = useState('pd');
@@ -204,17 +206,46 @@ const ItemDetails = () => {
           )}
         </div>
         <button
-          className="underline font-medium mb-2 flex items-center"
+          className={
+            showProdInfo
+              ? 'underline font-medium mb-2 flex items-center'
+              : 'underline font-medium mb-2 flex items-center   ' +
+                'product-info-margin'
+          }
           id="headlessui-disclosure-button-5"
           type="button"
           aria-expanded="false"
+          onClick={() => setShowProdInfo(!showProdInfo)}
         >
           Important Note About Product Information
-          <PlusIcon className="h-4 w-4 font-medium" />
+          {!showProdInfo ? (
+            <PlusIcon className="h-4 w-4 font-medium" />
+          ) : (
+            <MinusIcon className="h-4 w-4 font-medium" />
+          )}
         </button>
+        {showProdInfo && (
+          <div style={{ marginBottom: 45 }}>
+            We do our best to present accurate nutrition, ingredient, and other
+            product information on our website. Unfortunately, since this
+            information comes from many sources, we cannot guarantee that it is
+            accurate or complete.
+            <br />
+            If you have a specific dietary concern or a question about a
+            product, please consult the product's label or contact the
+            manufacturer directly.
+            <br />
+            If you think you have detected an error on our site, please{'  '}
+            <a
+              className="dropdown-light-primary "
+              href="https://devweb2.shop.coborns.com/customerfeedbackservice"
+            >
+              contact us.
+            </a>
+          </div>
+        )}
       </div>
       <div className="font-serif text-lg tracking-widest uppercase mb-2 lg:mb-0">
-        {' '}
         Best Sellers
       </div>
     </>

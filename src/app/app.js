@@ -207,11 +207,13 @@ const App = () => {
         <span>
           COVID-19 Vaccinations are now available in select locations.
         </span>{' '}
-        <a className="underline" href="https://www.coborns.com/Covid19">Check Availability</a>
+        <a className="underline" href="https://www.coborns.com/Covid19">
+          Check Availability
+        </a>
       </Alert>
       <Header
         onMobileButtonClick={handleMobileButtonClick}
-        user={isAuthenticated ? { firstName: user.userName } : null}
+        user={isAuthenticated ? { firstName: user.firstName } : null}
         logout={onLogout}
         store={store}
         onDeptChange={onDepartChange}

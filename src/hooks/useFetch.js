@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { search } from 'services/search';
 import { getAllFavorites } from 'services/favorites';
-import { useCart } from 'react-use-cart';
 const facilityId = 2037;
 
 function useFetch(query, page) {
