@@ -5,6 +5,8 @@ import Input from 'components/input/input';
 import useEventListener from 'hooks/useEventListener';
 import './autocomplete.css';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { CookiesAge } from 'apiConfig';
 
 const AutocompleteMenu = (props) => {
   const { children, ...rest } = props;
@@ -41,6 +43,11 @@ const Autocomplete = (props) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const navigate = useNavigate();
 
+  const [cookies, setCookie] = useCookies();
+  const { facility, dept } = cookies;
+  const [selected, setSelected] = useState(dept);
+
+
   const componentClassName = classNames('cbn-autocomplete', {});
 
   const handleBlur = () => {
@@ -53,9 +60,18 @@ const Autocomplete = (props) => {
   }, [value]);
 
   const handleClick = (event, item) => {
+    handleDeptChange5(item.prodDepartment)
     handleItemSelect(event, item);
     navigate('/item/' + item.productId, { state: item });
     onItemSelect('');
+  };
+
+  const handleDeptChange5 = (item) => {
+    setSelected(item);
+    setCookie('dept', item, {
+      path: '/',
+      maxAge: CookiesAge
+    });
   };
 
   const handleFocus = (event) => {
@@ -102,9 +118,10 @@ const Autocomplete = (props) => {
               selectedItemIndex < filteredItems.length - 1
             ) {
               setSelectedItemIndex(selectedItemIndex + 1);
-            } else {
+            }                         
+              else {
               setSelectedItemIndex(0);
-            }
+            } 
           }
         }
       }
@@ -143,6 +160,7 @@ const Autocomplete = (props) => {
                     aria-selected={selectedItemIndex === index}
                     onClick={(event) => handleClick(event, item)}
                     onMouseDown={handleMouseDown}
+                    
                   >
                     {item.productName}
                   </AutocompleteMenuItem>
@@ -164,7 +182,8 @@ const Autocomplete = (props) => {
 Autocomplete.propTypes = {
   items: PropTypes.array,
   onItemSelect: PropTypes.func,
-  value: PropTypes.string
+  value: PropTypes.string,
+  handleDeptChange5: PropTypes.func
 };
 
 Autocomplete.defaultProps = {

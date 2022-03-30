@@ -6,7 +6,6 @@ import { getAllList } from 'services/mylist';
 import { Context } from 'context/context';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
-
 import useCart from 'services/addtocart';
 import { useDeleteFavorite } from 'services/favorites';
 
@@ -22,6 +21,7 @@ const ShopGetPage = () => {
   const { getCartDetails } = useCart();
   const { fetchFavorites } = useDeleteFavorite();
 
+  
   useEffect(() => {
     getCartDetails();
     fetchFavorites();
@@ -34,6 +34,7 @@ const ShopGetPage = () => {
 
   const handleChange = (e) => {
     setQuery(e?.target?.value);
+  
   };
   useEffect(() => {
     handleChange();
