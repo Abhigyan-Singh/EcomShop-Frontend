@@ -128,7 +128,7 @@ const ItemDetails = () => {
                 </div> */}
                 <button
                   className="cbn-button"
-                  onClick={() => updateCart(itemDetailsData)}
+                  onClick={() => dispatch({ type: 'ADD_TO_CART', payload: itemDetailsData, qty: itemDetailsData.qty })}
                 >
                   <span>Add to Cart</span>
                 </button>

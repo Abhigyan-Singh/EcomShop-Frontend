@@ -21,6 +21,9 @@ import { ShopListItems } from 'stories/pages/shop-list-item.stories';
 import { Mapquest } from 'stories/pages/storelocator.js';
 import { Geolocation } from '../services/geolocation.js';
 import { allStores } from 'services/facilities.js';
+import {StoreLocator} from 'stories/pages/storelocator.js';
+
+
 
 export const facilityStoremapping = {
   605: 2029,
@@ -38,10 +41,12 @@ const App = () => {
   const { facility, dept, user, subdept } = cookies;
 
   const [store, setStore] = useState(facility);
+  const [store2, setStore2] = useState(facility);
   const [depart, setDepart] = useState(dept);
   const [depart2, setDepart2] = useState(dept);
   const [depart3, setDepart3] = useState(dept);
   const [depart4, setDepart4] = useState(dept);
+  const [depart5, setDepart5] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
 
   useEffect(() => {
@@ -50,34 +55,6 @@ const App = () => {
     else setIsAuthenticated(false);
   }, [cookies]);
 
-  const onLogout = () => {
-    removeCookie('user');
-    setIsAuthenticated(false);
-  };
-
-  const onStoreChange = (storeSel) => {
-    setStore(storeSel);
-  };
-
-  const onDepartChange = (storeDept) => {
-    setDepart(storeDept);
-  };
-
-  const onDepartChange2 = (storeDept) => {
-    setDepart2(storeDept);
-  };
-
-  const onDepartChange3 = (storeDept) => {
-    setDepart3(storeDept);
-  };
-
-  const onDepartChange4 = (storeDept) => {
-    setDepart4(storeDept);
-  };
-
-  const onSubDepartChange = (substoreDept) => {
-    setSubdepart(substoreDept);
-  };
 
   useEffect(() => {
     let brand = 'coborns-theme';
@@ -103,6 +80,44 @@ const App = () => {
     setMobileNavOpen(event);
   };
 
+  const onLogout = () => {
+    removeCookie('user');
+    setIsAuthenticated(false);
+  };
+
+  const onStoreChange = (storeSel) => {
+    setStore(storeSel);
+  };
+
+  const onStoreChange2 = (storeSel) => {
+    setStore2(storeSel);
+  };
+
+
+  const onDepartChange = (storeDept) => {
+    setDepart(storeDept);
+  };
+
+  const onDepartChange2 = (storeDept) => {
+    setDepart2(storeDept);
+  };
+
+  const onDepartChange3 = (storeDept) => {
+    setDepart3(storeDept);
+  };
+
+  const onDepartChange4 = (storeDept) => {
+    setDepart4(storeDept);
+  };
+
+  const onDepartChange5 = (storeDept) => {
+    setDepart5(storeDept);
+  };
+  
+  const onSubDepartChange = (substoreDept) => {
+    setSubdepart(substoreDept);
+  };
+
   const AppRoute = () => {
     let routes = useRoutes([
       {
@@ -112,6 +127,7 @@ const App = () => {
             isAuthenticated={isAuthenticated}
             onStoreChange={onStoreChange}
             onDepartChange4={onDepartChange4}
+            onDepartChange5={onDepartChange5}
             logout={onLogout}
           />
         )
@@ -153,6 +169,18 @@ const App = () => {
         path: 'shop-list-items',
         element: (
           <ShopListItems isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+       {
+        path: 'shop-list-items',
+        element: (
+          <ShopListItems isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'store-locator',
+        element: (
+          <StoreLocator isAuthenticated={isAuthenticated} logout={onLogout} handleFacilityChange={onStoreChange2} />
         )
       }
     ]);

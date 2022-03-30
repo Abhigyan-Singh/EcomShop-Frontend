@@ -24,6 +24,10 @@ import { CookiesAge } from 'apiConfig';
 import { useNavigate } from 'react-router-dom';
 import { CartState } from 'context/context';
 import { map } from 'lodash';
+import StoreLocator from 'stories/pages/storelocator.js';
+
+
+
 
 export const facilityStoremapping = {
   605: 2029,
@@ -44,6 +48,7 @@ const Header = (props) => {
     store,
     stores,
     onDeptChange,
+    onDepartChange5,
     ...rest
   } = props;
   const componentClassName = classNames('cbn-header', {}, className);
@@ -204,10 +209,10 @@ const Header = (props) => {
               {!user && 'Grocery Shopping Made Easy'}
             </div>
             <div className="text-xs font-medium space-x-2">
-              <a className="underline" href='"/store-locator"'>
+              <a className="underline" href="/store-locator">
                 Store Locator
               </a>
-              {user && <a className="underline">My Account</a>}
+              {user && <a className="underline" href="https://devweb2.shop.coborns.com/createaccount">My Account</a>}
               {!user && (
                 <a
                   className="underline"
@@ -217,9 +222,9 @@ const Header = (props) => {
                 </a>
               )}
               {user && (
-                <a className="underline" onClick={props.logout}>
+                <button className="underline" onClick={props.logout}>
                   Sign Out
-                </a>
+                </button>
               )}
               {!user && (
                 <a className="underline">
@@ -431,6 +436,7 @@ const Header = (props) => {
         </Popover>
         <div className="flex-1 lg:flex-none">
           <Autocomplete
+            handleDeptChange5={onDepartChange5}
             className="block w-full lg:w-96 h-10 md:h-11"
             hasRoundedCorners={true}
             icon={SearchIcon}
