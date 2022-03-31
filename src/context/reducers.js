@@ -59,20 +59,61 @@ export const cartReducer = (state, action) => {
           )
         };
       }
-    case 'UPDATE_CART_QTY':
-      const cart = state.cart.filter((item) =>
-        item.productId !== action.payload.productId
-          ? (item.qty = action.payload.qty)
-          : item.qty
+    case 'INCREASE_ITEM_QTY':
+      const item3 = state.cart.find(
+        (product) => product.productId === action.payload.productId
       );
-      return {
-        ...state,
-        cart,
-        total: cart.reduce(
-          (result, item) => item.qty * item.currentPrice + result,
-          0
-        )
-      };
+      if (item3) {
+        const cart = state.cart.map((product) => {
+          if (product.productId === action.payload.productId) {
+            return {
+              ...product,
+              qty: product.qty +++ 1
+            };
+          }
+          return product;
+        });
+      } 
+      case 'DECREASE_ITEM_QTY':
+        const item4 = state.cart.find(
+          (item) => item.productId === action.payload.productId
+        );
+        if (item4) {
+          const cart = state.cart.map((product) => {
+            if (product.productId === action.payload.productId) {
+              return {
+                ...product,
+                qty: product.qty - 1
+              };
+            }
+            return product;
+          });
+          return {
+            ...state,
+            cart,
+            total: cart.reduce(
+              (result, item) => item.qty * item.currentPrice + result, 0  
+            )
+          }
+        }
+
+        case 'SAVE_ITEM_QTY':
+          const cart = state.cart.map((product) => {
+            if (product.productId === action.payload.productId) {
+              return {
+                ...product,
+                qty: action.qty
+              };
+            }
+            return product;
+          });
+          return {
+            ...state,
+            cart,
+            total: cart.reduce(
+              (result, item) => item.qty * item.currentPrice + result, 0  
+            )
+          }
     default:
       return state;
   }

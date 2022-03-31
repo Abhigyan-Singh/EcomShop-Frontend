@@ -36,8 +36,8 @@ const ShopCategory = (props) => {
               <ChevronRightIcon
                 className="h-5 w-5 text-gray-300 transform"
                 aria-hidden="true"
-              />
-              <a className="ml-2 hover:underline">{dept}</a>
+              /> 
+              <a href="" className="ml-2 hover:underline">{dept}</a>
             </div>
           </li>
           <li>
@@ -46,7 +46,7 @@ const ShopCategory = (props) => {
                 className="h-5 w-5 text-gray-300 transform"
                 aria-hidden="true"
               />
-              <a className="ml-2 hover:underline" aria-current="page">
+              <a href="" className="ml-2 hover:underline" aria-current="page">
                 {subdept}
               </a>
             </div>
