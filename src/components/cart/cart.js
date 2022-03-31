@@ -57,9 +57,11 @@ const Cart = (props) => {
       <div className="cbn-cart__item group" {...item}>
         <div className="flex items-start space-x-3">
           <Counter
+            item={item.item}
             value={item.item.qty}
             disabled={item.item.isOutOfStock}
-            onChange={() => {}}
+            onChange={() =>  {}}
+            min="1"
           />
           <div>
             <div className="text-sm leading-tight mb-1">

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ClipboardListIcon, HeartIcon } from '@heroicons/react/outline';
 import Button from 'components/button/button';
-import Counter from 'components/counter/counter';
+import Counter2 from 'components/counter/counter2';
 import Select from 'components/select/select';
 import saleRibbon from 'assets/images/sale-ribbon@2x.png';
 import { addFavorite, deleteFavorite } from 'services/favorites';
@@ -144,9 +144,10 @@ const Item = (props) => {
         ) : null}
         <a key={item.id} className="flex items-center space-x-2">
           {cart.some((i) => i.id === item.productId)}
-          <Counter
+          <Counter2
+            item={item}
             disabled={item.isOutOfStock}
-            onChange={() => (item.qty += 1)}
+            onChange={() => {}}
           />
           <Button
             disabled={item.isOutOfStock}

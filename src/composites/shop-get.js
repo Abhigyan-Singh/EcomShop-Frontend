@@ -76,7 +76,7 @@ const ShopGetPage = () => {
         ))}
       </div>
       {loading && <p>Loading...</p>}
-      {error && <p>Error!</p>}
+      {error && <p>No Products match your criteria</p>}
       <div ref={loader} />
     </div>
   );
