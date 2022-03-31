@@ -62,7 +62,7 @@ export const Counter = (props) => {
       <button
         className="cbn-counter__button cbn-counter__button--left"
         disabled={disabled}
-        onClick={() => dispatch({ type: 'DECREASE_ITEM_QTY', payload: item, qty: item.qty })}
+        //onClick={() => dispatch({ type: 'DECREASE_ITEM_QTY', payload: item, qty: item.qty })}
       >
         <MinusSmIcon className="cbn-counter__icon ml-0.5" />
         <span className="sr-only">Decrement</span>
