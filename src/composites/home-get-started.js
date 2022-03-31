@@ -4,6 +4,10 @@ import Tabs from 'components/tabs/tabs';
 import { useEffect } from 'react';
 import useCart from 'services/addtocart';
 import { useDeleteFavorite } from 'services/favorites';
+import { useCookies } from 'react-cookie';
+import { CartState } from 'context/context';
+import { userInfoService } from 'services/auth';
+import { CookiesAge } from 'apiConfig';
 
 export const mockData = [
   {
@@ -712,8 +716,30 @@ export const mockData = [
 ];
 
 const HomeGetStarted = (props) => {
+  const [cookies, setCookie] = useCookies(['user']);
+  const { userInfo } = cookies;
+  const { dispatchUser } = CartState();
   const { getCartDetails } = useCart();
   const { fetchFavorites } = useDeleteFavorite();
+
+  useEffect(() => {
+    if (!userInfo) {
+      userInfoService().then((userRes) => {
+        if (userRes.data) {
+          setCookie('userInfo', userRes.data, {
+            path: '/',
+            maxAge: CookiesAge
+          });
+          dispatchUser({
+            type: 'SET_USER',
+            payload: { userName: userRes.data.userName }
+          });
+          getCartDetails(userRes.data.userName);
+        }
+      });
+    }
+  }, [userInfo]);
+
   useEffect(() => {
     getCartDetails();
     fetchFavorites();

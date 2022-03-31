@@ -7,6 +7,7 @@ export const config = {
 export const API = {
   facilities: '/api/facilities/',
   authenticate: '/authenticate',
+  userinfo: '/userinfo',
   search: '/product/search',
   productDetails: '/product/', // then id
   grocery_tree: '/grocery/tree/5/PRODUCTS/',

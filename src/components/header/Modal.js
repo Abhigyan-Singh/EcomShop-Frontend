@@ -1,7 +1,7 @@
 import './Modal.css';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { authenticate } from 'services/auth';
+import { authenticate, userInfoService } from 'services/auth';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import useCart from 'services/addtocart';
@@ -27,11 +27,20 @@ const Modal = ({ onClose }) => {
           path: '/',
           maxAge: CookiesAge
         });
-        dispatchUser({
-          type: 'SET_USER',
-          payload: { userName: data.userName }
+        userInfoService().then((userRes) => {
+          if (userRes.data) {
+            setCookie('userInfo', userRes.data, {
+              path: '/',
+              maxAge: CookiesAge
+            });
+            dispatchUser({
+              type: 'SET_USER',
+              payload: { userName: data.userName }
+            });
+            getCartDetails(data.userName);
+          }
         });
-        getCartDetails(res.data.userName);
+
         onClose();
       } else {
         setLoginFailed(true);
