@@ -68,7 +68,7 @@ export const cartReducer = (state, action) => {
           if (product.productId === action.payload.productId) {
             return {
               ...product,
-              qty: product.qty +++ 1
+              qty: product.qty += 1
             };
           }
           return product;
