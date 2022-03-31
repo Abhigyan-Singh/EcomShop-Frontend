@@ -21,9 +21,11 @@ import { ShopListItems } from 'stories/pages/shop-list-item.stories';
 import { Mapquest } from 'stories/pages/storelocator.js';
 import { Geolocation } from '../services/geolocation.js';
 import { allStores } from 'services/facilities.js';
-import {StoreLocator} from 'stories/pages/storelocator.js';
-
-
+import { StoreLocator } from 'stories/pages/storelocator.js';
+import { CookiesAge } from 'apiConfig';
+import { CartState } from 'context/context.js';
+import useCart from 'services/addtocart.js';
+import { userInfoService } from 'services/auth.js';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -38,7 +40,9 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const location = Geolocation();
-  const { facility, dept, user, subdept } = cookies;
+  const { facility, dept, user, userInfo, subdept } = cookies;
+  // const { dispatchUser } = CartState();
+  // const { getCartDetails } = useCart();
 
   const [store, setStore] = useState(facility);
   const [store2, setStore2] = useState(facility);
@@ -54,7 +58,6 @@ const App = () => {
     if (user?.token) setIsAuthenticated(true);
     else setIsAuthenticated(false);
   }, [cookies]);
-
 
   useEffect(() => {
     let brand = 'coborns-theme';
@@ -82,6 +85,7 @@ const App = () => {
 
   const onLogout = () => {
     removeCookie('user');
+    removeCookie('userInfo');
     setIsAuthenticated(false);
   };
 
@@ -92,7 +96,6 @@ const App = () => {
   const onStoreChange2 = (storeSel) => {
     setStore2(storeSel);
   };
-
 
   const onDepartChange = (storeDept) => {
     setDepart(storeDept);
@@ -113,7 +116,7 @@ const App = () => {
   const onDepartChange5 = (storeDept) => {
     setDepart5(storeDept);
   };
-  
+
   const onSubDepartChange = (substoreDept) => {
     setSubdepart(substoreDept);
   };
@@ -171,7 +174,7 @@ const App = () => {
           <ShopListItems isAuthenticated={isAuthenticated} logout={onLogout} />
         )
       },
-       {
+      {
         path: 'shop-list-items',
         element: (
           <ShopListItems isAuthenticated={isAuthenticated} logout={onLogout} />
@@ -180,7 +183,11 @@ const App = () => {
       {
         path: 'store-locator',
         element: (
-          <StoreLocator isAuthenticated={isAuthenticated} logout={onLogout} handleFacilityChange={onStoreChange2} />
+          <StoreLocator
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+            handleFacilityChange={onStoreChange2}
+          />
         )
       }
     ]);
@@ -213,7 +220,7 @@ const App = () => {
       </Alert>
       <Header
         onMobileButtonClick={handleMobileButtonClick}
-        user={isAuthenticated ? { firstName: user.firstName } : null}
+        user={isAuthenticated ? { firstName: userInfo?.firstName } : null}
         logout={onLogout}
         store={store}
         onDeptChange={onDepartChange}
