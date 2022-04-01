@@ -80,7 +80,7 @@ export const Counter2 = (props) => {
           onBlur={handleOnBlur}
           onChange={(event) => dispatch({type: 'SAVE_ITEM_QTY', payload: item, qty: event.target.value})}
           ref={inputRef}
-       
+          type="number"
           min="1"
           value={value}
    
