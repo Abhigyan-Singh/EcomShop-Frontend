@@ -26,9 +26,6 @@ import { CartState } from 'context/context';
 import { map } from 'lodash';
 import StoreLocator from 'stories/pages/storelocator.js';
 
-
-
-
 export const facilityStoremapping = {
   605: 2029,
   500: 2032,
@@ -212,7 +209,14 @@ const Header = (props) => {
               <a className="underline" href="/store-locator">
                 Store Locator
               </a>
-              {user && <a className="underline" href="https://devweb2.shop.coborns.com/createaccount">My Account</a>}
+              {user && (
+                <a
+                  className="underline"
+                  href="https://devweb2.shop.coborns.com/createaccount"
+                >
+                  My Account
+                </a>
+              )}
               {!user && (
                 <a
                   className="underline"

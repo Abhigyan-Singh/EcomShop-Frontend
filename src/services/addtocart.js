@@ -16,22 +16,23 @@ export const getCartData = (userName) => {
 const useCart = () => {
   const { dispatch } = CartState();
   const [cookies] = useCookies(['user']);
-  const { user } = cookies;
+  const { userInfo } = cookies;
 
   const getCartDetails = async (userName) => {
-    const cartData = await getCartData(
-      user?.userName ? user.userName : userName
-    );
-    const cart = cartData.data.map((each) => ({
-      ...each.id.product,
-      currentPrice: each.itemTotal,
-      qty: each.quantityInCart
-    }));
-    dispatch({ type: 'SET_CART_DATA', payload: cart });
+    const userNameFinal = userInfo?.userName ? userInfo.userName : userName;
+    if (userNameFinal) {
+      const cartData = await getCartData(userNameFinal);
+      const cart = cartData.data.map((each) => ({
+        ...each.id.product,
+        currentPrice: each.itemTotal,
+        qty: each.quantityInCart
+      }));
+      dispatch({ type: 'SET_CART_DATA', payload: cart });
+    }
   };
 
   const updateCart = async (item) => {
-    await addtocart(user?.userName, item.productId, 1, 2037);
+    await addtocart(userInfo?.userName, item.productId, 1, 2037);
     getCartDetails();
   };
   return {
