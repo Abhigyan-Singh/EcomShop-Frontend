@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import './checkbox.css';
 
 const Checkbox = forwardRef((props, ref) => {
-  const { className, disabled, label, ...rest } = props;
+  const { className, disabled, label, count, ...rest } = props;
   const componentClassName = classNames(
     'cbn-checkbox',
     { 'cbn-checkbox--disabled': disabled },
@@ -21,6 +21,11 @@ const Checkbox = forwardRef((props, ref) => {
         {...rest}
       />
       <span className="cbn-checkbox__label">{label}</span>
+      {count ? (
+        <span className="ml-1.5 rounded py-0.5 px-1.5 bg-green text-white text-xs tabular-nums cashwise:bg-merlot marketplace:bg-forest">
+          {count}
+        </span>
+      ) : null}
     </label>
   );
 });
