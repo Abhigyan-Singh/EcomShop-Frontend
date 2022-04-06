@@ -36,9 +36,10 @@ AutocompleteMenuItem.propTypes = {
 };
 
 const Autocomplete = (props) => {
-  const { items, onChange, onItemSelect, value, onScroll, ...rest } = props;
+  const { items, onChange, onItemSelect, value, onScroll, loading, ...rest } =
+    props;
   const inputRef = useRef(null);
-  const [filteredItems, setFilteredItems] = useState(items);
+  const [filteredItems, setFilteredItems] = useState();
   const [focused, setFocused] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const navigate = useNavigate();
@@ -46,7 +47,6 @@ const Autocomplete = (props) => {
   const [cookies, setCookie] = useCookies();
   const { facility, dept } = cookies;
   const [selected, setSelected] = useState(dept);
-
 
   const componentClassName = classNames('cbn-autocomplete', {});
 
@@ -56,11 +56,11 @@ const Autocomplete = (props) => {
   };
 
   useEffect(() => {
-    value && setFilteredItems(items);
-  }, [value]);
+    items && setFilteredItems(items);
+  }, [items]);
 
   const handleClick = (event, item) => {
-    handleDeptChange5(item.prodDepartment)
+    handleDeptChange5(item.prodDepartment);
     handleItemSelect(event, item);
     navigate('/item/' + item.productId, { state: item });
     onItemSelect('');
@@ -118,10 +118,9 @@ const Autocomplete = (props) => {
               selectedItemIndex < filteredItems.length - 1
             ) {
               setSelectedItemIndex(selectedItemIndex + 1);
-            }                         
-              else {
+            } else {
               setSelectedItemIndex(0);
-            } 
+            }
           }
         }
       }
@@ -144,7 +143,7 @@ const Autocomplete = (props) => {
         onFocus={handleFocus}
         {...rest}
       />
-      {value && (
+      {!loading && value && (
         <div
           className="cbn-autocomplete__container"
           onScroll={onScroll}
@@ -160,7 +159,6 @@ const Autocomplete = (props) => {
                     aria-selected={selectedItemIndex === index}
                     onClick={(event) => handleClick(event, item)}
                     onMouseDown={handleMouseDown}
-                    
                   >
                     {item.productName}
                   </AutocompleteMenuItem>
