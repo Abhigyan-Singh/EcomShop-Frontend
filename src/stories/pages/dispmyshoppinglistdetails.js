@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import List from 'components/list';
 import Item from 'components/item/item';
 import { previouslyPurchased } from 'services/search';
-import { getAllFavorites, useDeleteFavorite } from 'services/favorites';
+import { getAllFavorites, usefavoriteApi } from 'services/favorites';
 import { getAllList } from 'services/mylist';
 
 export default {
@@ -26,7 +26,7 @@ export const DisplayShoppingListDetails = ({
 }) => {
   const [items, setItems] = useState([]);
   const [listItems, setListItems] = useState([]);
-  const { fetchFavorites } = useDeleteFavorite();
+  const { fetchFavorites } = usefavoriteApi();
 
   useEffect(() => {
     fetchFavorites();

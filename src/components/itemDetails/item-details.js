@@ -72,7 +72,7 @@ const ItemDetails = () => {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center">
           <div className="w-full lg:max-w-lg">
             <img
-              src={`https://cdn1.cobornsinc.com/cdwebimages/100x100/${itemDetailsData?.imagePath}`}
+              src={`https://cdn1.cobornsinc.com/cdwebimages/350x350/${itemDetailsData?.imagePath}`}
               alt=""
               className="object-center object-contain"
             />
@@ -128,7 +128,13 @@ const ItemDetails = () => {
                 </div> */}
                 <button
                   className="cbn-button"
-                  onClick={() => dispatch({ type: 'ADD_TO_CART', payload: itemDetailsData, qty: itemDetailsData.qty })}
+                  onClick={() =>
+                    dispatch({
+                      type: 'ADD_TO_CART',
+                      payload: itemDetailsData,
+                      qty: itemDetailsData.qty
+                    })
+                  }
                 >
                   <span>Add to Cart</span>
                 </button>
@@ -149,62 +155,78 @@ const ItemDetails = () => {
           </div>
         </div>
 
-        <div className="bg-yellow-100 my-5 p-5">
-          <div className="cbn-tabs mb-5">
-            <div className="sm:hidden">
-              <label for="tabs" className="sr-only">
-                Select a tab
-              </label>
-              <select className="cbn-select block w-full" id="tabs" name="tabs">
-                <option selected="">Product Description</option>
-                <option>Ingredients</option>
-                <option>Nutrition</option>
-              </select>
+        {(itemDetailsData?.productDetails ||
+          itemDetailsData?.ingredients ||
+          itemDetailsData?.hasNutritionString) && (
+          <div className="bg-yellow-100 my-5 p-5">
+            <div className="cbn-tabs mb-5">
+              <div className="sm:hidden">
+                <label for="tabs" className="sr-only">
+                  Select a tab
+                </label>
+                <select
+                  className="cbn-select block w-full"
+                  id="tabs"
+                  name="tabs"
+                >
+                  <option selected="">Product Description</option>
+                  <option>Ingredients</option>
+                  <option>Nutrition</option>
+                </select>
+              </div>
+              <div className="hidden sm:block">
+                <nav className="cbn-tabs__nav" aria-label="Tabs">
+                  {itemDetailsData?.productDetails && (
+                    <a
+                      className={`cbn-tab cursor-pointer ${
+                        tab === 'pd' ? 'cbn-tab--current' : ''
+                      }`}
+                      aria-current="page"
+                      onClick={() => setTab('pd')}
+                    >
+                      Product Description
+                    </a>
+                  )}
+                  {itemDetailsData?.ingredients && (
+                    <a
+                      className={`cbn-tab cursor-pointer ${
+                        tab === 'id' ? 'cbn-tab--current' : ''
+                      }`}
+                      onClick={() => setTab('id')}
+                    >
+                      Ingredients
+                    </a>
+                  )}
+                  {itemDetailsData?.hasNutritionString && (
+                    <a
+                      className={`cbn-tab cursor-pointer ${
+                        tab === 'nu' ? 'cbn-tab--current' : ''
+                      }`}
+                      onClick={() => setTab('nu')}
+                    >
+                      Nutrition
+                    </a>
+                  )}
+                </nav>
+              </div>
             </div>
-            <div className="hidden sm:block">
-              <nav className="cbn-tabs__nav" aria-label="Tabs">
-                <a
-                  className={`cbn-tab cursor-pointer ${
-                    tab === 'pd' ? 'cbn-tab--current' : ''
-                  }`}
-                  aria-current="page"
-                  onClick={() => setTab('pd')}
-                >
-                  Product Description
-                </a>
-                <a
-                  className={`cbn-tab cursor-pointer ${
-                    tab === 'id' ? 'cbn-tab--current' : ''
-                  }`}
-                  onClick={() => setTab('id')}
-                >
-                  Ingredients
-                </a>
-                <a
-                  className={`cbn-tab cursor-pointer ${
-                    tab === 'nu' ? 'cbn-tab--current' : ''
-                  }`}
-                  onClick={() => setTab('nu')}
-                >
-                  Nutrition
-                </a>
-              </nav>
-            </div>
+            {tab === 'pd' && (
+              <p className="max-w-4xl text-sm">
+                {itemDetailsData?.productDetails}
+              </p>
+            )}
+            {tab === 'id' && (
+              <p className="max-w-4xl text-sm">
+                {itemDetailsData?.ingredients}
+              </p>
+            )}
+            {tab === 'nu' && (
+              <p className="max-w-4xl text-sm">
+                {itemDetailsData?.hasNutritionString}
+              </p>
+            )}
           </div>
-          {tab === 'pd' && (
-            <p className="max-w-4xl text-sm">
-              {itemDetailsData?.productDetails}
-            </p>
-          )}
-          {tab === 'id' && (
-            <p className="max-w-4xl text-sm">{itemDetailsData?.ingredients}</p>
-          )}
-          {tab === 'nu' && (
-            <p className="max-w-4xl text-sm">
-              {itemDetailsData?.hasNutritionString}
-            </p>
-          )}
-        </div>
+        )}
         <button
           className={
             showProdInfo

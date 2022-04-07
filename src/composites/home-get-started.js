@@ -3,7 +3,7 @@ import Item from 'components/item/item';
 import Tabs from 'components/tabs/tabs';
 import { useEffect } from 'react';
 import useCart from 'services/addtocart';
-import { useDeleteFavorite } from 'services/favorites';
+import { usefavoriteApi } from 'services/favorites';
 import { useCookies } from 'react-cookie';
 import { CartState } from 'context/context';
 import { userInfoService } from 'services/auth';
@@ -720,7 +720,7 @@ const HomeGetStarted = (props) => {
   const { userInfo } = cookies;
   const { dispatchUser } = CartState();
   const { getCartDetails } = useCart();
-  const { fetchFavorites } = useDeleteFavorite();
+  const { fetchFavorites } = usefavoriteApi();
 
   useEffect(() => {
     if (!userInfo) {

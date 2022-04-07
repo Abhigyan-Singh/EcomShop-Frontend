@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import { HeartIcon } from '@heroicons/react/outline';
-import { useDeleteFavorite } from 'services/favorites';
+import { usefavoriteApi } from 'services/favorites';
 import { CartState } from 'context/context';
 
 const Favorite = (props) => {
-  const { addFavorite, deleteFavorite } = useDeleteFavorite();
+  const { addFavorite, deleteFavorite } = usefavoriteApi();
   const { favorites } = CartState();
   let isFavorite = false;
 
