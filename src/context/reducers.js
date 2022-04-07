@@ -92,7 +92,7 @@ export const cartReducer = (state, action) => {
             if (product.productId === action.payload.productId) {
               return {
                 ...product,           
-                qty: Math.max(product.qty - 1,0)       
+                qty: Math.max(product.qty - 1, 0)       
               };
             }
             return product;
