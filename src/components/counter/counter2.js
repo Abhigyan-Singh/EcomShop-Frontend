@@ -87,7 +87,7 @@ export const Counter2 = (props) => {
           disabled={disabled}
           onClick={() => {
             handleDecrementClick()
-            dispatch({ type: 'INCREASE_ITEM_QTY', payload: item, qty: item.qty });
+            dispatch({ type: 'DECREASE_QTY_INPUT', payload: item, qty: item.qty });                 
           }}
         >
           <MinusSmIcon className="cbn-counter__icon ml-0.5" />
@@ -109,14 +109,13 @@ export const Counter2 = (props) => {
           value={value}
    
           {...rest}
-        />
-       
+        />       
         <button
           className="cbn-counter__button cbn-counter__button--right"
           disabled={disabled}
           onClick={() => {
             handleIncrementClick()
-            dispatch({ type: 'DECREASE_ITEM_QTY', payload: item, qty: item.qty });
+            dispatch({ type: 'INCREASE_QTY_INPUT', payload: item, qty: item.qty });
           }}
         >
           <PlusSmIcon className="cbn-counter__icon mr-0.5" />

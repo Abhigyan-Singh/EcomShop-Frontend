@@ -67,25 +67,32 @@ export const cartReducer = (state, action) => {
         const cart = state.cart.map((product) => {
           if (product.productId === action.payload.productId) {
             return {
-              ...product,
-           
-              qty: product.qty += 1
-            
+              ...product,           
+              qty: product.qty + 1       
             };
           }
           return product;
         });
-      } 
+        return {
+          ...state,
+          cart,
+          total: cart.reduce(
+            (result, item) => item.qty * item.currentPrice + result, 0  
+          )
+        }
+      }
+      
+     
       case 'DECREASE_ITEM_QTY':
         const item4 = state.cart.find(
-          (item) => item.productId === action.payload.productId
+          (product) => product.productId === action.payload.productId
         );
         if (item4) {
           const cart = state.cart.map((product) => {
             if (product.productId === action.payload.productId) {
               return {
-                ...product,
-                qty: product.qty - 1
+                ...product,           
+                qty: Math.max(product.qty - 1,0)       
               };
             }
             return product;
@@ -98,7 +105,19 @@ export const cartReducer = (state, action) => {
             )
           }
         }
+        
 
+        case 'INCREASE_QTY_INPUT':
+          return {
+
+          }
+
+
+        case 'DECREASE_QTY_INPUT':
+          return {
+
+
+          }
         case 'SAVE_ITEM_QTY':
           const cart = state.cart.map((product) => {
             if (product.productId === action.payload.productId) {
