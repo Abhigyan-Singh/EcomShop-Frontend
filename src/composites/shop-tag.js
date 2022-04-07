@@ -16,7 +16,6 @@ const ShopTag = (onDeptChange2) => {
   useEffect(() => {
     grocery(4433).then((res) => {
       setData(res.data);
-      console.log('BUBBLES', dept)
     });
   }, []);
 

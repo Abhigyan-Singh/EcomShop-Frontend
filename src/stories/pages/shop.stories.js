@@ -256,7 +256,6 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
     grocery(109791)
       .then((res) => {
         setData(res);
-        console.log('DATA', data);
       })
       .catch((err) => {
         console.log(err);

@@ -16,7 +16,7 @@ import { mockData } from 'composites/home-get-started.js';
 
 const Cart = (props) => {
   const {
-    state: { cart, total },
+    state: { cart, total ,qty },
     dispatch
   } = CartState();
   const { open, onClose } = props;
@@ -59,6 +59,7 @@ const Cart = (props) => {
           <Counter
             item={item.item}
             value={item.item.qty}
+          
             disabled={item.item.isOutOfStock}
             onChange={() =>  {}}
             min="1"
@@ -152,7 +153,7 @@ const Cart = (props) => {
                           marginLeft: 10
                         }}
                       >
-                        {item.prodDepartment} ({cart.length})
+                        {item.prodDepartment} ({item.qty})
                       </li>
                     })}
                     {cart.map((item) => (

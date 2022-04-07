@@ -84,7 +84,6 @@ const Header = (props) => {
     let debounceTimer;
     return function () {
       const context = this;
-
       const args = arguments;
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => func.apply(context, args), delay);
@@ -124,12 +123,21 @@ const Header = (props) => {
     // We need to integrate with solor here on scroll
   };
 
-  useEffect(() => {
+  useEffect((err) => {
     grocery(4433).then((res) => {
       setData(res.data);
-      console.log('HEADER DEPARTMENT STORAGE', dept);
-    });
-  }, []);
+    })
+    .catch(err)
+    console.log("error", err)
+  }, [user]);
+
+
+  
+  // const getListItems = async () => {
+  //   const res = await getAllList();
+  //   setListItems(res.data);
+  // };
+
 
   const handleDeptChange = (option) => {
     setSelected(option);
@@ -137,7 +145,6 @@ const Header = (props) => {
       path: '/',
       maxAge: CookiesAge
     });
-
     if (typeof onDeptChange === 'function') {
       onDeptChange(option);
     }

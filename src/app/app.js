@@ -18,13 +18,9 @@ import { ItemStory } from 'stories/pages/item.stories';
 import { DisplayShoppingListDetails } from 'stories/pages/dispmyshoppinglistdetails';
 import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
-import { Mapquest } from 'stories/pages/storelocator.js';
 import { Geolocation } from '../services/geolocation.js';
-import { allStores } from 'services/facilities.js';
 import { StoreLocator } from 'stories/pages/storelocator.js';
 import { CookiesAge } from 'apiConfig';
-import { CartState } from 'context/context.js';
-import useCart from 'services/addtocart.js';
 import { userInfoService } from 'services/auth.js';
 
 export const facilityStoremapping = {
@@ -96,6 +92,7 @@ const App = () => {
   const onStoreChange2 = (storeSel) => {
     setStore2(storeSel);
   };
+
 
   const onDepartChange = (storeDept) => {
     setDepart(storeDept);
@@ -186,7 +183,8 @@ const App = () => {
           <StoreLocator
             isAuthenticated={isAuthenticated}
             logout={onLogout}
-            handleFacilityChange={onStoreChange2}
+            onFacilityChange={onStoreChange2}
+            store2={store2}
           />
         )
       }

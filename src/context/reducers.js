@@ -20,7 +20,7 @@ export const cartReducer = (state, action) => {
               ...product,
               qty: product.qty + 1
             };
-          } 
+          }
           return product;
         });
         return {
@@ -68,10 +68,10 @@ export const cartReducer = (state, action) => {
           if (product.productId === action.payload.productId) {
             return {
               ...product,
+           
               qty: product.qty += 1
+            
             };
-          } else if (product.qty < 0) {
-            product.qty = 0
           }
           return product;
         });
@@ -87,8 +87,6 @@ export const cartReducer = (state, action) => {
                 ...product,
                 qty: product.qty - 1
               };
-            } else if (product.qty < 0) {
-              product.qty = 0
             }
             return product;
           });

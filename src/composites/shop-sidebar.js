@@ -99,8 +99,6 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
         setData(res.data);
       });
     }
-    console.log('SIDEBAR SUBCATE DATA', data);
-    console.log('SUBDEPARTMENT COMING IN', subdept);
   }, [onSubDeptChange]);
 
   const handleSubDept = (option) => {
@@ -122,7 +120,6 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
   useEffect(() => {
     grocery(4433).then((res) => {
       setData2(res.data);
-      console.log('HEADER DEPARTMENT STORAGE', data2);
     });
   }, []);
 

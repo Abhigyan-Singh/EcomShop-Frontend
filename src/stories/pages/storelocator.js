@@ -31,7 +31,8 @@ export default {
 };
 
 export const StoreLocator = (props) => {
-  const [store, setStore] = useState([null]);
+  const { className, onFacilityChange, store2} = props
+  const [storePickup, setStorePickup] = useState([null]);
   const [storeDelivery, setStoreDelivery] = useState([null]);
   const [cookies, setCookie] = useCookies();
   const { facility, dept, user } = cookies;
@@ -40,18 +41,16 @@ export const StoreLocator = (props) => {
 
   useEffect(() => {
     allStores(5).then((res) => {
-      setStore(res.data);
-
-      console.log('HELELELELE', facility);
+      setStorePickup(res.data);
     });
-  }, [props]);
+  }, []);
 
   useEffect(() => {
     allStores(7).then((res) => {
       setStoreDelivery(res.data);
-      console.log('HELELELLE', storeDelivery);
+      console.log("FACILITY2", facility)
     });
-  }, [props]);
+  }, []);
 
   const handleFacilityChange = (option) => {
     setSelected(option);
@@ -59,6 +58,11 @@ export const StoreLocator = (props) => {
       path: '/',
       maxAge: CookiesAge
     });
+    if (typeof onFacilityChange === 'function') {
+      onFacilityChange(option);
+    
+    }
+    
   };
 
   const onChangeAttribute = (value) => {
@@ -68,7 +72,6 @@ export const StoreLocator = (props) => {
 
   return (
     <div>
-      <Locator />
       <div
         style={{
           color: '#9ac035',
@@ -78,7 +81,8 @@ export const StoreLocator = (props) => {
           paddingLeft: 10
         }}
       >
-        Preferred Store
+      Preferred Store : {store2}
+
       </div>
       <div>
         <div style={{ paddingLeft: 20, paddingBottom: 10 }}>
@@ -95,6 +99,7 @@ export const StoreLocator = (props) => {
               value={selected}
               label={option.facilityDtl.facilityName}
               style={{ paddingBottom: 10, marginLeft: 50, paddingTop: 5 }}
+              onClick={() =>  handleFacilityChange(option.facilityDtl.facilityName)}
             />
           ))}
       </div>
@@ -102,8 +107,8 @@ export const StoreLocator = (props) => {
         <div style={{ paddingLeft: 20, paddingBottom: 10 }}>
           STORE PICK UP SERVICE
         </div>
-        {store &&
-          map(store.facilitiesPickup, (option) => (
+        {storePickup &&
+          map(storePickup.facilitiesPickup, (option) => (
             <Checkbox
               key={option.facilityDtl.facilityName}
               option={option.facilityDtl}
@@ -112,6 +117,7 @@ export const StoreLocator = (props) => {
               id="checkbox-1"
               value={selected}
               label={option.facilityDtl.facilityName}
+              onClick={() => handleFacilityChange(option.facilityDtl.facilityName)}
             />
           ))}
       </div>
@@ -120,9 +126,9 @@ export const StoreLocator = (props) => {
 };
 
 StoreLocator.propTypes = {
-  handleFacilityChange: PropTypes.func
+  onFacilityChange: PropTypes.func
 };
 
 StoreLocator.defaultProps = {
-  handleFacilityChange: () => {}
+  onFacilityChange: () => {}
 };
