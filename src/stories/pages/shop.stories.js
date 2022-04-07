@@ -30,7 +30,7 @@ import queryString from 'query-string';
 import { CartState, Context } from 'context/context';
 import { useCookies } from 'react-cookie';
 import useCart from 'services/addtocart';
-import { useDeleteFavorite } from 'services/favorites';
+import { usefavoriteApi } from 'services/favorites';
 import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 
@@ -48,6 +48,13 @@ export default {
   }
 };
 
+const keyToText = {
+  glutenFree: 'Gluten Free',
+  nationalLocal: 'Local',
+  naturalOrganic: 'Organic & Natural',
+  isNew: 'New Arrivals',
+  onSale: 'Sale Items'
+};
 export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -59,7 +66,7 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const [cookies, setCookie] = useCookies(['user']);
   const { userInfo } = cookies;
   const { dispatchUser } = CartState();
-  const { fetchFavorites } = useDeleteFavorite();
+  const { fetchFavorites } = usefavoriteApi();
   const { getCartDetails } = useCart();
   const [filterDropdowns, setFilterDropdowns] = useState({
     brands: [],
@@ -91,7 +98,10 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   useEffect(() => {
     const filtdropDown = {
       brands: [],
-      glutenFree: {},
+      glutenFree: {
+        checked: false,
+        count: 0
+      },
       nationalLocal: {
         checked: false,
         count: 0
@@ -147,21 +157,52 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const hanldeFilterChange = (event, key, isBrand, index) => {
     if (isBrand) {
       filterDropdowns.brands[index].checked = event.target.checked;
-      filterCards.push({
-        isBrand,
-        index,
-        label: filterDropdowns.brands[index].brand
-      });
-      setFilterCards([...filterCards]);
+      if (event.target.checked) {
+        filterCards.push({
+          isBrand,
+          index,
+          label: filterDropdowns.brands[index].brand
+        });
+        setFilterCards([...filterCards]);
+      } else {
+        const filteredCards = filterCards.filter((each) => {
+          return each.label !== filterDropdowns.brands[index].brand;
+        });
+        setFilterCards([...filteredCards]);
+      }
       setFilterDropdowns({ ...filterDropdowns });
     } else {
-      console.log(key, filterDropdowns[key]);
       filterDropdowns[key].checked = event.target.checked;
-      filterCards.push({
-        isBrand: false,
-        label: key
+      if (event.target.checked) {
+        filterCards.push({
+          isBrand: false,
+          label: key
+        });
+        setFilterCards([...filterCards]);
+      } else {
+        const filteredCards = filterCards.filter((each) => {
+          return each.label !== key;
+        });
+        setFilterCards([...filteredCards]);
+      }
+      setFilterDropdowns({ ...filterDropdowns });
+    }
+  };
+
+  const onFilterClose = (each, index) => {
+    if (each.isBrand) {
+      filterDropdowns.brands[each.index].checked = false;
+      const filteredCards = filterCards.filter((e) => {
+        return JSON.stringify(each) !== JSON.stringify(e);
       });
-      setFilterCards([...filterCards]);
+      setFilterCards([...filteredCards]);
+      setFilterDropdowns({ ...filterDropdowns });
+    } else {
+      filterDropdowns[each.label].checked = false;
+      const filteredCards = filterCards.filter((e) => {
+        return JSON.stringify(each) !== JSON.stringify(e);
+      });
+      setFilterCards([...filteredCards]);
       setFilterDropdowns({ ...filterDropdowns });
     }
   };
@@ -241,7 +282,11 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
               <ShopSort />
             </div>
           </div>
-          <ShopSelectedFilter filterCards={filterCards} />
+          <ShopSelectedFilter
+            onClose={onFilterClose}
+            keyToText={keyToText}
+            filterCards={filterCards}
+          />
           <ShopGetPage
             loader={loader}
             list={list}
