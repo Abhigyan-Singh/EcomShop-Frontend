@@ -60,12 +60,14 @@ const Header = (props) => {
     dispatch
   } = CartState();
   const [selected, setSelected] = useState(dept);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const fetch = async (itemName) => {
     if (itemName) {
       const sData = await search(itemName, 2037, 2);
       setSearchList(sData?.data?.suggestionList);
+      setLoading(false);
     }
   };
   const setHoursHtml = () => {
@@ -94,6 +96,8 @@ const Header = (props) => {
   );
 
   const handleChange = (event) => {
+    setLoading(true);
+    setSearchList([]);
     setValue(event.target.value);
     if (event.target.value.length > 0) searcher(event.target.value);
   };
@@ -458,6 +462,7 @@ const Header = (props) => {
             onItemSelect={(item) => handleItemSelect(item)}
             value={value}
             aria-label="LABEL HERE OR ADD LABEL TAG"
+            loading={loading}
           />
         </div>
         <div className="hidden lg:block lg:flex-1">

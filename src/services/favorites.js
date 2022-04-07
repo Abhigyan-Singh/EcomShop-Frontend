@@ -7,7 +7,11 @@ export const addFavoriteApi = (payload) => {
   return apiClient.post(config.baseUrl + API.add_favorite, payload);
 };
 
-export const useDeleteFavorite = () => {
+export const getAllFavorites = () => {
+  return apiClient.get(config.baseUrl + API.all_favorite);
+};
+
+export const usefavoriteApi = () => {
   const { dispatchFavorites } = CartState();
   const fetchFavorites = async () => {
     const favorites = await getAllFavorites();
@@ -39,8 +43,4 @@ export const useDeleteFavorite = () => {
     fetchFavorites,
     addFavorite
   };
-};
-
-export const getAllFavorites = () => {
-  return apiClient.get(config.baseUrl + API.all_favorite);
 };

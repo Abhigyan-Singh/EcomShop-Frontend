@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import List from 'components/list';
 import Item from 'components/item/item';
-import { getAllFavorites } from 'services/favorites';
+import { usefavoriteApi } from 'services/favorites';
 import { getAllList } from 'services/mylist';
 import { CartState } from 'context/context';
 
@@ -22,25 +22,15 @@ export default {
 export const Favorites = ({ isAuthenticated, logout, ...rest }) => {
   const [listItems, setListItems] = useState([]);
   const { favorites } = CartState();
+  const { fetchFavorites } = usefavoriteApi();
 
   const getListItems = async () => {
     const res = await getAllList();
     setListItems(res.data);
   };
 
-  // const favorites = async () => {
-  //   const favorites = await getAllFavorites();
-  //   const items = favorites?.data.map((each) => {
-  //     return {
-  //       ...each,
-  //       keywords: each.keywords ? each.keywords.split(',') : [],
-  //       favorite: true
-  //     };
-  //   });
-  //   setItems(items);
-  // };
   useEffect(() => {
-    // favorites();
+    fetchFavorites();
     getListItems();
   }, []);
 
