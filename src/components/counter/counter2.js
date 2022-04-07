@@ -7,7 +7,7 @@ import newId from 'utils/newId';
 import { CartState } from 'context/context';
 import Item from 'components/item/item';
 
-
+import useAtom from 'recoil';
 
 
 export const Counter2 = (props) => {
@@ -31,14 +31,11 @@ export const Counter2 = (props) => {
       // prevent leading zeroes - assumes counter should always have a positive integer
       setValue(parseInt(event.target.value.replace(/^0+/, '')) || '');
     };
-  
-  
-  
+
     const handleDecrementClick = () => {
       if (value > 1) {
         setValue((value) => parseInt(value - 1));
-      }
-     
+      }     
     };
   
     const handleIncrementClick = () => {
@@ -55,16 +52,43 @@ export const Counter2 = (props) => {
       if (!isNaN(parseInt(value))) {
         onChange(parseInt(value));
       }
-      console.log("fcsdifsdihsdfikguhadkfigadfkibdfkighu", value)
+   
    
     }, [onChange, value, ]);
+
+
+
+
+    // const useProductOperations = () => {
+    //   const [products, setProducts] = useAtom(products); 
+    //   const addQuantityToProduct = (productId: string, quantityDelta: number) => {
+    //     setProducts(old => {
+    //       const clone = [...old];
+    //       const index = clone.findIndex(product => product.productId === productId);
+    //       if (index === -1) {
+    //         return clone;
+    //       }
+    //       const productClone = clone[index];
+    //       const newProduct = {...productClone, quantity: productClone.quantity + quantityDelta};
+    //       clone[index] = newProduct;
+    //       return clone;
+    //     });
+    //   }
+    //   const increaseQuantity = (productId: string) => addQuantityToProduct(productId, 1);
+    //   const decreaseQuantity = (productId: string) => addQuantityToProduct(productId, -1);
+    //   return {increaseQuantity, decreaseQuantity};``
+
+    // }
   
     return (
       <div className={componentClassName}>
         <button
           className="cbn-counter__button cbn-counter__button--left"
           disabled={disabled}
-          onClick={handleDecrementClick}
+          onClick={() => {
+            handleDecrementClick()
+            dispatch({ type: 'INCREASE_ITEM_QTY', payload: item, qty: item.qty });
+          }}
         >
           <MinusSmIcon className="cbn-counter__icon ml-0.5" />
           <span className="sr-only">Decrement</span>
@@ -78,7 +102,7 @@ export const Counter2 = (props) => {
           name="counter-value"
           id={id}
           onBlur={handleOnBlur}
-          onChange={(event) => dispatch({type: 'SAVE_ITEM_QTY', payload: item, qty: event.target.value})}
+          onChange={handleIncrementClick}
           ref={inputRef}
           type="number"
           min="1"
@@ -90,7 +114,10 @@ export const Counter2 = (props) => {
         <button
           className="cbn-counter__button cbn-counter__button--right"
           disabled={disabled}
-          onClick={handleIncrementClick}
+          onClick={() => {
+            handleIncrementClick()
+            dispatch({ type: 'DECREASE_ITEM_QTY', payload: item, qty: item.qty });
+          }}
         >
           <PlusSmIcon className="cbn-counter__icon mr-0.5" />
           <span className="sr-only">Increment</span>

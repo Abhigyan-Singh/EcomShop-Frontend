@@ -59,7 +59,6 @@ const ShopGetPage = () => {
   useEffect(() => {
     handleChange();
     getListItems();
-    console.log('LIST', list);
   }, []);
 
   const handleObserver = useCallback((entries) => {

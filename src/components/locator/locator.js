@@ -58,21 +58,16 @@ const Locator = (props) => {
   } = CartState();
 
   useEffect(() => {
-    !hasLoaded &&
-      allStores(5).then((res) => {
-        setStore(res.data);
-        console.log('FACILITY', res.data);
-   
-        setHasLoaded(true);
+    allStores(5).then((res) => {
+      setStore(res.data);
       });
   }, [user]);
 
   useEffect(() => {
-    !hasLoaded &&
-      allStores(7).then((res) => {
-        setStoreDelivery(res.data);
-        setHasLoaded(true);
-      });
+    allStores(7).then((res) => {
+    setStoreDelivery(res.data);
+    });
+    console.log("FACILITY2", facility)
   }, [user]);
 
   const [selected, setSelected] = useState(facility);

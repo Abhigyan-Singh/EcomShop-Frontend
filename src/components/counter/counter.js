@@ -53,8 +53,7 @@ export const Counter = (props) => {
     if (!isNaN(parseInt(value))) {
       onChange(parseInt(value));
     }
-    console.log("fcsdifsdihsdfikguhadkfigadfkibdfkighu", value)
- 
+
   }, [onChange, value, ]);
 
   return (
@@ -81,7 +80,6 @@ export const Counter = (props) => {
         type="number"
         min="1"
         value={value}
- 
         {...rest}
       />
       <button

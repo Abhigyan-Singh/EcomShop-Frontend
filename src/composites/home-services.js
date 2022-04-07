@@ -44,7 +44,6 @@ const HomeServices = (props, onDepartChange4) => {
   useEffect(() => {
     grocery(4433).then((res) => {
       setData2(res.data);
-      console.log('DATA', res.data);
     });
   }, [props, onDepartChange4]);
   
