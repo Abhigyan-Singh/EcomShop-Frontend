@@ -128,23 +128,18 @@ const Quickview = (props) => {
                     </div>
                   </div>
                   <div className="sm:col-span-8 lg:col-span-7">
-                    <h2 className="cbn-quickview__name">{data.productName}</h2>
-
+                    <a href="#" className="cbn-quickview__name">{data.productName}</a>
                     <section aria-labelledby="information-heading">
                       <h3 id="information-heading" className="sr-only">
                         Product information
                       </h3>
-
                       <div className="text-xs text-gray-300 mb-4">
-            
                         Item Size: {data.sizeString} 0.{data.sizeNumber} / {data.sizeUom}   -
                         Item #: {data.productId} - Price per count: 0.{data.sizeNumber} 
                       </div>
-
                       <div className="mb-6">
                         <h4 className="sr-only">Description</h4>
                       </div>
-
                       <div className="flex items-end space-x-2 mb-4">
                         <div className="cbn-quickview__price">{data.currentPrice}</div>
                         {data.isOnSale && (
@@ -170,13 +165,24 @@ const Quickview = (props) => {
                           disabled={data.isOutOfStock}
                           onChange={setQuantity}
                         />
-                        <Button
-                          disabled={data.isOutOfStock}
-                          label="Add to Cart"
-                          onClick={() =>
-                            dispatch({ type: 'ADD_TO_CART', payload: data })
-                          }
-                        />
+                        {cart.some((i) => i.productId === data.productId) 
+                          ? (<Button
+                              disabled={data.isOutOfStock}
+                              label="Added to Cart"
+                              onClick={() =>
+                                dispatch({ type: 'ADD_TO_CART', payload: data })
+                              }
+                            />
+                            )
+                          : (
+                          <Button
+                            disabled={data.isOutOfStock}
+                            label="Add to Cart"
+                            onClick={() =>
+                              dispatch({ type: 'ADD_TO_CART', payload: data })
+                            }
+                          />
+                        )}
                       </div>
                       <div className="flex space-x-4" >
                         <Favorite
@@ -184,9 +190,9 @@ const Quickview = (props) => {
                           favorite={data.isFavorite}
                           productId={data.productId}
                         />
-                        <span style={{marginTop: 5}}>
+                        <button style={{marginTop: 5}}>
                           {data.isFavorited ? 'Favorited' : 'Favorite'}
-                        </span>
+                        </button>
                         <button className="cbn-quickview__action-button" >
                           <Wishlist item={data} listItems={listItems}/>
                           <span style={{marginBottom:10, marginTop:10, fontSize: 15 }}>Add to List</span>                         

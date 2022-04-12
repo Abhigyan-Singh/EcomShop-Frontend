@@ -78,7 +78,7 @@ const ItemDetails = () => {
             />
           </div>
           <div className="">
-            <h2 className="font-bold text-2xl leading-none mb-1 lg:mb-2">
+            <h2 href="#" className="font-bold text-2xl leading-none mb-1 lg:mb-2">
               {itemDetailsData?.productName}
             </h2>
             <section aria-labelledby="information-heading">
@@ -126,18 +126,36 @@ const ItemDetails = () => {
                     <span className="sr-only">Increment</span>
                   </button>
                 </div> */}
-                <button
-                  className="cbn-button"
-                  onClick={() =>
-                    dispatch({
-                      type: 'ADD_TO_CART',
-                      payload: itemDetailsData,
-                      qty: itemDetailsData.qty
-                    })
+                  {cart.some((i) => i.productId === itemDetailsData.productId) 
+                    ? (
+                      <button
+                        className="cbn-button"
+                        onClick={() =>
+                          dispatch({
+                            type: 'ADD_TO_CART',
+                            payload: itemDetailsData,
+                            qty: itemDetailsData.qty
+                          })
+                        }
+                      >
+                        <span>Added to Cart</span>
+                      </button>
+                      ) 
+                    : (
+                      <button
+                        className="cbn-button"
+                        onClick={() =>
+                          dispatch({
+                            type: 'ADD_TO_CART',
+                            payload: itemDetailsData,
+                            qty: itemDetailsData.qty
+                          })
+                        }
+                      >
+                        <span>Add to Cart</span>
+                      </button>
+                      )                                                                      
                   }
-                >
-                  <span>Add to Cart</span>
-                </button>
               </div>
               <div className="flex space-x-4">
                 <Favorite
