@@ -8,6 +8,7 @@ export const cartReducer = (state, action) => {
         total: cart.reduce((result, item) => item.currentPrice + result, 0)
       };
     }
+
     case 'ADD_TO_CART':
       const item = state.cart.find(
         (product) => product.productId === action.payload.productId
@@ -42,6 +43,7 @@ export const cartReducer = (state, action) => {
           )
         };
       }
+
     case 'REMOVE_FROM_CART':
       const item2 = state.cart.find(
         (product) => product.productId === action.payload.productId
@@ -59,6 +61,7 @@ export const cartReducer = (state, action) => {
           )
         };
       }
+
     case 'INCREASE_ITEM_QTY':
       const item3 = state.cart.find(
         (product) => product.productId === action.payload.productId
@@ -81,8 +84,7 @@ export const cartReducer = (state, action) => {
           )
         }
       }
-      
-     
+
       case 'DECREASE_ITEM_QTY':
         const item4 = state.cart.find(
           (product) => product.productId === action.payload.productId
@@ -92,7 +94,7 @@ export const cartReducer = (state, action) => {
             if (product.productId === action.payload.productId) {
               return {
                 ...product,           
-                qty: Math.max(product.qty - 1, 0)       
+                qty: Math.max(product.qty - 1, 1)       
               };
             }
             return product;
@@ -105,19 +107,25 @@ export const cartReducer = (state, action) => {
             )
           }
         }
-        
 
-        case 'INCREASE_QTY_INPUT':
+        case 'INPUT_QTY':
+          const cart3 = state.cart.map((product) => {
+            if (product.productId === action.payload.productId) {
+              return {
+                ...product,           
+                qty: product.qty + 1    
+              };
+            }
+            return product;
+          });
           return {
-
+            ...state,
+            cart3,
+            total: cart3.reduce(
+              (result, item) => item.qty * item.currentPrice + result, 0  
+            )
           }
 
-
-        case 'DECREASE_QTY_INPUT':
-          return {
-
-
-          }
         case 'SAVE_ITEM_QTY':
           const cart = state.cart.map((product) => {
             if (product.productId === action.payload.productId) {

@@ -86,8 +86,8 @@ export const Counter2 = (props) => {
           className="cbn-counter__button cbn-counter__button--left"
           disabled={disabled}
           onClick={() => {
-            handleDecrementClick()
-            dispatch({ type: 'DECREASE_QTY_INPUT', payload: item, qty: item.qty });                 
+            //handleDecrementClick()
+            dispatch({ type: 'INPUT_QTY', payload: item, qty: value });                 
           }}
         >
           <MinusSmIcon className="cbn-counter__icon ml-0.5" />
@@ -114,8 +114,8 @@ export const Counter2 = (props) => {
           className="cbn-counter__button cbn-counter__button--right"
           disabled={disabled}
           onClick={() => {
-            handleIncrementClick()
-            dispatch({ type: 'INCREASE_QTY_INPUT', payload: item, qty: item.qty });
+            //handleIncrementClick()
+            dispatch({ type: 'INPUT_QTY', payload: item, qty: item.qty });
           }}
         >
           <PlusSmIcon className="cbn-counter__icon mr-0.5" />

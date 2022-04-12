@@ -124,7 +124,7 @@ const addtocartapi2 = () => {
           }
         >
           <div className="cbn-item__name">
-            <a className="block">{item.productName}</a>
+            <a  href="#" className="block">{item.productName}</a>
           </div>
           <div className="cbn-item__number">Item #: {item.productId}</div>
         </div>
@@ -164,23 +164,32 @@ const addtocartapi2 = () => {
           </div>
         ) : null}
         <a key={item.id} className="flex items-center space-x-2">
-          {cart.some((i) => i.id === item.productId)}
           <Counter2
             item={item}
             disabled={item.isOutOfStock}
             onChange={() => {}}
-          />
-          <Button
-            disabled={item.isOutOfStock}
-            label="Add"
-            onClick={() => {
-              addtocartapi()
-        
-            }}
-            // onClick={() =>
-            //   dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })
-            // }
-          />
+          /> 
+          {cart.some((i) => i.productId === item.productId) 
+            ? (<Button 
+                 label="Added"  
+                 disabled={item.isOutOfStock}
+                 onClick={() => {
+                  addtocartapi()
+                  }}
+                />
+              ) 
+            : (  
+              <Button
+                disabled={item.isOutOfStock}
+                label="Add"
+                onClick={() => {
+                  addtocartapi()
+                }}
+                // onClick={() =>
+                //   dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })
+                // }
+              />
+          )}         
         </a>
       </div>
       <div className="cbn-item__actions invisible group-hover:visible group-focus-within:visible">
