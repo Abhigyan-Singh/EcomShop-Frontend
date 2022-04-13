@@ -1,4 +1,5 @@
 export const cartReducer = (state, action) => {
+  let currentState;
   switch (action.type) {
     case 'SET_CART_DATA': {
       const cart = action.payload;
@@ -109,23 +110,11 @@ export const cartReducer = (state, action) => {
         }
 
         case 'INPUT_QTY':
-          const cart3 = state.cart.map((product) => {
-            if (product.productId === action.payload.productId) {
-              return {
-                ...product,           
-                qty: product.qty + 1    
-              };
-            }
-            return product;
-          });
-          return {
-            ...state,
-            cart3,
-            total: cart3.reduce(
-              (result, item) => item.qty * item.currentPrice + result, 0  
-            )
-          }
-
+          
+          
+        
+        
+         
         case 'SAVE_ITEM_QTY':
           const cart = state.cart.map((product) => {
             if (product.productId === action.payload.productId) {
@@ -146,6 +135,7 @@ export const cartReducer = (state, action) => {
     default:
       return state;
   }
+
 };
 
 export const itemReducer = (state, action) => {

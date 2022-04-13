@@ -24,7 +24,7 @@ import Wishlist from 'components/wishllist/wishlist';
 import Quickview from '../quickview/quickview';
 import { CartState } from '../../context/context';
 import useCart from 'services/addtocart';
-import addtocart from 'services/addtocart'
+import addtocart1 from 'services/addtocart'
 import { useCookies } from 'react-cookie';
 
 
@@ -79,17 +79,14 @@ const Item = (props) => {
   const addtocartapi = () => {
     //do something
     dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty });
-
-    
-}
+  } 
 
 
-const addtocartapi2 = () => {
-  //do something
-  addtocart(user, item.productId,item.qty, item.facilityId );
+  const addtocartapi2 = () => {
+    addtocart1(user, item.productId, item.qty, item.facilityId );
+  }
 
-  
-}
+
 
   return (
     <div className={componentClassName} {...rest}>
@@ -170,26 +167,27 @@ const addtocartapi2 = () => {
             onChange={() => {}}
           /> 
           {cart.some((i) => i.productId === item.productId) 
-            ? (<Button 
-                 label="Added"  
-                 disabled={item.isOutOfStock}
-                 onClick={() => {
-                  addtocartapi()
-                  }}
+            ? (
+                <Button 
+                  label="Added"  
+                  disabled={item.isOutOfStock}
+                  onClick={() => 
+                    dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })
+                    //addtocart1("albtest3", 95436, 1, 2037 )
+                  }
                 />
               ) 
             : (  
-              <Button
-                disabled={item.isOutOfStock}
-                label="Add"
-                onClick={() => {
-                  addtocartapi()
-                }}
-                // onClick={() =>
-                //   dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })
-                // }
-              />
-          )}         
+                <Button
+                  disabled={item.isOutOfStock}
+                  label="Add"
+                  onClick={() => {        
+                    dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })           
+                    //addtocart1("albtest3", 95436, 1, 2037)
+                  }}                
+                />
+              )
+          }         
         </a>
       </div>
       <div className="cbn-item__actions invisible group-hover:visible group-focus-within:visible">

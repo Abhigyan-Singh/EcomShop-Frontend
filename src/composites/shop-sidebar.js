@@ -199,8 +199,8 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
                                 backgroundColor: 'white',
                                 borderRadius: 5,
                                 width: 235,
-                                height: 545,
-                                paddingTop: 15
+                                height: 522,
+                                paddingTop: 7
                               }}
                             >
                               <ul>
