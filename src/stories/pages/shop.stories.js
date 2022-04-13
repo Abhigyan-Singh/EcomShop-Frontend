@@ -33,6 +33,7 @@ import useCart from 'services/addtocart';
 import { usefavoriteApi } from 'services/favorites';
 import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
+import { filterProducts } from 'services/filter';
 
 export default {
   title: 'Pages/Home',
@@ -94,6 +95,20 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const [filterCards, setFilterCards] = useState([]);
 
   const loader = useRef(null);
+
+  useEffect(() => {
+    console.log('calling...');
+    const payload = {
+      brand: [],
+      lifestyleAndDietary: [],
+      newAndSale: []
+    };
+    payload.brand = filterDropdowns.brands.map((each) => each.brand);
+    if (filterDropdowns.onSale) {
+      payload.newAndSale.push('sale');
+    }
+    filterProducts(payload);
+  }, [filterDropdowns]);
 
   useEffect(() => {
     const filtdropDown = {
