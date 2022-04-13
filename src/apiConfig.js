@@ -22,7 +22,8 @@ export const API = {
   previous_purchased: '/producthistorylist/productHistoryDetails',
   drop_down_filter: '/productn/findbyarea1/',
   add_to_cart: '/cart/addtocart',
-  get_cart_items: '/cart/getCartItems'
+  get_cart_items: '/cart/getCartItems',
+  filter_products: '/productn/findbyarea1/101620/1/10/brand/asc'
 };
 
 export const CookiesAge = 604800;
