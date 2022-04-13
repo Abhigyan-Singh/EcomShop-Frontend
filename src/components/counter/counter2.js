@@ -29,10 +29,7 @@ export const Counter2 = (props) => {
   
 
 
-    const updateCartHandler = (id, value) => {
-      let updatedCart = cart.map(item => item.id === id ? item.quantity += value : item)
-      setCart(updatedCart)   
-   }
+    
 
     const handleOnChange = (event) => {
       // prevent leading zeroes - assumes counter should always have a positive integer
