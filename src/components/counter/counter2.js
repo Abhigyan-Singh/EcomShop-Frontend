@@ -7,7 +7,7 @@ import newId from 'utils/newId';
 import { CartState } from 'context/context';
 import Item from 'components/item/item';
 
-import useAtom from 'recoil';
+// import useAtom from 'recoil';
 
 
 export const Counter2 = (props) => {
