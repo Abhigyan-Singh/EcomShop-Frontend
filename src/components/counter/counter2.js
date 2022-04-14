@@ -7,7 +7,6 @@ import newId from 'utils/newId';
 import { CartState } from 'context/context';
 import Item from 'components/item/item';
 
-import useAtom from 'recoil';
 
 
 export const Counter2 = (props) => {
@@ -23,14 +22,10 @@ export const Counter2 = (props) => {
     );
   
     const {
-      state: { cart },
+      state: { cart, total, tempCart, data },
       dispatch
     } = CartState();
   
-
-
-    
-
     const handleOnChange = (event) => {
       // prevent leading zeroes - assumes counter should always have a positive integer
       setValue(parseInt(event.target.value.replace(/^0+/, '')) || '');
@@ -43,7 +38,11 @@ export const Counter2 = (props) => {
     };
   
     const handleIncrementClick = () => {
-      dispatch({ type: 'INPUT_QTY'})  
+      setValue((value) => parseInt(value + 1));
+      dispatch({ type: 'INPUT_QTY', payload: item, qty: value })
+
+    
+
     };
   
     const handleOnBlur = (event) => {
@@ -56,19 +55,17 @@ export const Counter2 = (props) => {
       if (!isNaN(parseInt(value))) {
         onChange(parseInt(value));
       }
-   
-   
-    }, [onChange, value]);
+    }, [onChange, value, ]);
+
   
     return (
       <div className={componentClassName}>
         <button
           className="cbn-counter__button cbn-counter__button--left"
           disabled={disabled}
-          onClick={() => {
-            handleDecrementClick()
-              
-          }}
+          onClick={
+            handleDecrementClick                      
+          }
         >
           <MinusSmIcon className="cbn-counter__icon ml-0.5" />
           <span className="sr-only">Decrement</span>
@@ -82,20 +79,18 @@ export const Counter2 = (props) => {
           name="counter-value"
           id={id}
           onBlur={handleOnBlur}
-          onChange={() => dispatch({ type: 'INPUT_QTY', payload: item})}
+          onChange={handleOnChange}
           ref={inputRef}
           type="number"
           min="1"
-          value={value}  
-
+          value={value}
+   
           {...rest}
         />       
         <button
           className="cbn-counter__button cbn-counter__button--right"
           disabled={disabled}
-          onClick={() => {
-            handleIncrementClick()
-          }}
+          onClick={handleIncrementClick}
         >
           <PlusSmIcon className="cbn-counter__icon mr-0.5" />
           <span className="sr-only">Increment</span>
@@ -108,7 +103,8 @@ export const Counter2 = (props) => {
     defaultValue: PropTypes.number,
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
-    item: PropTypes.object
+    item: PropTypes.object,
+
   };
   
   Counter2.defaultProps = {

@@ -6,7 +6,7 @@ import { CartState } from '../context/context';
 
 
 
-export const addtocart1 = (userName, productId, qty, facilityId) => {
+export const addToCarts = (userName, productId, qty, facilityId) => {
   return apiClient.get(
     `${config.baseUrl}${API.add_to_cart}/${userName}/${productId}/${qty}/${facilityId}`
   );
@@ -35,7 +35,7 @@ const useCart = () => {
   };
 
   const updateCart = async (item) => {
-    await addtocart1(userInfo?.userName, item.productId, 1, 2037);
+    await addToCarts(userInfo?.userName, item.productId, 1, 2037);
     getCartDetails();
   };
   return {

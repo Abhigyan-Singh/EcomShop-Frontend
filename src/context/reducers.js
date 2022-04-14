@@ -1,5 +1,4 @@
 export const cartReducer = (state, action) => {
-  let currentState;
   switch (action.type) {
     case 'SET_CART_DATA': {
       const cart = action.payload;
@@ -14,7 +13,8 @@ export const cartReducer = (state, action) => {
       const item = state.cart.find(
         (product) => product.productId === action.payload.productId
       );
-
+      console.log('add to cart', state)
+     
       if (item) {
         const cart = state.cart.map((product) => {
           if (product.productId === action.payload.productId) {
@@ -110,11 +110,9 @@ export const cartReducer = (state, action) => {
         }
 
         case 'INPUT_QTY':
-          
-          
-        
-        
          
+      
+                             
         case 'SAVE_ITEM_QTY':
           const cart = state.cart.map((product) => {
             if (product.productId === action.payload.productId) {

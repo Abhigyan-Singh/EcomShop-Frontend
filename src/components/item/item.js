@@ -24,7 +24,7 @@ import Wishlist from 'components/wishllist/wishlist';
 import Quickview from '../quickview/quickview';
 import { CartState } from '../../context/context';
 import useCart from 'services/addtocart';
-import addtocart1 from 'services/addtocart'
+import addToCarts from 'services/addtocart'
 import { useCookies } from 'react-cookie';
 
 
@@ -83,7 +83,7 @@ const Item = (props) => {
 
 
   const addtocartapi2 = () => {
-    addtocart1(user, item.productId, item.qty, item.facilityId );
+    addToCarts(user, item.productId, item.qty, item.facilityId );
   }
 
 
@@ -171,10 +171,11 @@ const Item = (props) => {
                 <Button 
                   label="Added"  
                   disabled={item.isOutOfStock}
-                  onClick={() => 
-                    dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })
-                    //addtocart1("albtest3", 95436, 1, 2037 )
-                  }
+                  onClick={() =>
+                    { 
+                      dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })
+                      //addToCarts("albtest3", 95436, 1, 2037 )
+                  }}
                 />
               ) 
             : (  
@@ -183,7 +184,7 @@ const Item = (props) => {
                   label="Add"
                   onClick={() => {        
                     dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })           
-                    //addtocart1("albtest3", 95436, 1, 2037)
+                    //addToCarts("albtest3", 95436, 1, 2037)
                   }}                
                 />
               )
