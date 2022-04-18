@@ -69,6 +69,7 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const { dispatchUser } = CartState();
   const { fetchFavorites } = usefavoriteApi();
   const { getCartDetails } = useCart();
+  const [filteredList, setFilteredList] = useState([]);
   const [filterDropdowns, setFilterDropdowns] = useState({
     brands: [],
     glutenFree: {
@@ -103,11 +104,19 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
       lifestyleAndDietary: [],
       newAndSale: []
     };
-    payload.brand = filterDropdowns.brands.map((each) => each.brand);
+    filterDropdowns.brands.map((each) => {
+      console.log(each.brand.trim());
+      if (each.checked) {
+        payload.brand.push(each.brand.trim());
+      }
+    });
     if (filterDropdowns.onSale) {
       payload.newAndSale.push('sale');
     }
-    filterProducts(payload);
+    filterProducts(payload).then((res) => {
+      console.log(res);
+      setFilteredList(res.data);
+    });
   }, [filterDropdowns]);
 
   useEffect(() => {
@@ -303,7 +312,7 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
           />
           <ShopGetPage
             loader={loader}
-            list={list}
+            list={filteredList.length === 0 ? list : filteredList}
             error={error}
             loading={loading}
           />
