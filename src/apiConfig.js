@@ -8,7 +8,7 @@ export const API = {
   facilities: '/api/facilities/',
   authenticate: '/authenticate',
   userinfo: '/userinfo',
-  search: '/product/search',
+  search: '/productn/searchbyname',
   productDetails: '/product/', // then id
   grocery_tree: '/grocery/tree/5/PRODUCTS/',
   in_store_services: '/api/stores/find/',

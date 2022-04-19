@@ -61,6 +61,7 @@ const Item = (props) => {
     dispatch
   } = CartState();
   const { updateCart } = useCart();
+  //addToCarts("albtest3", 95436, 1, 2037 )
 
   
 
@@ -76,17 +77,7 @@ const Item = (props) => {
   };
 
 
-  const addtocartapi = () => {
-    //do something
-    dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty });
-  } 
-
-
-  const addtocartapi2 = () => {
-    addToCarts(user, item.productId, item.qty, item.facilityId );
-  }
-
-
+  
 
   return (
     <div className={componentClassName} {...rest}>
@@ -171,21 +162,14 @@ const Item = (props) => {
                 <Button 
                   label="Added"  
                   disabled={item.isOutOfStock}
-                  onClick={() =>
-                    { 
-                      dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })
-                      //addToCarts("albtest3", 95436, 1, 2037 )
-                  }}
+                  onClick={() => dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })}
                 />
               ) 
             : (  
                 <Button
                   disabled={item.isOutOfStock}
                   label="Add"
-                  onClick={() => {        
-                    dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })           
-                    //addToCarts("albtest3", 95436, 1, 2037)
-                  }}                
+                  onClick={() => dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })}                
                 />
               )
           }         

@@ -86,54 +86,51 @@ export const cartReducer = (state, action) => {
         }
       }
 
-      case 'DECREASE_ITEM_QTY':
-        const item4 = state.cart.find(
-          (product) => product.productId === action.payload.productId
-        );
-        if (item4) {
-          const cart = state.cart.map((product) => {
-            if (product.productId === action.payload.productId) {
-              return {
-                ...product,           
-                qty: Math.max(product.qty - 1, 1)       
-              };
-            }
-            return product;
-          });
-          return {
-            ...state,
-            cart,
-            total: cart.reduce(
-              (result, item) => item.qty * item.currentPrice + result, 0  
-            )
+    case 'DECREASE_ITEM_QTY':
+      const item4 = state.cart.find(
+        (product) => product.productId === action.payload.productId
+      );
+      if (item4) {
+        const cart = state.cart.map((product) => {
+          if (product.productId === action.payload.productId) {
+            return {
+              ...product,           
+              qty: Math.max(product.qty - 1, 1)       
+            };
           }
+          return product;
+        });
+        return {
+          ...state,
+          cart,
+          total: cart.reduce(
+            (result, item) => item.qty * item.currentPrice + result, 0  
+          )
         }
-
-        case 'INPUT_QTY':
-         
+      }
+        
       
                              
-        case 'SAVE_ITEM_QTY':
-          const cart = state.cart.map((product) => {
-            if (product.productId === action.payload.productId) {
-              return {
-                ...product,
-                qty: action.qty
-              };
-            }
-            return product;
-          });
-          return {
-            ...state,
-            cart,
-            total: cart.reduce(
-              (result, item) => item.qty * item.currentPrice + result, 0  
-            )
+      case 'SAVE_ITEM_QTY':
+        const cart = state.cart.map((product) => {
+          if (product.productId === action.payload.productId) {
+            return {
+              ...product,
+              qty: action.qty
+            };
           }
+          return product;
+        });
+        return {
+          ...state,
+          cart,
+          total: cart.reduce(
+            (result, item) => item.qty * item.currentPrice + result, 0  
+          )
+        }
     default:
       return state;
   }
-
 };
 
 export const itemReducer = (state, action) => {

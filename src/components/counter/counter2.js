@@ -39,10 +39,6 @@ export const Counter2 = (props) => {
   
     const handleIncrementClick = () => {
       setValue((value) => parseInt(value + 1));
-      dispatch({ type: 'INPUT_QTY', payload: item, qty: value })
-
-    
-
     };
   
     const handleOnBlur = (event) => {
@@ -63,9 +59,9 @@ export const Counter2 = (props) => {
         <button
           className="cbn-counter__button cbn-counter__button--left"
           disabled={disabled}
-          onClick={
-            handleDecrementClick                      
-          }
+          // onClick={
+          //   handleDecrementClick                      
+          // }
         >
           <MinusSmIcon className="cbn-counter__icon ml-0.5" />
           <span className="sr-only">Decrement</span>
@@ -83,8 +79,7 @@ export const Counter2 = (props) => {
           ref={inputRef}
           type="number"
           min="1"
-          value={value}
-   
+          value={value}   
           {...rest}
         />       
         <button
