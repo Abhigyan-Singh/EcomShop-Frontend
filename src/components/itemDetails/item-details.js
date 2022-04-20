@@ -135,39 +135,6 @@ const ItemDetails = () => {
                     <span className="sr-only">Increment</span>
                   </button>
                 </div> */}
-                {cart.some((i) => i.productId === itemDetailsData.productId) ? (
-                  <button
-                    className="cbn-button"
-                    onClick={() => {
-                      console.log(quantity);
-                      dispatch({
-                        type: 'ADD_TO_CART',
-                        payload: itemDetailsData,
-                        qty: itemDetailsData.qty
-                          ? itemDetailsData.qty + quantity
-                          : quantity
-                      });
-                    }}
-                  >
-                    <span>Added to Cart</span>
-                  </button>
-                ) : (
-                  <button
-                    className="cbn-button"
-                    onClick={() => {
-                      console.log(quantity);
-                      dispatch({
-                        type: 'ADD_TO_CART',
-                        payload: itemDetailsData,
-                        qty: itemDetailsData.qty
-                          ? itemDetailsData.qty + quantity
-                          : quantity
-                      });
-                    }}
-                  >
-                    <span>Add to Cart</span>
-                  </button>
-                )}
               </div>
               <div className="flex space-x-4">
                 <Favorite
