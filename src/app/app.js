@@ -48,6 +48,7 @@ const App = () => {
   const [depart4, setDepart4] = useState(dept);
   const [depart5, setDepart5] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
+  const [subdepart2, setSubdepart2] = useState(subdept);
 
   useEffect(() => {
     const { user } = cookies;
@@ -99,7 +100,7 @@ const App = () => {
   };
 
   const onDepartChange2 = (storeDept) => {
-    setDepart2(storeDept);
+    setSubdepart2(storeDept);
   };
 
   const onDepartChange3 = (storeDept) => {
@@ -133,7 +134,7 @@ const App = () => {
         )
       },
       {
-        path: 'search',
+        path: 'searchbyname',
         element: (
           <ShopStory
             isAuthenticated={isAuthenticated}

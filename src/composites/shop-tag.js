@@ -14,16 +14,86 @@ const ShopTag = (onDeptChange2) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    grocery(4433).then((res) => {
-      setData(res.data);
-    });
-  }, []);
+    if (dept === 'Baby') {
+      grocery(109791).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Bakery') {
+      grocery(109792).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Butcher') {
+      grocery(109793).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Dairy') {
+      grocery(109794).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Deli') {
+      grocery(109795).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Floral') {
+      grocery(109796).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'General Merchandise') {
+      grocery(109797).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Grocery') {
+      grocery(109798).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Frozen') {
+      grocery(109799).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Health & Beauty') {
+      grocery(109800).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Household & Laundry') {
+      grocery(109801).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Pet') {
+      grocery(109802).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Produce') {
+      grocery(109803).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Beer') {
+      grocery(109804).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Wine') {
+      grocery(109805).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Liquor') {
+      grocery(109806).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Tobacco') {
+      grocery(109807).then((res) => {
+        setData(res.data);
+      });
+    } else if (dept === 'Floral') {
+      grocery(109808).then((res) => {
+        setData(res.data);
+      });
+    }
+  }, [onDeptChange2]);
 
   const handleDeptChange2 = (option) => {
     setSelected(option);
-    setCookie('dept', option, {
+    setCookie('subdept', option, {
       path: '/',
-      maxAge: CookiesAge
+      maxAge: 1
     });
   
     if (typeof onDeptChange2 === 'function') {
@@ -32,7 +102,7 @@ const ShopTag = (onDeptChange2) => {
   };
   
   return (
-    <div className="flex relative space-x-2 whitespace-nowrap">
+    <div className="flex relative space-x-2 whitespace-nowrap flex-wrap">
       {map(data, (option)=> (           
         <button
           className="border border-2 border-green-600 rounded-2xl px-4 pb-1 pb-1"

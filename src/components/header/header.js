@@ -66,8 +66,8 @@ const Header = (props) => {
 
   const fetch = async (itemName) => {
     if (itemName) {
-      const sData = await search(itemName, 2037, 2);
-      setSearchList(sData?.data?.suggestionList);
+      const sData = await search(itemName="baby", 500, 1, 100);
+      setSearchList(sData?.data?.productList);
       setLoading(false);
     }
   };
@@ -126,14 +126,19 @@ const Header = (props) => {
 
   useEffect((err) => {
     grocery(4433).then((res) => {
-      setData(res.data);
+      setData("GROCERYYYYYYYY", res.data);
     })
     .catch(err)
     console.log("error", err)
   }, [user]);
 
+  useEffect(() => {
+    search("baby", 500, 1, 100).then((res) => {
+      console.log("SEARCH", res.departments);
+    })
+  }, [user]);
 
-
+  
   // const getListItems = async () => {
   //   const res = await getAllList();
   //   setListItems(res.data);
@@ -413,8 +418,8 @@ const Header = (props) => {
                                               <div
                                                 onClick={() =>
                                                   navigate(
-                                                    '/search?text=' +
-                                                      option.description
+                                                    '/searchbyname/' + option.description 
+                                                      
                                                   )
                                                 }
                                               >

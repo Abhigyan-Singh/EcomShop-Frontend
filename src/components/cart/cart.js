@@ -16,7 +16,7 @@ import { mockData } from 'composites/home-get-started.js';
 
 const Cart = (props) => {
   const {
-    state: { cart, total ,qty },
+    state: { cart, total, qty },
     dispatch
   } = CartState();
   const { open, onClose } = props;
@@ -59,9 +59,8 @@ const Cart = (props) => {
           <Counter
             item={item.item}
             value={item.item.qty}
-          
             disabled={item.item.isOutOfStock}
-            onChange={() =>  {}}
+            onChange={() => {}}
             min="1"
           />
           <div>
@@ -154,7 +153,7 @@ const Cart = (props) => {
                         }}
                       >
                         {item.prodDepartment} ({item.qty})
-                      </li>
+                      </li>;
                     })}
                     {cart.map((item) => (
                       <li key={item.productId}>
@@ -166,9 +165,18 @@ const Cart = (props) => {
                 )}
               </div>
               <div className="bg-yellow-100 p-3">
-                <div className="text-lg mb-2 text-center" >
-                  Order Total: {isNaN(total) ? <span className="mr-3">${Number(parseFloat(total|| 0).toFixed(2))}</span>: <span className="mr-3">${parseFloat(total).toFixed(2)}</span> }
-                </div> 
+                <div className="text-lg mb-2 text-center">
+                  Order Total:{' '}
+                  {isNaN(total) ? (
+                    <span className="mr-3">
+                      ${Number(parseFloat(total || 0).toFixed(2))}
+                    </span>
+                  ) : (
+                    <span className="mr-3">
+                      ${parseFloat(total).toFixed(2)}
+                    </span>
+                  )}
+                </div>
                 <Button
                   onClick={handleCheckoutCart}
                   className="block w-full"

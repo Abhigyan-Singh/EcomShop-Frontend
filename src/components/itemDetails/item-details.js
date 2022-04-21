@@ -12,7 +12,7 @@ import Favorite from 'components/favorite/favorite';
 // import { productDetails } from '../../services/search';
 import Wishlist from 'components/wishllist/wishlist';
 import { CartState } from '../../context/context';
-import Counter from 'components/counter/counter';
+import Counter from 'components/counter/counter2';
 import useCart from 'services/addtocart';
 import './item-details.css';
 
@@ -30,6 +30,7 @@ const ItemDetails = () => {
   // const [error, setError] = useState(false);
   const [tab, setTab] = useState('pd');
   const { updateCart } = useCart();
+  const [quantity, setQuantity] = useState(0);
   // const sendQuery = useCallback(async () => {
   //   try {
   //     await setLoading(true);
@@ -78,7 +79,10 @@ const ItemDetails = () => {
             />
           </div>
           <div className="">
-            <h2 href="#" className="font-bold text-2xl leading-none mb-1 lg:mb-2">
+            <h2
+              href="#"
+              className="font-bold text-2xl leading-none mb-1 lg:mb-2"
+            >
               {itemDetailsData?.productName}
             </h2>
             <section aria-labelledby="information-heading">
@@ -104,7 +108,12 @@ const ItemDetails = () => {
                 Product options
               </h3>
               <div className="flex items-center space-x-2 mb-6">
-                <Counter disabled={false} onChange={() => {}} />
+                <Counter
+                  disabled={false}
+                  item={itemDetailsData}
+                  isItemAdded={false}
+                  onChange={(value) => setQuantity(value)}
+                />
                 {/* <div className="cbn-counter">
                   <button className="cbn-counter__button cbn-counter__button--left">
                     <MinusIcon className="h-4 w-4" />
@@ -126,36 +135,39 @@ const ItemDetails = () => {
                     <span className="sr-only">Increment</span>
                   </button>
                 </div> */}
-                  {cart.some((i) => i.productId === itemDetailsData.productId) 
-                    ? (
-                      <button
-                        className="cbn-button"
-                        onClick={() =>
-                          dispatch({
-                            type: 'ADD_TO_CART',
-                            payload: itemDetailsData,
-                            qty: itemDetailsData.qty
-                          })
-                        }
-                      >
-                        <span>Added to Cart</span>
-                      </button>
-                      ) 
-                    : (
-                      <button
-                        className="cbn-button"
-                        onClick={() =>
-                          dispatch({
-                            type: 'ADD_TO_CART',
-                            payload: itemDetailsData,
-                            qty: itemDetailsData.qty
-                          })
-                        }
-                      >
-                        <span>Add to Cart</span>
-                      </button>
-                      )                                                                      
-                  }
+                {cart.some((i) => i.productId === itemDetailsData.productId) ? (
+                  <button
+                    className="cbn-button"
+                    onClick={() => {
+                      console.log(quantity);
+                      dispatch({
+                        type: 'ADD_TO_CART',
+                        payload: itemDetailsData,
+                        qty: itemDetailsData.qty
+                          ? itemDetailsData.qty + quantity
+                          : quantity
+                      });
+                    }}
+                  >
+                    <span>Added to Cart</span>
+                  </button>
+                ) : (
+                  <button
+                    className="cbn-button"
+                    onClick={() => {
+                      console.log(quantity);
+                      dispatch({
+                        type: 'ADD_TO_CART',
+                        payload: itemDetailsData,
+                        qty: itemDetailsData.qty
+                          ? itemDetailsData.qty + quantity
+                          : quantity
+                      });
+                    }}
+                  >
+                    <span>Add to Cart</span>
+                  </button>
+                )}
               </div>
               <div className="flex space-x-4">
                 <Favorite

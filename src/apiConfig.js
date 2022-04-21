@@ -27,3 +27,5 @@ export const API = {
 };
 
 export const CookiesAge = 604800;
+
+//http://localhost:8009/productn/searchbyname/{productName}/{facilityId}/{pageno}/{itemCount}

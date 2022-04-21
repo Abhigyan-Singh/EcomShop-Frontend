@@ -10,6 +10,7 @@ export const cartReducer = (state, action) => {
     }
 
     case 'ADD_TO_CART':
+      console.log(action);
       const item = state.cart.find(
         (product) => product.productId === action.payload.productId
       );
@@ -18,9 +19,12 @@ export const cartReducer = (state, action) => {
       if (item) {
         const cart = state.cart.map((product) => {
           if (product.productId === action.payload.productId) {
+            const totalQuantity = action.qty
+              ? action.qty + product.qty
+              : product.qty + 1;
             return {
               ...product,
-              qty: product.qty + 1
+              qty: totalQuantity
             };
           }
           return product;
@@ -34,7 +38,13 @@ export const cartReducer = (state, action) => {
           )
         };
       } else {
-        const cart = [...state.cart, { ...action.payload, qty: 1 }];
+        const cart = [
+          ...state.cart,
+          {
+            ...action.payload,
+            qty: action.qty ? action.qty : 1
+          }
+        ];
         return {
           ...state,
           cart,
@@ -71,8 +81,8 @@ export const cartReducer = (state, action) => {
         const cart = state.cart.map((product) => {
           if (product.productId === action.payload.productId) {
             return {
-              ...product,           
-              qty: product.qty + 1       
+              ...product,
+              qty: product.qty + 1
             };
           }
           return product;
@@ -81,9 +91,10 @@ export const cartReducer = (state, action) => {
           ...state,
           cart,
           total: cart.reduce(
-            (result, item) => item.qty * item.currentPrice + result, 0  
+            (result, item) => item.qty * item.currentPrice + result,
+            0
           )
-        }
+        };
       }
 
     case 'DECREASE_ITEM_QTY':
@@ -94,29 +105,8 @@ export const cartReducer = (state, action) => {
         const cart = state.cart.map((product) => {
           if (product.productId === action.payload.productId) {
             return {
-              ...product,           
-              qty: Math.max(product.qty - 1, 1)       
-            };
-          }
-          return product;
-        });
-        return {
-          ...state,
-          cart,
-          total: cart.reduce(
-            (result, item) => item.qty * item.currentPrice + result, 0  
-          )
-        }
-      }
-        
-      
-                             
-      case 'SAVE_ITEM_QTY':
-        const cart = state.cart.map((product) => {
-          if (product.productId === action.payload.productId) {
-            return {
               ...product,
-              qty: action.qty
+              qty: Math.max(product.qty - 1, 1)
             };
           }
           return product;
@@ -125,9 +115,49 @@ export const cartReducer = (state, action) => {
           ...state,
           cart,
           total: cart.reduce(
-            (result, item) => item.qty * item.currentPrice + result, 0  
+            (result, item) => item.qty * item.currentPrice + result,
+            0
           )
+        };
+      }
+
+    case 'INPUT_QTY':
+      const cart3 = state.cart.map((product) => {
+        if (product.productId === action.payload.productId) {
+          return {
+            ...product,
+            qty: product.qty + 1
+          };
         }
+        return product;
+      });
+      return {
+        ...state,
+        cart3,
+        total: cart3.reduce(
+          (result, item) => item.qty * item.currentPrice + result,
+          0
+        )
+      };
+
+    case 'SAVE_ITEM_QTY':
+      const cart = state.cart.map((product) => {
+        if (product.productId === action.payload.productId) {
+          return {
+            ...product,
+            qty: action.qty
+          };
+        }
+        return product;
+      });
+      return {
+        ...state,
+        cart,
+        total: cart.reduce(
+          (result, item) => item.qty * item.currentPrice + result,
+          0
+        )
+      };
     default:
       return state;
   }

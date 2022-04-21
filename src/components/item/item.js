@@ -24,9 +24,8 @@ import Wishlist from 'components/wishllist/wishlist';
 import Quickview from '../quickview/quickview';
 import { CartState } from '../../context/context';
 import useCart from 'services/addtocart';
-import addToCarts from 'services/addtocart'
+import addtocart from 'services/addtocart';
 import { useCookies } from 'react-cookie';
-
 
 const Item = (props) => {
   const {
@@ -48,7 +47,6 @@ const Item = (props) => {
 
   const [cookies, setCookie] = useCookies();
   const { facility, user } = cookies;
-  
 
   const [sizeOption, setSizeOption] = useState(
     item.sizeOptions && item.sizeOptions[0]
@@ -56,14 +54,13 @@ const Item = (props) => {
   const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
+
   const {
     state: { cart, counter },
     dispatch
   } = CartState();
   const { updateCart } = useCart();
   //addToCarts("albtest3", 95436, 1, 2037 )
-
-  
 
   const handleViewClick = () => {
     if (typeof onViewClick === 'function') {
@@ -76,8 +73,15 @@ const Item = (props) => {
     setShowCart(false);
   };
 
+  const addtocartapi = () => {
+    //do something
+    dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty + quantity });
+  };
 
-  
+  const addtocartapi2 = () => {
+    //do something
+    addtocart(user, item.productId, item.qty, item.facilityId);
+  };
 
   return (
     <div className={componentClassName} {...rest}>
@@ -112,7 +116,9 @@ const Item = (props) => {
           }
         >
           <div className="cbn-item__name">
-            <a  href="#" className="block">{item.productName}</a>
+            <a href="#" className="block">
+              {item.productName}
+            </a>
           </div>
           <div className="cbn-item__number">Item #: {item.productId}</div>
         </div>
@@ -122,7 +128,7 @@ const Item = (props) => {
         </div>
       </div>
       <div className="cbn-item__pricing">
-        <div className="cbn-item__price">$ {(item.currentPrice).toFixed(2)}</div>
+        <div className="cbn-item__price">$ {item.currentPrice.toFixed(2)}</div>
         {item.onSale && (
           <div className="cbn-item__savings">
             Save: $ {(item.normalPrice - item.currentPrice).toFixed(2)}
@@ -155,24 +161,29 @@ const Item = (props) => {
           <Counter2
             item={item}
             disabled={item.isOutOfStock}
-            onChange={() => {}}
-          /> 
-          {cart.some((i) => i.productId === item.productId) 
-            ? (
-                <Button 
-                  label="Added"  
-                  disabled={item.isOutOfStock}
-                  onClick={() => dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })}
-                />
-              ) 
-            : (  
-                <Button
-                  disabled={item.isOutOfStock}
-                  label="Add"
-                  onClick={() => dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })}                
-                />
-              )
-          }         
+            onChange={(value) => setQuantity(value)}
+            isItemAdded={cart.some((i) => i.productId === item.productId)}
+          />
+          {cart.some((i) => i.productId === item.productId) ? (
+            <Button
+              label="Added"
+              disabled={item.isOutOfStock}
+              onClick={() => {
+                addtocartapi(quantity);
+              }}
+            />
+          ) : (
+            <Button
+              disabled={item.isOutOfStock}
+              label="Add"
+              onClick={() => {
+                addtocartapi();
+              }}
+              // onClick={() =>
+              //   dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })
+              // }
+            />
+          )}
         </a>
       </div>
       <div className="cbn-item__actions invisible group-hover:visible group-focus-within:visible">
