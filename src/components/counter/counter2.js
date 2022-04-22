@@ -105,6 +105,37 @@ export const Counter2 = (props) => {
         <PlusSmIcon className="cbn-counter__icon mr-0.5" />
         <span className="sr-only">Increment</span>
       </button>
+      {cart.some((i) => i.productId === item.productId) ? (
+        <button
+          style={{ marginLeft: 10 }}
+          className="cbn-button"
+          onClick={() => {
+            console.log(value);
+            dispatch({
+              type: 'ADD_TO_CART',
+              payload: item,
+              qty: item.qty ? item.qty + value : value
+            });
+          }}
+        >
+          <span>Added to Cart</span>
+        </button>
+      ) : (
+        <button
+          style={{ marginLeft: 10 }}
+          className="cbn-button"
+          onClick={() => {
+            console.log(value);
+            dispatch({
+              type: 'ADD_TO_CART',
+              payload: item,
+              qty: item.qty ? item.qty + value : value
+            });
+          }}
+        >
+          <span>Add to Cart</span>
+        </button>
+      )}
     </div>
   );
 };

@@ -164,26 +164,6 @@ const Item = (props) => {
             onChange={(value) => setQuantity(value)}
             isItemAdded={cart.some((i) => i.productId === item.productId)}
           />
-          {cart.some((i) => i.productId === item.productId) ? (
-            <Button
-              label="Added"
-              disabled={item.isOutOfStock}
-              onClick={() => {
-                addtocartapi(quantity);
-              }}
-            />
-          ) : (
-            <Button
-              disabled={item.isOutOfStock}
-              label="Add"
-              onClick={() => {
-                addtocartapi();
-              }}
-              // onClick={() =>
-              //   dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty })
-              // }
-            />
-          )}
         </a>
       </div>
       <div className="cbn-item__actions invisible group-hover:visible group-focus-within:visible">
