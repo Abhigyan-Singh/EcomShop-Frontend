@@ -118,11 +118,11 @@ export const Counter2 = (props) => {
             });
           }}
         >
-          <span style={{ fontSize: 12}}>Added to Cart</span>
+          <span style={{ fontSize: 10}}>Added to Cart</span>
         </button>
       ) : (
         <button
-          style={{ marginLeft: 10 }}
+          style={{ marginLeft: 7 }}
           className="cbn-button"
           onClick={() => {
             console.log(value);

@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
 import { CartState } from 'context/context';
 
-const ShopSort = (props) => {
+const ShopSort = (handleAbcSort) => {
 
 
   return (
@@ -68,6 +68,7 @@ const ShopSort = (props) => {
                       id="headlessui-menu-item-127"
                       role="menuitem"
                       tabindex="-1"
+                      onClick={() => handleAbcSort()}
                     >
                       Name: A to Z
                     </button>

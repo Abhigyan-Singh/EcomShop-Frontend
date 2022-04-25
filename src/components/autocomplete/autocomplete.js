@@ -43,7 +43,6 @@ const Autocomplete = (props) => {
   const [focused, setFocused] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const navigate = useNavigate();
-
   const [cookies, setCookie] = useCookies();
   const { facility, dept } = cookies;
   const [selected, setSelected] = useState(dept);
@@ -98,7 +97,7 @@ const Autocomplete = (props) => {
         if (event.keyCode === 13 && focused) {
           event.preventDefault();
           handleItemSelect(event, filteredItems[selectedItemIndex]);
-          window.location.href = '/search?text=' + event.target.value;
+          window.location.href = '/search?text=' + event.target.value; 
         } else if (event.keyCode === 38 && focused) {
           event.preventDefault();
           if (selectedItemIndex === null || selectedItemIndex === 0) {

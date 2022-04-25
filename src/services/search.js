@@ -2,13 +2,13 @@ import apiClient from './api';
 import { API, config } from 'apiConfig';
 
 
-export const search = (searchKey, facilityId = 2037, page = 1, count= 1) => {
+export const search = (searchKey, facilityId = 2037, page = 2) => {
   return apiClient.get(API.search, {
     params: {
-      productName: searchKey,
+      searchKey: searchKey,
       facilityId: facilityId,
-      pageno: page,
-      itemCount: count
+      currentPageNumber: page,
+      //itemCount: count
     }
   });
 };

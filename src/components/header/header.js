@@ -66,8 +66,8 @@ const Header = (props) => {
 
   const fetch = async (productName) => {
     if (productName) {
-      const sData = await search(productName, 2037, 1, 1);
-      setSearchList(sData?.data?.productList)
+      const sData = await search(productName, 2037, 2);
+      setSearchList(sData?.data?.suggestionList)
       setLoading(false);
     };
   };
@@ -426,7 +426,7 @@ const Header = (props) => {
                                               <div
                                                 onClick={() =>
                                                   navigate(
-                                                    '/search?productName=' + option.description 
+                                                    '/search?text=' + option.description 
                                                       
                                                   )
                                                 }
