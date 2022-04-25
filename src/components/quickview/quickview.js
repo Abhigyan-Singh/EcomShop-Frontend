@@ -184,15 +184,15 @@ const Quickview = (props) => {
                           />
                         )}
                       </div>
-                      <div className="flex space-x-4" >
+                      <div className="flex space-x-3" >
                         <Favorite
                           isCard={true}
                           favorite={data.isFavorite}
                           productId={data.productId}
                         />
-                        <button style={{marginTop: 5}}>
+                        <span style={{marginTop: 6, fontSize: 15}}>
                           {data.isFavorited ? 'Favorited' : 'Favorite'}
-                        </button>
+                        </span>
                         <button className="cbn-quickview__action-button" >
                           <Wishlist item={data} listItems={listItems}/>
                           <span style={{marginBottom:10, marginTop:10, fontSize: 15 }}>Add to List</span>                         

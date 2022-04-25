@@ -14,7 +14,8 @@ export const cartReducer = (state, action) => {
       const item = state.cart.find(
         (product) => product.productId === action.payload.productId
       );
-
+      console.log('add to cart', state)
+     
       if (item) {
         const cart = state.cart.map((product) => {
           if (product.productId === action.payload.productId) {

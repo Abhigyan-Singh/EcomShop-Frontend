@@ -3,9 +3,12 @@ import apiClient from './api';
 import { useCookies } from 'react-cookie';
 import { CartState } from '../context/context';
 
-export const addtocart = (userName, productId, quantity, facilityId) => {
+
+
+
+export const addToCarts = (userName, productId, qty, facilityId) => {
   return apiClient.get(
-    `${config.baseUrl}${API.add_to_cart}/${userName}/${productId}/${quantity}/${facilityId}`
+    `${config.baseUrl}${API.add_to_cart}/${userName}/${productId}/${qty}/${facilityId}`
   );
 };
 
@@ -32,7 +35,7 @@ const useCart = () => {
   };
 
   const updateCart = async (item) => {
-    await addtocart(userInfo?.userName, item.productId, 1, 2037);
+    await addToCarts(userInfo?.userName, item.productId, 1, 2037);
     getCartDetails();
   };
   return {

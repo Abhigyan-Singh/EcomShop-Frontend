@@ -60,6 +60,7 @@ const Item = (props) => {
     dispatch
   } = CartState();
   const { updateCart } = useCart();
+  //addToCarts("albtest3", 95436, 1, 2037 )
 
   const handleViewClick = () => {
     if (typeof onViewClick === 'function') {
@@ -83,7 +84,7 @@ const Item = (props) => {
   };
 
   return (
-    <div className={componentClassName} {...rest}>
+    <div className={componentClassName} {...rest} style={{height: 300}}>
       {item.onSale && (
         <img className="cbn-item__ribbon" src={saleRibbon} alt="Sale" />
       )}

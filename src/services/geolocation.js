@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import alertStories from 'stories/components/alert.stories';
 
 
 export const Geolocation = () => {

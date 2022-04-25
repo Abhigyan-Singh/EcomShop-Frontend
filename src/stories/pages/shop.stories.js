@@ -62,8 +62,9 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const params = window.location.href.split('?')[1];
   const { text: searchText } = queryString.parse(params);
   const [query, setQuery] = useState(searchText);
-  const [page, setPage] = useState(1);
-  const { loading, error, list } = useFetch(query, page);
+  const [pageno, setPage] = useState(1);
+  const [itemCount, setItemCount] = useState(1);
+  const { loading, error, list } = useFetch(query, pageno, itemCount);
   const [cookies, setCookie] = useCookies(['user']);
   const { userInfo } = cookies;
   const { dispatchUser } = CartState();
@@ -91,7 +92,7 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
     onSale: {
       checked: false,
       count: 0
-    }
+    },
   });
   const [filterCards, setFilterCards] = useState([]);
 
@@ -270,6 +271,18 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
     }
   }, [userInfo]);
 
+
+  const handleAbcSort = () => {
+    list.sort((a, b ) => {
+      return a.name > b.name
+    })
+    return list
+
+  }
+
+ 
+  
+
   useEffect(() => {
     getCartDetails();
     fetchFavorites();
@@ -302,7 +315,12 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
                 hanldeFilterChange={hanldeFilterChange}
                 filterDropdowns={filterDropdowns}
               />
-              <ShopSort />
+              <ShopSort
+                handleAbcSort={handleAbcSort} 
+
+
+
+              />
             </div>
           </div>
           <ShopSelectedFilter

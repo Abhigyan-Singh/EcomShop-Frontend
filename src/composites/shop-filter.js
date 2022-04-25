@@ -54,11 +54,11 @@ const ShopFilter = (props, args, value, item) => {
                     >
                       <Popover.Panel
                         static
-                        className="absolute -ml-0 mt-1"
+                        className="relative -ml-0 mt-1"
                         style={{ zIndex: 9999 }}
                       >
                         <div
-                          class="relative border shadow-lg p-4 bg-white rounded justify-center"
+                          class="absolute border shadow-lg p-4 bg-white rounded justify-center"
                           style={{
                             backgroundColor: 'rgb(255, 255, 255, 1)',
                             margin: -3,
