@@ -1,16 +1,21 @@
 import apiClient from './api';
 import { API, config } from 'apiConfig';
 
-export const search = (productName, facilityId = 500, pageno = 1, itemCount = 100) => {
+
+export const search = (searchKey, facilityId = 2037, page = 1, count= 1) => {
   return apiClient.get(API.search, {
     params: {
-      productName: productName,
+      productName: searchKey,
       facilityId: facilityId,
-      pageno: pageno,
-      itemCount: itemCount
+      pageno: page,
+      itemCount: count
     }
   });
 };
+
+// export const search = (productName, facilityId = 500, pageno = 1, itemCount = 1) => {
+//   return apiClient.get( `${config.baseUrl}${API.search}/${productName}/${facilityId}/${pageno}/${itemCount}`);
+// };
 
 export const productDetails = (productId) => {
   return apiClient.get(API.productDetails + productId);

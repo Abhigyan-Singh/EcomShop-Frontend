@@ -8,24 +8,7 @@ import { Disclosure, Popover, Transition } from '@headlessui/react';
 import { CartState } from 'context/context';
 
 const ShopSort = (props) => {
-  const {
-    itemState: {
-      sort,
-      byAmys,
-      byBanquet,
-      byBrand,
-      byAll,
-      byLocal,
-      byOrganic,
-      byGlutenFree,
-      byNew,
-      bySale,
-      byName,
-      byPrice,
-      bySize
-    },
-    itemDispatch
-  } = CartState();
+
 
   return (
     <div className="relative inline-block text-left pr-4">
@@ -72,77 +55,78 @@ const ShopSort = (props) => {
                     }}
                   >
                     <button
-                      class="block px-4 py-2 text-sm"
+                      class="block px-4 py-2 text-sm font-medium"
                       id="headlessui-menu-item-126"
                       role="menuitem"
                       tabindex="-1"
+                      //onClick={() => }
                     >
                       Default (Relevance)
                     </button>
-                    <a
-                      class="block px-4 py-2 text-sm"
+                    <button
+                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
                       id="headlessui-menu-item-127"
                       role="menuitem"
                       tabindex="-1"
                     >
                       Name: A to Z
-                    </a>
-                    <a
-                      class="block px-4 py-2 text-sm"
+                    </button>
+                    <button
+                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
                       id="headlessui-menu-item-16"
                       role="menuitem"
                       tabindex="-1"
                     >
                       Name: Z to A
-                    </a>
-                    <a
-                      class="block px-4 py-2 text-sm"
-                      id="headlessui-menu-item-17"
-                      role="menuitem"
-                      tabindex="-1"
-                    >
-                      Brand: A to Z
-                    </a>
-                    <a
-                      class="block px-4 py-2 text-sm"
-                      id="headlessui-menu-item-17"
-                      role="menuitem"
-                      tabindex="-1"
-                    >
-                      Brand: A to Z
-                    </a>
-                    <a
-                      class="block px-4 py-2 text-sm"
-                      id="headlessui-menu-item-17"
-                      role="menuitem"
-                      tabindex="-1"
-                    >
-                      Brand: A to Z
-                    </a>
+                    </button>
                     <button
-                      class="block px-4 py-2 text-sm"
+                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      id="headlessui-menu-item-17"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Brand: A to Z
+                    </button>
+                    <button
+                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      id="headlessui-menu-item-17"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Brand: A to Z
+                    </button>
+                    <button
+                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      id="headlessui-menu-item-17"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      Brand: A to Z
+                    </button>
+                    <button
+                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
                       id="headlessui-menu-item-20"
                       role="menuitem"
                       tabindex="-1"
                     >
                       Price: Low to High
                     </button>
-                    <a
-                      class="block px-4 py-2 text-sm"
+                    <button
+                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
                       id="headlessui-menu-item-20"
                       role="menuitem"
                       tabindex="-1"
                     >
                       Price: High to Low
-                    </a>
-                    <a
-                      class="block px-4 py-2 text-sm"
+                    </button>
+                    <button
+                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
                       id="headlessui-menu-item-22"
                       role="menuitem"
                       tabindex="-1"
                     >
                       Size: Large to Small
-                    </a>
+                    </button>
                   </div>
                 </Popover.Panel>
               </Transition>

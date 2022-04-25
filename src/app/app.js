@@ -134,7 +134,7 @@ const App = () => {
         )
       },
       {
-        path: 'searchbyname',
+        path: 'search',
         element: (
           <ShopStory
             isAuthenticated={isAuthenticated}

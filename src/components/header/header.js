@@ -64,12 +64,12 @@ const Header = (props) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const fetch = async (itemName) => {
-    if (itemName) {
-      const sData = await search(itemName="baby", 500, 1, 100);
-      setSearchList(sData?.data?.productList);
+  const fetch = async (productName) => {
+    if (productName) {
+      const sData = await search(productName, 2037, 1, 1);
+      setSearchList(sData?.data?.productList)
       setLoading(false);
-    }
+    };
   };
   const setHoursHtml = () => {
     if (
@@ -124,19 +124,27 @@ const Header = (props) => {
     // We need to integrate with solor here on scroll
   };
 
-  useEffect((err) => {
+  useEffect(() => {
     grocery(4433).then((res) => {
-      setData("GROCERYYYYYYYY", res.data);
+      setData(res.data);
     })
-    .catch(err)
-    console.log("error", err)
   }, [user]);
 
-  useEffect(() => {
-    search("baby", 500, 1, 100).then((res) => {
-      console.log("SEARCH", res.departments);
-    })
-  }, [user]);
+  // useEffect(() => {
+  //   const requestOptions = {
+  //     method: 'GET',
+  //     headers: {
+  //               'Content-Type': 'application/json',
+  //               'Authorization' : 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBTEJURVNUMyIsImV4cCI6MTY1MDgzMzQ5OSwiaWF0IjoxNjUwODE1NDk5fQ.bBwnVb_3hFvvhj9omTZ4GGxnrJTVjtspPwcxtwzfhNrX0chde-eF0eFIS9cE94X29N1bFMAs4ym6YsC2USvdxg' 
+  //              }
+  // };
+  //   fetch('http://localhost:8009/productn/searchbyname/deli/500/1/1', requestOptions)
+  //   .then(res => res.json())
+  //   .then(json => setSearchList(json),  console.log("RSNDSSSS", searchList))
+   
+  // }, [user]);
+
+
 
   
   // const getListItems = async () => {
@@ -418,7 +426,7 @@ const Header = (props) => {
                                               <div
                                                 onClick={() =>
                                                   navigate(
-                                                    '/searchbyname/' + option.description 
+                                                    '/search?productName=' + option.description 
                                                       
                                                   )
                                                 }
