@@ -15,6 +15,7 @@ import { CartState } from '../../context/context';
 import Counter from 'components/counter/counter2';
 import useCart from 'services/addtocart';
 import './item-details.css';
+import { productDetails } from 'services/search';
 
 const ItemDetails = () => {
   const { id } = useParams();
@@ -24,13 +25,28 @@ const ItemDetails = () => {
     dispatch
   } = CartState();
   const [itemDetailsData, setItemDetailsData] = useState(location.state?.item);
-  const [listItems, setListItems] = useState(location.state?.listItems);
+  const [listItems, setListItems] = useState(location.state?.listItems || []);
   const [showProdInfo, setShowProdInfo] = useState(false);
   // const [isLoading, setLoading] = useState(false);
   // const [error, setError] = useState(false);
   const [tab, setTab] = useState('pd');
   const { updateCart } = useCart();
   const [quantity, setQuantity] = useState(0);
+
+  const getProductDetails = (idVal) => {
+    productDetails(idVal).then((res) => {
+      console.log('data received', res.data);
+      setItemDetailsData(res.data);
+    });
+  };
+
+  useEffect(() => {
+    console.log(location.state, 'state');
+    if (!location.state || !location.state.item) {
+      getProductDetails(id);
+    }
+  }, [id]);
+
   // const sendQuery = useCallback(async () => {
   //   try {
   //     await setLoading(true);

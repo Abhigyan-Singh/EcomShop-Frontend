@@ -1,6 +1,21 @@
 import { ChevronRightIcon } from '@heroicons/react/solid';
+import { useEffect, useState } from 'react';
+import { getAllMeals } from 'services/item-details';
 
 const HomeRecipes = (props) => {
+  const { productId } = props;
+  const [items, setItems] = useState([]);
+
+  const fetchMeals = (productId) => {
+    getAllMeals(productId).then((res) => {
+      setItems(res.data);
+    });
+  };
+  useEffect(() => {
+    fetchMeals(productId);
+  }, [productId]);
+
+  const showItems = items.length <= 4 ? items.splice(0, 3) : [...items];
   return (
     <div className="p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">
@@ -17,7 +32,7 @@ const HomeRecipes = (props) => {
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {[...Array(4)].map((e, i) => (
+        {showItems.map((e, i) => (
           <a
             className="block relative rounded-sm shadow-sm ring-1 ring-black ring-opacity-5 bg-white overflow-hidden"
             key={i}
@@ -31,8 +46,7 @@ const HomeRecipes = (props) => {
             </div>
             <div className="relative p-5">
               <p className="text-sm md:text-base md:leading-tight">
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
+                {e.longDescription}
               </p>
             </div>
           </a>

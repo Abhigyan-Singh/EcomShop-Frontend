@@ -122,15 +122,15 @@ const Item = (props) => {
           <div className="cbn-item__number">Item #: {item.productId}</div>
         </div>
         <div className="cbn-item__size">
-          {item.sizeString} | {(item.currentPrice / item.sizeNumber).toFixed(2)}{' '}
-          / {item.sizeUom}
+          {item.sizeString} |{' '}
+          {(item.currentPrice / item.sizeNumber)?.toFixed(2)} / {item.sizeUom}
         </div>
       </div>
       <div className="cbn-item__pricing">
-        <div className="cbn-item__price">$ {item.currentPrice.toFixed(2)}</div>
+        <div className="cbn-item__price">$ {item.currentPrice?.toFixed(2)}</div>
         {item.onSale && (
           <div className="cbn-item__savings">
-            Save: $ {(item.normalPrice - item.currentPrice).toFixed(2)}
+            Save: $ {(item.normalPrice - item.currentPrice)?.toFixed(2)}
           </div>
         )}
         {item.isOutOfStock && (
