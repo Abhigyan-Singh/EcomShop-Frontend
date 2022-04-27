@@ -51,7 +51,7 @@ const Favorite = (props) => {
           >
             <div className="px-1 py-1 ">
               <ul className="list-none pl-3">
-                {listItems.map((each) => (
+                {listItems?.map((each) => (
                   <li>
                     <label className="bsw-checkbox">
                       <input
