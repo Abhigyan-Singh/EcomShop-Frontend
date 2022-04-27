@@ -78,13 +78,8 @@ const Item = (props) => {
     dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty + quantity });
   };
 
-  const addtocartapi2 = () => {
-    //do something
-    addtocart(user, item.productId, item.qty, item.facilityId);
-  };
-
   return (
-    <div className={componentClassName} {...rest} style={{height: 300}}>
+    <div className={componentClassName} {...rest} style={{height: 305}}>
       {item.onSale && (
         <img className="cbn-item__ribbon" src={saleRibbon} alt="Sale" />
       )}
