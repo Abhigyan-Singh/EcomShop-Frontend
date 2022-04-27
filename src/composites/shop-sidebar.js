@@ -123,6 +123,11 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
     });
   }, []);
 
+  
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   const tree = () => {
     return (
       <div className="list-none pl-3">
@@ -149,10 +154,7 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
     );
   };
 
-  function refreshPage() {
-    window.location.reload(false);
-  }
-
+ 
   return (
     <div className="flex">
       <div className="hidden md:flex md:flex-shrink-0">

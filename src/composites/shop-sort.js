@@ -3,13 +3,75 @@ import {
   ViewGridIcon,
   ViewListIcon
 } from '@heroicons/react/solid';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
 import { CartState } from 'context/context';
 
-const ShopSort = (handleAbcSort) => {
+const ShopSort = (props) => {
+  const { list, filteredList } = props;
+  const [listr, setListr] = useState(list);
+
+  const handleAbcSort = () => {
+    if (list) {
+      setListr(list.sort((a, b) =>
+      a.productName.localeCompare(b.productName)
+      ))
+    }
+    return listr
+  
+  }
+
+  const handleZyxSort = () => {
+    return list.sort((a, b) =>
+      b.productName.localeCompare(a.productName)  
+    )
+  }
+
+  // const handleAbcBrandSort = () => {
+  //   filteredList.sort((a, b) =>
+  //     a.productName.localeCompare(b.productName)  
+  //   )
+  //   return filteredList
+  // }
+
+  // const handleZxyBrandSort = () => {
+  //   filteredList.sort((a, b) =>
+  //     a.productName.localeCompare(b.productName)  
+  //   )
+  //   return filteredList
+  // }
+  
+  const handleLowPriceSort = () => {
+    list.sort((a, b) => (a.currentPrice > b.currentPrice) ? 1 : -1)
+  }
+  
+  const handleHighPriceSort = () => {
+    list.sort((a, b) => (a.currentPrice < b.currentPrice) ? 1 : -1)
+  }
+
+  const handleSmallSizeSort = () => {
+   list.sort((a, b) => (a.sizeNumber < b.sizeNumber) ? 1 : -1)
+  }
+
+  const handleLargeSizeSort = () => {
+    list.sort((a, b) => (a.sizeNumber > b.sizeNumber) ? 1 : -1)
+  }
+
+  const defaultList = () => {
+    return list
+  }
+  
+  function refreshPage() { 
+    window.location.reload(false);
+  }
+
+  useEffect(() => {
+    handleAbcSort()
+  }, [listr])
+  
 
 
+  
   return (
     <div className="relative inline-block text-left pr-4">
       <Popover className="relative">
@@ -53,13 +115,14 @@ const ShopSort = (handleAbcSort) => {
                       width: 160,
                       height: 332
                     }}
+                    onClick={() => refreshPage()}
                   >
                     <button
-                      class="block px-4 py-2 text-sm font-medium"
+                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
                       id="headlessui-menu-item-126"
                       role="menuitem"
                       tabindex="-1"
-                      //onClick={() => }
+                      onClick={() => defaultList()}
                     >
                       Default (Relevance)
                     </button>
@@ -77,6 +140,7 @@ const ShopSort = (handleAbcSort) => {
                       id="headlessui-menu-item-16"
                       role="menuitem"
                       tabindex="-1"
+                      onClick={() => handleZyxSort()}
                     >
                       Name: Z to A
                     </button>
@@ -85,6 +149,7 @@ const ShopSort = (handleAbcSort) => {
                       id="headlessui-menu-item-17"
                       role="menuitem"
                       tabindex="-1"
+                      onClick={() => handleAbcSort()}
                     >
                       Brand: A to Z
                     </button>
@@ -93,22 +158,16 @@ const ShopSort = (handleAbcSort) => {
                       id="headlessui-menu-item-17"
                       role="menuitem"
                       tabindex="-1"
+                      onClick={() => handleZyxSort()}
                     >
-                      Brand: A to Z
+                      Brand: Z to A
                     </button>
                     <button
                       class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
                       id="headlessui-menu-item-17"
                       role="menuitem"
                       tabindex="-1"
-                    >
-                      Brand: A to Z
-                    </button>
-                    <button
-                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
-                      id="headlessui-menu-item-20"
-                      role="menuitem"
-                      tabindex="-1"
+                      onClick={() => handleLowPriceSort()}
                     >
                       Price: Low to High
                     </button>
@@ -117,14 +176,25 @@ const ShopSort = (handleAbcSort) => {
                       id="headlessui-menu-item-20"
                       role="menuitem"
                       tabindex="-1"
+                      onClick={() => handleHighPriceSort()}
                     >
                       Price: High to Low
+                    </button>
+                    <button
+                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      id="headlessui-menu-item-20"
+                      role="menuitem"
+                      tabindex="-1"
+                      onClick={() => handleSmallSizeSort()}
+                    >
+                      Size: Small to Large
                     </button>
                     <button
                       class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
                       id="headlessui-menu-item-22"
                       role="menuitem"
                       tabindex="-1"
+                      onClick={() => handleLargeSizeSort()}
                     >
                       Size: Large to Small
                     </button>

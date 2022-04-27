@@ -99,6 +99,8 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const loader = useRef(null);
 
   useEffect(() => {
+    //handleAbcSort()
+   
     console.log('calling...');
     const payload = {
       brand: [],
@@ -271,18 +273,6 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
     }
   }, [userInfo]);
 
-
-  const handleAbcSort = () => {
-    list.sort((a, b ) => {
-      return a.name > b.name
-    })
-    return list
-
-  }
-
- 
-  
-
   useEffect(() => {
     getCartDetails();
     fetchFavorites();
@@ -295,9 +285,9 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
         setData(res);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
-  }, []);
+  }, [filterDropdowns]);
 
   return (
     <Fragment>
@@ -316,10 +306,8 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
                 filterDropdowns={filterDropdowns}
               />
               <ShopSort
-                handleAbcSort={handleAbcSort} 
-
-
-
+                list={list}
+                filteredList={filteredList}
               />
             </div>
           </div>

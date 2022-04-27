@@ -64,7 +64,7 @@ const ShopFilter = (props, args, value, item) => {
                             margin: -3,
                             color: 'black',
                             width: 135.85,
-                            height: 124
+                            height: 500
                           }}
                         >
                           {filterDropdowns.brands.map((each, index) => (
@@ -129,7 +129,7 @@ const ShopFilter = (props, args, value, item) => {
                             margin: -3,
                             color: 'black',
                             width: 182.25,
-                            height: 124
+                            height: 130
                           }}
                         >
                           <Checkbox

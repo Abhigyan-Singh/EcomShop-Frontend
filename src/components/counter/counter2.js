@@ -6,8 +6,11 @@ import './counter.css';
 import newId from 'utils/newId';
 import { CartState } from 'context/context';
 import Item from 'components/item/item';
+import addToCarts from 'services/addtocart';
+import Button from 'components/button/button';
 
-// import useAtom from 'recoil';
+
+
 
 export const Counter2 = (props) => {
   const {
@@ -61,9 +64,18 @@ export const Counter2 = (props) => {
     }
   }, [value]);
 
+
+  
+  // const addtocartapi2 = () => {
+  //   //do something
+  //   addToCarts(user, item.productId, item.qty, item.facilityId);
+  // };
+
+
   return (
     <div className={componentClassName}>
       <button
+          style={{right: 13}}
         className="cbn-counter__button cbn-counter__button--left"
         disabled={disabled}
         onClick={() => {
@@ -80,6 +92,7 @@ export const Counter2 = (props) => {
         Quantity
       </label>
       <input
+        style={{right: 13}}
         className="cbn-counter__input"
         disabled={disabled}
         name="counter-value"
@@ -93,6 +106,7 @@ export const Counter2 = (props) => {
         {...rest}
       />
       <button
+        style={{right: 13}}
         className="cbn-counter__button cbn-counter__button--right"
         disabled={disabled}
         onClick={() => {
@@ -107,7 +121,7 @@ export const Counter2 = (props) => {
       </button>
       {cart.some((i) => i.productId === item.productId) ? (
         <button
-          style={{ marginLeft: 10 }}
+        style={{ marginLeft: -11, width: 99 }}
           className="cbn-button"
           onClick={() => {
             console.log(value);
@@ -118,11 +132,11 @@ export const Counter2 = (props) => {
             });
           }}
         >
-          <span style={{ fontSize: 13}}>In Cart</span>
+          <span style={{ fontSize: 12}}>Added to Cart</span>
         </button>
       ) : (
         <button
-          style={{ marginLeft: 10 }}
+          style={{ marginLeft: -7, width: 92 }}
           className="cbn-button"
           onClick={() => {
             console.log(value);
@@ -133,7 +147,7 @@ export const Counter2 = (props) => {
             });
           }}
         >
-          <span style={{ fontSize: 13}}>Add to Cart</span>
+          <span style={{ fontSize: 12}}>Add to Cart</span>
         </button>
       )}
     </div>
