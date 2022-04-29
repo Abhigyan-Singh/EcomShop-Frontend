@@ -1,10 +1,13 @@
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import { useEffect, useState } from 'react';
 import { getAllMeals } from 'services/item-details';
+import { useCookies } from 'react-cookie';
 
 const HomeRecipes = (props) => {
   const { productId } = props;
   const [items, setItems] = useState([]);
+  const [cookies] = useCookies(['user']);
+  const { userInfo } = cookies;
 
   const fetchMeals = (productId) => {
     getAllMeals(productId).then((res) => {
@@ -20,12 +23,12 @@ const HomeRecipes = (props) => {
     <div className="p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">
         <div className="flex-1 font-serif text-lg tracking-widest uppercase mb-2 lg:mb-0">
-          Weeknight Meals
+          Related Recipes
         </div>
         <div>
           <a>
             <span className="flex items-center">
-              <span>See More Recipes</span>
+              <span>See All Recipes</span>
               <ChevronRightIcon className="h-5 w-5 ml-2" aria-hidden="true" />
             </span>
           </a>
@@ -46,7 +49,11 @@ const HomeRecipes = (props) => {
             </div>
             <div className="relative p-5">
               <p className="text-sm md:text-base md:leading-tight">
-                {e.longDescription}
+                <a
+                  href={`https://shop.coborns.com/displaymealdetails.action?mealId=${e.mealId}&isEasyEats=yes&facilityId=${userInfo?.defaultFacilityId}`}
+                >
+                  {e.longDescription}
+                </a>
               </p>
             </div>
           </a>
