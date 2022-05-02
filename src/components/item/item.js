@@ -123,10 +123,10 @@ const Item = (props) => {
         </div>
       </div>
       <div className="cbn-item__pricing">
-        <div className="cbn-item__price">$ {item.currentPrice.toFixed(2)}</div>
+        <div className="cbn-item__price">$ {item.currentPrice?.toFixed(2)}</div>
         {item.onSale && (
           <div className="cbn-item__savings">
-            Save: $ {(item.normalPrice - item.currentPrice).toFixed(2)}
+            Save: $ {(item.normalPrice - item.currentPrice)?.toFixed(2)}
           </div>
         )}
         {item.isOutOfStock && (
