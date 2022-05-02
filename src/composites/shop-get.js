@@ -2,8 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import Item from 'components/item/item';
 import { getAllList } from 'services/mylist';
 import { Context } from 'context/context';
+import { search } from 'services/search';
 
-const ShopGetPage = ({ loader, list, error, loading }) => {
+
+
+const ShopGetPage = ({ loader, error, list, loading }) => {
   const [listItems, setListItems] = useState([]);
 
   const getListItems = async () => {
@@ -14,6 +17,7 @@ const ShopGetPage = ({ loader, list, error, loading }) => {
   useEffect(() => {
     getListItems();
   }, []);
+
 
   return (
     <div className="App">

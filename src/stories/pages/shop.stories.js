@@ -34,6 +34,7 @@ import { usefavoriteApi } from 'services/favorites';
 import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
+import { search } from 'services/search';
 
 export default {
   title: 'Pages/Home',
@@ -62,13 +63,13 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const params = window.location.href.split('?')[1];
   const { text: searchText } = queryString.parse(params);
   const [query, setQuery] = useState(searchText);
-  const [pageno, setPage] = useState(1);
-  const [itemCount, setItemCount] = useState(1);
-  const { loading, error, list } = useFetch(query, pageno, itemCount);
+  const [pageno, setPageno] = useState(1);
+  const { loading, error, list } = useFetch(query, pageno);
   const [cookies, setCookie] = useCookies(['user']);
   const { userInfo } = cookies;
   const { dispatchUser } = CartState();
   const { fetchFavorites } = usefavoriteApi();
+  // const [list, setList] = useState();
   const { getCartDetails } = useCart();
   const [filteredList, setFilteredList] = useState([]);
   const [filterDropdowns, setFilterDropdowns] = useState({
@@ -98,9 +99,10 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
 
   const loader = useRef(null);
 
+  
+
   useEffect(() => {
     //handleAbcSort()
-   
     console.log('calling...');
     const payload = {
       brand: [],
@@ -117,10 +119,9 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
       payload.newAndSale.push('sale');
     }
     filterProducts(payload).then((res) => {
-      console.log(res);
       setFilteredList(res.data);
     });
-  }, [filterDropdowns]);
+  }, []);
 
   useEffect(() => {
     const filtdropDown = {
@@ -237,7 +238,7 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const handleObserver = useCallback((entries) => {
     const target = entries[0];
     if (target.isIntersecting) {
-      setPage((prev) => prev + 1);
+      setPageno((prev) => prev + 1);
     }
   }, []);
 
@@ -279,15 +280,27 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
     handleChange();
   }, []);
 
-  useEffect(() => {
-    grocery(109791)
+  // const [data2, setData2] = useState([]);
+  // const [loading2, setLoading2] = useState(true);
+  // useEffect( async () =>{
+  //   console.log("STARTED")
+  //   await search()
+  //   .then((res) => setData2(res.data.productList ));
+  //   setLoading2(false)
+  // }, []);
+
+
+  // useEffect(() => {
+  //   console.log("SAVED", data2)
+  //   }, [data2]);
+
+  useEffect( async () => {
+    await grocery(109791)
       .then((res) => {
         setData(res);
       })
-      .catch((err) => {
-        //console.log(err);
-      });
   }, [filterDropdowns]);
+
 
   return (
     <Fragment>
@@ -317,6 +330,7 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
             filterCards={filterCards}
           />
           <ShopGetPage
+            //data2={data2}
             loader={loader}
             list={filteredList.length === 0 ? list : filteredList}
             error={error}

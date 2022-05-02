@@ -79,7 +79,7 @@ const Item = (props) => {
   };
 
   return (
-    <div className={componentClassName} {...rest} style={{height: 305}}>
+    <div className={componentClassName} {...rest} style={{height:325,}}>
       {item.onSale && (
         <img className="cbn-item__ribbon" src={saleRibbon} alt="Sale" />
       )}
@@ -118,8 +118,8 @@ const Item = (props) => {
           <div className="cbn-item__number">Item #: {item.productId}</div>
         </div>
         <div className="cbn-item__size">
-          {item.sizeString} |{' '}
-          {(item.currentPrice / item.sizeNumber)?.toFixed(2)} / {item.sizeUom}
+          {item.sizeString} | {(item.sizeNumber / item.sizeNumber).toFixed(2)}{' '}
+          / {item.sizeUom}
         </div>
       </div>
       <div className="cbn-item__pricing">
@@ -134,7 +134,7 @@ const Item = (props) => {
         )}
       </div>
       <div className="cbn-item__controls">
-        {item.weightedFlag !== 'N' ? (
+        {item.randomWeightFlag !== 0 ? (
           <div>
             {item.keywords && (
               <div className="mb-2">
@@ -144,9 +144,9 @@ const Item = (props) => {
                   onChange={(event) => setSizeOption(event.target.value)}
                   aria-label="Size Options"
                 >
-                  {item.keywords.map((option) => (
-                    <option key={option}>{item.sizeString}</option>
-                  ))}
+                  <div>{item.productQTY1} {item.sizeString}</div>
+                  <div>{item.productQTY2} {item.sizeString}</div>
+                  <div>{item.productQTY3} {item.sizeString}</div>            
                 </Select>
               </div>
             )}

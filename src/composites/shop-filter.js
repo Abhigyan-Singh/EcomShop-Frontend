@@ -63,7 +63,7 @@ const ShopFilter = (props, args, value, item) => {
                             backgroundColor: 'rgb(255, 255, 255, 1)',
                             margin: -3,
                             color: 'black',
-                            width: 135.85,
+                            width: 200,
                             height: 500
                           }}
                         >

@@ -9,16 +9,12 @@ import { CartState } from 'context/context';
 
 const ShopSort = (props) => {
   const { list, filteredList } = props;
-  const [listr, setListr] = useState(list);
+  const [listr, setListr] = useState();
 
   const handleAbcSort = () => {
-    if (list) {
-      setListr(list.sort((a, b) =>
-      a.productName.localeCompare(b.productName)
-      ))
-    }
-    return listr
-  
+    return list.sort((a, b) =>
+    a.productName.localeCompare(b.productName)  
+    )
   }
 
   const handleZyxSort = () => {
@@ -65,10 +61,7 @@ const ShopSort = (props) => {
     window.location.reload(false);
   }
 
-  useEffect(() => {
-    handleAbcSort()
-  }, [listr])
-  
+
 
 
   

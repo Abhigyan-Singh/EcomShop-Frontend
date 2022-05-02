@@ -25,7 +25,8 @@ import { useNavigate } from 'react-router-dom';
 import { CartState } from 'context/context';
 import { map } from 'lodash';
 import StoreLocator from 'stories/pages/storelocator.js';
-
+import { config, API } from 'apiConfig';
+import { useCart } from 'react-use-cart';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -35,18 +36,20 @@ export const facilityStoremapping = {
   600: 2046
 };
 
+
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
   const {
     className,
     theme = 'coborns',
-    user,
     onMobileButtonClick,
     store,
     stores,
+    user,
+    usr,
     onDeptChange,
-    onDepartChange5,
+    onDepartChange5,  
     ...rest
   } = props;
   const componentClassName = classNames('cbn-header', {}, className);
@@ -63,14 +66,17 @@ const Header = (props) => {
   const [selected, setSelected] = useState(dept);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { getCartDetails } = useCart();
 
-  const fetch = async (productName) => {
-    if (productName) {
-      const sData = await search(productName, 2037, 2);
-      setSearchList(sData?.data?.suggestionList)
+  const fetch = async (item) => {
+    if (item) {
+      await search(item, 2037, 1, 5)
+      .then((res) => setSearchList(res.data.productList))
       setLoading(false);
     };
   };
+
+
   const setHoursHtml = () => {
     if (
       document.getElementById('yext-facility-hours-getter') &&
@@ -123,35 +129,12 @@ const Header = (props) => {
   const onScroll = () => {
     // We need to integrate with solor here on scroll
   };
-
-  useEffect(() => {
-    grocery(4433).then((res) => {
+ 
+  useEffect ( async () => { 
+    await grocery(4433).then((res) => {
       setData(res.data);
     })
-  }, [user]);
-
-  // useEffect(() => {
-  //   const requestOptions = {
-  //     method: 'GET',
-  //     headers: {
-  //               'Content-Type': 'application/json',
-  //               'Authorization' : 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBTEJURVNUMyIsImV4cCI6MTY1MDgzMzQ5OSwiaWF0IjoxNjUwODE1NDk5fQ.bBwnVb_3hFvvhj9omTZ4GGxnrJTVjtspPwcxtwzfhNrX0chde-eF0eFIS9cE94X29N1bFMAs4ym6YsC2USvdxg' 
-  //              }
-  // };
-  //   fetch('http://localhost:8009/productn/searchbyname/deli/500/1/1', requestOptions)
-  //   .then(res => res.json())
-  //   .then(json => setSearchList(json),  console.log("RSNDSSSS", searchList))
-   
-  // }, [user]);
-
-
-
-  
-  // const getListItems = async () => {
-  //   const res = await getAllList();
-  //   setListItems(res.data);
-  // };
-
+  }, []);
 
   const handleDeptChange = (option) => {
     setSelected(option);
@@ -424,20 +407,26 @@ const Header = (props) => {
                                           >
                                             {map(data, (option) => (
                                               <div
-                                                onClick={() =>
+                                                onClick={() => {
+                              
                                                   navigate(
                                                     '/search?text=' + option.description 
                                                       
                                                   )
                                                 }
+                                                 
+                                                }
                                               >
                                                 <button
                                                   key={option.id.area}
                                                   option={option.description}
-                                                  onClick={() =>
+                                                  onClick={() => {
+                                
                                                     handleDeptChange(
                                                       option.description
                                                     )
+                                                  }
+                                                    
                                                   }
                                                   className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
                                                 >
