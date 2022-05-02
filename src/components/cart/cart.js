@@ -50,6 +50,8 @@ const Cart = (props) => {
     window.location.href = url + path;
   };
 
+
+
   const CartItem = (item) => {
     const dept1 = item.item.prodDepartment;
     // COBORNS TODO: Pull data from props instead of imported JSON

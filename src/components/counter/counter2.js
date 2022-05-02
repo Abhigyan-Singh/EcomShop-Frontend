@@ -8,8 +8,9 @@ import { CartState } from 'context/context';
 import Item from 'components/item/item';
 import addToCarts from 'services/addtocart';
 import Button from 'components/button/button';
-
-
+import { useCookies } from 'react-cookie';
+import { useCart } from 'react-use-cart';
+import { config, API } from 'apiConfig';
 
 
 export const Counter2 = (props) => {
@@ -25,6 +26,8 @@ export const Counter2 = (props) => {
   const inputRef = useRef(null);
   const [id] = useState(newId('counter'));
   const [value, setValue] = useState(defaultValue);
+  const [cookies, setCookie] = useCookies();
+  const { user } = cookies;
 
   const componentClassName = classNames(
     'cbn-counter',
@@ -36,6 +39,7 @@ export const Counter2 = (props) => {
     state: { cart, total },
     dispatch
   } = CartState();
+  const { updateCart } = useCart();
 
   const handleOnChange = (event) => {
     // prevent leading zeroes - assumes counter should always have a positive integer
@@ -65,11 +69,27 @@ export const Counter2 = (props) => {
   }, [value]);
 
 
+
+  // useEffect(() => {
+  //   await addToCarts('albtest3', item.productId, 1, 2037).then((res) => {
+  //     console.log("AHHHHHHH", res)
+  //   });  
+  // }, [props])
   
-  // const addtocartapi2 = () => {
-  //   //do something
-  //   addToCarts(user, item.productId, item.qty, item.facilityId);
-  // };
+
+  const AddToCartApi = async (userName, productId, qty, facilityId) => {
+    const requestOptions = {
+          method: 'GET',
+          headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization' : 'Bearer' + " " + user.token
+                   }
+      };
+     await fetch( `${config.baseUrl}${API.add_to_cart}/${userName}/${productId}/${qty}/${facilityId}`, requestOptions)
+    .then(res => res.json())
+    .then(json => console.log("ADDED TO CART", json))
+  }
+
 
 
   return (
@@ -124,12 +144,14 @@ export const Counter2 = (props) => {
         style={{ marginLeft: -11, width: 99 }}
           className="cbn-button"
           onClick={() => {
+            //updateCart(item)
+            AddToCartApi("albtest3", 95436, 1, 2037)
             console.log(value);
             dispatch({
               type: 'ADD_TO_CART',
               payload: item,
               qty: item.qty ? item.qty + value : value
-            });
+            });            
           }}
         >
           <span style={{ fontSize: 12}}>Added to Cart</span>
@@ -139,6 +161,8 @@ export const Counter2 = (props) => {
           style={{ marginLeft: -7, width: 92 }}
           className="cbn-button"
           onClick={() => {
+            //updateCart(item)
+            AddToCartApi("albtest3", 95436, 1, 2037)
             console.log(value);
             dispatch({
               type: 'ADD_TO_CART',

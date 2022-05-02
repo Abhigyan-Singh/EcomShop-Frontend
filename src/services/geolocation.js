@@ -11,8 +11,7 @@ export const Geolocation = () => {
     
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
-            console.log("LAT", lat)
-            console.log("LNG", lng)
+ 
     
            
         }, function(error) {

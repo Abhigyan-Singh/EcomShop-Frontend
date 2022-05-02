@@ -59,7 +59,7 @@ const Autocomplete = (props) => {
   }, [items]);
 
   const handleClick = (event, item) => {
-    handleDeptChange5(item.prodDepartment);
+    handleDeptChange5(item.departmentName);
     handleItemSelect(event, item);
     navigate('/item/' + item.productId, { state: item });
     onItemSelect('');

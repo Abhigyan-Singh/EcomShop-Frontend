@@ -41,11 +41,11 @@ const HomeServices = (props, onDepartChange4) => {
     }
   };
 
-  useEffect(() => {
-    grocery(4433).then((res) => {
+  useEffect(async () => {
+    await grocery(4433).then((res) => {
       setData2(res.data);
     });
-  }, [props, onDepartChange4]);
+  }, []);
   
 
   const handleDeptChange4 = (option) => {
@@ -64,10 +64,6 @@ const HomeServices = (props, onDepartChange4) => {
           At Your Store
         </div>
         <div className="flex-1 mb-2 lg:mb-0">
-          {selected?.facilityName}
-          <a className="text-sm underline ml-2" href="#change_location">
-            Change
-          </a>
         </div>
         <div>
           <a>

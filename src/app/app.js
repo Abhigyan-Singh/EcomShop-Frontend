@@ -23,6 +23,8 @@ import { StoreLocator } from 'stories/pages/storelocator.js';
 import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth.js';
 
+
+
 export const facilityStoremapping = {
   605: 2029,
   500: 2032,
@@ -35,7 +37,7 @@ const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const location = Geolocation();
+  //const location = Geolocation();
   const { facility, dept, user, userInfo, subdept } = cookies;
   // const { dispatchUser } = CartState();
   // const { getCartDetails } = useCart();
@@ -93,7 +95,6 @@ const App = () => {
   const onStoreChange2 = (storeSel) => {
     setStore2(storeSel);
   };
-
 
   const onDepartChange = (storeDept) => {
     setDepart(storeDept);
@@ -223,6 +224,8 @@ const App = () => {
         logout={onLogout}
         store={store}
         onDeptChange={onDepartChange}
+        usr={user}
+       
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
       <AppRoute />

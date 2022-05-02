@@ -16,7 +16,8 @@ import {
   Transition
 } from '../../node_modules/@headlessui/react/dist/index';
 
-const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
+const ShopSidebar = (props) => {
+  const {onSubDeptChange, onDepartChange3} = props 
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies();
   const [data, setData] = useState();
@@ -25,81 +26,81 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
   const [selected2, setSelected2] = useState(dept);
   const [data2, setData2] = useState();
 
-  useEffect(() => {
+  useEffect( async () => {
     if (dept === 'Baby') {
-      grocery(109791).then((res) => {
+      await grocery(109791).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Bakery') {
-      grocery(109792).then((res) => {
+      await grocery(109792).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Butcher') {
-      grocery(109793).then((res) => {
+      await grocery(109793).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Dairy') {
-      grocery(109794).then((res) => {
+      await grocery(109794).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Deli') {
-      grocery(109795).then((res) => {
+      await grocery(109795).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Floral') {
-      grocery(109796).then((res) => {
+      await grocery(109796).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'General Merchandise') {
-      grocery(109797).then((res) => {
+      await grocery(109797).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Grocery') {
-      grocery(109798).then((res) => {
+      await grocery(109798).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Frozen') {
-      grocery(109799).then((res) => {
+      await grocery(109799).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Health & Beauty') {
-      grocery(109800).then((res) => {
+      await grocery(109800).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Household & Laundry') {
-      grocery(109801).then((res) => {
+      await grocery(109801).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Pet') {
-      grocery(109802).then((res) => {
+      await grocery(109802).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Produce') {
-      grocery(109803).then((res) => {
+      await grocery(109803).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Beer') {
-      grocery(109804).then((res) => {
+      await grocery(109804).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Wine') {
-      grocery(109805).then((res) => {
+      await grocery(109805).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Liquor') {
-      grocery(109806).then((res) => {
+      await grocery(109806).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Tobacco') {
-      grocery(109807).then((res) => {
+      await grocery(109807).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Floral') {
-      grocery(109808).then((res) => {
+      await grocery(109808).then((res) => {
         setData(res.data);
       });
     }
-  }, [onSubDeptChange]);
+  }, []);
 
   const handleSubDept = (option) => {
     setSelected(option);
@@ -117,13 +118,13 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
     });
   };
 
-  useEffect(() => {
-    grocery(4433).then((res) => {
+  useEffect(async () => {
+    await grocery(4433).then((res) => {
       setData2(res.data);
     });
   }, []);
 
-  
+
   function refreshPage() {
     window.location.reload(false);
   }
@@ -136,7 +137,7 @@ const ShopSidebar = (onSubDeptChange, onDepartChange3) => {
             <div>
               {map(data, (option) => (
                 <div
-                  onClick={() => navigate('/search?text=' + option.description)}
+                onClick={() => navigate('/search?text=' + option.description)} 
                 >
                   <button
                     style={{ justifyContent: 'right' }}

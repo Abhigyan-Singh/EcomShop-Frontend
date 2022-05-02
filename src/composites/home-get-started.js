@@ -11,6 +11,9 @@ import { CookiesAge } from 'apiConfig';
 
 export const mockData = [
   {
+    productQTY1: '14',
+    productQTY2: '15',
+    productQTY3: '16',
     section: 'Grocery',
     price: 5.99,
     productId: '95436',
@@ -602,7 +605,10 @@ export const mockData = [
     iconAttributeCode: [],
     sections: [{ id: 'wine-spirits', label: 'Wine & Spirits' }]
   },
-  {
+  {  
+    productQTY1: '14',
+    productQTY2: '15',
+    productQTY3: '16',
     section: 'Wine & Spirits',
     price: 5.99,
     productId: '89112',
