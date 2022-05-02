@@ -280,19 +280,6 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
     handleChange();
   }, []);
 
-  // const [data2, setData2] = useState([]);
-  // const [loading2, setLoading2] = useState(true);
-  // useEffect( async () =>{
-  //   console.log("STARTED")
-  //   await search()
-  //   .then((res) => setData2(res.data.productList ));
-  //   setLoading2(false)
-  // }, []);
-
-
-  // useEffect(() => {
-  //   console.log("SAVED", data2)
-  //   }, [data2]);
 
   useEffect( async () => {
     await grocery(109791)
@@ -330,9 +317,9 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
             filterCards={filterCards}
           />
           <ShopGetPage
-            //data2={data2}
+            list={list}
             loader={loader}
-            list={filteredList.length === 0 ? list : filteredList}
+            //list={filteredList.length === 0 ? list : filteredList}
             error={error}
             loading={loading}
           />
