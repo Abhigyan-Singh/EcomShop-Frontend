@@ -96,6 +96,7 @@ const Item = (props) => {
           className="cbn-item__view-button invisible group-hover:visible group-focus-within:visible"
           label="Quick View"
           onClick={handleViewClick}
+          style={{marginTop: 20}}
         />
         <Quickview
           isOpen={showCart}
@@ -103,6 +104,7 @@ const Item = (props) => {
           data={item}
           onClose={onClose}
         />
+
       </div>
       <div className="cbn-item__information">
         <div
@@ -118,7 +120,7 @@ const Item = (props) => {
           <div className="cbn-item__number">Item #: {item.productId}</div>
         </div>
         <div className="cbn-item__size">
-          {item.sizeString} | {(item.sizeNumber / item.sizeNumber).toFixed(2)}{' '}
+          {item.sizeString} | {(item.currentPrice / item.sizeNumber).toFixed(2)}{' '}
           / {item.sizeUom}
         </div>
       </div>
@@ -168,6 +170,7 @@ const Item = (props) => {
           productId={item.productId}
         />
         <Wishlist item={item} listItems={listItems} />
+  
       </div>
     </div>
   );

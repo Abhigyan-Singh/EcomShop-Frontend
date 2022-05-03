@@ -3,8 +3,8 @@ import Item from 'components/item/item';
 import { getAllList } from 'services/mylist';
 import { Context } from 'context/context';
 import { search } from 'services/search';
-
-
+import { CircularProgress } from '../../node_modules/@mui/material/index';
+import { LinearProgress } from '../../node_modules/@mui/material/index';
 
 const ShopGetPage = ({ loader, error, list, loading }) => {
   const [listItems, setListItems] = useState([]);
@@ -29,7 +29,7 @@ const ShopGetPage = ({ loader, error, list, loading }) => {
           <Context data={e} key={i}></Context>
         ))}
       </div>
-      {loading && <p>Loading...</p>}
+      {loading && <LinearProgress color="success"/> }
       {error && <p>No Products match your criteria</p>}
       <div ref={loader} />
     </div>
