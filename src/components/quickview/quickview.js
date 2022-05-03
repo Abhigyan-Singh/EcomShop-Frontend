@@ -134,8 +134,8 @@ const Quickview = (props) => {
                         Product information
                       </h3>
                       <div className="text-xs text-gray-300 mb-4">
-                        Item Size: {data.sizeString} 0.{data.sizeNumber} / {data.sizeUom}   -
-                        Item #: {data.productId} - Price per count: 0.{data.sizeNumber} 
+                        Item Size: {data.sizeString} |
+                        Item #: {data.productId} | Price per count: test 
                       </div>
                       <div className="mb-6">
                         <h4 className="sr-only">Description</h4>
