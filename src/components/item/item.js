@@ -120,7 +120,7 @@ const Item = (props) => {
           <div className="cbn-item__number">Item #: {item.productId}</div>
         </div>
         <div className="cbn-item__size">
-          {item.sizeString} | {(item.currentPrice / item.sizeNumber).toFixed(2)}{' '}
+          {item.sizeString} | {(item.pricePerUnit / item.sizeNumber).toFixed(2)}{' '}
           / {item.sizeUom}
         </div>
       </div>

@@ -57,7 +57,7 @@ const keyToText = {
   isNew: 'New Arrivals',
   onSale: 'Sale Items'
 };
-export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
+export const ShopStory = ({ logout, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
   const params = window.location.href.split('?')[1];

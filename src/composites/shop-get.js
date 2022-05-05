@@ -29,7 +29,7 @@ const ShopGetPage = ({ loader, error, list, loading }) => {
           <Context data={e} key={i}></Context>
         ))}
       </div>
-      {loading && <LinearProgress color="success"/> }
+      {loading}
       {error && <p>No Products match your criteria</p>}
       <div ref={loader} />
     </div>

@@ -15,6 +15,7 @@ import {
   Popover,
   Transition
 } from '../../node_modules/@headlessui/react/dist/index';
+import { RefreshRounded, RoomPreferencesSharp } from '../../node_modules/@mui/icons-material/index';
 
 const ShopSidebar = (props) => {
   const {onSubDeptChange, onDepartChange3} = props 
@@ -100,7 +101,7 @@ const ShopSidebar = (props) => {
         setData(res.data);
       });
     }
-  }, []);
+  }, [dept]);
 
   const handleSubDept = (option) => {
     setSelected(option);
@@ -206,27 +207,27 @@ const ShopSidebar = (props) => {
                                 paddingTop: 7
                               }}
                             >
-                              <ul>
-                                {map(data2, (option2) => (
-                                  <li
-                                    onClick={() =>
-                                      handleDeptChange3(option2.description)
-                                    }
-                                  >
-                                    <button
+                              <div onClick={() => refreshPage()}>
+                                <ul>
+                                  {map(data2, (option2) => (
+                                    <li
                                       onClick={() =>
-                                        navigate(
-                                          '/search?text=' + option2.description
-                                        )
+                                        handleDeptChange3(option2.description)
                                       }
-                                      style={{ paddingLeft: 20, paddingTop: 3 }}
-                                      className="flex items-center text-sm py-1 hover:underline"
                                     >
-                                      {option2.description}
-                                    </button>
-                                  </li>
-                                ))}
-                              </ul>
+                                      <button
+                                        onClick={() =>                            
+                                            navigate('/search?text=' + option2.description)
+                                        }
+                                        style={{ paddingLeft: 20, paddingTop: 3 }}
+                                        className="flex items-center text-sm py-1 hover:underline"
+                                      >
+                                        {option2.description}
+                                      </button>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>                             
                             </Popover.Panel>
                           </Transition>
                         </Fragment>

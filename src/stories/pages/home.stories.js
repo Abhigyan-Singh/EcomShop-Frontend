@@ -38,7 +38,6 @@ export const HomeStory = ({
 }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [user, setUser] = useState({ firstName: 'Apple' });
 
   const getBranName = () => {
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase())) {
