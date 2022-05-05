@@ -424,9 +424,7 @@ const Header = (props) => {
                                                 >
                                                   {option.description}
                                                 </button>
-                                                <Disclosure.Panel className="space-y-1">
-                                                  <div>TESTING</div>
-                                                </Disclosure.Panel>
+                                             
 
                                               </div>
                                             ))}
