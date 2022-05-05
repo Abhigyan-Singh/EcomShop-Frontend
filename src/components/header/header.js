@@ -70,7 +70,7 @@ const Header = (props) => {
 
   const fetch = async (item) => {
     if (item) {
-      await search(item, 2037, 1, 5)
+      await search(item, 2037, 1, 1)
       .then((res) => setSearchList(res.data.productList))
       setLoading(false);
     };
@@ -134,7 +134,7 @@ const Header = (props) => {
     await grocery(4433).then((res) => {
       setData(res.data);
     })
-  }, []);
+  }, [props]);
 
   const handleDeptChange = (option) => {
     setSelected(option);
@@ -403,35 +403,31 @@ const Header = (props) => {
                                         ) : (
                                           <div
                                             className="flex-1"
-                                            onClick={refreshPage}
                                           >
                                             {map(data, (option) => (
                                               <div
                                                 onClick={() => {
-                              
                                                   navigate(
                                                     '/search?text=' + option.description 
-                                                      
                                                   )
-                                                }
-                                                 
-                                                }
+                                                }}
                                               >
                                                 <button
                                                   key={option.id.area}
                                                   option={option.description}
                                                   onClick={() => {
-                                
                                                     handleDeptChange(
                                                       option.description
                                                     )
-                                                  }
-                                                    
-                                                  }
+                                                  }}
                                                   className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
                                                 >
                                                   {option.description}
                                                 </button>
+                                                <Disclosure.Panel className="space-y-1">
+                                                  <div>TESTING</div>
+                                                </Disclosure.Panel>
+
                                               </div>
                                             ))}
                                           </div>

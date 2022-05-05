@@ -225,7 +225,6 @@ const App = () => {
         store={store}
         onDeptChange={onDepartChange}
         usr={user}
-       
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
       <AppRoute />

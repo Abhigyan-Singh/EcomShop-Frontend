@@ -87,7 +87,7 @@ const ShopTag = (onDeptChange2) => {
         setData(res.data);
       });
     }
-  }, []);
+  }, [dept]);
 
   const handleDeptChange2 = (option) => {
     setSelected(option);
