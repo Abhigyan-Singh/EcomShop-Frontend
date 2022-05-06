@@ -9,7 +9,7 @@ function useFetch(query, pageno) {
   const [error, setError] = useState(false);
   const [list, setList] = useState([]);
   const [data, setData] = useState()
-  const [itemCount, setItemCount] = useState(1)
+  const [itemCount, setItemCount] = useState(30)
   // useEffect(async () =>{
   //   console.log("STARTED")
   //   await search()
