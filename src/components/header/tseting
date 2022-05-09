@@ -1,0 +1,40 @@
+ <Popover as="div">
+{({ open }) => (
+<div>
+{map(data, (option) => (
+<div>
+{option.description == 'Baby' 
+    ? <div
+        onMouseEnter={() => onHover(open, "onMouseEnter")}
+        onMouseLeave={() => onHover(open, "onMouseLeave")}                                            
+    >
+        <Popover.Button                                               
+        ref={buttonRef}                         
+        key={option.id.area}
+        option={option.description}
+        onClick={()=> { handleClick(open)}}
+        // onClick={() => {                                             
+        //   navigate('/search?text=' + option.description)                                                
+        //   // handleDeptChange(
+        //   //   option.description
+        //   // )
+        // }}
+        className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+        >                                                                                                                                          
+        {item.icon && <item.icon />}
+        {option.description}                                                
+        </Popover.Button>   
+        {data2.map((subItem) => 
+        <Popover.Panel>
+            <a href="#" className="py-1 pl-15 git ppulflex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100" style={{paddingLeft: 75}}>{subItem.description}</a>                                                                                                                                                                                                                   
+        </Popover.Panel> 
+        )}                                                                                                 
+    </div>
+    : null
+}
+</div>                                                                                                                                                                           
+))}
+        
+</div>
+)}                                                                                        
+</Popover>                    

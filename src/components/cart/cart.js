@@ -5,12 +5,9 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/solid';
 import Button from 'components/button/button';
 import Counter from 'components/counter/counter';
-import productData from 'data/product.json';
 import './cart.css';
-import { useCart } from 'react-use-cart';
 import EmptyCart from '../../assets/images/CART.png';
 import { CartState } from 'context/context';
-import { mockData } from 'composites/home-get-started.js';
 
 // COBORNS TODO: Replace this with actual data from data source
 
@@ -49,7 +46,6 @@ const Cart = (props) => {
     // window.location.replace(url + path)
     window.location.href = url + path;
   };
-
 
 
   const CartItem = (item) => {

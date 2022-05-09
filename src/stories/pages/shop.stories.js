@@ -34,7 +34,7 @@ import { usefavoriteApi } from 'services/favorites';
 import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
-import { search } from 'services/search';
+// /import getCartData from 'services/addtocart';
 
 export default {
   title: 'Pages/Home',
@@ -66,7 +66,7 @@ export const ShopStory = ({ logout, ...rest }) => {
   const [pageno, setPageno] = useState(1);
   const { loading, error, list } = useFetch(query, pageno);
   const [cookies, setCookie] = useCookies(['user']);
-  const { userInfo } = cookies;
+  const { userInfo, user } = cookies;
   const { dispatchUser } = CartState();
   const { fetchFavorites } = usefavoriteApi();
   // const [list, setList] = useState();
@@ -98,8 +98,6 @@ export const ShopStory = ({ logout, ...rest }) => {
   const [filterCards, setFilterCards] = useState([]);
 
   const loader = useRef(null);
-
-  
 
   useEffect(() => {
     //handleAbcSort()

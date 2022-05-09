@@ -70,13 +70,15 @@ const Header = (props) => {
   const navigate = useNavigate();
   const { getCartDetails } = useCart();
 
+
   const fetch = async (item) => {
     if (item) {
-      await search(item, 2037, 1, 1)
-      .then((res) => setSearchList(res.data.productList))
-      setLoading(false);
+    await search(item, 500, 1, 1, 10)
+    .then((res) => setSearchList(res.data.productList))
+    setLoading(false);
     };
   };
+
 
 
   const setHoursHtml = () => {
