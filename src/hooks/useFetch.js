@@ -11,7 +11,16 @@ function useFetch(query, pageNo) {
   const [list, setList] = useState([]);
   const [data, setData] = useState()
   const [itemCount, setItemCount] = useState(2)
-   
+  // useEffect(async () =>{
+  //   console.log("STARTED")
+  //   await search()
+  //   .then((res) => setData(res))
+  // }, [])
+
+
+  
+
+
   const sendQuery = useCallback(async () => {
     try {
       console.log("STARTED")
