@@ -24,7 +24,6 @@ import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth.js';
 
 
-
 export const facilityStoremapping = {
   605: 2029,
   500: 2032,
@@ -54,11 +53,13 @@ const App = () => {
 
   useEffect(() => {
     const { user } = cookies;
-    if (user?.token) setIsAuthenticated(true);
+    if (user?.token) {
+      setIsAuthenticated(true);
+    }
     else setIsAuthenticated(false);
   }, [cookies]);
 
-  useEffect(() => {
+  useEffect (() => {
     let brand = 'coborns-theme';
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase()) > -1) {
       brand = 'coborns-theme';
