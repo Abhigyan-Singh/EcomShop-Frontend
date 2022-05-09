@@ -11,14 +11,10 @@ import { useCookies } from 'react-cookie';
 import { map } from 'lodash';
 import { CookiesAge } from 'apiConfig';
 import PropTypes from 'prop-types';
-import {
-  Popover,
-  Transition
-} from '../../node_modules/@headlessui/react/dist/index';
-import { RefreshRounded, RoomPreferencesSharp } from '../../node_modules/@mui/icons-material/index';
+import { Popover, Transition } from '@headlessui/react';
 
 const ShopSidebar = (props) => {
-  const {onSubDeptChange, onDepartChange3} = props 
+  const { onSubDeptChange, onDepartChange3 } = props;
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies();
   const [data, setData] = useState();
@@ -27,7 +23,7 @@ const ShopSidebar = (props) => {
   const [selected2, setSelected2] = useState(dept);
   const [data2, setData2] = useState();
 
-  useEffect( async () => {
+  useEffect(async () => {
     if (dept === 'Baby') {
       await grocery(109791).then((res) => {
         setData(res.data);
@@ -125,7 +121,6 @@ const ShopSidebar = (props) => {
     });
   }, []);
 
-
   function refreshPage() {
     window.location.reload(false);
   }
@@ -138,7 +133,7 @@ const ShopSidebar = (props) => {
             <div>
               {map(data, (option) => (
                 <div
-                onClick={() => navigate('/search?text=' + option.description)} 
+                  onClick={() => navigate('/search?text=' + option.description)}
                 >
                   <button
                     style={{ justifyContent: 'right' }}
@@ -156,7 +151,6 @@ const ShopSidebar = (props) => {
     );
   };
 
- 
   return (
     <div className="flex">
       <div className="hidden md:flex md:flex-shrink-0">
@@ -216,10 +210,16 @@ const ShopSidebar = (props) => {
                                       }
                                     >
                                       <button
-                                        onClick={() =>                            
-                                            navigate('/search?text=' + option2.description)
+                                        onClick={() =>
+                                          navigate(
+                                            '/search?text=' +
+                                              option2.description
+                                          )
                                         }
-                                        style={{ paddingLeft: 20, paddingTop: 3 }}
+                                        style={{
+                                          paddingLeft: 20,
+                                          paddingTop: 3
+                                        }}
                                         className="flex items-center text-sm py-1 hover:underline"
                                       >
                                         {option2.description}
@@ -227,7 +227,7 @@ const ShopSidebar = (props) => {
                                     </li>
                                   ))}
                                 </ul>
-                              </div>                             
+                              </div>
                             </Popover.Panel>
                           </Transition>
                         </Fragment>
