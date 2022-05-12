@@ -27,80 +27,76 @@ const ShopSidebar = (props) => {
   const [selected2, setSelected2] = useState(dept);
   const [data2, setData2] = useState();
 
-  useEffect( async () => {
+  useEffect(() => {
     if (dept === 'Baby') {
-      await grocery(109791).then((res) => {
+      grocery(109791).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Bakery') {
-      await grocery(109792).then((res) => {
+      grocery(109792).then((res) => {
         setData(res.data);
       });
-    } else if (dept === 'Butcher') {
-      await grocery(109793).then((res) => {
+    } else if (dept === 'Meat & Seafood') {
+      grocery(109793).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Dairy') {
-      await grocery(109794).then((res) => {
+      grocery(109794).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Deli') {
-      await grocery(109795).then((res) => {
+      grocery(109795).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Floral') {
-      await grocery(109796).then((res) => {
+      grocery(109796).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'General Merchandise') {
-      await grocery(109797).then((res) => {
+      grocery(109797).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Grocery') {
-      await grocery(109798).then((res) => {
+      grocery(109798).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Frozen') {
-      await grocery(109799).then((res) => {
+      grocery(109799).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Health & Beauty') {
-      await grocery(109800).then((res) => {
+      grocery(109800).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Household & Laundry') {
-      await grocery(109801).then((res) => {
+      grocery(109801).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Pet') {
-      await grocery(109802).then((res) => {
+      grocery(109802).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Produce') {
-      await grocery(109803).then((res) => {
+      grocery(109803).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Beer') {
-      await grocery(109804).then((res) => {
+      grocery(109804).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Wine') {
-      await grocery(109805).then((res) => {
+      grocery(109805).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Liquor') {
-      await grocery(109806).then((res) => {
+      grocery(109806).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Tobacco') {
-      await grocery(109807).then((res) => {
+      grocery(109807).then((res) => {
         setData(res.data);
       });
-    } else if (dept === 'Floral') {
-      await grocery(109808).then((res) => {
-        setData(res.data);
-      });
-    }
+    } 
   }, [dept]);
 
   const handleSubDept = (option) => {
@@ -130,6 +126,16 @@ const ShopSidebar = (props) => {
     window.location.reload(false);
   }
 
+  // const [subCategory, setSubCategory] = useState(() => {
+  //   const saved = localStorage.getItem("SubCategory");
+  //   const initialValue = JSON.parse(saved);
+  //   return initialValue || null;  
+  // })
+
+  // useEffect(() => {
+  //   localStorage.setItem("subCategory", subCategory);
+  // }, [])
+
   const tree = () => {
     return (
       <div className="list-none pl-3">
@@ -138,12 +144,17 @@ const ShopSidebar = (props) => {
             <div>
               {map(data, (option) => (
                 <div
-                onClick={() => navigate('/search?text=' + option.description)} 
+                  key={option.id.area}
+                  onClick={() => navigate('/search?text=' + option.description)} 
                 >
                   <button
+                    key={option.id.area}
                     style={{ justifyContent: 'right' }}
                     className="flex items-center text-sm py-1 hover:underline"
-                    onClick={() => handleSubDept(option.description)}
+                    onClick={() => {
+                      //setSubCategory(option.description) 
+                      handleSubDept(option.description)
+                    }}
                   >
                     {option.description}
                   </button>

@@ -50,6 +50,8 @@ const App = () => {
   const [depart5, setDepart5] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
   const [subdepart2, setSubdepart2] = useState(subdept);
+  const [subdepart3, setSubdepart3] = useState(subdept);
+
 
   useEffect(() => {
     const { user } = cookies;
@@ -101,10 +103,6 @@ const App = () => {
     setDepart(storeDept);
   };
 
-  const onDepartChange2 = (storeDept) => {
-    setSubdepart2(storeDept);
-  };
-
   const onDepartChange3 = (storeDept) => {
     setDepart3(storeDept);
   };
@@ -119,6 +117,14 @@ const App = () => {
 
   const onSubDepartChange = (substoreDept) => {
     setSubdepart(substoreDept);
+  };
+
+  const onSubDepartChange2 = (storeDept) => {
+    setSubdepart2(storeDept);
+  };
+
+  const onSubDepartChange3 = (storeDept) => {
+    setSubdepart3(storeDept);
   };
 
   const AppRoute = () => {
@@ -141,7 +147,7 @@ const App = () => {
           <ShopStory
             isAuthenticated={isAuthenticated}
             logout={onLogout}
-            onDepartChange2={onDepartChange2}
+            onSubDepartChange2={onSubDepartChange2}
             onDepartChange3={onDepartChange3}
             onSubDepartChange={onSubDepartChange}
           />
@@ -225,6 +231,7 @@ const App = () => {
         logout={onLogout}
         store={store}
         onDeptChange={onDepartChange}
+        onSubDeptChange3={onSubDepartChange3}
         usr={user}
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />

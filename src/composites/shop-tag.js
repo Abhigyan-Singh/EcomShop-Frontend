@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { CookiesAge } from 'apiConfig';
 import { useNavigate } from 'react-router-dom'    
 
-const ShopTag = (onDeptChange2) => {
+const ShopTag = (onSubDeptChange2) => {
   const [cookies, setCookie] = useCookies();
   const [data, setData] = useState();
   const { facility, dept } = cookies;
@@ -89,15 +89,21 @@ const ShopTag = (onDeptChange2) => {
     }
   }, [dept]);
 
-  const handleDeptChange2 = (option) => {
+
+
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
+  const handleSubDeptChange2 = (option) => {
     setSelected(option);
     setCookie('subdept', option, {
       path: '/',
-      maxAge: 1
+      maxAge: 1   
     });
   
-    if (typeof onDeptChange2 === 'function') {
-      onDeptChange2(option);
+    if (typeof onSubDeptChange2 === 'function') {
+      onSubDeptChange2(option);
     }
   };
   
@@ -106,9 +112,9 @@ const ShopTag = (onDeptChange2) => {
       {map(data, (option)=> (           
         <button
           className="border border-2 border-green-600 rounded-2xl px-4 pb-1 pb-1"
-          key={option.id.area} option={option.description} onClick={() => handleDeptChange2(option.description)} 
+          key={option.id.area} option={option.description} onClick={() => { handleSubDeptChange2(option.description)}} 
           >
-          <button className="text-xs" onClick={() => navigate("/search?text=" + option.description)}>{option.description}</button>
+          <button className="text-xs" onClick={() => navigate('/search?text=' + option.description)}>{option.description}</button>
         </button>
       ))}   
     </div>
@@ -117,11 +123,11 @@ const ShopTag = (onDeptChange2) => {
 
 
 ShopTag.propTypes = {
-  onDeptChange2: PropTypes.func
+  onSubDeptChange2: PropTypes.func
 };
 
 ShopTag.defaultProps = {
-  onDeptChange2: () => {}
+  onSubDeptChange2: () => {}
 };
 
 

@@ -5,15 +5,19 @@ import {
 } from '@heroicons/react/solid';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
-import { CartState } from 'context/context';
+import { LowPrioritySharp } from '../../node_modules/@mui/icons-material/index';
+
 
 const ShopSort = (props) => {
-  const { list, filteredList } = props;
-  const [listr, setListr] = useState();
+  const {list, filteredList} = props;
+    
+  function refreshPage() {     
+    window.location.reload(false);
+  }
 
   const handleAbcSort = () => {
     return list.sort((a, b) =>
-    a.productName.localeCompare(b.productName)  
+    a.productName.localeCompare(b.productName)
     )
   }
 
@@ -23,19 +27,17 @@ const ShopSort = (props) => {
     )
   }
 
-  // const handleAbcBrandSort = () => {
-  //   filteredList.sort((a, b) =>
-  //     a.productName.localeCompare(b.productName)  
-  //   )
-  //   return filteredList
-  // }
+  const handleAbcBrandSort = () => {
+    return list.sort((a, b) =>
+      a.productName.localeCompare(b.productName)  
+    )
+  }
 
-  // const handleZxyBrandSort = () => {
-  //   filteredList.sort((a, b) =>
-  //     a.productName.localeCompare(b.productName)  
-  //   )
-  //   return filteredList
-  // }
+  const handleZxyBrandSort = () => {
+    return list.sort((a, b) =>
+      b.productName.localeCompare(a.productName)  
+    )
+  }
   
   const handleLowPriceSort = () => {
     list.sort((a, b) => (a.currentPrice > b.currentPrice) ? 1 : -1)
@@ -46,24 +48,105 @@ const ShopSort = (props) => {
   }
 
   const handleSmallSizeSort = () => {
-   list.sort((a, b) => (a.sizeNumber < b.sizeNumber) ? 1 : -1)
+   list.sort((a, b) => (a.sizeNumber > b.sizeNumber) ? 1 : -1)
   }
 
   const handleLargeSizeSort = () => {
-    list.sort((a, b) => (a.sizeNumber > b.sizeNumber) ? 1 : -1)
+    list.sort((a, b) => (a.sizeNumber < b.sizeNumber) ? 1 : -1)
   }
 
   const defaultList = () => {
     return list
   }
-  
-  function refreshPage() { 
-    window.location.reload(false);
-  }
 
+  const [abcSort, setAbcSort] = useState(() => {
+    const saved = localStorage.getItem("abcSort");
+    const initialValue = JSON.parse(saved);
+    return initialValue || null;  
+  })
 
+  const [zxySort, setZxySort] = useState(() => {
+    const saved = localStorage.getItem("zxySort");
+    const initialValue = JSON.parse(saved);
+    return initialValue || null;  
+  })
 
+  const [abcBrandSort, setAbcBrandSort] = useState(() => {
+    const saved = localStorage.getItem("abcBrandSort");
+    const initialValue = JSON.parse(saved);
+    return initialValue || null;  
+  })
 
+  const [zxyBrandSort, setZxyBrandSort] = useState(() => {
+    const saved = localStorage.getItem("zxyBrandSort");
+    const initialValue = JSON.parse(saved);
+    return initialValue || null;  
+  })
+
+  const [lowPriceSort, setLowPriceSort] = useState(() => {
+    const saved = localStorage.getItem("lowPriceSort");
+    const initialValue = JSON.parse(saved);
+    return initialValue || null;  
+  })
+
+  const [highPriceSort, setHighPriceSort] = useState(() => {
+    const saved = localStorage.getItem("highPriceSort");
+    const initialValue = JSON.parse(saved);
+    return initialValue || null;  
+  })
+
+  const [smallSizeSort, setSmallSizeSort] = useState(() => {
+    const saved = localStorage.getItem("smallSizeSort");
+    const initialValue = JSON.parse(saved);
+    return initialValue || null;  
+  })
+
+  const [largeSizeSort, setLargeSizeSort] = useState(() => {
+    const saved = localStorage.getItem("largeSizeSort");
+    const initialValue = JSON.parse(saved);
+    return initialValue || null;  
+  })
+
+  useEffect(() => {
+    localStorage.setItem("abcSort", abcSort);
+    localStorage.setItem("zxySort", zxySort);
+    localStorage.setItem("abcBrandSort", abcBrandSort);
+    localStorage.setItem("zxyBrandSort", zxyBrandSort);
+    localStorage.setItem("lowPriceSort", lowPriceSort);
+    localStorage.setItem("highPriceSort", highPriceSort);
+    localStorage.setItem("smallSizeSort", smallSizeSort);
+    localStorage.setItem("largeSizeSort", largeSizeSort);
+  }, [abcSort, zxySort, lowPriceSort, highPriceSort, smallSizeSort, largeSizeSort])
+
+  useEffect(() => {
+    if (!abcSort && !zxySort && !lowPriceSort && !highPriceSort && !smallSizeSort && !largeSizeSort) {
+      defaultList();
+    } 
+    if (abcSort === true) {
+      handleAbcSort();
+    }
+    if (zxySort === true) {
+      handleZyxSort();      
+    }
+    if (abcBrandSort === true) {
+      handleAbcBrandSort();
+    }
+    if (zxyBrandSort === true) {
+      handleZxyBrandSort(); 
+    }
+    if (lowPriceSort == true) {
+      handleLowPriceSort();
+    }
+    if (highPriceSort === true) {
+      handleHighPriceSort();
+    }
+    if (smallSizeSort === true) {
+      handleSmallSizeSort();
+    }
+    if (largeSizeSort === true) {
+      handleLargeSizeSort();
+    }
+  },)
   
   return (
     <div className="relative inline-block text-left pr-4">
@@ -77,13 +160,41 @@ const ShopSort = (props) => {
                 type="button"
                 aria-expanded="false"
               >
-                <span>Sort By: Default (Relevance)</span>
+                <span>
+                  Sort By:
+                  {!abcSort 
+                    && !zxySort
+                    && !abcBrandSort
+                    && !zxyBrandSort 
+                    && !largeSizeSort 
+                    && !smallSizeSort 
+                    && !highPriceSort 
+                    && !lowPriceSort
+                      ? <span>Default (Relevance)</span> 
+                      : abcSort === true
+                      ?   <span> Name: A to Z</span>
+                      : zxySort === true
+                      ?   <span> Name: Z to A</span> 
+                      : abcBrandSort === true
+                      ?   <span> Brand: A to Z</span>
+                      : zxyBrandSort === true
+                      ?   <span> Brand: Z to A</span> 
+                      : largeSizeSort === true
+                      ?   <span> Size: Large to Small</span>
+                      : smallSizeSort === true
+                      ?   <span> Size: Small to Large</span> 
+                      : highPriceSort === true
+                      ?   <span> Price: High to Low</span>
+                      : lowPriceSort === true
+                      ?   <span> Price: Low to High </span> 
+                      : null
+                  }
+                </span>
                 <ChevronDownIcon
                   className="h-5 w-5 text-black-300"
                   aria-hidden="true"
                 />
               </Popover.Button>
-
               <Transition
                 show={open}
                 as={Fragment}
@@ -106,16 +217,26 @@ const ShopSort = (props) => {
                       margin: -3,
                       color: 'black',
                       width: 160,
-                      height: 332
+                      height: 332,
+                      right: 50
                     }}
-                    onClick={() => refreshPage()}
                   >
                     <button
                       class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
                       id="headlessui-menu-item-126"
                       role="menuitem"
                       tabindex="-1"
-                      onClick={() => defaultList()}
+                      onClick={() => {
+                        refreshPage() 
+                        setAbcSort(false)
+                        setZxySort(false)
+                        setAbcBrandSort(false)
+                        setZxyBrandSort(false)
+                        setHighPriceSort(false)
+                        setLowPriceSort(false)
+                        setLargeSizeSort(false)
+                        setSmallSizeSort(false)
+                      }}
                     >
                       Default (Relevance)
                     </button>
@@ -124,7 +245,17 @@ const ShopSort = (props) => {
                       id="headlessui-menu-item-127"
                       role="menuitem"
                       tabindex="-1"
-                      onClick={() => handleAbcSort()}
+                      onClick={() => {
+                        refreshPage() 
+                        setAbcSort(true)
+                        setZxySort(false)
+                        setAbcBrandSort(false)
+                        setZxyBrandSort(false)
+                        setLowPriceSort(false)
+                        setHighPriceSort(false)
+                        setSmallSizeSort(false)
+                        setLargeSizeSort(false)
+                      }}
                     >
                       Name: A to Z
                     </button>
@@ -133,7 +264,17 @@ const ShopSort = (props) => {
                       id="headlessui-menu-item-16"
                       role="menuitem"
                       tabindex="-1"
-                      onClick={() => handleZyxSort()}
+                      onClick={() => {
+                        refreshPage() 
+                        setZxySort(true)
+                        setAbcSort(false)
+                        setAbcBrandSort(false)
+                        setZxyBrandSort(false)
+                        setLowPriceSort(false)
+                        setHighPriceSort(false)
+                        setSmallSizeSort(false)
+                        setLargeSizeSort(false) 
+                      }}
                     >
                       Name: Z to A
                     </button>
@@ -142,7 +283,17 @@ const ShopSort = (props) => {
                       id="headlessui-menu-item-17"
                       role="menuitem"
                       tabindex="-1"
-                      onClick={() => handleAbcSort()}
+                      onClick={() => {
+                        refreshPage() 
+                        setAbcBrandSort(true)
+                        setZxySort(false)
+                        setZxyBrandSort(false)
+                        setLowPriceSort(false)
+                        setHighPriceSort(false)
+                        setSmallSizeSort(false)
+                        setLargeSizeSort(false)
+                        
+                      }}
                     >
                       Brand: A to Z
                     </button>
@@ -151,7 +302,16 @@ const ShopSort = (props) => {
                       id="headlessui-menu-item-17"
                       role="menuitem"
                       tabindex="-1"
-                      onClick={() => handleZyxSort()}
+                      onClick={() => {
+                        refreshPage() 
+                        setZxyBrandSort(true)
+                        setAbcSort(false)
+                        setAbcBrandSort(false)
+                        setLowPriceSort(false)
+                        setHighPriceSort(false)
+                        setSmallSizeSort(false)
+                        setLargeSizeSort(false)
+                      }}
                     >
                       Brand: Z to A
                     </button>
@@ -160,7 +320,16 @@ const ShopSort = (props) => {
                       id="headlessui-menu-item-17"
                       role="menuitem"
                       tabindex="-1"
-                      onClick={() => handleLowPriceSort()}
+                      onClick={() => {
+                        refreshPage()
+                        setLowPriceSort(true)
+                        setAbcSort(false)
+                        setAbcBrandSort(false)
+                        setZxyBrandSort(false)
+                        setHighPriceSort(false)
+                        setSmallSizeSort(false)
+                        setLargeSizeSort(false)
+                      }}
                     >
                       Price: Low to High
                     </button>
@@ -169,7 +338,16 @@ const ShopSort = (props) => {
                       id="headlessui-menu-item-20"
                       role="menuitem"
                       tabindex="-1"
-                      onClick={() => handleHighPriceSort()}
+                      onClick={() => {
+                        refreshPage()
+                        setHighPriceSort(true)
+                        setAbcBrandSort(false)
+                        setZxyBrandSort(false)
+                        setAbcSort(false)
+                        setLowPriceSort(false)
+                        setSmallSizeSort(false)
+                        setLargeSizeSort(false)
+                      }}
                     >
                       Price: High to Low
                     </button>
@@ -178,7 +356,16 @@ const ShopSort = (props) => {
                       id="headlessui-menu-item-20"
                       role="menuitem"
                       tabindex="-1"
-                      onClick={() => handleSmallSizeSort()}
+                      onClick={() => {
+                        refreshPage()
+                        setSmallSizeSort(true)
+                        setAbcBrandSort(false)
+                        setZxyBrandSort(false)
+                        setAbcSort(false)
+                        setLowPriceSort(false)
+                        setHighPriceSort(false)
+                        setLargeSizeSort(false)
+                      }}
                     >
                       Size: Small to Large
                     </button>
@@ -187,7 +374,16 @@ const ShopSort = (props) => {
                       id="headlessui-menu-item-22"
                       role="menuitem"
                       tabindex="-1"
-                      onClick={() => handleLargeSizeSort()}
+                      onClick={() => {
+                        refreshPage()
+                        setLargeSizeSort(true)
+                        setAbcBrandSort(false)
+                        setZxyBrandSort(false)
+                        setAbcSort(false)
+                        setLowPriceSort(false)
+                        setHighPriceSort(false)
+                        setSmallSizeSort(false)
+                      }}
                     >
                       Size: Large to Small
                     </button>

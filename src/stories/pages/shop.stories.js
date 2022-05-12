@@ -34,6 +34,7 @@ import { usefavoriteApi } from 'services/favorites';
 import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
+import { Refresh } from '../../../node_modules/@mui/icons-material/index';
 // /import getCartData from 'services/addtocart';
 
 export default {
@@ -57,7 +58,7 @@ const keyToText = {
   isNew: 'New Arrivals',
   onSale: 'Sale Items'
 };
-export const ShopStory = ({ logout, ...rest }) => {
+export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
   const params = window.location.href.split('?')[1];
@@ -271,13 +272,16 @@ export const ShopStory = ({ logout, ...rest }) => {
       });
     }
   }, [userInfo]);
-
+  
   useEffect(() => {
     getCartDetails();
     fetchFavorites();
     handleChange();
   }, []);
-
+  
+  function refreshPage() {     
+    window.location.reload(false);
+  }
 
   useEffect( async () => {
     await grocery(109791)
@@ -285,7 +289,6 @@ export const ShopStory = ({ logout, ...rest }) => {
         setData(res);
       })
   }, [filterDropdowns]);
-
 
   return (
     <Fragment>
@@ -297,7 +300,7 @@ export const ShopStory = ({ logout, ...rest }) => {
         <div className="w-full">
           <div className="pl-6 pt-5">
             <ShopCategory />
-            <ShopTag />
+            <ShopTag onSubDeptChange2={onSubDepartChange2}/>
             <div className="pt-6 flex flex-row justify-between">
               <ShopFilter
                 hanldeFilterChange={hanldeFilterChange}
