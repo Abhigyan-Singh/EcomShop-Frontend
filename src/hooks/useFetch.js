@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { search } from 'services/search';
 import { getAllFavorites } from 'services/favorites';
 const facilityId = 2037
-const itemOnPageCount = 10
 const bannerId = 1
 
 function useFetch(query, pageNo) {
@@ -10,15 +9,7 @@ function useFetch(query, pageNo) {
   const [error, setError] = useState(false);
   const [list, setList] = useState([]);
   const [data, setData] = useState()
-  const [itemCount, setItemCount] = useState(2)
-  // useEffect(async () =>{
-  //   console.log("STARTED")
-  //   await search()
-  //   .then((res) => setData(res))
-  // }, [])
-
-
-  
+  const [itemOnPageCount, setItemOnPageCount] = useState(5)
 
 
   const sendQuery = useCallback(async () => {
@@ -52,7 +43,7 @@ function useFetch(query, pageNo) {
       setError(err);
       console.log("ERROR", err)
     }
-  }, [query, facilityId, pageNo, itemCount]);
+  }, [query, facilityId, pageNo, itemOnPageCount]);
 
   useEffect(() => {
     if (query) {

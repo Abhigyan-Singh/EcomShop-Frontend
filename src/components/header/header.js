@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useCallback } from 'react';
+import { Fragment, useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
@@ -49,37 +49,35 @@ const Header = (props) => {
     user,
     usr,
     onDeptChange,
-    onDepartChange5,  
+    onDepartChange5,
+    onSubDeptChange3,  
     ...rest
   } = props;
   const componentClassName = classNames('cbn-header', {}, className);
   const [value, setValue] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [searchList, setSearchList] = useState([]);
-  const [data2, setData2] = useState();
   const [data, setData] = useState();
   const [cookies, setCookie] = useCookies();
   const [slide, setSlide] = useState(false)
-  const { facility, dept } = cookies;
-  const {
-    state: { cart, qty },
-    dispatch
-  } = CartState();
+  const { facility, dept, subdept } = cookies;
   const [selected, setSelected] = useState(dept);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { getCartDetails } = useCart();
+  const {
+    state: { cart, qty },
+    dispatch
+  } = CartState();
 
 
   const fetch = async (item) => {
     if (item) {
-    await search(item, 500, 1, 1, 10)
+    await search(item, 500, 1, 1, 5)
     .then((res) => setSearchList(res.data.productList))
     setLoading(false);
     };
   };
-
-
 
   const setHoursHtml = () => {
     if (
@@ -122,12 +120,15 @@ const Header = (props) => {
       onMobileButtonClick(event);
     }
   };
+
   const modelHandler = () => {
     setModalIsOpen(true);
   };
+  
   const closeModalHandler = () => {
     setModalIsOpen(false);
   };
+
   const [searchArray, setSearchArray] = useState(searchList);
 
   const onScroll = () => {
@@ -155,82 +156,6 @@ const Header = (props) => {
     window.location.reload(false);
   }
 
-  useEffect( async () => {
-    if (dept === 'Baby') {
-      await grocery(109791).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Bakery') {
-      await grocery(109792).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Butcher') {
-      await grocery(109793).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Dairy') {
-      await grocery(109794).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Deli') {
-      await grocery(109795).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Floral') {
-      await grocery(109796).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'General Merchandise') {
-      await grocery(109797).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Grocery') {
-      await grocery(109798).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Frozen') {
-      await grocery(109799).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Health & Beauty') {
-      await grocery(109800).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Household & Laundry') {
-      await grocery(109801).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Pet') {
-      await grocery(109802).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Produce') {
-      await grocery(109803).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Beer') {
-      await grocery(109804).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Wine') {
-      await grocery(109805).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Liquor') {
-      await grocery(109806).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Tobacco') {
-      await grocery(109807).then((res) => {
-        setData2(res.data);
-      });
-    } else if (dept === 'Floral') {
-      await grocery(109808).then((res) => {
-        setData2(res.data);
-      });
-    }
-  }, [dept]);
-
   const handleCheckoutCart = () => {
     const urlObj = {
       localhost: 'https://devweb2.shop.coborns.com',
@@ -252,6 +177,165 @@ const Header = (props) => {
     // window.location.replace(url + path)
     window.location.href = url + path;
   };
+
+
+  // const subdepartments = async (option) => {
+  //   if (option.description === 'Baby') {
+  //     await grocery(109791).then((res) => {
+  //       setData2(res.data);
+  //     })
+  //   }
+  // }
+ 
+  const [babySub, setBabySub] = useState();
+  const [bakerySub, setBakerySub] = useState();
+  const [meatSub, setMeatSub] = useState();
+  const [dairySub, setDairySub] = useState();
+  const [deliSub, setDeliSub] = useState();
+  const [floralSub, setFloralSub] = useState();
+  const [genSub, setGenSub] = useState();
+  const [grocerySub, setGrocerySub] = useState();
+  const [frozenSub, setFrozenSub] = useState();
+  const [hbSub, setHBSub] = useState();
+  const [houseSub, setHouseSub] = useState();
+  const [petSub, setPetSub] = useState();
+  const [produceSub, setProduceSub] = useState();
+  const [beerSub, setBeerSub] = useState();
+  const [wineSub, setWineSub] = useState();
+  const [liquorSub, setLiquorSub] = useState();
+  const [tobaccoSub, setTobaccoSub] = useState();
+
+  useEffect (() => { 
+    grocery(109791)
+      .then((res) => 
+      {setBabySub(res.data)}
+    )
+    grocery(109792)
+      .then((res) => 
+      {setBakerySub(res.data)}
+    )
+    grocery(109793)
+      .then((res) => 
+      {setMeatSub(res.data)}
+    )
+    grocery(109794)
+      .then((res) => 
+      {setDairySub(res.data)}
+    )
+    grocery(109795)
+      .then((res) => 
+      {setDeliSub(res.data)}
+    )
+    grocery(109796)
+      .then((res) => 
+      {setFloralSub(res.data)}
+    )
+    grocery(109797)
+      .then((res) => 
+      {setGenSub(res.data)}
+    )
+    grocery(109798)
+      .then((res) => 
+      {setGrocerySub(res.data)}
+    )
+    grocery(109799)
+      .then((res) => 
+      {setFrozenSub(res.data)}
+    )
+    grocery(109800)
+      .then((res) => 
+      {setHBSub(res.data)}
+    )
+    grocery(109801)
+      .then((res) => 
+      {setHouseSub(res.data)}
+    )
+    grocery(109802)
+      .then((res) => 
+      {setPetSub(res.data)}
+    )
+    grocery(109803)
+      .then((res) => 
+      {setProduceSub(res.data)}
+    )
+    grocery(109804)
+      .then((res) => 
+      {setBeerSub(res.data)}
+    )
+    grocery(109805)
+      .then((res) => 
+      {setWineSub(res.data)}
+    )
+    grocery(109806)
+      .then((res) => 
+      {setLiquorSub(res.data)}
+    )
+    grocery(109807)
+      .then((res) => 
+      {setTobaccoSub(res.data)}
+    )
+  },[]);
+
+  
+  const handleSubDeptChange3 = (option) => {
+    setSelected(option);
+    setCookie('subdept', option, {
+      path: '/',
+      maxAge: 1   
+    });
+    if (typeof onSubDeptChange3 === 'function') {
+      onSubDeptChange3(option);
+    }
+  };
+
+
+
+  let timeout 
+  const timeoutDuration = 400
+  const buttonRef = useRef(null)
+  const [openState, setOpenState] = useState(false)
+
+  const toggleMenu = (open) => {
+    setOpenState((openState) => !openState)
+    // toggle the menu by clicking on buttonRef
+    buttonRef?.current?.click() // eslint-disable-line
+  }
+
+ 
+  const onHover = (open, action) => {
+    // if the modal is currently closed, we need to open it
+    // OR
+    // if the modal is currently open, we need to close it
+    if (
+      (!open && !openState && action === "onMouseEnter") ||
+      (open && openState && action === "onMouseLeave")
+    ) {
+      // clear the old timeout, if any
+      clearTimeout(timeout)
+      // open the modal after a timeout
+      timeout = setTimeout(() => toggleMenu(open), timeoutDuration)
+    }
+    // else: don't click!
+  }
+
+  const handleClick = (open) => {
+    setOpenState(!open) // toggle open state in React state
+    clearTimeout(timeout) // stop the hover timer if it's running
+  }
+
+  const handleClickOutside = (event) => {
+    if (buttonRef.current && !buttonRef.current.contains(event.target)) {
+      event.stopPropagation()
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  })
+
 
   return (
     <header className={componentClassName} {...rest}>
@@ -348,11 +432,10 @@ const Header = (props) => {
             }, 0);
             return (
               <Fragment>
-                <Popover.Button className="cbn-header__menu-button">
+                <Popover.Button className="cbn-header__menu-button" >
                   <span className="text-base font-bold mr-2">Menu</span>
                   <MenuIcon className="h-5 w-5" aria-hidden="true" />
                 </Popover.Button>
-
                 <Transition
                   show={open}
                   as={Fragment}
@@ -442,10 +525,10 @@ const Header = (props) => {
                                 </span>
                               </a>
                             ) : (
-                              <Disclosure as="div" key={item.name}>
+                              <Popover as="div" key={item.name}>
                                 {({ open }) => (
-                                  <>
-                                    <Disclosure.Button className="p-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
+                                  <div>
+                                    <Popover.Button className="p-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100">
                                       <span className="flex items-center flex-1">
                                         {item.icon && <item.icon />}
                                         <span className="text-base font-medium">
@@ -459,8 +542,8 @@ const Header = (props) => {
                                         )}
                                         aria-hidden="true"
                                       />
-                                    </Disclosure.Button>
-                                    <Disclosure.Panel className="space-y-1">
+                                    </Popover.Button>
+                                    <Popover.Panel className="space-y-1">
                                       {item.children.map((subItem) =>
                                         subItem.name === 'Our brands' ? (
                                           <a
@@ -481,38 +564,374 @@ const Header = (props) => {
                                             {subItem.name}
                                           </a>
                                         ) : (                                          
-                                          <div
-                                            className="flex-1"
-                                          >
-                                            {map(data, (option) => (
-                                              <div
-                                                onClick={() => {
-                                                  navigate(
-                                                    '/search?text=' + option.description 
-                                                  )
-                                                }}
+                                          <div className="flex-1">
+                                            {map(data, (option) => (                                              
+                                              <Popover as="div">
+                                              {({ open }) => (
+                                              <div                                                                                                                                                                              
+                                                //onMouseEnter={() => onHover(open, "onMouseEnter")}
+                                                //onMouseLeave={() => onHover(open, "onMouseLeave")}                                      
                                               >
-                                                <button
+                                                <Popover.Button                                        
+                                                  //ref={buttonRef}                                                                                                                               
                                                   key={option.id.area}
-                                                  option={option.description}
-                                                  onClick={() => {
-                                                    handleDeptChange(
-                                                      option.description
-                                                    )
-                                                  }}
+                                                  option={option.description}                                                                                                                                   
                                                   className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
-                                                >
+                                                >                                                                                                                                                                                     
                                                   {option.description}
-                                                </button>
+                                                  <ChevronRightIcon
+                                                    onClick={() => {
+                                                      handleDeptChange(option.description)                                                                                                                    
+                                                      navigate('/search?text=' + option.description)                                                                                                                                                                                              
+                                                    }}                                                                                                                                                                               
+                                                    className={classNames(
+                                                      open ? 'rotate-90' : '',
+                                                      'h-5 w-5 text-gray-300 transform'
+                                                    )}
+                                                    aria-hidden="true"
+                                                  />                                                                                      
+                                                </Popover.Button>
+                                                <Transition
+                                                  onClick={() => {
+                                                    handleDeptChange(option.description)                                                                                                                    
+                                                    navigate('/search?text=' + option.description)                                                                                                                                                                                              
+                                                  }}     
+                                                  show={open}
+                                                  as={Fragment}
+                                                  enter="transition ease-out duration-200"
+                                                  enterFrom="opacity-0 translate-y-1"
+                                                  enterTo="opacity-100 translate-y-0"
+                                                  leave="transition ease-in duration-150"
+                                                  leaveFrom="opacity-100 translate-y-0"
+                                                  leaveTo="opacity-0 translate-y-1"
+                                                >
+                                                {option.description === 'Baby' 
+                                                ? <div> 
+                                                  {babySub.map((subItem) =>                                                
+                                                    <div>
+                                                      <Popover.Panel>
+                                                        <button
+                                                          key={option.id.area}
+                                                          onClick={() => {                                                                                                             
+                                                            handleSubDeptChange3(subItem.description)   
+                                                            navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
+                                                          }}                                                                                                                                                                                                                                       
+                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                        > 
+                                                          {subItem.description}                                                        
+                                                        </button>                                                                                                                                                                                                                   
+                                                      </Popover.Panel>                                               
+                                                    </div>                              
+                                                  )}    
+                                                  </div>                                            
+                                                : option.description === 'Bakery'
+                                                  ? <div>
+                                                    {bakerySub.map((subItem) =>                                                
+                                                      <div>
+                                                        <Popover.Panel>
+                                                          <button  
+                                                            onClick={() => {           
+                                                              handleSubDeptChange3(subItem.description)                                                      
+                                                              navigate('/search?text=' + subItem.description)  
+                                                            }}                                                        
+                                                            className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                          > 
+                                                            {subItem.description}                                                        
+                                                          </button>                                                                                                                                                                                                                   
+                                                        </Popover.Panel>                                               
+                                                      </div>                              
+                                                    )}    
+                                                    </div>
+                                                : option.description === 'Meat & Seafood'
+                                                  ? <div>
+                                                    {meatSub.map((subItem) =>                                                
+                                                    <div>
+                                                      <Popover.Panel>
+                                                        <button
+                                                          onClick={() => {              
+                                                            handleSubDeptChange3(subItem.description)                                                 
+                                                            navigate('/search?text=' + subItem.description
+                                                          )}}                                                                  
+                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"                                                       
+                                                        > 
+                                                          {subItem.description}                                                        
+                                                        </button>                                                                                                                                                                                                                   
+                                                      </Popover.Panel>                                               
+                                                    </div>                              
+                                                    )}      
+                                                  </div>
+                                                : option.description === 'Dairy'
+                                                  ? <div>
+                                                  {dairySub.map((subItem) =>                                                
+                                                  <div>
+                                                    <Popover.Panel>
+                                                      <button
+                                                        onClick={() => {
+                                                          handleSubDeptChange3(subItem.description)                                                         
+                                                          navigate('/search?text=' + subItem.description
+                                                        )}}                                                                    
+                                                        className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                      > 
+                                                        {subItem.description}                                                        
+                                                      </button>                                                                                                                                                                                                                   
+                                                    </Popover.Panel>                                               
+                                                  </div>                              
+                                                  )}      
+                                                  </div>
+                                                :  option.description === 'Deli'
+                                                  ? <div>
+                                                    {deliSub.map((subItem) =>                                                
+                                                    <div>
+                                                      <Popover.Panel>
+                                                        <button
+                                                          onClick={() => {                                                                 
+                                                            handleSubDeptChange3(subItem.description)                                                      
+                                                            navigate('/search?text=' + subItem.description)       
+                                                          }}                                                                    
+                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                        > 
+                                                          {subItem.description}                                                        
+                                                        </button>                                                                                                                                                                                                                   
+                                                      </Popover.Panel>                                               
+                                                    </div>                              
+                                                    )}      
+                                                    </div> 
+                                                :  option.description === 'Floral'
+                                                  ? <div>
+                                                    {floralSub.map((subItem) =>                                                
+                                                    <div>
+                                                      <Popover.Panel>
+                                                        <button
+                                                          onClick={() => { 
+                                                            handleSubDeptChange3(subItem.description)                                                      
+                                                            navigate('/search?text=' + subItem.description)  
+                                                          }}                                                                    
+                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                        > 
+                                                          {subItem.description}                                                        
+                                                        </button>                                                                                                                                                                                                                   
+                                                      </Popover.Panel>                                               
+                                                    </div>                              
+                                                    )}      
+                                                  </div>
+                                                :  option.description === 'General Merchandise'
+                                                  ? <div>
+                                                    {genSub.map((subItem) =>                                                
+                                                    <div>
+                                                      <Popover.Panel>
+                                                        <button
+                                                          onClick={() => {
+                                                            handleSubDeptChange3(subItem.description)                                                      
+                                                            navigate('/search?text=' + subItem.description)  
+                                                          }}                                                                    
+                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"                                             
+                                                        > 
+                                                          {subItem.description}                                                        
+                                                        </button>                                                                                                                                                                                                                   
+                                                      </Popover.Panel>                                               
+                                                    </div>                              
+                                                    )}      
+                                                  </div> 
+                                                :  option.description === 'Grocery'
+                                                  ? <div>
+                                                    {grocerySub.map((subItem) =>                                                
+                                                    <div>
+                                                      <Popover.Panel>
+                                                        <button
+                                                          onClick={() => { 
+                                                            handleSubDeptChange3(subItem.description)                                                      
+                                                              navigate('/search?text=' + subItem.description)  
+                                                          }}                                                                    
+                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"                                            
+                                                        > 
+                                                          {subItem.description}                                                        
+                                                        </button>                                                                                                                                                                                                                   
+                                                      </Popover.Panel>                                               
+                                                    </div>                              
+                                                    )}      
+                                                  </div> 
+                                                :  option.description === 'Frozen'
+                                                  ? <div>
+                                                    {frozenSub.map((subItem) =>                                                
+                                                    <div>
+                                                      <Popover.Panel>
+                                                        <button
+                                                          onClick={() => {  
+                                                            handleSubDeptChange3(subItem.description)                                                      
+                                                            navigate('/search?text=' + subItem.description)  
+                                                          }}                                                                    
+                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                          //style={{padding: 1}}
+                                                        > 
+                                                          {subItem.description}                                                        
+                                                        </button>                                                                                                                                                                                                                   
+                                                      </Popover.Panel>                                               
+                                                    </div>                              
+                                                    )}      
+                                                    </div>
+                                                :  option.description === 'Health & Beauty'
+                                                  ? <div>
+                                                    {hbSub.map((subItem) =>                                                
+                                                    <div>
+                                                      <Popover.Panel>
+                                                        <button
+                                                          onClick={() => { 
+                                                            handleSubDeptChange3(subItem.description)                                                      
+                                                            navigate('/search?text=' + subItem.description)  
+                                                          }}                                                                    
+                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                        > 
+                                                          {subItem.description}                                                        
+                                                        </button>                                                                                                                                                                                                                   
+                                                      </Popover.Panel>                                               
+                                                    </div>                              
+                                                    )}      
+                                                  </div>
+                                                :  option.description === 'Household & Laundry'
+                                                  ? <div>
+                                                    {houseSub.map((subItem) =>                                                
+                                                    <div>
+                                                      <Popover.Panel>
+                                                        <button
+                                                          onClick={() => {
+                                                            handleSubDeptChange3(subItem.description)                                                      
+                                                            navigate('/search?text=' + subItem.description)  
+                                                          }}                                                                    
+                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                          //style={{padding: 1}}
+                                                        > 
+                                                          {subItem.description}                                                        
+                                                        </button>                                                                                                                                                                                                                   
+                                                      </Popover.Panel>                                               
+                                                    </div>                              
+                                                    )}      
+                                                  </div> 
+                                                :  option.description === 'Pet'
+                                                  ? <div>
+                                                    {petSub.map((subItem) =>                                                
+                                                    <div>
+                                                      <Popover.Panel>
+                                                        <button
+                                                          onClick={() => { 
+                                                            handleSubDeptChange3(subItem.description)                                                      
+                                                            navigate('/search?text=' + subItem.description)  
+                                                          }}                                                                    
+                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                          //style={{padding: 1}}
+                                                        > 
+                                                          {subItem.description}                                                        
+                                                        </button>                                                                                                                                                                                                                   
+                                                      </Popover.Panel>                                               
+                                                    </div>                              
+                                                    )}      
+                                                    </div> 
+                                                :  option.description === 'Produce'
+                                                  ? <div>
+                                                      {produceSub.map((subItem) =>                                                
+                                                      <div>
+                                                        <Popover.Panel>
+                                                          <button
+                                                            onClick={() => {
+                                                              handleSubDeptChange3(subItem.description)                                                      
+                                                              navigate('/search?text=' + subItem.description)  
+                                                            }}                                                                    
+                                                            className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                            //style={{padding: 1}}
+                                                          > 
+                                                            {subItem.description}                                                        
+                                                          </button>                                                                                                                                                                                                                   
+                                                        </Popover.Panel>                                               
+                                                      </div>                              
+                                                    )}      
+                                                    </div> 
+                                                : option.description === 'Beer'
+                                                    ? <div>
+                                                      {beerSub.map((subItem) =>                                                
+                                                      <div>
+                                                        <Popover.Panel>
+                                                          <button
+                                                            onClick={() => {
+                                                              handleSubDeptChange3(subItem.description)                                                      
+                                                              navigate('/search?text=' + subItem.description)  
+                                                            }}                                                                    
+                                                            className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                            //style={{padding: 1}}
+                                                          > 
+                                                            {subItem.description}                                                        
+                                                          </button>                                                                                                                                                                                                                   
+                                                        </Popover.Panel>                                               
+                                                      </div>                              
+                                                      )}      
+                                                      </div>   
+                                                : option.description === 'Wine'
+                                                  ? <div>
+                                                    {wineSub.map((subItem) =>                                                
+                                                    <div>
+                                                      <Popover.Panel>
+                                                        <button
+                                                          onClick={() => {
+                                                            handleSubDeptChange3(subItem.description)                                                      
+                                                            navigate('/search?text=' + subItem.description)  
+                                                          }}                                                                    
+                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"                                                          
+                                                        > 
+                                                          {subItem.description}                                                        
+                                                        </button>                                                                                                                                                                                                                   
+                                                      </Popover.Panel>                                               
+                                                    </div>                              
+                                                    )}      
+                                                    </div> 
+                                                : option.description === 'Liquor'
+                                                  ? <div>
+                                                    {liquorSub.map((subItem) =>                                                
+                                                    <div>
+                                                      <Popover.Panel>
+                                                        <button
+                                                          onClick={() => {
+                                                            handleSubDeptChange3(subItem.description)                                                      
+                                                            navigate('/search?text=' + subItem.description)  
+                                                          }}                                                                    
+                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                        > 
+                                                          {subItem.description}                                                        
+                                                        </button>                                                                                                                                                                                                                   
+                                                      </Popover.Panel>                                               
+                                                    </div>                              
+                                                    )}      
+                                                    </div>
+                                                : option.description === 'Tobacco'
+                                                    ? <div>
+                                                      {tobaccoSub.map((subItem) =>                                                
+                                                      <div>
+                                                        <Popover.Panel>
+                                                          <button
+                                                            onClick={() => {
+                                                              handleSubDeptChange3(subItem.description)                                                      
+                                                              navigate('/search?text=' + subItem.description)  
+                                                            }}                                                                    
+                                                            className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"                                                               
+                                                          > 
+                                                            {subItem.description}                                                        
+                                                          </button>                                                                                                                                                                                                                   
+                                                        </Popover.Panel>                                               
+                                                      </div>                              
+                                                      )}      
+                                                      </div>
+                                                : null                                                                                               
+                                            }
+                                                  </Transition>                                                                                                                                             
                                               </div>
+                                              )}                                                                                        
+                                            </Popover>                                                                                               
                                             ))}
                                           </div>
                                         )
+
                                       )}
-                                    </Disclosure.Panel>
-                                  </>
+                                    </Popover.Panel>
+                                  </div>
                                 )}
-                              </Disclosure>
+                              </Popover>
                             )
                           )}
                         </div>
@@ -579,8 +998,9 @@ const Header = (props) => {
 
 Header.propTypes = {
   onDeptChange: PropTypes.func,
+  onSubDeptChange3: PropTypes.func,
   theme: PropTypes.string,
-  // BSWING: refactor user object as needed.
+  //BSWING: refactor user object as needed.
   user: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     firstName: PropTypes.string,
@@ -590,7 +1010,9 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
-  onDeptChange: () => {}
+  onDeptChange: () => {},
+  onSubDeptChange3: () => {}
 };
+
 
 export default Header;
