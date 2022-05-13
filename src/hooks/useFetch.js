@@ -23,19 +23,19 @@ function useFetch(query, pageNo) {
       if (res && res.data.productList) {
         console.log("RESPONSE",res.data.productList)
         setList(res.data.productList)
-        setList((prev) => {
-          const newListData = [...prev, ...res.data.productList];
-          const formattedListData = newListData.map((each) => {
-            let favorite = false;
-            favorites.map((val) => {
-              if (!favorite && val.productId === each.productId) {
-                favorite = true;
-              }
-            });
-            return { ...each, favorite };
-          });
-          return [...new Set(formattedListData)];
-        });
+        // setList((prev) => {
+        //   const newListData = [...prev, ...res.data.productList];
+        //   const formattedListData = newListData.map((each) => {
+        //     let favorite = false;
+        //     favorites.map((val) => {
+        //       if (!favorite && val.productId === each.productId) {
+        //         favorite = true;
+        //       }
+        //     });
+        //     return { ...each, favorite };
+        //   });
+        //   return [...new Set(formattedListData)];
+        // });
         setLoading(false);
       }
     } catch (err) {
