@@ -71,7 +71,12 @@ const Locator = (props) => {
 
   const [selected, setSelected] = useState(facility);
 
+  function refreshPage() {
+    window.location.reload(false);
+  }
+  
   const handleOnChange = (option) => {
+    refreshPage()
     setSelected(option);
     setCookie('facility', option, {
       path: '/',

@@ -90,7 +90,8 @@ const Header = (props) => {
 
   const fetch = async (item) => {
     if (item) {
-    await search(item, 500, 1, 1, 20)
+    await search(item, store.facilityId, 1, 1, 6)
+
     .then((res) => setSearchList(res.data.productList))
     setLoading(false);
     };
