@@ -99,7 +99,7 @@ const ShopTag = (onSubDeptChange2) => {
     setSelected(option);
     setCookie('subdept', option, {
       path: '/',
-      maxAge: 1   
+      maxAge: CookiesAge   
     });
   
     if (typeof onSubDeptChange2 === 'function') {
@@ -108,7 +108,7 @@ const ShopTag = (onSubDeptChange2) => {
   };
   
   return (
-    <div className="flex relative space-x-2 whitespace-nowrap flex-wrap">
+    <div onClick={() => refreshPage()} className="flex relative space-x-2 whitespace-nowrap flex-wrap">
       {map(data, (option)=> (           
         <button
           className="border border-2 border-green-600 rounded-2xl px-4 pb-1 pb-1"

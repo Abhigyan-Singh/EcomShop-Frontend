@@ -170,7 +170,7 @@ const ShopSort = (props) => {
                     && !smallSizeSort 
                     && !highPriceSort 
                     && !lowPriceSort
-                      ? <span>Default (Relevance)</span> 
+                      ? <span> Default (Relevance)</span> 
                       : abcSort === true
                       ?   <span> Name: A to Z</span>
                       : zxySort === true
