@@ -103,11 +103,12 @@ const ShopSidebar = (props) => {
     setSelected(option);
     setCookie('subdept', option, {
       path: '/',
-      maxAge: 1
+      maxAge: CookiesAge
     });
   };
 
   const handleDeptChange3 = (option2) => {
+    setCookie('subdept', " ");
     setSelected2(option2);
     setCookie('dept', option2, {
       path: '/',
@@ -122,18 +123,18 @@ const ShopSidebar = (props) => {
   }, []);
 
 
-  function refreshPage() {
+  function refreshPageDept() {
     window.location.reload(false);
   }
 
-  // const [subCategory, setSubCategory] = useState(() => {
-  //   const saved = localStorage.getItem("SubCategory");
-  //   const initialValue = JSON.parse(saved);
-  //   return initialValue || null;  
-  // })
+  
+  function refreshSubDept() {
+    window.location.reload(false);
+  }
+
 
   // useEffect(() => {
-  //   localStorage.setItem("subCategory", subCategory);
+  //   localStorage.setItem("subCategory", subdept);
   // }, [])
 
   const tree = () => {
@@ -143,17 +144,15 @@ const ShopSidebar = (props) => {
           <div>
             <div>
               {map(data, (option) => (
-                <div
-                  key={option.id.area}
-                  onClick={() => navigate('/search?text=' + option.description)} 
-                >
+                <div>
                   <button
                     key={option.id.area}
                     style={{ justifyContent: 'right' }}
                     className="flex items-center text-sm py-1 hover:underline"
-                    onClick={() => {
-                      //setSubCategory(option.description) 
+                    onClick={() => {                    
                       handleSubDept(option.description)
+                      navigate('/search?text=' + option.description)
+                      refreshSubDept()
                     }}
                   >
                     {option.description}
@@ -218,18 +217,19 @@ const ShopSidebar = (props) => {
                                 paddingTop: 7
                               }}
                             >
-                              <div onClick={() => refreshPage()}>
+                              <div>
                                 <ul>
                                   {map(data2, (option2) => (
                                     <li
-                                      onClick={() =>
-                                        handleDeptChange3(option2.description)
-                                      }
+                                      onClick={() => {
+                                        refreshPageDept()
+                                      }}
                                     >
                                       <button
-                                        onClick={() =>                            
-                                            navigate('/search?text=' + option2.description)
-                                        }
+                                        onClick={() => {    
+                                          handleDeptChange3(option2.description)                        
+                                          navigate('/search?text=' + option2.description)
+                                        }}
                                         style={{ paddingLeft: 20, paddingTop: 3 }}
                                         className="flex items-center text-sm py-1 hover:underline"
                                       >
