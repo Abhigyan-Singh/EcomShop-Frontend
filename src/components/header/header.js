@@ -159,6 +159,7 @@ const Header = (props) => {
   }, [props]);
 
   const handleDeptChange = (option) => {
+    setCookie('subdept', " ")
     setSelected(option);
     setCookie('dept', option, {
       path: '/',
