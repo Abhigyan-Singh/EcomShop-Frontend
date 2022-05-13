@@ -145,7 +145,7 @@ export const Counter2 = (props) => {
           className="cbn-button"
           onClick={() => {
             //updateCart(item)
-            AddToCartApi("albtest3", 95436, 1, 2037)
+            //AddToCartApi("albtest3", 95436, 1, 2037)
             console.log(value);
             dispatch({
               type: 'ADD_TO_CART',
@@ -162,7 +162,7 @@ export const Counter2 = (props) => {
           className="cbn-button"
           onClick={() => {
             //updateCart(item)
-            AddToCartApi("albtest3", 95436, 1, 2037)
+            //AddToCartApi("albtest3", 95436, 1, 2037)
             console.log(value);
             dispatch({
               type: 'ADD_TO_CART',

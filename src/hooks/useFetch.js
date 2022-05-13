@@ -9,33 +9,33 @@ function useFetch(query, pageNo) {
   const [error, setError] = useState(false);
   const [list, setList] = useState([]);
   const [data, setData] = useState()
-  const [itemOnPageCount, setItemOnPageCount] = useState(5)
+  const [itemOnPageCount, setItemOnPageCount] = useState(6)
 
 
-  const sendQuery = useCallback(async () => {
+  const sendQuery = useCallback( async () => {
     try {
       console.log("STARTED")
-      await setLoading(true);
-      await setError(false);
+      setLoading(true);
+      setError(false);
       const res = await search(query, facilityId, bannerId, pageNo, itemOnPageCount);
       const favoritesRes = await getAllFavorites();
       const favorites = favoritesRes.data;
       if (res && res.data.productList) {
         console.log("RESPONSE",res.data.productList)
         setList(res.data.productList)
-        // await setList((prev) => {
-        //   const newListData = [...prev, ...res.data.productList];
-        //   const formattedListData = newListData.map((each) => {
-        //     let favorite = false;
-        //     favorites.map((val) => {
-        //       if (!favorite && val.productId === each.productId) {
-        //         favorite = true;
-        //       }
-        //     });
-        //     return { ...each, favorite };
-        //   });
-        //   return [...new Set(formattedListData)];          
-        // });
+        setList((prev) => {
+          const newListData = [...prev, ...res.data.productList];
+          const formattedListData = newListData.map((each) => {
+            let favorite = false;
+            favorites.map((val) => {
+              if (!favorite && val.productId === each.productId) {
+                favorite = true;
+              }
+            });
+            return { ...each, favorite };
+          });
+          return [...new Set(formattedListData)];
+        });
         setLoading(false);
       }
     } catch (err) {
