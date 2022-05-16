@@ -49,6 +49,7 @@ const HomeServices = (props, onDepartChange4) => {
   
 
   const handleDeptChange4 = (option) => {
+    setCookie('subdept', " ");
     setSelected2(option);
     setCookie('dept', option, {
       path: '/',

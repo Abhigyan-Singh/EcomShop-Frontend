@@ -1,14 +1,11 @@
 import apiClient from './api';
 import { API, config } from 'apiConfig';
 
-export const search = (productName, facilityId, currentPageNumber, itemCount) => {
+export const search = (productName, facilityId, bannerId, pageNo, itemOnPageCount) => {
   return apiClient.get(
-    `${config.baseUrl}${API.search}/${productName}/${facilityId}/${currentPageNumber}/${itemCount}`
+    `${config.baseUrl}${API.search}/${productName}/${facilityId}/${bannerId}/${pageNo}/${itemOnPageCount}`
   );
 };
-
-
-
 
 // export const search = (productName, facilityId, pageno, count) => {
 //   return apiClient.get(config.baseUrl + API.search, {

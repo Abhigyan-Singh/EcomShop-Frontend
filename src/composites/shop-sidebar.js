@@ -23,77 +23,73 @@ const ShopSidebar = (props) => {
   const [selected2, setSelected2] = useState(dept);
   const [data2, setData2] = useState();
 
-  useEffect(async () => {
+  useEffect(() => {
     if (dept === 'Baby') {
-      await grocery(109791).then((res) => {
+      grocery(109791).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Bakery') {
-      await grocery(109792).then((res) => {
+      grocery(109792).then((res) => {
         setData(res.data);
       });
-    } else if (dept === 'Butcher') {
-      await grocery(109793).then((res) => {
+    } else if (dept === 'Meat & Seafood') {
+      grocery(109793).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Dairy') {
-      await grocery(109794).then((res) => {
+      grocery(109794).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Deli') {
-      await grocery(109795).then((res) => {
+      grocery(109795).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Floral') {
-      await grocery(109796).then((res) => {
+      grocery(109796).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'General Merchandise') {
-      await grocery(109797).then((res) => {
+      grocery(109797).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Grocery') {
-      await grocery(109798).then((res) => {
+      grocery(109798).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Frozen') {
-      await grocery(109799).then((res) => {
+      grocery(109799).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Health & Beauty') {
-      await grocery(109800).then((res) => {
+      grocery(109800).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Household & Laundry') {
-      await grocery(109801).then((res) => {
+      grocery(109801).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Pet') {
-      await grocery(109802).then((res) => {
+      grocery(109802).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Produce') {
-      await grocery(109803).then((res) => {
+      grocery(109803).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Beer') {
-      await grocery(109804).then((res) => {
+      grocery(109804).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Wine') {
-      await grocery(109805).then((res) => {
+      grocery(109805).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Liquor') {
-      await grocery(109806).then((res) => {
+      grocery(109806).then((res) => {
         setData(res.data);
       });
     } else if (dept === 'Tobacco') {
-      await grocery(109807).then((res) => {
-        setData(res.data);
-      });
-    } else if (dept === 'Floral') {
-      await grocery(109808).then((res) => {
+      grocery(109807).then((res) => {
         setData(res.data);
       });
     }
@@ -103,11 +99,12 @@ const ShopSidebar = (props) => {
     setSelected(option);
     setCookie('subdept', option, {
       path: '/',
-      maxAge: 1
+      maxAge: CookiesAge
     });
   };
 
   const handleDeptChange3 = (option2) => {
+    setCookie('subdept', ' ');
     setSelected2(option2);
     setCookie('dept', option2, {
       path: '/',
@@ -121,9 +118,17 @@ const ShopSidebar = (props) => {
     });
   }, []);
 
-  function refreshPage() {
+  function refreshPageDept() {
     window.location.reload(false);
   }
+
+  function refreshSubDept() {
+    window.location.reload(false);
+  }
+
+  // useEffect(() => {
+  //   localStorage.setItem("subCategory", subdept);
+  // }, [])
 
   const tree = () => {
     return (
@@ -136,9 +141,14 @@ const ShopSidebar = (props) => {
                   onClick={() => navigate('/search?text=' + option.description)}
                 >
                   <button
+                    key={option.id.area}
                     style={{ justifyContent: 'right' }}
                     className="flex items-center text-sm py-1 hover:underline"
-                    onClick={() => handleSubDept(option.description)}
+                    onClick={() => {
+                      handleSubDept(option.description);
+                      navigate('/search?text=' + option.description);
+                      refreshSubDept();
+                    }}
                   >
                     {option.description}
                   </button>
@@ -201,21 +211,24 @@ const ShopSidebar = (props) => {
                                 paddingTop: 7
                               }}
                             >
-                              <div onClick={() => refreshPage()}>
+                              <div>
                                 <ul>
                                   {map(data2, (option2) => (
                                     <li
-                                      onClick={() =>
-                                        handleDeptChange3(option2.description)
-                                      }
+                                      onClick={() => {
+                                        refreshPageDept();
+                                      }}
                                     >
                                       <button
-                                        onClick={() =>
+                                        onClick={() => {
+                                          handleDeptChange3(
+                                            option2.description
+                                          );
                                           navigate(
                                             '/search?text=' +
                                               option2.description
-                                          )
-                                        }
+                                          );
+                                        }}
                                         style={{
                                           paddingLeft: 20,
                                           paddingTop: 3

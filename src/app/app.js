@@ -23,8 +23,6 @@ import { StoreLocator } from 'stories/pages/storelocator.js';
 import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth.js';
 
-
-
 export const facilityStoremapping = {
   605: 2029,
   500: 2032,
@@ -51,11 +49,14 @@ const App = () => {
   const [depart5, setDepart5] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
   const [subdepart2, setSubdepart2] = useState(subdept);
+  const [subdepart3, setSubdepart3] = useState(subdept);
+  const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
     const { user } = cookies;
-    if (user?.token) setIsAuthenticated(true);
-    else setIsAuthenticated(false);
+    if (user?.token) {
+      setIsAuthenticated(true);
+    } else setIsAuthenticated(false);
   }, [cookies]);
 
   useEffect(() => {
@@ -100,10 +101,6 @@ const App = () => {
     setDepart(storeDept);
   };
 
-  const onDepartChange2 = (storeDept) => {
-    setSubdepart2(storeDept);
-  };
-
   const onDepartChange3 = (storeDept) => {
     setDepart3(storeDept);
   };
@@ -120,12 +117,22 @@ const App = () => {
     setSubdepart(substoreDept);
   };
 
-  const AppRoute = () => {
+  const onSubDepartChange2 = (storeDept) => {
+    setSubdepart2(storeDept);
+  };
+
+  const onSubDepartChange3 = (storeDept) => {
+    setSubdepart3(storeDept);
+  };
+
+  const AppRoute = ({ showCart, setShowCart }) => {
     let routes = useRoutes([
       {
         path: '/',
         element: (
           <HomeStory
+            showCart={showCart}
+            setShowCart={setShowCart}
             isAuthenticated={isAuthenticated}
             onStoreChange={onStoreChange}
             onDepartChange4={onDepartChange4}
@@ -140,7 +147,7 @@ const App = () => {
           <ShopStory
             isAuthenticated={isAuthenticated}
             logout={onLogout}
-            onDepartChange2={onDepartChange2}
+            onSubDepartChange2={onSubDepartChange2}
             onDepartChange3={onDepartChange3}
             onSubDepartChange={onSubDepartChange}
           />
@@ -224,10 +231,12 @@ const App = () => {
         logout={onLogout}
         store={store}
         onDeptChange={onDepartChange}
+        onSubDeptChange3={onSubDepartChange3}
         usr={user}
+        setShowCart={setShowCart}
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
-      <AppRoute />
+      <AppRoute showCart={showCart} setShowCart={setShowCart} />
       <Signup />
       <Footer />
     </Router>
