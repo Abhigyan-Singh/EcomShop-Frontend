@@ -11,14 +11,10 @@ import { useCookies } from 'react-cookie';
 import { map } from 'lodash';
 import { CookiesAge } from 'apiConfig';
 import PropTypes from 'prop-types';
-import {
-  Popover,
-  Transition
-} from '../../node_modules/@headlessui/react/dist/index';
-import { RefreshRounded, RoomPreferencesSharp } from '../../node_modules/@mui/icons-material/index';
+import { Popover, Transition } from '@headlessui/react';
 
 const ShopSidebar = (props) => {
-  const {onSubDeptChange, onDepartChange3} = props 
+  const { onSubDeptChange, onDepartChange3 } = props;
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies();
   const [data, setData] = useState();
@@ -96,7 +92,7 @@ const ShopSidebar = (props) => {
       grocery(109807).then((res) => {
         setData(res.data);
       });
-    } 
+    }
   }, [dept]);
 
   const handleSubDept = (option) => {
@@ -108,7 +104,7 @@ const ShopSidebar = (props) => {
   };
 
   const handleDeptChange3 = (option2) => {
-    setCookie('subdept', " ");
+    setCookie('subdept', ' ');
     setSelected2(option2);
     setCookie('dept', option2, {
       path: '/',
@@ -122,16 +118,13 @@ const ShopSidebar = (props) => {
     });
   }, []);
 
-
   function refreshPageDept() {
     window.location.reload(false);
   }
 
-  
   function refreshSubDept() {
     window.location.reload(false);
   }
-
 
   // useEffect(() => {
   //   localStorage.setItem("subCategory", subdept);
@@ -144,15 +137,17 @@ const ShopSidebar = (props) => {
           <div>
             <div>
               {map(data, (option) => (
-                <div>
+                <div
+                  onClick={() => navigate('/search?text=' + option.description)}
+                >
                   <button
                     key={option.id.area}
                     style={{ justifyContent: 'right' }}
                     className="flex items-center text-sm py-1 hover:underline"
-                    onClick={() => {                    
-                      handleSubDept(option.description)
-                      navigate('/search?text=' + option.description)
-                      refreshSubDept()
+                    onClick={() => {
+                      handleSubDept(option.description);
+                      navigate('/search?text=' + option.description);
+                      refreshSubDept();
                     }}
                   >
                     {option.description}
@@ -166,7 +161,6 @@ const ShopSidebar = (props) => {
     );
   };
 
- 
   return (
     <div className="flex">
       <div className="hidden md:flex md:flex-shrink-0">
@@ -222,15 +216,23 @@ const ShopSidebar = (props) => {
                                   {map(data2, (option2) => (
                                     <li
                                       onClick={() => {
-                                        refreshPageDept()
+                                        refreshPageDept();
                                       }}
                                     >
                                       <button
-                                        onClick={() => {    
-                                          handleDeptChange3(option2.description)                        
-                                          navigate('/search?text=' + option2.description)
+                                        onClick={() => {
+                                          handleDeptChange3(
+                                            option2.description
+                                          );
+                                          navigate(
+                                            '/search?text=' +
+                                              option2.description
+                                          );
                                         }}
-                                        style={{ paddingLeft: 20, paddingTop: 3 }}
+                                        style={{
+                                          paddingLeft: 20,
+                                          paddingTop: 3
+                                        }}
                                         className="flex items-center text-sm py-1 hover:underline"
                                       >
                                         {option2.description}
@@ -238,7 +240,7 @@ const ShopSidebar = (props) => {
                                     </li>
                                   ))}
                                 </ul>
-                              </div>                             
+                              </div>
                             </Popover.Panel>
                           </Transition>
                         </Fragment>

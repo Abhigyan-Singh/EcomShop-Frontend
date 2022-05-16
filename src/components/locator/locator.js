@@ -43,29 +43,29 @@ const LocationOption = ({ option }) => (
 );
 
 const Locator = (props) => {
-  const { className, onLocationChange, ...rest } = props;
+  const { className, onLocationChange, showCart, setShowCart, ...rest } = props;
   const componentClassName = classNames('cbn-locator', {}, className);
   const [cookies, setCookie] = useCookies();
   const [store, setStore] = useState([null]);
   const [storeDelivery, setStoreDelivery] = useState([null]);
   const { facility, user } = cookies;
   const [hasLoaded, setHasLoaded] = useState(false);
-  const [showCart, setShowCart] = useState(false);
+  // const [showCart, setShowCart] = useState(false);
   //const [total, setTotal] = useState();
   const {
     state: { cart, total },
     dispatch
   } = CartState();
 
-  useEffect( async () => {
+  useEffect(async () => {
     await allStores(5).then((res) => {
       setStore(res.data);
-      });
+    });
   }, []);
 
-  useEffect( async () => {
-   await allStores(7).then((res) => {
-    setStoreDelivery(res.data);
+  useEffect(async () => {
+    await allStores(7).then((res) => {
+      setStoreDelivery(res.data);
     });
   }, []);
 
@@ -74,9 +74,9 @@ const Locator = (props) => {
   function refreshPage() {
     window.location.reload(false);
   }
-  
+
   const handleOnChange = (option) => {
-    refreshPage()
+    refreshPage();
     setSelected(option);
     setCookie('facility', option, {
       path: '/',
