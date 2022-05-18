@@ -147,18 +147,6 @@ const ShopSort = (props) => {
       handleLargeSizeSort();
     }
   },)
-
-
-
-  const handleListView = () => {
-    setGridView(false)
-    console.log("triggered")
-    return (
-      <div>
-       testing
-      </div>
-    )
-  }
   
   return (
     <div className="relative inline-block text-left pr-4">
@@ -432,8 +420,8 @@ const ShopSort = (props) => {
                 )} 
                 onClick={() => {
                   console.log("LISTVIEW")
-                  setListView(true)
-                  setGridView(false) 
+                  setListView(false)
+                  setGridView(true) 
                 }}>
                 <span className="sr-only">View list</span>
                 <ViewListIcon

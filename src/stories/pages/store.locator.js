@@ -62,12 +62,7 @@ export const StoreLocator = (props) => {
       setStoreDelivery(res.data);
     });
   }, []);
-  
-  useEffect(() => {
-    console.log("FACILITY", facility)
-  }, [facility])
-  
-  
+    
   const toggleMenu = (open) => {
     setOpenState((openState) => !openState)
     buttonRef?.current?.click()
@@ -105,12 +100,13 @@ export const StoreLocator = (props) => {
   const handleFacilityChange = (option) => {
     console.log('handleFacilityChange', option)
     setSelected(option);
+    console.log("SELCTED IN FUNC" , selected)
     setCookie('facility', option, {
       path: '/',
       maxAge: CookiesAge
     });
     if (typeof onFacilityChange === 'function') {
-      console.log('typeof onFacilityChange === function')
+      console.log('onFacilityChange')
       onFacilityChange(option);
     }
   };
@@ -125,7 +121,12 @@ export const StoreLocator = (props) => {
     }
   }
 
-
+  useEffect(() => {
+    console.log("FACILITY", facility)
+    console.log("SELECTED", selected)
+    console.log("COOKIES", cookies)
+  }, [facility, cookies, selected])
+  
 
   return (
     <div>
