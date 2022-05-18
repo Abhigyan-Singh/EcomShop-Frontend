@@ -37,6 +37,8 @@ export const HomeStory = ({
   logout,
   onStoreChange,
   onDepartChange4,
+  showCart,
+  setShowCart,
   ...rest
 }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -82,7 +84,11 @@ export const HomeStory = ({
 
   return (
     <Fragment>
-      <Locator onLocationChange={onStoreChange} facility={facility} />
+      <Locator
+        showCart={showCart}
+        setShowCart={setShowCart}
+        onLocationChange={onStoreChange}
+      />
       <Hero slides={getSlides(brandName)} brandName={brandName} />
       <HomeGetStarted />
       <HomePromotions />

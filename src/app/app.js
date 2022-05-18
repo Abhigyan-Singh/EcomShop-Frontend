@@ -23,7 +23,6 @@ import { StoreLocator } from 'stories/pages/store.locator.js';
 import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth.js';
 
-
 export const facilityStoremapping = {
   605: 2029,
   500: 2032,
@@ -43,17 +42,16 @@ const App = () => {
   const [store, setStore] = useState(facility);
   const [depart, setDepart] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
-
+  const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
     const { user } = cookies;
     if (user?.token) {
       setIsAuthenticated(true);
-    }
-    else setIsAuthenticated(false);
+    } else setIsAuthenticated(false);
   }, [cookies]);
 
-  useEffect (() => {
+  useEffect(() => {
     let brand = 'coborns-theme';
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase()) > -1) {
       brand = 'coborns-theme';
@@ -95,13 +93,16 @@ const App = () => {
   const onSubDeptChange = (substoreDept) => {
     setSubdepart(substoreDept);
   };
- 
-  const AppRoute = () => {
+
+
+  const AppRoute = ({ showCart, setShowCart }) => {
     let routes = useRoutes([
       {
         path: '/',
         element: (
           <HomeStory
+            showCart={showCart}
+            setShowCart={setShowCart}
             isAuthenticated={isAuthenticated}
             onStoreChange={onStoreChange}
             onDepartChange4={onDeptChange}
@@ -202,9 +203,10 @@ const App = () => {
         onDeptChange={onDeptChange}
         onSubDeptChange3={onSubDeptChange}
         usr={user}
+        setShowCart={setShowCart}
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
-      <AppRoute />
+      <AppRoute showCart={showCart} setShowCart={setShowCart} />
       <Signup />
       <Footer />
     </Router>

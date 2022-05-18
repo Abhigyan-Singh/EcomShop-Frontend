@@ -1,4 +1,10 @@
-import { Fragment, useState, useEffect, useCallback, useRef } from 'react';
+import React, {
+  Fragment,
+  useState,
+  useEffect,
+  useCallback,
+  useRef
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
@@ -21,7 +27,7 @@ import { search } from 'services/search';
 import { grocery } from 'services/groceryTree';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { CartState } from 'context/context';
 import Cart from '../../components/cart/cart.js';
 import { map } from 'lodash';
@@ -37,7 +43,6 @@ export const facilityStoremapping = {
   600: 2046
 };
 
-
 const Header = (props) => {
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
@@ -51,16 +56,17 @@ const Header = (props) => {
     usr,
     onDeptChange,
     onDepartChange5,
-    onSubDeptChange3,  
+    onSubDeptChange3,
+    setShowCart,
     ...rest
   } = props;
   const componentClassName = classNames('cbn-header', {}, className);
   const [value, setValue] = useState('');
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const [searchList, setSearchList] = useState([]);
   const [data, setData] = useState();
   const [cookies, setCookie] = useCookies();
-  const [slide, setSlide] = useState(false)
+  const [slide, setSlide] = useState(false);
   const { facility, dept, subdept } = cookies;
   const [selected, setSelected] = useState(dept);
   const [loading, setLoading] = useState(false);
@@ -82,21 +88,23 @@ const Header = (props) => {
   const [wineSub, setWineSub] = useState();
   const [liquorSub, setLiquorSub] = useState();
   const [tobaccoSub, setTobaccoSub] = useState();
-  const [showCart, setShowCart] = useState(false);
+  //const [showCart, setShowCart] = useState(false);
   const { getCartDetails } = useCart();
   const {
     state: { cart, qty },
     dispatch
   } = CartState();
-
+  const { search } = useLocation();
+  const query = React.useMemo(() => new URLSearchParams(search), [search]);
+  const [modalIsOpen, setModalIsOpen] = useState(query.get('login') === 'show');
 
   const fetch = async (item) => {
     if (item) {
-    await search(item, store.facilityId, 1, 1, 6)
-
-    .then((res) => setSearchList(res.data.productList))
-    setLoading(false);
-    };
+      await search(item, store.facilityId, 1, 1, 6).then((res) =>
+        setSearchList(res.data.productList)
+      );
+      setLoading(false);
+    }
   };
 
   const setHoursHtml = () => {
@@ -144,7 +152,7 @@ const Header = (props) => {
   const modelHandler = () => {
     setModalIsOpen(true);
   };
-  
+
   const closeModalHandler = () => {
     setModalIsOpen(false);
   };
@@ -154,15 +162,15 @@ const Header = (props) => {
   const onScroll = () => {
     // We need to integrate with solor here on scroll
   };
- 
-  useEffect ( async () => { 
+
+  useEffect(async () => {
     await grocery(4433).then((res) => {
       setData(res.data);
-    })
+    });
   }, [props]);
 
   const handleDeptChange = (option) => {
-    setCookie('subdept', " ")
+    setCookie('subdept', ' ');
     setSelected(option);
     setCookie('dept', option, {
       path: '/',
@@ -279,19 +287,57 @@ const Header = (props) => {
       {setTobaccoSub(res.data)}
     )
   },[]);
+ 
 
   const handleSubDeptChange3 = (option) => {
-    setCookie('subdept', " ")
+    setCookie('subdept', ' ');
     setSelected(option);
     setCookie('subdept', option, {
       path: '/',
-      maxAge: CookiesAge   
+      maxAge: CookiesAge
     });
     if (typeof onSubDeptChange3 === 'function') {
       onSubDeptChange3(option);
     }
   };
 
+  let timeout;
+  const timeoutDuration = 400;
+  const buttonRef = useRef(null);
+  const [openState, setOpenState] = useState(false);
+
+  const toggleMenu = (open) => {
+    setOpenState((openState) => !openState);
+    buttonRef?.current?.click();
+  };
+
+  const onHover = (open, action) => {
+    if (
+      (!open && !openState && action === 'onMouseEnter') ||
+      (open && openState && action === 'onMouseLeave')
+    ) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => toggleMenu(open), timeoutDuration);
+    }
+  };
+
+  const handleClick = (open) => {
+    setOpenState(!open);
+    clearTimeout(timeout);
+  };
+
+  const handleClickOutside = (event) => {
+    if (buttonRef.current && !buttonRef.current.contains(event.target)) {
+      event.stopPropagation();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  });
 
   return (
     <header className={componentClassName} {...rest}>
@@ -340,7 +386,7 @@ const Header = (props) => {
               {user && (
                 <a
                   className="underline"
-                  href="https://devweb2.shop.coborns.com/createaccount"
+                  href="https://devweb2.shop.coborns.com/myaccountdetails"
                 >
                   My Account
                 </a>
@@ -388,7 +434,7 @@ const Header = (props) => {
             }, 0);
             return (
               <Fragment>
-                <Popover.Button className="cbn-header__menu-button" >
+                <Popover.Button className="cbn-header__menu-button">
                   <span className="text-base font-bold mr-2">Menu</span>
                   <MenuIcon className="h-5 w-5" aria-hidden="true" />
                 </Popover.Button>
@@ -519,594 +565,827 @@ const Header = (props) => {
                                           >
                                             {subItem.name}
                                           </a>
-                                        ) : (                                          
+                                        ) : (
                                           <div className="flex-1">
-                                            {map(data, (option) => (                                              
+                                            {map(data, (option) => (
                                               <Popover as="div">
-                                              {({ open, onClick }) => (
-                                              <div>
-                                                <div
-                                                  onClick={() => {
-                                                    handleDeptChange(option.description)
-                                                    navigate('/search?text=' + option.description)                                                                                                                                                                                                                     
-                                                  }}        
-                                                >
-                                                  <Popover.Button                                        
-                                                    //ref={buttonRef}                                                                                                                                                                                                                           
-                                                    key={option.id.area}
-                                                    option={option.description}                                                                                                                                   
-                                                    className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
-                                                  >                                                                                                                                                                                     
-                                                    {option.description}
-                                                    <ChevronRightIcon                                                                                                                                                                      
-                                                      className={classNames(
-                                                        open ? 'rotate-90' : '',
-                                                        'h-5 w-5 text-gray-300 transform'
-                                                      )}
-                                                      aria-hidden="true"
-                                                    />                                                                                      
-                                                  </Popover.Button>
-                                                </div>
-                                                {option.description === 'Baby' 
-                                                ? <div> 
-                                                  {babySub.map((subItem) =>                                                                                                            
-                                                    <div>
-                                                      <Transition
-                                                      onClick={() => {                                                                                                                    
-                                                        navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                      }}     
-                                                      show={open}
-                                                      as={Fragment}
-                                                      enter="transition ease-out duration-200"
-                                                      enterFrom="opacity-0 translate-y-1"
-                                                      enterTo="opacity-100 translate-y-0"
-                                                      leave="transition ease-in duration-150"
-                                                      leaveFrom="opacity-100 translate-y-0"
-                                                      leaveTo="opacity-0 translate-y-1"
-                                                    > 
-                                                      <Popover.Panel>
-                                                        <button
-                                                          key={option.id.area}
-                                                          onClick={() => {                                                                                                             
-                                                            handleSubDeptChange3(subItem.description)   
-                                                            navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                          }}                                                                                                                                                                                                                                       
-                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                        > 
-                                                          {subItem.description}                                                        
-                                                        </button>                                                                                                                                                                                                                   
-                                                      </Popover.Panel>
-                                                      </Transition>                                                
-                                                    </div>                              
-                                                  )}    
-                                                  </div>                                            
-                                                : option.description === 'Bakery'
-                                                  ? <div>
-                                                    {bakerySub.map((subItem) =>                                                
-                                                      <div>
-                                                        <Transition
-                                                          onClick={() => {                                                                                                                    
-                                                            navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                          }}     
-                                                          show={open}
-                                                          as={Fragment}
-                                                          enter="transition ease-out duration-200"
-                                                          enterFrom="opacity-0 translate-y-1"
-                                                          enterTo="opacity-100 translate-y-0"
-                                                          leave="transition ease-in duration-150"
-                                                          leaveFrom="opacity-100 translate-y-0"
-                                                          leaveTo="opacity-0 translate-y-1"
-                                                          > 
-                                                          <Popover.Panel>
-                                                            <button  
-                                                              onClick={() => {           
-                                                                handleSubDeptChange3(subItem.description)                                                      
-                                                                navigate('/search?text=' + subItem.description)  
-                                                              }}                                                        
-                                                              className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                            > 
-                                                              {subItem.description}                                                        
-                                                            </button>                                                                                                                                                                                                                   
-                                                          </Popover.Panel>
-                                                        </Transition>                                                
-                                                      </div>                              
-                                                    )}    
-                                                    </div>
-                                                : option.description === 'Meat & Seafood'
-                                                  ? <div>
-                                                    {meatSub.map((subItem) =>                                                
-                                                    <div>
-                                                      <Transition
-                                                        onClick={() => {         
-                                                          handleSubDeptChange3(subItem.description)                                                                                                                           
-                                                          navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                        }}     
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-200"
-                                                        enterFrom="opacity-0 translate-y-1"
-                                                        enterTo="opacity-100 translate-y-0"
-                                                        leave="transition ease-in duration-150"
-                                                        leaveFrom="opacity-100 translate-y-0"
-                                                        leaveTo="opacity-0 translate-y-1"
-                                                      > 
-                                                      <Popover.Panel>
-                                                        <button
-                                                          onClick={() => {           
-                                                            handleSubDeptChange3(subItem.description)                                                      
-                                                            navigate('/search?text=' + subItem.description)  
-                                                          }}                                                                 
-                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"                                                       
-                                                        > 
-                                                          {subItem.description}                                                        
-                                                        </button>                                                                                                                                                                                                                   
-                                                      </Popover.Panel>
-                                                      </Transition>                                             
-                                                    </div>                              
-                                                    )}      
-                                                  </div>
-                                                : option.description === 'Dairy'
-                                                  ? <div>
-                                                  {dairySub.map((subItem) =>                                                
+                                                {({ open, onClick }) => (
                                                   <div>
-                                                    <Transition
-                                                      onClick={() => {                                                                                                                    
-                                                        navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                      }}     
-                                                      show={open}
-                                                      as={Fragment}
-                                                      enter="transition ease-out duration-200"
-                                                      enterFrom="opacity-0 translate-y-1"
-                                                      enterTo="opacity-100 translate-y-0"
-                                                      leave="transition ease-in duration-150"
-                                                      leaveFrom="opacity-100 translate-y-0"
-                                                      leaveTo="opacity-0 translate-y-1"
+                                                    <div
+                                                      onClick={() => {
+                                                        handleDeptChange(
+                                                          option.description
+                                                        );
+                                                        navigate(
+                                                          '/search?text=' +
+                                                            option.description
+                                                        );
+                                                      }}
                                                     >
-                                                    <Popover.Panel>
-                                                      <button
-                                                        onClick={() => {
-                                                          handleSubDeptChange3(subItem.description)                                                         
-                                                          navigate('/search?text=' + subItem.description
-                                                        )}}                                                                    
-                                                        className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                      > 
-                                                        {subItem.description}                                                        
-                                                      </button>                                                                                                                                                                                                                   
-                                                    </Popover.Panel>
-                                                    </Transition>                                               
-                                                  </div>                              
-                                                  )}      
-                                                  </div>
-                                                :  option.description === 'Deli'
-                                                  ? <div>
-                                                    {deliSub.map((subItem) =>                                                
-                                                    <div>
-                                                      <Transition
-                                                        onClick={() => {                                                                                                                    
-                                                          navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                        }}     
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-200"
-                                                        enterFrom="opacity-0 translate-y-1"
-                                                        enterTo="opacity-100 translate-y-0"
-                                                        leave="transition ease-in duration-150"
-                                                        leaveFrom="opacity-100 translate-y-0"
-                                                        leaveTo="opacity-0 translate-y-1"
-                                                      > 
-                                                      <Popover.Panel>
-                                                        <button
-                                                          onClick={() => {                                                                 
-                                                            handleSubDeptChange3(subItem.description)                                                      
-                                                            navigate('/search?text=' + subItem.description)       
-                                                          }}                                                                    
-                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                        > 
-                                                          {subItem.description}                                                        
-                                                        </button>                                                                                                                                                                                                                   
-                                                      </Popover.Panel>
-                                                      </Transition>                                               
-                                                    </div>                              
-                                                    )}      
-                                                    </div> 
-                                                :  option.description === 'Floral'
-                                                  ? <div>
-                                                    {floralSub.map((subItem) =>                                                
-                                                    <div>
-                                                       <Transition
-                                                          onClick={() => {                                                                                                                    
-                                                            navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                          }}     
-                                                          show={open}
-                                                          as={Fragment}
-                                                          enter="transition ease-out duration-200"
-                                                          enterFrom="opacity-0 translate-y-1"
-                                                          enterTo="opacity-100 translate-y-0"
-                                                          leave="transition ease-in duration-150"
-                                                          leaveFrom="opacity-100 translate-y-0"
-                                                          leaveTo="opacity-0 translate-y-1"
-                                                          > 
-                                                      <Popover.Panel>
-                                                        <button
-                                                          onClick={() => { 
-                                                            handleSubDeptChange3(subItem.description)                                                      
-                                                            navigate('/search?text=' + subItem.description)  
-                                                          }}                                                                    
-                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                        > 
-                                                          {subItem.description}                                                        
-                                                        </button>                                                                                                                                                                                                                   
-                                                      </Popover.Panel>
-                                                      </Transition>                                               
-                                                    </div>                              
-                                                    )}      
-                                                  </div>
-                                                :  option.description === 'General Merchandise'
-                                                  ? <div>
-                                                    {genSub.map((subItem) =>                                                
-                                                    <div>
-                                                      <Transition
-                                                        onClick={() => {                                                                                                                    
-                                                          navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                        }}     
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-200"
-                                                        enterFrom="opacity-0 translate-y-1"
-                                                        enterTo="opacity-100 translate-y-0"
-                                                        leave="transition ease-in duration-150"
-                                                        leaveFrom="opacity-100 translate-y-0"
-                                                        leaveTo="opacity-0 translate-y-1"
-                                                      > 
-                                                      <Popover.Panel>
-                                                        <button
-                                                          onClick={() => {
-                                                            handleSubDeptChange3(subItem.description)                                                      
-                                                            navigate('/search?text=' + subItem.description)  
-                                                          }}                                                                    
-                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"                                             
-                                                        > 
-                                                          {subItem.description}                                                        
-                                                        </button>                                                                                                                                                                                                                   
-                                                      </Popover.Panel>
-                                                      </Transition>                                               
-                                                    </div>                              
-                                                    )}      
-                                                  </div> 
-                                                :  option.description === 'Grocery'
-                                                  ? <div>
-                                                    {grocerySub.map((subItem) =>                                                
-                                                    <div>
-                                                      <Transition
-                                                        onClick={() => {                                                                                                                    
-                                                          navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                        }}     
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-200"
-                                                        enterFrom="opacity-0 translate-y-1"
-                                                        enterTo="opacity-100 translate-y-0"
-                                                        leave="transition ease-in duration-150"
-                                                        leaveFrom="opacity-100 translate-y-0"
-                                                        leaveTo="opacity-0 translate-y-1"
-                                                      > 
-                                                      <Popover.Panel>
-                                                        <button
-                                                          onClick={() => { 
-                                                            handleSubDeptChange3(subItem.description)                                                      
-                                                            navigate('/search?text=' + subItem.description)  
-                                                          }}                                                                    
-                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"                                            
-                                                        > 
-                                                          {subItem.description}                                                        
-                                                        </button>                                                                                                                                                                                                                   
-                                                      </Popover.Panel>
-                                                      </Transition>                                               
-                                                    </div>                              
-                                                    )}      
-                                                  </div> 
-                                                :  option.description === 'Frozen'
-                                                  ? <div>
-                                                    {frozenSub.map((subItem) =>                                                
-                                                    <div>
-                                                      <Transition
-                                                        onClick={() => {                                                                                                                    
-                                                          navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                        }}     
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-200"
-                                                        enterFrom="opacity-0 translate-y-1"
-                                                        enterTo="opacity-100 translate-y-0"
-                                                        leave="transition ease-in duration-150"
-                                                        leaveFrom="opacity-100 translate-y-0"
-                                                        leaveTo="opacity-0 translate-y-1"
-                                                      > 
-                                                      <Popover.Panel>
-                                                        <button
-                                                          onClick={() => {  
-                                                            handleSubDeptChange3(subItem.description)                                                      
-                                                            navigate('/search?text=' + subItem.description)  
-                                                          }}                                                                    
-                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                          //style={{padding: 1}}
-                                                        > 
-                                                          {subItem.description}                                                        
-                                                        </button>                                                                                                                                                                                                                   
-                                                      </Popover.Panel>
-                                                      </Transition>                                               
-                                                    </div>                              
-                                                    )}      
+                                                      <Popover.Button
+                                                        //ref={buttonRef}
+                                                        key={option.id.area}
+                                                        option={
+                                                          option.description
+                                                        }
+                                                        className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
+                                                      >
+                                                        {option.description}
+                                                        <ChevronRightIcon
+                                                          className={classNames(
+                                                            open
+                                                              ? 'rotate-90'
+                                                              : '',
+                                                            'h-5 w-5 text-gray-300 transform'
+                                                          )}
+                                                          aria-hidden="true"
+                                                        />
+                                                      </Popover.Button>
                                                     </div>
-                                                :  option.description === 'Health & Beauty'
-                                                  ? <div>
-                                                    {hbSub.map((subItem) =>                                                
-                                                    <div>
-                                                      <Transition
-                                                        onClick={() => {                                                                                                                    
-                                                          navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                        }}     
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-200"
-                                                        enterFrom="opacity-0 translate-y-1"
-                                                        enterTo="opacity-100 translate-y-0"
-                                                        leave="transition ease-in duration-150"
-                                                        leaveFrom="opacity-100 translate-y-0"
-                                                        leaveTo="opacity-0 translate-y-1"
-                                                      > 
-                                                      <Popover.Panel>
-                                                        <button
-                                                          onClick={() => { 
-                                                            handleSubDeptChange3(subItem.description)                                                      
-                                                            navigate('/search?text=' + subItem.description)  
-                                                          }}                                                                    
-                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                        > 
-                                                          {subItem.description}                                                        
-                                                        </button>                                                                                                                                                                                                                   
-                                                      </Popover.Panel>
-                                                      </Transition>                                               
-                                                    </div>                              
-                                                    )}      
-                                                  </div>
-                                                :  option.description === 'Household & Laundry'
-                                                  ? <div>
-                                                    {houseSub.map((subItem) =>                                                
-                                                    <div>
-                                                      <Transition
-                                                        onClick={() => {                                                                                                                    
-                                                          navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                        }}     
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-200"
-                                                        enterFrom="opacity-0 translate-y-1"
-                                                        enterTo="opacity-100 translate-y-0"
-                                                        leave="transition ease-in duration-150"
-                                                        leaveFrom="opacity-100 translate-y-0"
-                                                        leaveTo="opacity-0 translate-y-1"
-                                                      > 
-                                                      <Popover.Panel>
-                                                        <button
-                                                          onClick={() => {
-                                                            handleSubDeptChange3(subItem.description)                                                      
-                                                            navigate('/search?text=' + subItem.description)  
-                                                          }}                                                                    
-                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                        > 
-                                                          {subItem.description}                                                        
-                                                        </button>                                                                                                                                                                                                                   
-                                                      </Popover.Panel>                                               
-                                                      </Transition>
-                                                    </div>                              
-                                                    )}      
-                                                  </div> 
-                                                :  option.description === 'Pet'
-                                                  ? <div>
-                                                    {petSub.map((subItem) =>                                                
-                                                    <div>
-                                                      <Transition
-                                                        onClick={() => {                                                                                                                    
-                                                          navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                        }}     
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-200"
-                                                        enterFrom="opacity-0 translate-y-1"
-                                                        enterTo="opacity-100 translate-y-0"
-                                                        leave="transition ease-in duration-150"
-                                                        leaveFrom="opacity-100 translate-y-0"
-                                                        leaveTo="opacity-0 translate-y-1"
-                                                      > 
-                                                      <Popover.Panel>
-                                                        <button
-                                                          onClick={() => { 
-                                                            handleSubDeptChange3(subItem.description)                                                      
-                                                            navigate('/search?text=' + subItem.description)  
-                                                          }}                                                                    
-                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                        > 
-                                                          {subItem.description}                                                        
-                                                        </button>                                                                                                                                                                                                                   
-                                                      </Popover.Panel>
-                                                      </Transition>                                               
-                                                    </div>                              
-                                                    )}      
-                                                    </div> 
-                                                :  option.description === 'Produce'
-                                                  ? <div>
-                                                      {produceSub.map((subItem) =>                                                
+                                                    {option.description ===
+                                                    'Baby' ? (
                                                       <div>
-                                                        <Transition
-                                                        onClick={() => {                                                                                                                    
-                                                          navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                        }}     
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-200"
-                                                        enterFrom="opacity-0 translate-y-1"
-                                                        enterTo="opacity-100 translate-y-0"
-                                                        leave="transition ease-in duration-150"
-                                                        leaveFrom="opacity-100 translate-y-0"
-                                                        leaveTo="opacity-0 translate-y-1"
-                                                      > 
-                                                        <Popover.Panel>
-                                                          <button
-                                                            onClick={() => {
-                                                              handleSubDeptChange3(subItem.description)                                                      
-                                                              navigate('/search?text=' + subItem.description)  
-                                                            }}                                                                    
-                                                            className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                          > 
-                                                            {subItem.description}                                                        
-                                                          </button>                                                                                                                                                                                                                   
-                                                        </Popover.Panel>
-                                                        </Transition>                                               
-                                                      </div>                              
-                                                    )}      
-                                                    </div> 
-                                                : option.description === 'Beer'
-                                                    ? <div>
-                                                      {beerSub.map((subItem) =>                                                
-                                                      <div>
-                                                        <Transition
-                                                        onClick={() => {                                                                                                                    
-                                                          navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                        }}     
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-200"
-                                                        enterFrom="opacity-0 translate-y-1"
-                                                        enterTo="opacity-100 translate-y-0"
-                                                        leave="transition ease-in duration-150"
-                                                        leaveFrom="opacity-100 translate-y-0"
-                                                        leaveTo="opacity-0 translate-y-1"
-                                                      > 
-                                                        <Popover.Panel>
-                                                          <button
-                                                            onClick={() => {
-                                                              handleSubDeptChange3(subItem.description)                                                      
-                                                              navigate('/search?text=' + subItem.description)  
-                                                            }}                                                                    
-                                                            className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                          > 
-                                                            {subItem.description}                                                        
-                                                          </button>                                                                                                                                                                                                                   
-                                                        </Popover.Panel>
-                                                        </Transition>                                               
-                                                      </div>                              
-                                                      )}      
-                                                      </div>   
-                                                : option.description === 'Wine'
-                                                  ? <div>
-                                                    {wineSub.map((subItem) =>                                                
-                                                    <div>
-                                                      <Transition
-                                                        onClick={() => {                                                                                                                    
-                                                          navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                        }}     
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-200"
-                                                        enterFrom="opacity-0 translate-y-1"
-                                                        enterTo="opacity-100 translate-y-0"
-                                                        leave="transition ease-in duration-150"
-                                                        leaveFrom="opacity-100 translate-y-0"
-                                                        leaveTo="opacity-0 translate-y-1"
-                                                      > 
-                                                      <Popover.Panel>
-                                                        <button
-                                                          onClick={() => {
-                                                            handleSubDeptChange3(subItem.description)                                                      
-                                                            navigate('/search?text=' + subItem.description)  
-                                                          }}                                                                    
-                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"                                                          
-                                                        > 
-                                                          {subItem.description}                                                        
-                                                        </button>                                                                                                                                                                                                                   
-                                                      </Popover.Panel>
-                                                      </Transition>    
-                                                    </div>                              
-                                                    )}      
-                                                    </div> 
-                                                : option.description === 'Liquor'
-                                                  ? <div>
-                                                    {liquorSub.map((subItem) =>                                                
-                                                    <div>
-                                                      <Transition
-                                                        onClick={() => {                                                                                                                    
-                                                          navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                        }}     
-                                                        show={open}
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-200"
-                                                        enterFrom="opacity-0 translate-y-1"
-                                                        enterTo="opacity-100 translate-y-0"
-                                                        leave="transition ease-in duration-150"
-                                                        leaveFrom="opacity-100 translate-y-0"
-                                                        leaveTo="opacity-0 translate-y-1"
-                                                      > 
-                                                      <Popover.Panel>
-                                                        <button
-                                                          onClick={() => {
-                                                            handleSubDeptChange3(subItem.description)                                                      
-                                                            navigate('/search?text=' + subItem.description)  
-                                                          }}                                                                    
-                                                          className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                        > 
-                                                          {subItem.description}                                                        
-                                                        </button>                                                                                                                                                                                                                   
-                                                      </Popover.Panel>
-                                                      </Transition>                                               
-                                                    </div>                              
-                                                    )}      
-                                                    </div>
-                                                : option.description === 'Tobacco'
-                                                    ? <div>
-                                                      {tobaccoSub.map((subItem) =>                                                
-                                                      <div>
-                                                        <Transition
-                                                          onClick={() => {                                                                                                                    
-                                                            navigate('/search?text=' + subItem.description)                                                                                                                                                                                              
-                                                          }}     
-                                                          show={open}
-                                                          as={Fragment}
-                                                          enter="transition ease-out duration-200"
-                                                          enterFrom="opacity-0 translate-y-1"
-                                                          enterTo="opacity-100 translate-y-0"
-                                                          leave="transition ease-in duration-150"
-                                                          leaveFrom="opacity-100 translate-y-0"
-                                                          leaveTo="opacity-0 translate-y-1"
-                                                        > 
-                                                        <Popover.Panel>
-                                                          <button
-                                                            onClick={() => {
-                                                              handleSubDeptChange3(subItem.description)                                                      
-                                                              navigate('/search?text=' + subItem.description)  
-                                                            }}                                                                    
-                                                            className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"                                                               
-                                                          > 
-                                                            {subItem.description}                                                        
-                                                          </button>                                                                                                                                                                                                                   
-                                                        </Popover.Panel>
-                                                        </Transition>                                               
-                                                      </div>                              
-                                                      )}      
+                                                        {babySub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    key={
+                                                                      option.id
+                                                                        .area
+                                                                    }
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
                                                       </div>
-                                                : null                                                                                               
-                                            }                                                                                                                                                                                   
-                                              </div>
-                                              )}                                                                                        
-                                            </Popover>                                                                                               
+                                                    ) : option.description ===
+                                                      'Bakery' ? (
+                                                      <div>
+                                                        {bakerySub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Meat & Seafood' ? (
+                                                      <div>
+                                                        {meatSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  handleSubDeptChange3(
+                                                                    subItem.description
+                                                                  );
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Dairy' ? (
+                                                      <div>
+                                                        {dairySub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Deli' ? (
+                                                      <div>
+                                                        {deliSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Floral' ? (
+                                                      <div>
+                                                        {floralSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'General Merchandise' ? (
+                                                      <div>
+                                                        {genSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Grocery' ? (
+                                                      <div>
+                                                        {grocerySub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Frozen' ? (
+                                                      <div>
+                                                        {frozenSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                    //style={{padding: 1}}
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Health & Beauty' ? (
+                                                      <div>
+                                                        {hbSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Household & Laundry' ? (
+                                                      <div>
+                                                        {houseSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Pet' ? (
+                                                      <div>
+                                                        {petSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Produce' ? (
+                                                      <div>
+                                                        {produceSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Beer' ? (
+                                                      <div>
+                                                        {beerSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Wine' ? (
+                                                      <div>
+                                                        {wineSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Liquor' ? (
+                                                      <div>
+                                                        {liquorSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : option.description ===
+                                                      'Tobacco' ? (
+                                                      <div>
+                                                        {tobaccoSub.map(
+                                                          (subItem) => (
+                                                            <div>
+                                                              <Transition
+                                                                onClick={() => {
+                                                                  navigate(
+                                                                    '/search?text=' +
+                                                                      subItem.description
+                                                                  );
+                                                                }}
+                                                                show={open}
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-200"
+                                                                enterFrom="opacity-0 translate-y-1"
+                                                                enterTo="opacity-100 translate-y-0"
+                                                                leave="transition ease-in duration-150"
+                                                                leaveFrom="opacity-100 translate-y-0"
+                                                                leaveTo="opacity-0 translate-y-1"
+                                                              >
+                                                                <Popover.Panel>
+                                                                  <button
+                                                                    onClick={() => {
+                                                                      handleSubDeptChange3(
+                                                                        subItem.description
+                                                                      );
+                                                                      navigate(
+                                                                        '/search?text=' +
+                                                                          subItem.description
+                                                                      );
+                                                                    }}
+                                                                    className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
+                                                                  >
+                                                                    {
+                                                                      subItem.description
+                                                                    }
+                                                                  </button>
+                                                                </Popover.Panel>
+                                                              </Transition>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : null}
+                                                  </div>
+                                                )}
+                                              </Popover>
                                             ))}
                                           </div>
                                         )
                                       )}
                                     </Popover.Panel>
-                                    
-                                  </div>                                  
-                                )}                                
+                                  </div>
+                                )}
                               </Popover>
                             )
                           )}
@@ -1160,9 +1439,11 @@ const Header = (props) => {
               />
             </a>
           </div>
-          <button className="cbn-header__cart-button" onClick={() => handleCartClick()}>
-            <img className="w-6 h-auto" src={cartIcon} alt=""/>
-            <Cart open={showCart} onClose={onClose} />
+          <button
+            onClick={() => setShowCart(true)}
+            className="cbn-header__cart-button"
+          >
+            <img className="w-6 h-auto" src={cartIcon} alt="" />
             <span className="text-base md:text-lg font-bold ml-3">
               {cart.length}
             </span>
@@ -1190,6 +1471,5 @@ Header.defaultProps = {
   onDeptChange: () => {},
   onSubDeptChange3: () => {}
 };
-
 
 export default Header;
