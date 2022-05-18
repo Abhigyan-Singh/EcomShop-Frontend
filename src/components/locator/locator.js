@@ -14,6 +14,8 @@ import { map } from 'lodash';
 import { allStores } from 'services/facilities';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
+import Cart from '../../components/cart/cart.js';
+import { CartState } from '../../context/context';
 
 const LocationOption = ({ option }) => (
   <Listbox.Option
@@ -41,24 +43,40 @@ const LocationOption = ({ option }) => (
 );
 
 const Locator = (props) => {
-  const { className, onLocationChange, ...rest } = props;
+  const { className, onLocationChange, showCart, setShowCart, ...rest } = props;
   const componentClassName = classNames('cbn-locator', {}, className);
   const [cookies, setCookie] = useCookies();
   const [store, setStore] = useState([null]);
+  const [storeDelivery, setStoreDelivery] = useState([null]);
   const { facility, user } = cookies;
   const [hasLoaded, setHasLoaded] = useState(false);
-  useEffect(() => {
-    !hasLoaded && user &&
-      allStores(7).then((res) => {
-        setStore(res.data);
-        console.log("FACILITY", res.data);
-        setHasLoaded(true)
-      });
-  }, [user]);
+  // const [showCart, setShowCart] = useState(false);
+  //const [total, setTotal] = useState();
+  const {
+    state: { cart, total },
+    dispatch
+  } = CartState();
+
+  useEffect(async () => {
+    await allStores(5).then((res) => {
+      setStore(res.data);
+    });
+  }, []);
+
+  useEffect(async () => {
+    await allStores(7).then((res) => {
+      setStoreDelivery(res.data);
+    });
+  }, []);
 
   const [selected, setSelected] = useState(facility);
 
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   const handleOnChange = (option) => {
+    refreshPage();
     setSelected(option);
     setCookie('facility', option, {
       path: '/',
@@ -69,8 +87,16 @@ const Locator = (props) => {
     }
   };
 
+  const handleCartClick = (event) => {
+    setShowCart(true);
+  };
+
+  const onClose = (event) => {
+    setShowCart(false);
+  };
+
   return (
-    <div className={componentClassName} {...rest}>
+    <div id="change_location" className={componentClassName} {...rest}>
       <div className="flex flex-1 md:flex-none items-center divide-x">
         <div className="relative sm:mr-3 flex-1 md:flex-none">
           <Listbox value={selected} onChange={handleOnChange}>
@@ -106,12 +132,15 @@ const Locator = (props) => {
                           Delivery &amp; Pick Up
                         </div>
                         {store &&
-                          map(store.facilitiesDeliveryOrPickup, (option) => (
-                            <LocationOption
-                              key={option.facilityDtl.facilityName}
-                              option={option.facilityDtl}
-                            />
-                          ))}
+                          map(
+                            storeDelivery.facilitiesDeliveryOrPickup,
+                            (option) => (
+                              <LocationOption
+                                key={option.facilityDtl.facilityName}
+                                option={option.facilityDtl}
+                              />
+                            )
+                          )}
                       </div>
                       <div>
                         <div className="cbn-locator__group-label">
@@ -133,7 +162,7 @@ const Locator = (props) => {
           </Listbox>
         </div>
         <div className="hidden md:block pl-3">
-          <a className="cbn-locator__button" href="#link">
+          <a className="cbn-locator__button">
             <TruckIcon className="h-6 w-6" aria-hidden="true" />
             <div className="ml-2 leading-none">
               <div className="leading-none mb-0.5">Delivery</div>
@@ -145,15 +174,30 @@ const Locator = (props) => {
       <div className="hidden sm:flex items-center">
         <div className="hidden lg:flex items-center mx-6">
           <img className="h-8 w-auto mr-4" src={morerewardsLogo} alt="" />
-          <a className="text-xs underline" href="https://www.morerewards.com/" target="_blank">
+          <a
+            className="text-xs underline"
+            href="https://www.morerewards.com/"
+            target="_blank"
+          >
             My Rewards
           </a>
         </div>
         <div className="border-l border-yellow-200">
-          <button className="bg-yellow-100 flex items-center h-16 px-6 text-lg font-bold">
-            <span className="mr-12">Total</span>
-            <span className="mr-3">$23.65</span>
+          <button
+            className="bg-yellow-100 flex items-center h-16 px-6 text-lg font-bold"
+            onClick={handleCartClick}
+          >
+            <span className="mr-12">Total:</span>
+            {isNaN(total) ? (
+              <span className="mr-3">
+                ${Number(parseFloat(total || 0).toFixed(2))}
+              </span>
+            ) : (
+              <span className="mr-3">${parseFloat(total).toFixed(2)}</span>
+            )}
+
             <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+            <Cart open={showCart} onClose={onClose} />
           </button>
         </div>
       </div>

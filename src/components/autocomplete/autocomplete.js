@@ -5,6 +5,8 @@ import Input from 'components/input/input';
 import useEventListener from 'hooks/useEventListener';
 import './autocomplete.css';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { CookiesAge } from 'apiConfig';
 
 const AutocompleteMenu = (props) => {
   const { children, ...rest } = props;
@@ -34,12 +36,16 @@ AutocompleteMenuItem.propTypes = {
 };
 
 const Autocomplete = (props) => {
-  const { items, onChange, onItemSelect, value, onScroll, ...rest } = props;
+  const { items, onChange, onItemSelect, value, onScroll, loading, ...rest } =
+    props;
   const inputRef = useRef(null);
-  const [filteredItems, setFilteredItems] = useState(items);
+  const [filteredItems, setFilteredItems] = useState();
   const [focused, setFocused] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies();
+  const { facility, dept } = cookies;
+  const [selected, setSelected] = useState(dept);
 
   const componentClassName = classNames('cbn-autocomplete', {});
 
@@ -49,13 +55,22 @@ const Autocomplete = (props) => {
   };
 
   useEffect(() => {
-    value && setFilteredItems(items);
-  }, [value]);
+    items && setFilteredItems(items);
+  }, [items]);
 
   const handleClick = (event, item) => {
+    handleDeptChange5(item.departmentName);
     handleItemSelect(event, item);
     navigate('/item/' + item.productId, { state: item });
     onItemSelect('');
+  };
+
+  const handleDeptChange5 = (item) => {
+    setSelected(item);
+    setCookie('dept', item, {
+      path: '/',
+      maxAge: CookiesAge
+    });
   };
 
   const handleFocus = (event) => {
@@ -82,7 +97,7 @@ const Autocomplete = (props) => {
         if (event.keyCode === 13 && focused) {
           event.preventDefault();
           handleItemSelect(event, filteredItems[selectedItemIndex]);
-          window.location.href = '/search?text=' + event.target.value;
+          window.location.href = '/search?text=' + event.target.value; 
         } else if (event.keyCode === 38 && focused) {
           event.preventDefault();
           if (selectedItemIndex === null || selectedItemIndex === 0) {
@@ -127,7 +142,7 @@ const Autocomplete = (props) => {
         onFocus={handleFocus}
         {...rest}
       />
-      {value && (
+      {!loading && value && (
         <div
           className="cbn-autocomplete__container"
           onScroll={onScroll}
@@ -164,7 +179,8 @@ const Autocomplete = (props) => {
 Autocomplete.propTypes = {
   items: PropTypes.array,
   onItemSelect: PropTypes.func,
-  value: PropTypes.string
+  value: PropTypes.string,
+  handleDeptChange5: PropTypes.func
 };
 
 Autocomplete.defaultProps = {

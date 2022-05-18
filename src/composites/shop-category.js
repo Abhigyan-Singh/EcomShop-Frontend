@@ -1,6 +1,17 @@
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/solid';
+import { useCookies } from 'react-cookie';
+import { map } from 'lodash';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'    
+
 
 const ShopCategory = (props) => {
+  const [cookies, setCookie] = useCookies();
+  const [data, setData] = useState();
+  const { facility, dept, subdept } = cookies;
+  const navigate = useNavigate();
+
+
   return (
     <div className="mb-2 whitespace-nowrap md:mb-3">
       <nav className="lg:text-lg" aria-label="Breadcrumbs">
@@ -19,34 +30,28 @@ const ShopCategory = (props) => {
                 className="h-5 w-5 text-gray-300 transform"
                 aria-hidden="true"
               />
-              <a href="#link" className="ml-2 hover:underline">
+              <a href="#" className="ml-2 hover:underline">
                 Grocery
               </a>
             </div>
           </li>
           <li>
-            <div className="flex items-center">
+            <div onClick={() => navigate('/search?text=' + dept)}  className="flex items-center">
               <ChevronRightIcon
                 className="h-5 w-5 text-gray-300 transform"
                 aria-hidden="true"
               />
-              <a href="#link" className="ml-2 hover:underline">
-                Frozen
-              </a>
+              <a  href="#" className="ml-2 hover:underline">{dept}</a>
             </div>
           </li>
           <li>
-            <div className="flex items-center">
+            <div onClick={() => navigate('/search?text=' + subdept)} className="flex items-center">
               <ChevronRightIcon
                 className="h-5 w-5 text-gray-300 transform"
                 aria-hidden="true"
               />
-              <a
-                href="#link"
-                className="ml-2 hover:underline"
-                aria-current="page"
-              >
-                Frozen Meals &amp; Entrees
+              <a href="#" className="ml-2 hover:underline" aria-current="page">
+                {subdept}
               </a>
             </div>
           </li>
@@ -57,3 +62,4 @@ const ShopCategory = (props) => {
 };
 
 export default ShopCategory;
+//`${config.baseUrl}${API.add_to_cart}/${userName}/${productId}/${qty}/${facilityId}`

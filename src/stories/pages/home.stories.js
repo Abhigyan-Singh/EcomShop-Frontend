@@ -29,10 +29,17 @@ export default {
   }
 };
 
-export const HomeStory = ({ isAuthenticated, logout, ...rest }) => {
+export const HomeStory = ({
+  isAuthenticated,
+  logout,
+  onStoreChange,
+  onDepartChange4,
+  showCart,
+  setShowCart,
+  ...rest
+}) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [user, setUser] = useState({ firstName: 'Apple' });
 
   const getBranName = () => {
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase())) {
@@ -70,24 +77,17 @@ export const HomeStory = ({ isAuthenticated, logout, ...rest }) => {
     }
   };
 
-  useEffect(() => {
-    fetch('')
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   return (
     <Fragment>
-      <Locator />
+      <Locator
+        showCart={showCart}
+        setShowCart={setShowCart}
+        onLocationChange={onStoreChange}
+      />
       <Hero slides={getSlides(brandName)} brandName={brandName} />
       <HomeGetStarted />
       <HomePromotions />
-      <HomeServices />
+      <HomeServices onDepartChange4={onDepartChange4} />
       <HomeRecipes />
     </Fragment>
   );

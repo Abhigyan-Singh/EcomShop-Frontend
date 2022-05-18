@@ -3,6 +3,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import 'pure-react-carousel/dist/react-carousel.es.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
 @layer base {
   html,
@@ -11,3 +12,22 @@
     @apply font-medium;
   }
 }
+
+a {
+  color: #000000;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  color: #000000;
+  text-decoration: underline;
+}
+
+
+
+.btn:focus {
+  box-shadow: none;
+  outline: none ;
+  outline-offset: none;
+}
+

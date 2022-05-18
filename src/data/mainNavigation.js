@@ -1,11 +1,26 @@
 import morerewardsLogo from 'assets/images/morerewards-logo@2x.png';
+// import { legacy } from '../services/crossApp.js';
+
+
+
+
+
 
 const mainNavigation = [
   {
     name: 'Shop Online',
     href: '#link',
     children: [
-      { name: '', href: '#link' }
+      {
+        name: '',
+        href: '#link',
+        submenu: [
+          {
+            name: '',
+            href: ''
+          }
+        ]
+      }
     ]
   },
   {
@@ -20,26 +35,26 @@ const mainNavigation = [
     name: 'Digital Coupons',
     href: 'https://www.morerewards.com/digitalcoupons'
   },
-  {
-    name: 'Pharmacy',
-    href:'https://www.coborns.com/pharmacy'
-  },
+  // {
+  //   name: 'Pharmacy',
+  //   href: 'https://www.coborns.com/pharmacy'
+  // },
   {
     name: 'Our Brands',
     href: '#link',
     children: [
-      { name: 'four brothers', href: 'https://www.coborns.com/four-brothers' },
-      { name: 'our brands', href: ' https://coborns.ourbrandfamily.com/' }
+      { name: 'Four brothers', href: 'https://www.coborns.com/four-brothers' },
+      { name: 'Our brands', href: ' https://coborns.ourbrandfamily.com/' }
     ]
   },
   {
     name: 'Recipes',
     href: 'http://celebratemore.com/home/recipes/'
-  },
-  {
-    name: 'My Account',
-    href: 'https://testweb.shop.cashwise.com/myaccountdetails'
   }
+  // {
+  //   name: 'My Account',
+  //   href: legacy()
+  // }
 ];
 
 export default mainNavigation;

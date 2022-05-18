@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import Locator from 'components/locator/locator';
 import ShopSidebar from 'composites/shop-sidebar';
 import ShopCategory from 'composites/shop-category';
 import ItemGetPage from 'composites/item-get';
 import BestSeller from 'components/itemDetails/bestSeller';
 import HomeRecipes from 'composites/home-recipes';
+import { useParams } from 'react-router-dom';
 
 export default {
   title: 'Pages/Home',
@@ -21,6 +22,8 @@ export default {
 };
 
 export const ItemStory = ({ isAuthenticated, logout, ...rest }) => {
+  const { id } = useParams();
+
   return (
     <Fragment>
       <div className="border-b-2">
@@ -33,8 +36,8 @@ export const ItemStory = ({ isAuthenticated, logout, ...rest }) => {
             <ShopCategory />
           </div>
           <ItemGetPage />
-          <BestSeller />
-          <HomeRecipes />
+          <BestSeller productId={id} />
+          <HomeRecipes productId={id} />
         </div>
       </div>
     </Fragment>

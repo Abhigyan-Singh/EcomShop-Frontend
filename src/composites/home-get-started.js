@@ -1,10 +1,21 @@
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import Item from 'components/item/item';
 import Tabs from 'components/tabs/tabs';
-import itemData from 'data/item.json';
+import { useEffect } from 'react';
+import useCart from 'services/addtocart';
+import { usefavoriteApi } from 'services/favorites';
+import { useCookies } from 'react-cookie';
+import { CartState } from 'context/context';
+import { userInfoService } from 'services/auth';
+import { CookiesAge } from 'apiConfig';
 
-const mockData = [
+export const mockData = [
   {
+    productQTY1: '14',
+    productQTY2: '15',
+    productQTY3: '16',
+    section: 'Grocery',
+    price: 5.99,
     productId: '95436',
     facilityId: 2037,
     productName: 'Daves Killer Bread Powerseed Organic Bread',
@@ -40,7 +51,7 @@ const mockData = [
     coolInfo: null,
     promotionMsg: ' ',
     keywordsString: null,
-    priceCondCode: 'Reg                 ',
+    priceCondCode: 'Reg',
     additionalSalesText: null,
     isNew: false,
     productDetails:
@@ -127,9 +138,12 @@ const mockData = [
     ],
     quickSaleProduct: false,
     attributeImages: [],
-    iconAttributeCode: []
+    iconAttributeCode: [],
+    sections: [{ id: 'groceries', label: 'Groceries' }]
   },
   {
+    section: 'Grocery',
+    price: 5.99,
     productId: '95435',
     facilityId: 2037,
     productName: 'Daves Killer Bread Organic 21 Whole Grains and Seeds Bread',
@@ -165,7 +179,7 @@ const mockData = [
     coolInfo: null,
     promotionMsg: ' ',
     keywordsString: null,
-    priceCondCode: 'Reg                 ',
+    priceCondCode: 'Reg',
     additionalSalesText: null,
     isNew: false,
     productDetails:
@@ -246,9 +260,12 @@ const mockData = [
     ],
     quickSaleProduct: false,
     attributeImages: [],
-    iconAttributeCode: []
+    iconAttributeCode: [],
+    sections: [{ id: 'groceries', label: 'Groceries' }]
   },
   {
+    section: 'Grocery',
+    price: 16.99,
     productId: '898890',
     facilityId: 2037,
     productName: "That's Smart White Enriched Bread",
@@ -336,9 +353,12 @@ const mockData = [
     healthImages: [],
     quickSaleProduct: false,
     attributeImages: [],
-    iconAttributeCode: []
+    iconAttributeCode: [],
+    sections: [{ id: 'groceries', label: 'Groceries' }]
   },
   {
+    section: 'Grocery',
+    price: 4.29,
     productId: '4458',
     facilityId: 2037,
     productName: 'Country Hearth Dakota Style 12-Grain Bread',
@@ -454,9 +474,12 @@ const mockData = [
     ],
     quickSaleProduct: false,
     attributeImages: [],
-    iconAttributeCode: []
+    iconAttributeCode: [],
+    sections: [{ id: 'groceries', label: 'Groceries' }]
   },
   {
+    section: 'Wine & Spirits',
+    price: 5.99,
     productId: '68188',
     facilityId: 2037,
     productName: 'Food For Life Ezekiel 4:9 Sprouted 100% Whole Grain Bread',
@@ -579,9 +602,15 @@ const mockData = [
     ],
     quickSaleProduct: false,
     attributeImages: [],
-    iconAttributeCode: []
+    iconAttributeCode: [],
+    sections: [{ id: 'wine-spirits', label: 'Wine & Spirits' }]
   },
-  {
+  {  
+    productQTY1: '14',
+    productQTY2: '15',
+    productQTY3: '16',
+    section: 'Wine & Spirits',
+    price: 5.99,
     productId: '89112',
     facilityId: 2037,
     productName: 'Bake Shoppe Fresh Wholesome Harvest Bread',
@@ -687,11 +716,40 @@ const mockData = [
     ],
     quickSaleProduct: false,
     attributeImages: [],
-    iconAttributeCode: []
+    iconAttributeCode: [],
+    sections: [{ id: 'wine-spirits', label: 'Wine & Spirits' }]
   }
 ];
 
 const HomeGetStarted = (props) => {
+  const [cookies, setCookie] = useCookies(['user']);
+  const { userInfo } = cookies;
+  const { dispatchUser } = CartState();
+  const { getCartDetails } = useCart();
+  const { fetchFavorites } = usefavoriteApi();
+
+  useEffect(() => {
+    if (!userInfo) {
+      userInfoService().then((userRes) => {
+        if (userRes.data) {
+          setCookie('userInfo', userRes.data, {
+            path: '/',
+            maxAge: CookiesAge
+          });
+          dispatchUser({
+            type: 'SET_USER',
+            payload: { userName: userRes.data.userName }
+          });
+          getCartDetails(userRes.data.userName);
+        }
+      });
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
+    getCartDetails();
+    fetchFavorites();
+  }, []);
   return (
     <div className="p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">
@@ -709,7 +767,7 @@ const HomeGetStarted = (props) => {
           />
         </div>
         <div>
-          <a href="#link">
+          <a>
             <span className="flex items-center">
               <span>See All</span>
               <ChevronRightIcon className="h-5 w-5 ml-2" aria-hidden="true" />

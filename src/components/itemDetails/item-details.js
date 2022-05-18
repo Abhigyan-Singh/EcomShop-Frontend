@@ -7,15 +7,45 @@ import {
   MinusIcon
 } from '@heroicons/react/outline';
 import { useParams, useLocation } from 'react-router-dom';
+import { addFavorite, deleteFavorite } from 'services/favorites';
+import Favorite from 'components/favorite/favorite';
 // import { productDetails } from '../../services/search';
+import Wishlist from 'components/wishllist/wishlist';
+import { CartState } from '../../context/context';
+import Counter from 'components/counter/counter2';
+import useCart from 'services/addtocart';
+import './item-details.css';
+import { productDetails } from 'services/search';
+
 const ItemDetails = () => {
   const { id } = useParams();
   const location = useLocation();
-  const [itemDetailsData, setItemDetailsData] = useState(location.state);
-  console.log(itemDetailsData);
+  const {
+    state: { cart },
+    dispatch
+  } = CartState();
+  const [itemDetailsData, setItemDetailsData] = useState(location.state?.item);
+  const [listItems, setListItems] = useState(location.state?.listItems || []);
+  const [showProdInfo, setShowProdInfo] = useState(false);
   // const [isLoading, setLoading] = useState(false);
   // const [error, setError] = useState(false);
   const [tab, setTab] = useState('pd');
+  const { updateCart } = useCart();
+  const [quantity, setQuantity] = useState(0);
+
+  const getProductDetails = (idVal) => {
+    productDetails(idVal).then((res) => {
+      console.log('data received', res.data);
+      setItemDetailsData(res.data);
+    });
+  };
+
+  useEffect(() => {
+    console.log(location.state, 'state');
+    if (!location.state || !location.state.item) {
+      getProductDetails(id);
+    }
+  }, [id]);
 
   // const sendQuery = useCallback(async () => {
   //   try {
@@ -49,19 +79,26 @@ const ItemDetails = () => {
   //   );
   // }
 
+  if (!itemDetailsData) {
+    return null;
+  }
+
   return (
     <>
       <div>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center">
           <div className="w-full lg:max-w-lg">
             <img
-              src={`https://cdn1.cobornsinc.com/cdwebimages/100x100/${itemDetailsData?.imagePath}`}
+              src={`https://cdn1.cobornsinc.com/cdwebimages/350x350/${itemDetailsData?.imagePath}`}
               alt=""
               className="object-center object-contain"
             />
           </div>
           <div className="">
-            <h2 className="font-bold text-2xl leading-none mb-1 lg:mb-2">
+            <h2
+              href="#"
+              className="font-bold text-2xl leading-none mb-1 lg:mb-2"
+            >
               {itemDetailsData?.productName}
             </h2>
             <section aria-labelledby="information-heading">
@@ -87,7 +124,13 @@ const ItemDetails = () => {
                 Product options
               </h3>
               <div className="flex items-center space-x-2 mb-6">
-                <div className="cbn-counter">
+                <Counter
+                  disabled={false}
+                  item={itemDetailsData}
+                  isItemAdded={false}
+                  onChange={(value) => setQuantity(value)}
+                />
+                {/* <div className="cbn-counter">
                   <button className="cbn-counter__button cbn-counter__button--left">
                     <MinusIcon className="h-4 w-4" />
                     <span className="sr-only">Decrement</span>
@@ -107,93 +150,137 @@ const ItemDetails = () => {
                     <PlusIcon className="h-4 w-4" />
                     <span className="sr-only">Increment</span>
                   </button>
-                </div>
-                <button className="cbn-button">
-                  <span>Add to Cart</span>
-                </button>
+                </div> */}
               </div>
               <div className="flex space-x-4">
-                <button className="relative rounded-sm inline-flex items-center font-medium text-sm text-left">
-                  <HeartIcon className="h-6 w-6 font-medium" />
-                  <span className="ml-2">Favorite</span>
-                </button>
-                <button className="relative rounded-sm inline-flex items-center font-medium text-sm text-left">
-                  <ClipboardListIcon className="h-6 w-6 font-medium" />
-                  <span className="ml-2">Add to List</span>
-                </button>
+                <Favorite
+                  showLabel={true}
+                  favorite={itemDetailsData.favorite}
+                  productId={itemDetailsData.productId}
+                />
+                <Wishlist
+                  showLabel={true}
+                  item={itemDetailsData}
+                  listItems={listItems}
+                />
               </div>
             </section>
           </div>
         </div>
 
-        <div className="bg-yellow-100 my-5 p-5">
-          <div className="cbn-tabs mb-5">
-            <div className="sm:hidden">
-              <label for="tabs" className="sr-only">
-                Select a tab
-              </label>
-              <select className="cbn-select block w-full" id="tabs" name="tabs">
-                <option selected="">Product Description</option>
-                <option>Ingredients</option>
-                <option>Nutrition</option>
-              </select>
+        {(itemDetailsData?.productDetails ||
+          itemDetailsData?.ingredients ||
+          itemDetailsData?.hasNutritionString) && (
+          <div className="bg-yellow-100 my-5 p-5">
+            <div className="cbn-tabs mb-5">
+              <div className="sm:hidden">
+                <label for="tabs" className="sr-only">
+                  Select a tab
+                </label>
+                <select
+                  className="cbn-select block w-full"
+                  id="tabs"
+                  name="tabs"
+                >
+                  <option selected="">Product Description</option>
+                  <option>Ingredients</option>
+                  <option>Nutrition</option>
+                </select>
+              </div>
+              <div className="hidden sm:block">
+                <nav className="cbn-tabs__nav" aria-label="Tabs">
+                  {itemDetailsData?.productDetails && (
+                    <a
+                      className={`cbn-tab cursor-pointer ${
+                        tab === 'pd' ? 'cbn-tab--current' : ''
+                      }`}
+                      aria-current="page"
+                      onClick={() => setTab('pd')}
+                    >
+                      Product Description
+                    </a>
+                  )}
+                  {itemDetailsData?.ingredients && (
+                    <a
+                      className={`cbn-tab cursor-pointer ${
+                        tab === 'id' ? 'cbn-tab--current' : ''
+                      }`}
+                      onClick={() => setTab('id')}
+                    >
+                      Ingredients
+                    </a>
+                  )}
+                  {itemDetailsData?.hasNutritionString && (
+                    <a
+                      className={`cbn-tab cursor-pointer ${
+                        tab === 'nu' ? 'cbn-tab--current' : ''
+                      }`}
+                      onClick={() => setTab('nu')}
+                    >
+                      Nutrition
+                    </a>
+                  )}
+                </nav>
+              </div>
             </div>
-            <div className="hidden sm:block">
-              <nav className="cbn-tabs__nav" aria-label="Tabs">
-                <a
-                  className={`cbn-tab cursor-pointer ${
-                    tab === 'pd' ? 'cbn-tab--current' : ''
-                  }`}
-                  aria-current="page"
-                  onClick={() => setTab('pd')}
-                >
-                  Product Description
-                </a>
-                <a
-                  className={`cbn-tab cursor-pointer ${
-                    tab === 'id' ? 'cbn-tab--current' : ''
-                  }`}
-                  onClick={() => setTab('id')}
-                >
-                  Ingredients
-                </a>
-                <a
-                  className={`cbn-tab cursor-pointer ${
-                    tab === 'nu' ? 'cbn-tab--current' : ''
-                  }`}
-                  onClick={() => setTab('nu')}
-                >
-                  Nutrition
-                </a>
-              </nav>
-            </div>
+            {tab === 'pd' && (
+              <p className="max-w-4xl text-sm">
+                {itemDetailsData?.productDetails}
+              </p>
+            )}
+            {tab === 'id' && (
+              <p className="max-w-4xl text-sm">
+                {itemDetailsData?.ingredients}
+              </p>
+            )}
+            {tab === 'nu' && (
+              <p className="max-w-4xl text-sm">
+                {itemDetailsData?.hasNutritionString}
+              </p>
+            )}
           </div>
-          {tab === 'pd' && (
-            <p className="max-w-4xl text-sm">
-              {itemDetailsData?.productDetails}
-            </p>
-          )}
-          {tab === 'id' && (
-            <p className="max-w-4xl text-sm">{itemDetailsData?.ingredients}</p>
-          )}
-          {tab === 'nu' && (
-            <p className="max-w-4xl text-sm">
-              {itemDetailsData?.hasNutritionString}
-            </p>
-          )}
-        </div>
+        )}
         <button
-          className="underline font-medium mb-2 flex items-center"
+          className={
+            showProdInfo
+              ? 'underline font-medium mb-2 flex items-center'
+              : 'underline font-medium mb-2 flex items-center   ' +
+                'product-info-margin'
+          }
           id="headlessui-disclosure-button-5"
           type="button"
           aria-expanded="false"
+          onClick={() => setShowProdInfo(!showProdInfo)}
         >
           Important Note About Product Information
-          <PlusIcon className="h-4 w-4 font-medium" />
+          {!showProdInfo ? (
+            <PlusIcon className="h-4 w-4 font-medium" />
+          ) : (
+            <MinusIcon className="h-4 w-4 font-medium" />
+          )}
         </button>
+        {showProdInfo && (
+          <div style={{ marginBottom: 45 }}>
+            We do our best to present accurate nutrition, ingredient, and other
+            product information on our website. Unfortunately, since this
+            information comes from many sources, we cannot guarantee that it is
+            accurate or complete.
+            <br />
+            If you have a specific dietary concern or a question about a
+            product, please consult the product's label or contact the
+            manufacturer directly.
+            <br />
+            If you think you have detected an error on our site, please{'  '}
+            <a
+              className="dropdown-light-primary "
+              href="https://devweb2.shop.coborns.com/customerfeedbackservice"
+            >
+              contact us.
+            </a>
+          </div>
+        )}
       </div>
       <div className="font-serif text-lg tracking-widest uppercase mb-2 lg:mb-0">
-        {' '}
         Best Sellers
       </div>
     </>

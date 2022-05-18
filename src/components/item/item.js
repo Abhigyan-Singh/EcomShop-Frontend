@@ -1,9 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { ClipboardListIcon, HeartIcon } from '@heroicons/react/outline';
 import Button from 'components/button/button';
-import Counter from 'components/counter/counter';
+import Counter2 from 'components/counter/counter2';
 import Select from 'components/select/select';
 import saleRibbon from 'assets/images/sale-ribbon@2x.png';
 import { addFavorite, deleteFavorite } from 'services/favorites';
@@ -18,6 +18,14 @@ import {
 } from '@heroicons/react/solid';
 // import Button from 'components/button/button';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { addList, saveListItem } from 'services/mylist';
+import Favorite from 'components/favorite/favorite';
+import Wishlist from 'components/wishllist/wishlist';
+import Quickview from '../quickview/quickview';
+import { CartState } from '../../context/context';
+import useCart from 'services/addtocart';
+import addtocart from 'services/addtocart';
+import { useCookies } from 'react-cookie';
 
 const Item = (props) => {
   const {
@@ -28,6 +36,7 @@ const Item = (props) => {
     onFavoriteClick,
     onListClick,
     onViewClick,
+    listItems = [],
     ...rest
   } = props;
   const componentClassName = classNames(
@@ -36,57 +45,46 @@ const Item = (props) => {
     className
   );
 
+  const [cookies, setCookie] = useCookies();
+  const { facility, user } = cookies;
+
   const [sizeOption, setSizeOption] = useState(
     item.sizeOptions && item.sizeOptions[0]
   );
   const [quantity, setQuantity] = useState(0);
-  const [favourite, setFavourite] = useState(item.favorite);
+  const navigate = useNavigate();
+  const [showCart, setShowCart] = useState(false);
 
-  const handleAddClick = () => {
-    if (typeof onAddClick === 'function') {
-      onAddClick({ item: item.productId, quantity, sizeOption });
-    }
-  };
-
-  const handleFavoriteClick = async () => {
-    if (typeof onFavoriteClick === 'function') {
-      if (!favourite) {
-        await addFavorite({ productId: item.productId });
-        setFavourite(true);
-        onFavoriteClick({ item: item.productId });
-      } else {
-        await deleteFavorite(item.productId);
-        setFavourite(false);
-        onFavoriteClick({ item: item.productId });
-      }
-    }
-  };
-
-  const handleListClick = () => {
-    if (typeof onListClick === 'function') {
-      onListClick({ item: item.productId });
-    }
-  };
+  const {
+    state: { cart, counter },
+    dispatch
+  } = CartState();
+  const { updateCart } = useCart();
+  //addToCarts("albtest3", 95436, 1, 2037 )
 
   const handleViewClick = () => {
-    alert('hello');
     if (typeof onViewClick === 'function') {
       onViewClick({ item: item.productId });
+      setShowCart(true);
     }
   };
 
-  const color = favourite  ? '#ea1b21' : null;
-  let heartProps = {};
-  if (color) {
-    heartProps = { stroke: color, fill: color };
-  }
+  const onClose = (event) => {
+    setShowCart(false);
+  };
+
+  const addtocartapi = () => {
+    //do something
+    dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty + quantity });
+  };
+
   return (
-    <div className={componentClassName} {...rest}>
+    <div className={componentClassName} {...rest} style={{height:325,}}>
       {item.onSale && (
         <img className="cbn-item__ribbon" src={saleRibbon} alt="Sale" />
       )}
       <div className="cbn-item__media">
-        <a className="cbn-item__image-link" href="#link">
+        <a className="cbn-item__image-link">
           <img
             className="cbn-item__image"
             src={`https://cdn1.cobornsinc.com/cdwebimages/100x100/${item.imagePath}`}
@@ -98,27 +96,39 @@ const Item = (props) => {
           className="cbn-item__view-button invisible group-hover:visible group-focus-within:visible"
           label="Quick View"
           onClick={handleViewClick}
+          style={{marginTop: 20}}
         />
+        <Quickview
+          isOpen={showCart}
+          listItems={listItems}
+          data={item}
+          onClose={onClose}
+        />
+
       </div>
       <div className="cbn-item__information">
-        <div>
+        <div
+          onClick={() =>
+            navigate(`/item/${item.productId}`, { state: { item, listItems } })
+          }
+        >
           <div className="cbn-item__name">
-            <a className="block" href="#link">
+            <a href="#" className="block">
               {item.productName}
             </a>
           </div>
           <div className="cbn-item__number">Item #: {item.productId}</div>
         </div>
         <div className="cbn-item__size">
-          {item.sizeString} | {(item.currentPrice / item.sizeNumber).toFixed(2)}{' '}
+          {item.sizeString} | {(item.pricePerUnit / item.sizeNumber).toFixed(2)}{' '}
           / {item.sizeUom}
         </div>
       </div>
       <div className="cbn-item__pricing">
-        <div className="cbn-item__price">$ {item.currentPrice}</div>
+        <div className="cbn-item__price">$ {item.currentPrice?.toFixed(2)}</div>
         {item.onSale && (
           <div className="cbn-item__savings">
-            Save: $ {(item.normalPrice - item.currentPrice).toFixed(2)}
+            Save: $ {(item.normalPrice - item.currentPrice)?.toFixed(2)}
           </div>
         )}
         {item.isOutOfStock && (
@@ -126,161 +136,41 @@ const Item = (props) => {
         )}
       </div>
       <div className="cbn-item__controls">
-        {item.keywords && (
-          <div className="mb-2">
-            <Select
-              className="w-full"
-              hasRoundedCorners={true}
-              onChange={(event) => setSizeOption(event.target.value)}
-              aria-label="Size Options"
-            >
-              {item.keywords.map((option) => (
-                <option key={option}>{option}</option>
-              ))}
-            </Select>
+        {item.randomWeightFlag !== 0 ? (
+          <div>
+            {item.keywords && (
+              <div className="mb-2">
+                <Select
+                  className="w-full"
+                  hasRoundedCorners={true}
+                  onChange={(event) => setSizeOption(event.target.value)}
+                  aria-label="Size Options"
+                >
+                  <div>{item.productQTY1} {item.sizeString}</div>
+                  <div>{item.productQTY2} {item.sizeString}</div>
+                  <div>{item.productQTY3} {item.sizeString}</div>            
+                </Select>
+              </div>
+            )}
           </div>
-        )}
-        <div className="flex items-center space-x-2">
-          <Counter disabled={item.isOutOfStock} onChange={setQuantity} />
-          <Button
+        ) : null}
+        <a key={item.id} className="flex items-center space-x-2">
+          <Counter2
+            item={item}
             disabled={item.isOutOfStock}
-            label="Add"
-            onClick={handleAddClick}
+            onChange={(value) => setQuantity(value)}
+            isItemAdded={cart.some((i) => i.productId === item.productId)}
           />
-        </div>
+        </a>
       </div>
       <div className="cbn-item__actions invisible group-hover:visible group-focus-within:visible">
-        <button
-          style={{ marginLeft: 15 }}
-          className="block mb-2 ml-15"
-          onClick={handleFavoriteClick}
-        >
-          <HeartIcon className="h-6 w-6 text-gray-400" {...heartProps} />
-        </button>
-        <button className="block" onClick={handleListClick}>
-          <Menu
-            as="div"
-            className="relative inline-block text-left"
-            style={{ zIndex: 99 }}
-          >
-            <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium  rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-              <ClipboardListIcon className="h-6 w-6 text-gray-400" />
-            </Menu.Button>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
-            >
-              <Menu.Items className="absolute list-position w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="px-1 py-1 ">
-                  <ul className="list-none pl-3">
-                    <li>
-                      <label class="bsw-checkbox">
-                        <input
-                          type="checkbox"
-                          id="dmListId48920"
-                          onclick="bswListsGrid.addItemToShoppingList('48920', '1047055')"
-                        />
-                        <span className="bsw-checkbox-placeholder"></span>
-                        <span
-                          className="bsw-checkbox-label"
-                          name="customListName"
-                        >
-                          Deli
-                        </span>
-                      </label>
-                    </li>
-                    <li>
-                      <label class="bsw-checkbox">
-                        <input
-                          type="checkbox"
-                          id="dmListId48920"
-                          onclick="bswListsGrid.addItemToShoppingList('48920', '1047055')"
-                        />
-                        <span className="bsw-checkbox-placeholder"></span>
-                        <span
-                          className="bsw-checkbox-label"
-                          name="customListName"
-                        >
-                          Dairy
-                        </span>
-                      </label>
-                    </li>
-                    <li>
-                      <label class="bsw-checkbox">
-                        <input
-                          type="checkbox"
-                          id="dmListId48920"
-                          onclick="bswListsGrid.addItemToShoppingList('48920', '1047055')"
-                        />
-                        <span className="bsw-checkbox-placeholder"></span>
-                        <span
-                          className="bsw-checkbox-label"
-                          name="customListName"
-                        >
-                          Meat
-                        </span>
-                      </label>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="flex items-center text-sm py-1 hover:underline"
-                      >
-                        <HeartIcon
-                          className="h-5 w-5 text-gray-300 transform"
-                          aria-hidden="true"
-                        />
-                        <span className="block flex-1 pl-1">Favorites</span>
-                      </a>
-                    </li>
-                  </ul>
-
-                  <ul className="list-none py-2 m-0 border-t border-gray-100">
-                    {true && (
-                      <li>
-                        <a
-                          className="bsw-dropmenu-new-list-link"
-                          href="#"
-                        >
-                          <PlusIcon   
-                          className="h-5 w-5  transform"
-                          aria-hidden="true"/>
-                          <span className="ml-2">Create New List</span>
-                        </a>
-                      </li>
-                    )}
-                    {false && (
-                      <li>
-                        <a
-                          href="#"
-                          className="flex items-center text-sm py-1 hover:underline"
-                        >
-                          <div>
-                            <input
-                              name="list-input"
-                              id="list-input"
-                              type="text"
-                            />
-                            <Button
-                              style={{ marginTop: 5, marginLeft: 50 }}
-                              className="cbn-item__view-button group-hover:visible group-focus-within:visible"
-                              label="Create"
-                            />
-                          </div>
-                        </a>
-                      </li>
-                    )}
-                  </ul>
-                </div>
-              </Menu.Items>
-            </Transition>
-          </Menu>
-        </button>
+        <Favorite
+          isCard={true}
+          favorite={item.favorite}
+          productId={item.productId}
+        />
+        <Wishlist item={item} listItems={listItems} />
+  
       </div>
     </div>
   );

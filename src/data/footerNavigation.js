@@ -6,32 +6,34 @@ import twitterIcon from 'assets/icons/twitter-icon@2x.png';
 
 const cobornsFooterNavigation = {
   deals: [
-    { name: 'Weekly Ads', href: '#' },
-    { name: 'More Rewards', href: '#' },
+    { name: 'Weekly Ads', href: 'https://www.coborns.com/circular' },
+    { name: 'More Rewards', href: 'https://www.morerewards.com/' },
     { name: 'More Rebates', href: '#' },
-    { name: 'Sign-Up for Email Deals', href: '#' }
+    { name: 'Sign-Up for Email Deals', href: 'https://www.coborns.com/emailsignup' }
   ],
   food: [
-    { name: 'Meal Solutions', href: '#' },
-    { name: 'Chicken Shack', href: '#' },
-    { name: 'celebrateMORE.com', href: '#' },
-    { name: 'Four Brothers', href: '#' }
+    { name: 'Meal Solutions', href: 'https://www.coborns.com/mealsolutions' },
+    { name: 'Chicken Shack', href: 'https://www.coborns.com/chickenshack' },
+    { name: 'celebrateMORE.com', href: 'http://celebratemore.com/home/' },
+    { name: 'Four Brothers', href: 'https://www.coborns.com/four-brothers' }
   ],
   health: [
-    { name: 'Dietitians Corner', href: '#' },
-    { name: 'Food Safety', href: '#' },
-    { name: 'Gluten Free', href: '#' },
-    { name: 'Nutrition Facts', href: '#' },
-    { name: 'Pharmacy', href: '#' }
+    { name: 'Dietitians Corner', href: 'http://celebratemore.com/home/articles/dietitians/' },
+    { name: 'Food Safety', href: 'https://www.coborns.com/food-safety' },
+    { name: 'Gluten Free', href: 'https://www.coborns.com/gluten-free' },
+    { name: 'Nutrition Facts', href: 'https://www.coborns.com/nutrition-facts' },
+    { name: 'Pharmacy', href: 'https://www.coborns.com/pharmacy' }
   ],
   about: [
-    { name: "Coborn's Cares", href: '#' },
-    { name: "Coborn's Loves Kids", href: '#' },
-    { name: 'Contact Us', href: '#' },
-    { name: 'Events', href: '#' },
-    { name: 'Get Social', href: '#' },
-    { name: 'News Room', href: '#' },
-    { name: 'Sign-Up for Our Emails', href: '#' }
+    { name: "Coborn's Cares", href: 'https://www.coborns.com/coborns-cares' },
+    { name: "Coborn's Loves Kids", href: 'https://www.coborns.com/coborns-loves-kids' },
+    { name: 'Contact Us', href: 'https://www.coborns.com/contact-us' },
+    { name: 'Events', href: 'https://www.coborns.com/events' },
+    { name: 'Get Social', href: 'https://www.coborns.com/get-social' },
+    { name: 'News Room', href: 'https://www.cobornsinc.com/news_room/' },
+    { name: 'Sign-Up for Our Emails', href: 'https://www.coborns.com/emailsignup' },
+    { name: 'Kids cook at home', href: 'http://celebratemore.com/home/kids-cook-at-home/' }
+
   ],
   auxiliary: [
     { name: 'Privacy Policy', href: '#' },
@@ -43,17 +45,17 @@ const cobornsFooterNavigation = {
   social: [
     {
       name: 'Facebook',
-      href: '#',
+      href: 'https://www.facebook.com/cobornsgrocery',
       image: (props) => <img src={facebookIcon} alt="Facebook" {...props} />
     },
     {
       name: 'Instagram',
-      href: '#',
+      href: 'https:www.instragram.com/cobornsgrocery',
       image: (props) => <img src={instagramIcon} alt="Instagram" {...props} />
     },
     {
       name: 'Pinterest',
-      href: '#',
+      href: 'https://www.printerest.com/coborns',
       image: (props) => <img src={pinterestIcon} alt="Pinterest" {...props} />
     },
     {
