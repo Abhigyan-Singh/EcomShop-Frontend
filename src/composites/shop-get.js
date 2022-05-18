@@ -6,7 +6,7 @@ import { search } from 'services/search';
 import { CircularProgress } from '../../node_modules/@mui/material/index';
 import { LinearProgress } from '../../node_modules/@mui/material/index';
 
-const ShopGetPage = ({ loader, error, list, loading }) => {
+const ShopGetPage = ({ loader, error, list, loading, gridView, listView }) => {
   const [listItems, setListItems] = useState([]);
 
   const getListItems = async () => {
@@ -18,20 +18,29 @@ const ShopGetPage = ({ loader, error, list, loading }) => {
     getListItems();
   }, []);
 
-
   return (
     <div className="App">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
-        {list.map((e, i) => (
-          <Item listItems={listItems} item={e} key={i} />
-        ))}
-        {list.map((e, i) => (
-          <Context data={e} key={i}></Context>
-        ))}
-      </div>
-      {loading && <p>Loading...</p>}
-      {error && <p>No Products match your criteria</p>}
-      <div ref={loader} />
+      {gridView 
+        ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+            {list.map((e, i) => (
+              <Item listItems={listItems} item={e} key={i} listView={listView} gridView={gridView} />
+            ))}
+            {list.map((e, i) => (
+              <Context data={e} key={i}></Context>
+            ))}
+          </div>
+        : <div>
+            {list.map((e, i) => (
+              <Item listItems={listItems} item={e} key={i} />
+            ))}
+            {list.map((e, i) => (
+              <Context data={e} key={i}></Context>
+            ))}
+          </div>
+      }
+        {loading && <p>Loading...</p>} 
+        {error && <p>No Products match your criteria</p>}
+        <div ref={loader}/>
     </div>
   );
 };

@@ -22,7 +22,7 @@ const ShopTag = (onSubDeptChange2) => {
       await grocery(109792).then((res) => {
         setData(res.data);
       });
-    } else if (dept === 'Butcher') {
+    } else if (dept === 'Meat & Seafood') {
       await grocery(109793).then((res) => {
         setData(res.data);
       });
@@ -88,8 +88,6 @@ const ShopTag = (onSubDeptChange2) => {
       });
     }
   }, [dept]);
-
-
 
   function refreshPage() {
     window.location.reload(false);

@@ -97,9 +97,7 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
     },
   });
   const [filterCards, setFilterCards] = useState([]);
-
   const loader = useRef(null);
-
   useEffect(() => {
     //handleAbcSort()
     console.log('calling...');
@@ -290,6 +288,10 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
       })
   }, [filterDropdowns]);
 
+  const [gridView, setGridView] = useState(true);
+  const [listView, setListView] = useState(false);
+    
+
   return (
     <Fragment>
       <div className="border-b-2">
@@ -309,6 +311,10 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
               <ShopSort
                 list={list}
                 filteredList={filteredList}
+                setGridView={setGridView}
+                setListView={setListView}
+                listView={listView}
+                gridView={gridView}
               />
             </div>
           </div>
@@ -318,9 +324,11 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
             filterCards={filterCards}
           />
           <ShopGetPage
-            list={list}
+            listView={listView}
+            gridView={gridView}
+            //list={list}
             loader={loader}
-            //list={filteredList.length === 0 ? list : filteredList}
+            list={filteredList.length === 0 ? list : filteredList}
             error={error}
             loading={loading}
           />

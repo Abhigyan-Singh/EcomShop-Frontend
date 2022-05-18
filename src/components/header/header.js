@@ -23,8 +23,9 @@ import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import { useNavigate } from 'react-router-dom';
 import { CartState } from 'context/context';
+import Cart from '../../components/cart/cart.js';
 import { map } from 'lodash';
-import StoreLocator from 'stories/pages/storelocator.js';
+import StoreLocator from 'stories/pages/store.locator.js';
 import { config, API } from 'apiConfig';
 import { useCart } from 'react-use-cart';
 
@@ -81,6 +82,7 @@ const Header = (props) => {
   const [wineSub, setWineSub] = useState();
   const [liquorSub, setLiquorSub] = useState();
   const [tobaccoSub, setTobaccoSub] = useState();
+  const [showCart, setShowCart] = useState(false);
   const { getCartDetails } = useCart();
   const {
     state: { cart, qty },
@@ -198,6 +200,15 @@ const Header = (props) => {
   };
 
 
+  const handleCartClick = (event) => {
+    setShowCart(true);
+  };
+
+  const onClose = (event) => {
+    setShowCart(false);
+  };
+
+
   useEffect (() => { 
     grocery(109791)
       .then((res) => 
@@ -280,44 +291,6 @@ const Header = (props) => {
       onSubDeptChange3(option);
     }
   };
-
-  let timeout 
-  const timeoutDuration = 400
-  const buttonRef = useRef(null)
-  const [openState, setOpenState] = useState(false)
-
-  const toggleMenu = (open) => {
-    setOpenState((openState) => !openState)
-    buttonRef?.current?.click()
-  }
-
-  const onHover = (open, action) => {
-    if (
-      (!open && !openState && action === "onMouseEnter") ||
-      (open && openState && action === "onMouseLeave")
-    ) {
-      clearTimeout(timeout)
-      timeout = setTimeout(() => toggleMenu(open), timeoutDuration)
-    }
-  }
-
-  const handleClick = (open) => {
-    setOpenState(!open) 
-    clearTimeout(timeout) 
-  }
-
-  const handleClickOutside = (event) => {
-    if (buttonRef.current && !buttonRef.current.contains(event.target)) {
-      event.stopPropagation()
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  })
 
 
   return (
@@ -1187,8 +1160,9 @@ const Header = (props) => {
               />
             </a>
           </div>
-          <button className="cbn-header__cart-button">
-            <img className="w-6 h-auto" src={cartIcon} alt="" />
+          <button className="cbn-header__cart-button" onClick={() => handleCartClick()}>
+            <img className="w-6 h-auto" src={cartIcon} alt=""/>
+            <Cart open={showCart} onClose={onClose} />
             <span className="text-base md:text-lg font-bold ml-3">
               {cart.length}
             </span>

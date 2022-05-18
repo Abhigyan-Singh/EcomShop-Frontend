@@ -19,7 +19,7 @@ import { DisplayShoppingListDetails } from 'stories/pages/dispmyshoppinglistdeta
 import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
 import { Geolocation } from '../services/geolocation.js';
-import { StoreLocator } from 'stories/pages/storelocator.js';
+import { StoreLocator } from 'stories/pages/store.locator.js';
 import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth.js';
 
@@ -40,17 +40,9 @@ const App = () => {
   const { facility, dept, user, userInfo, subdept } = cookies;
   // const { dispatchUser } = CartState();
   // const { getCartDetails } = useCart();
-
   const [store, setStore] = useState(facility);
-  const [store2, setStore2] = useState(facility);
   const [depart, setDepart] = useState(dept);
-  const [depart2, setDepart2] = useState(dept);
-  const [depart3, setDepart3] = useState(dept);
-  const [depart4, setDepart4] = useState(dept);
-  const [depart5, setDepart5] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
-  const [subdepart2, setSubdepart2] = useState(subdept);
-  const [subdepart3, setSubdepart3] = useState(subdept);
 
 
   useEffect(() => {
@@ -92,41 +84,18 @@ const App = () => {
   };
 
   const onStoreChange = (storeSel) => {
+    console.log('onStoreChange', storeSel);
     setStore(storeSel);
   };
 
-  const onStoreChange2 = (storeSel) => {
-    setStore2(storeSel);
-  };
-
-  const onDepartChange = (storeDept) => {
+  const onDeptChange = (storeDept) => {
     setDepart(storeDept);
   };
 
-  const onDepartChange3 = (storeDept) => {
-    setDepart3(storeDept);
-  };
-
-  const onDepartChange4 = (storeDept) => {
-    setDepart4(storeDept);
-  };
-
-  const onDepartChange5 = (storeDept) => {
-    setDepart5(storeDept);
-  };
-
-  const onSubDepartChange = (substoreDept) => {
+  const onSubDeptChange = (substoreDept) => {
     setSubdepart(substoreDept);
   };
-
-  const onSubDepartChange2 = (storeDept) => {
-    setSubdepart2(storeDept);
-  };
-
-  const onSubDepartChange3 = (storeDept) => {
-    setSubdepart3(storeDept);
-  };
-
+ 
   const AppRoute = () => {
     let routes = useRoutes([
       {
@@ -135,8 +104,8 @@ const App = () => {
           <HomeStory
             isAuthenticated={isAuthenticated}
             onStoreChange={onStoreChange}
-            onDepartChange4={onDepartChange4}
-            onDepartChange5={onDepartChange5}
+            onDepartChange4={onDeptChange}
+            onDepartChange5={onDeptChange}
             logout={onLogout}
           />
         )
@@ -147,9 +116,9 @@ const App = () => {
           <ShopStory
             isAuthenticated={isAuthenticated}
             logout={onLogout}
-            onSubDepartChange2={onSubDepartChange2}
-            onDepartChange3={onDepartChange3}
-            onSubDepartChange={onSubDepartChange}
+            onSubDepartChange2={onSubDeptChange}
+            onDepartChange3={onDeptChange}
+            onSubDepartChange={onSubDeptChange}
           />
         )
       },
@@ -192,8 +161,8 @@ const App = () => {
           <StoreLocator
             isAuthenticated={isAuthenticated}
             logout={onLogout}
-            onFacilityChange={onStoreChange2}
-            store2={store2}
+            onFacilityChange={onStoreChange}
+            store={store}
           />
         )
       }
@@ -202,7 +171,7 @@ const App = () => {
   };
 
   // console.log('app', store);
-  console.log(store, facilityStoremapping[store?.facilityId]);
+  // console.log('app', store, facilityStoremapping[store?.facilityId]);
   return (
     <Router>
       <div id="yext-facility-hours-setter" style={{ visibility: 'hidden' }}>
@@ -230,8 +199,8 @@ const App = () => {
         user={isAuthenticated ? { firstName: userInfo?.firstName } : null}
         logout={onLogout}
         store={store}
-        onDeptChange={onDepartChange}
-        onSubDeptChange3={onSubDepartChange3}
+        onDeptChange={onDeptChange}
+        onSubDeptChange3={onSubDeptChange}
         usr={user}
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />

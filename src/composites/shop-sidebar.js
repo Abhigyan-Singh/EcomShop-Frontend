@@ -15,7 +15,6 @@ import {
   Popover,
   Transition
 } from '../../node_modules/@headlessui/react/dist/index';
-import { RefreshRounded, RoomPreferencesSharp } from '../../node_modules/@mui/icons-material/index';
 
 const ShopSidebar = (props) => {
   const {onSubDeptChange, onDepartChange3} = props 
@@ -127,15 +126,10 @@ const ShopSidebar = (props) => {
     window.location.reload(false);
   }
 
-  
+
   function refreshSubDept() {
     window.location.reload(false);
   }
-
-
-  // useEffect(() => {
-  //   localStorage.setItem("subCategory", subdept);
-  // }, [])
 
   const tree = () => {
     return (
