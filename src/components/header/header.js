@@ -29,8 +29,9 @@ import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CartState } from 'context/context';
+import Cart from '../../components/cart/cart.js';
 import { map } from 'lodash';
-import StoreLocator from 'stories/pages/storelocator.js';
+import StoreLocator from 'stories/pages/store.locator.js';
 import { config, API } from 'apiConfig';
 import { useCart } from 'react-use-cart';
 
@@ -87,6 +88,7 @@ const Header = (props) => {
   const [wineSub, setWineSub] = useState();
   const [liquorSub, setLiquorSub] = useState();
   const [tobaccoSub, setTobaccoSub] = useState();
+  //const [showCart, setShowCart] = useState(false);
   const { getCartDetails } = useCart();
   const {
     state: { cart, qty },
@@ -205,59 +207,87 @@ const Header = (props) => {
     window.location.href = url + path;
   };
 
-  useEffect(() => {
-    grocery(109791).then((res) => {
-      setBabySub(res.data);
-    });
-    grocery(109792).then((res) => {
-      setBakerySub(res.data);
-    });
-    grocery(109793).then((res) => {
-      setMeatSub(res.data);
-    });
-    grocery(109794).then((res) => {
-      setDairySub(res.data);
-    });
-    grocery(109795).then((res) => {
-      setDeliSub(res.data);
-    });
-    grocery(109796).then((res) => {
-      setFloralSub(res.data);
-    });
-    grocery(109797).then((res) => {
-      setGenSub(res.data);
-    });
-    grocery(109798).then((res) => {
-      setGrocerySub(res.data);
-    });
-    grocery(109799).then((res) => {
-      setFrozenSub(res.data);
-    });
-    grocery(109800).then((res) => {
-      setHBSub(res.data);
-    });
-    grocery(109801).then((res) => {
-      setHouseSub(res.data);
-    });
-    grocery(109802).then((res) => {
-      setPetSub(res.data);
-    });
-    grocery(109803).then((res) => {
-      setProduceSub(res.data);
-    });
-    grocery(109804).then((res) => {
-      setBeerSub(res.data);
-    });
-    grocery(109805).then((res) => {
-      setWineSub(res.data);
-    });
-    grocery(109806).then((res) => {
-      setLiquorSub(res.data);
-    });
-    grocery(109807).then((res) => {
-      setTobaccoSub(res.data);
-    });
-  }, []);
+
+  const handleCartClick = (event) => {
+    setShowCart(true);
+  };
+
+  const onClose = (event) => {
+    setShowCart(false);
+  };
+
+
+  useEffect (() => { 
+    grocery(109791)
+      .then((res) => 
+      {setBabySub(res.data)}
+    )
+    grocery(109792)
+      .then((res) => 
+      {setBakerySub(res.data)}
+    )
+    grocery(109793)
+      .then((res) => 
+      {setMeatSub(res.data)}
+    )
+    grocery(109794)
+      .then((res) => 
+      {setDairySub(res.data)}
+    )
+    grocery(109795)
+      .then((res) => 
+      {setDeliSub(res.data)}
+    )
+    grocery(109796)
+      .then((res) => 
+      {setFloralSub(res.data)}
+    )
+    grocery(109797)
+      .then((res) => 
+      {setGenSub(res.data)}
+    )
+    grocery(109798)
+      .then((res) => 
+      {setGrocerySub(res.data)}
+    )
+    grocery(109799)
+      .then((res) => 
+      {setFrozenSub(res.data)}
+    )
+    grocery(109800)
+      .then((res) => 
+      {setHBSub(res.data)}
+    )
+    grocery(109801)
+      .then((res) => 
+      {setHouseSub(res.data)}
+    )
+    grocery(109802)
+      .then((res) => 
+      {setPetSub(res.data)}
+    )
+    grocery(109803)
+      .then((res) => 
+      {setProduceSub(res.data)}
+    )
+    grocery(109804)
+      .then((res) => 
+      {setBeerSub(res.data)}
+    )
+    grocery(109805)
+      .then((res) => 
+      {setWineSub(res.data)}
+    )
+    grocery(109806)
+      .then((res) => 
+      {setLiquorSub(res.data)}
+    )
+    grocery(109807)
+      .then((res) => 
+      {setTobaccoSub(res.data)}
+    )
+  },[]);
+ 
 
   const handleSubDeptChange3 = (option) => {
     setCookie('subdept', ' ');

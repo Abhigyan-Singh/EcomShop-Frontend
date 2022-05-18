@@ -14,6 +14,9 @@ import slides from 'data/slides.json';
 import slidesCashWise from 'data/slidesCashWise.json';
 import slidesMarketPlace from 'data/slidesMarketPlace.json';
 import MobileNav from 'components/mobile-nav/mobile-nav';
+import { useCookies } from 'react-cookie';
+
+
 
 export default {
   title: 'Pages/Home',
@@ -40,6 +43,8 @@ export const HomeStory = ({
 }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
+  const [cookies, setCookie] = useCookies();
+  const {facility} = cookies
 
   const getBranName = () => {
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase())) {

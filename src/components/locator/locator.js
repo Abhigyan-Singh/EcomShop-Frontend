@@ -16,6 +16,7 @@ import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import Cart from '../../components/cart/cart.js';
 import { CartState } from '../../context/context';
+import { ContentCutOutlined } from '../../../node_modules/@mui/icons-material/index';
 
 const LocationOption = ({ option }) => (
   <Listbox.Option
@@ -76,7 +77,6 @@ const Locator = (props) => {
   }
 
   const handleOnChange = (option) => {
-    refreshPage();
     setSelected(option);
     setCookie('facility', option, {
       path: '/',
@@ -95,6 +95,7 @@ const Locator = (props) => {
     setShowCart(false);
   };
 
+
   return (
     <div id="change_location" className={componentClassName} {...rest}>
       <div className="flex flex-1 md:flex-none items-center divide-x">
@@ -110,7 +111,7 @@ const Locator = (props) => {
                   <span className="block ml-2 mr-6 flex-1 md:flex-none leading-none">
                     Store
                     <span className="block leading-none mb-0.5 md:mb-0">
-                      {selected?.facilityName}
+                     {selected?.facilityName}
                     </span>
                     <span className="block text-xs leading-none md:hidden">
                       Delivery: Sat, Sep 18: 6pm - 7pm

@@ -6,11 +6,11 @@ import {
 import React, { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
 import { LowPrioritySharp } from '../../node_modules/@mui/icons-material/index';
-
+import classNames from 'classnames';
 
 const ShopSort = (props) => {
-  const {list, filteredList} = props;
-    
+  const {list, filteredList, setGridView, setListView, gridView, listView} = props;
+
   function refreshPage() {     
     window.location.reload(false);
   }
@@ -222,7 +222,7 @@ const ShopSort = (props) => {
                     }}
                   >
                     <button
-                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      class="block px-4 py-2 text-sm font-medium hover:underline"
                       id="headlessui-menu-item-126"
                       role="menuitem"
                       tabindex="-1"
@@ -241,7 +241,7 @@ const ShopSort = (props) => {
                       Default (Relevance)
                     </button>
                     <button
-                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      class="block px-4 py-2 text-sm font-medium hover:underline"
                       id="headlessui-menu-item-127"
                       role="menuitem"
                       tabindex="-1"
@@ -260,7 +260,7 @@ const ShopSort = (props) => {
                       Name: A to Z
                     </button>
                     <button
-                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      class="block px-4 py-2 text-sm font-medium hover:underline"
                       id="headlessui-menu-item-16"
                       role="menuitem"
                       tabindex="-1"
@@ -279,7 +279,7 @@ const ShopSort = (props) => {
                       Name: Z to A
                     </button>
                     <button
-                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      class="block px-4 py-2 text-sm font-medium hover:underline"
                       id="headlessui-menu-item-17"
                       role="menuitem"
                       tabindex="-1"
@@ -298,7 +298,7 @@ const ShopSort = (props) => {
                       Brand: A to Z
                     </button>
                     <button
-                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      class="block px-4 py-2 text-sm font-medium hover:underline"
                       id="headlessui-menu-item-17"
                       role="menuitem"
                       tabindex="-1"
@@ -316,7 +316,7 @@ const ShopSort = (props) => {
                       Brand: Z to A
                     </button>
                     <button
-                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      class="block px-4 py-2 text-sm font-medium hover:underline"
                       id="headlessui-menu-item-17"
                       role="menuitem"
                       tabindex="-1"
@@ -334,7 +334,7 @@ const ShopSort = (props) => {
                       Price: Low to High
                     </button>
                     <button
-                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      class="block px-4 py-2 text-sm font-medium hover:underline"
                       id="headlessui-menu-item-20"
                       role="menuitem"
                       tabindex="-1"
@@ -352,7 +352,7 @@ const ShopSort = (props) => {
                       Price: High to Low
                     </button>
                     <button
-                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      class="block px-4 py-2 text-sm font-medium hover:underline"
                       id="headlessui-menu-item-20"
                       role="menuitem"
                       tabindex="-1"
@@ -370,7 +370,7 @@ const ShopSort = (props) => {
                       Size: Small to Large
                     </button>
                     <button
-                      class="block px-4 py-2 text-sm font-medium hover:shadow-xl"
+                      class="block px-4 py-2 text-sm font-medium hover:underline"
                       id="headlessui-menu-item-22"
                       role="menuitem"
                       tabindex="-1"
@@ -392,16 +392,37 @@ const ShopSort = (props) => {
               </Transition>
               <button
                 type="button"
-                className="p-1 ml-3 rounded-full ring-2 ring-gray-200"
+                className={classNames(
+                  gridView ? 'p-1 ml-3 rounded-full ring-2 ring-gray-200' :
+                  'p-1 ml-3 rounded-full ring-gray-200'
+                )}
+                // onClick={() => {
+                //   setGridView(true)
+                //   setListView(false)
+                // }}
               >
                 <span className="sr-only">View grid</span>
                 <ViewGridIcon
+                  onClick={() => {
+                    console.log("GRIDVIEW")
+                    setGridView(true)
+                    setListView(false)
+                  }}
                   className="h-5 w-5 text-black-300"
                   aria-hidden="true"
                 />
               </button>
-
-              <button type="button" className="p-1 ml-3 rounded-full">
+              <button 
+                type="button"
+                className={classNames(
+                  listView ? 'p-1 ml-3 rounded-full ring-2 ring-gray-200' :
+                  'p-1 ml-3 rounded-full'
+                )} 
+                onClick={() => {
+                  console.log("LISTVIEW")
+                  setListView(false)
+                  setGridView(true) 
+                }}>
                 <span className="sr-only">View list</span>
                 <ViewListIcon
                   className="h-5 w-5 text-black-300"

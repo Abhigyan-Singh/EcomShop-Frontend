@@ -129,7 +129,7 @@ const ShopFilter = (props, args, value, item) => {
                             margin: -3,
                             color: 'black',
                             width: 182.25,
-                            height: 160
+                            height: 150
                           }}
                         >
                           <Checkbox

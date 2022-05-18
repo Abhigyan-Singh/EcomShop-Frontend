@@ -11,6 +11,9 @@ const ShopCategory = (props) => {
   const { facility, dept, subdept } = cookies;
   const navigate = useNavigate();
 
+  function refreshPage() {
+    window.location.reload(false);
+  }
 
   return (
     <div className="mb-2 whitespace-nowrap md:mb-3">
@@ -31,28 +34,40 @@ const ShopCategory = (props) => {
                 aria-hidden="true"
               />
               <a href="#" className="ml-2 hover:underline">
-                Grocery
+                PRODUCTS
               </a>
             </div>
           </li>
           <li>
-            <div onClick={() => navigate('/search?text=' + dept)}  className="flex items-center">
+            <div className="flex items-center">
               <ChevronRightIcon
                 className="h-5 w-5 text-gray-300 transform"
                 aria-hidden="true"
               />
-              <a  href="#" className="ml-2 hover:underline">{dept}</a>
+              <button
+                className="ml-2 hover:underline" 
+                onClick={() => {
+                  refreshPage() 
+                  navigate('/search?text=' + dept)
+                }}>{dept}
+              </button>
             </div>
           </li>
           <li>
-            <div onClick={() => navigate('/search?text=' + subdept)} className="flex items-center">
+            <div className="flex items-center">
               <ChevronRightIcon
                 className="h-5 w-5 text-gray-300 transform"
                 aria-hidden="true"
               />
-              <a href="#" className="ml-2 hover:underline" aria-current="page">
+              <button
+                onClick={() => {
+                  refreshPage() 
+                  navigate('/search?text=' + subdept)
+                }} 
+                className="ml-2 hover:underline" aria-current="page">
                 {subdept}
-              </a>
+              </button>
+            
             </div>
           </li>
         </ol>
