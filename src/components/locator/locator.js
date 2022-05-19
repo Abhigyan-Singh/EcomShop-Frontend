@@ -16,7 +16,7 @@ import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import Cart from '../../components/cart/cart.js';
 import { CartState } from '../../context/context';
-import { ContentCutOutlined } from '../../../node_modules/@mui/icons-material/index';
+import { ContentCutOutlined, CookieSharp } from '../../../node_modules/@mui/icons-material/index';
 
 const LocationOption = ({ option }) => (
   <Listbox.Option
@@ -58,14 +58,15 @@ const Locator = (props) => {
     dispatch
   } = CartState();
 
-  useEffect(async () => {
-    await allStores(5).then((res) => {
+  useEffect( () => {
+    allStores(5).then((res) => {
       setStore(res.data);
+      console.log("RESPONSE" , res.data.facilitiesPickup[0])
     });
   }, []);
 
-  useEffect(async () => {
-    await allStores(7).then((res) => {
+  useEffect( () => {
+    allStores(7).then((res) => {
       setStoreDelivery(res.data);
     });
   }, []);
@@ -77,6 +78,7 @@ const Locator = (props) => {
   }
 
   const handleOnChange = (option) => {
+    console.log("OPTION", option)
     setSelected(option);
     setCookie('facility', option, {
       path: '/',
@@ -111,7 +113,7 @@ const Locator = (props) => {
                   <span className="block ml-2 mr-6 flex-1 md:flex-none leading-none">
                     Store
                     <span className="block leading-none mb-0.5 md:mb-0">
-                     {selected?.facilityName}
+                      {selected?selected.facilityName: cookies ?  cookies.facility: "testing"}              
                     </span>
                     <span className="block text-xs leading-none md:hidden">
                       Delivery: Sat, Sep 18: 6pm - 7pm

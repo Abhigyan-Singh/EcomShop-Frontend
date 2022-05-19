@@ -94,6 +94,11 @@ const App = () => {
     setSubdepart(substoreDept);
   };
 
+  useEffect(() => {
+    console.log("COOKIES", cookies)
+  }, [])
+  
+
 
   const AppRoute = ({ showCart, setShowCart }) => {
     let routes = useRoutes([
