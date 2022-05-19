@@ -5,8 +5,11 @@ import { Context } from 'context/context';
 import { search } from 'services/search';
 import { CircularProgress } from '../../node_modules/@mui/material/index';
 import { LinearProgress } from '../../node_modules/@mui/material/index';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import useFetch from '../hooks/useFetch';
 
-const ShopGetPage = ({ loader, error, list, loading, gridView, listView }) => {
+
+const ShopGetPage = ({ query, pageno, loader, error, list, loading, gridView, listView }) => {
   const [listItems, setListItems] = useState([]);
 
   const getListItems = async () => {
@@ -19,7 +22,12 @@ const ShopGetPage = ({ loader, error, list, loading, gridView, listView }) => {
   }, []);
 
   return (
-    <div className="App">
+    <div
+      dataLength={100}
+      hasMore={true}
+      next={useFetch(query, pageno)}
+      loader={<h4>...</h4>}
+      className="App">
       {gridView 
         ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
             {list.map((e, i) => (

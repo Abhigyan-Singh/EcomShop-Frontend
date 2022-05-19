@@ -331,6 +331,8 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
             list={filteredList.length === 0 ? list : filteredList}
             error={error}
             loading={loading}
+            pageno={pageno}
+            query={query}
           />
         </div>
       </div>

@@ -380,9 +380,13 @@ const Header = (props) => {
               {!user && 'Grocery Shopping Made Easy'}
             </div>
             <div className="text-xs font-medium space-x-2">
-              <a className="underline" href="/store-locator">
-                Store Locator
-              </a>
+              {user 
+                ? <a className="underline" href="/store-locator">
+                    Store Locator
+                  </a> 
+                : null
+              }
+              
               {user && (
                 <a
                   className="underline"

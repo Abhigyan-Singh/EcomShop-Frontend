@@ -43,7 +43,7 @@ export const StoreLocator = (props) => {
   const [cookies, setCookie] = useCookies();
   const { facility, dept, user, userInfo } = cookies;
   const [selected, setSelected] = useState(facility);
-  const [selectedFacility, setFacility] = useState('');
+  const [selectedFacility, setFacility] = useState(cookies.facility.facilityName);
   const navigate = useNavigate();
   let timeout 
   const timeoutDuration = 100
@@ -98,15 +98,12 @@ export const StoreLocator = (props) => {
 
 
   const handleFacilityChange = (option) => {
-    console.log('handleFacilityChange', option)
     setSelected(option);
-    console.log("SELCTED IN FUNC" , selected)
     setCookie('facility', option, {
       path: '/',
       maxAge: CookiesAge
     });
     if (typeof onFacilityChange === 'function') {
-      console.log('onFacilityChange')
       onFacilityChange(option);
     }
   };
@@ -114,25 +111,29 @@ export const StoreLocator = (props) => {
   const handleSaveClick = (selected) => {
     if ( user && selected) {
       handleFacilityChange(selected)
+      window.scrollTo(0, 0)
+      navigate("/")
     } else if (!selected) {
       alert("Please select a store");
     } else {
       alert("Please login or create a new account");
     }
   }
+  const handleOnChange = (option) => {
+    
+    handleSaveClick(option)
+  }
 
   useEffect(() => {
-    console.log("FACILITY", facility)
-    console.log("SELECTED", selected)
+    console.log("SELECTED", selectedFacility)
     console.log("COOKIES", cookies)
-  }, [facility, cookies, selected])
+  }, )
   
 
   return (
     <div>
-       <Locator preStore={selectedFacility} />
-       {!user || user
-          ? <><div>
+      <Locator preStore={selectedFacility} />
+      <div>
         <Popover>
           {({ open }) => (
             <div
@@ -202,11 +203,12 @@ export const StoreLocator = (props) => {
                 <Radio
                   className="mb-4"
                   id="checkbox-1"
+                  option={option.facilityDtl}
                   key={option.facilityDtl.facilityName}
                   label={option.facilityDtl.facilityName}
                   style={{ paddingBottom: 10, marginLeft: 50, paddingTop: 5 }}
-                  checked={option.facilityDtl.facilityName == selectedFacility}
-                  onChange={() => setFacility(option.facilityDtl.facilityName)}
+                  checked={option.facilityDtl == selectedFacility}
+                  onChange={() => {setFacility(option.facilityDtl)}}
                 />
               ))}
           </div><div>
@@ -218,20 +220,18 @@ export const StoreLocator = (props) => {
                 <Radio
                   className="mb-4"
                   id="checkbox-1"
-                  key={option.facilityDtl.facilityName}
                   option={option.facilityDtl}
+                  key={option.facilityDtl.facilityName}
                   label={option.facilityDtl.facilityName}
                   style={{ paddingBottom: 10, marginLeft: 50, fontWeight: 'bold'}}
-                  checked={option.facilityDtl.facilityName == selectedFacility}
-                  onChange={() => setFacility(option.facilityDtl.facilityName)}
-                />
+                  checked={option.facilityDtl == selectedFacility}
+                  onChange={() => {setFacility(option.facilityDtl)}}/>
               ))}
           </div>
           <div style={{ paddingLeft: "1%", paddingTop: 10, paddingBottom: 25}}>
-        
           <Popover>
             {({open}) => (
-              <div onClick={() => {handleFacilityChange(selectedFacility)}}>
+              <div>
                 <button
                   onClick={() => {
                       navigate("/")
@@ -269,26 +269,48 @@ export const StoreLocator = (props) => {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel>
+                  <Popover.Panel
+                    style={{
+                      width: 500,
+                      height: 200,
+                      borderRadius: 7, 
+                      backgroundColor: 'light-grey',
+                      borderColor: 'light-grey',
+                      borderWidth: 3,
+                      fontSize: 20,
+                      marginRight: "50%",
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flex: 1,
+                      paddingLeft: 10
+                    }}
+                  >
                     <p>
                       Your account change has been saved.
                       Do you want to navigate to your new preferred store now?
                     </p>
-                    <Popover.Button
-                         style={{
-                          width: 190,
-                          height: 40,
-                          borderRadius: 7, 
-                          backgroundColor: '#9ac035',
-                          borderColor: '#9ac035',
-                          borderWidth: 3,
-                          fontSize: 20,
-                          marginLeft: 100
+                      <button
+                        onClick={() => {
+                          handleSaveClick(selectedFacility)
+                        }}
+                        style={{
+                        width: 190,
+                        height: 40,
+                        borderRadius: 7, 
+                        backgroundColor: '#9ac035',
+                        borderColor: '#9ac035',
+                        borderWidth: 3,
+                        fontSize: 20,
+                        marginTop: 10,
+                        marginLeft: 30
                         }}>
                           YES
-                    </Popover.Button>
-                    <Popover.Button
-                         style={{
+                      </button>
+                      <button
+                        onClick={() => {
+                          window.scrollTo(0, 0)
+                        }}
+                        style={{
                           width: 190,
                           height: 40,
                           borderRadius: 7, 
@@ -296,21 +318,17 @@ export const StoreLocator = (props) => {
                           borderColor: '#9ac035',
                           borderWidth: 3,
                           fontSize: 20,
-                          marginLeft: 150
+                          marginTop: 10,
+                          marginLeft:20 
                         }}>
                           NO
-                    </Popover.Button>
+                      </button>
                   </Popover.Panel>
                 </Transition>
-                
               </div>  
             )}
           </Popover>
-
-            </div>
-          </> 
-        : null
-      }
+        </div>
     </div>
   );
 };
