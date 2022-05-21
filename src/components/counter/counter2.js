@@ -68,15 +68,6 @@ export const Counter2 = (props) => {
     }
   }, [value]);
 
-
-
-  // useEffect(() => {
-  //   await addToCarts('albtest3', item.productId, 1, 2037).then((res) => {
-  //     console.log("AHHHHHHH", res)
-  //   });  
-  // }, [props])
-  
-
   const AddToCartApi = async (userName, productId, qty, facilityId) => {
     const requestOptions = {
           method: 'GET',
@@ -145,7 +136,7 @@ export const Counter2 = (props) => {
           className="cbn-button"
           onClick={() => {
             //updateCart(item)
-            //AddToCartApi("albtest3", 95436, 1, 2037)
+            AddToCartApi(user, 95436, 1, 2037)
             console.log(value);
             dispatch({
               type: 'ADD_TO_CART',
@@ -162,7 +153,7 @@ export const Counter2 = (props) => {
           className="cbn-button"
           onClick={() => {
             //updateCart(item)
-            //AddToCartApi("albtest3", 95436, 1, 2037)
+            AddToCartApi(user, 95436, 1, 2037)
             console.log(value);
             dispatch({
               type: 'ADD_TO_CART',
