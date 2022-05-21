@@ -1,8 +1,6 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-  Routes,
-  Route,
   useRoutes
 } from 'react-router-dom';
 import { HomeStory } from 'stories/pages/home.stories';
@@ -18,10 +16,7 @@ import { ItemStory } from 'stories/pages/item.stories';
 import { DisplayShoppingListDetails } from 'stories/pages/dispmyshoppinglistdetails';
 import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
-import { Geolocation } from '../services/geolocation.js';
 import { StoreLocator } from 'stories/pages/store.locator.js';
-import { CookiesAge } from 'apiConfig';
-import { userInfoService } from 'services/auth.js';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -43,9 +38,12 @@ const App = () => {
   const [depart, setDepart] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
   const [showCart, setShowCart] = useState(false);
-
+  
   useEffect(() => {
-    const { user } = cookies;
+    const { user } = cookies; 
+    if (!user && !userInfo) {
+      setStore("")
+    }
     if (user?.token) {
       setIsAuthenticated(true);
     } else setIsAuthenticated(false);
@@ -165,6 +163,7 @@ const App = () => {
         path: 'store-locator',
         element: (
           <StoreLocator
+            userInfo={userInfo}
             isAuthenticated={isAuthenticated}
             logout={onLogout}
             onFacilityChange={onStoreChange}

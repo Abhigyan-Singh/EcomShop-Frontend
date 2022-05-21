@@ -16,7 +16,16 @@ import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import Cart from '../../components/cart/cart.js';
 import { CartState } from '../../context/context';
-import { ContentCutOutlined, CookieSharp } from '../../../node_modules/@mui/icons-material/index';
+import { useNavigate } from 'react-router-dom';
+
+
+export const facilityStoremapping = {
+  605: 2029,
+  500: 2032,
+  604: 2038,
+  603: 2042,
+  600: 2046
+};
 
 const LocationOption = ({ option }) => (
   <Listbox.Option
@@ -49,7 +58,8 @@ const Locator = (props) => {
   const [cookies, setCookie] = useCookies();
   const [store, setStore] = useState([null]);
   const [storeDelivery, setStoreDelivery] = useState([null]);
-  const { facility, user } = cookies;
+  const { facility, user, userInfo } = cookies;
+  const navigate = useNavigate();
   const [hasLoaded, setHasLoaded] = useState(false);
   // const [showCart, setShowCart] = useState(false);
   //const [total, setTotal] = useState();
@@ -61,7 +71,6 @@ const Locator = (props) => {
   useEffect( () => {
     allStores(5).then((res) => {
       setStore(res.data);
-      console.log("RESPONSE" , res.data.facilitiesPickup[0])
     });
   }, []);
 
@@ -78,6 +87,7 @@ const Locator = (props) => {
   }
 
   const handleOnChange = (option) => {
+    navigate("/")
     console.log("OPTION", option)
     setSelected(option);
     setCookie('facility', option, {
@@ -113,7 +123,7 @@ const Locator = (props) => {
                   <span className="block ml-2 mr-6 flex-1 md:flex-none leading-none">
                     Store
                     <span className="block leading-none mb-0.5 md:mb-0">
-                      {selected?selected.facilityName: cookies ?  cookies.facility: "testing"}              
+                      {selected ? selected.facilityName : cookies.facility ? cookies.facility : ""}              
                     </span>
                     <span className="block text-xs leading-none md:hidden">
                       Delivery: Sat, Sep 18: 6pm - 7pm
