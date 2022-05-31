@@ -11,6 +11,7 @@ import Button from 'components/button/button';
 import { useCookies } from 'react-cookie';
 import { useCart } from 'react-use-cart';
 import { config, API } from 'apiConfig';
+import { AlternateEmail } from '../../../node_modules/@mui/icons-material/index';
 
 
 export const Counter2 = (props) => {
@@ -27,13 +28,22 @@ export const Counter2 = (props) => {
   const [id] = useState(newId('counter'));
   const [value, setValue] = useState(defaultValue);
   const [cookies, setCookie] = useCookies();
-  const { user } = cookies;
-
+  const { user, userInfo } = cookies;
+  const [name, setName] = useState(userInfo);
   const componentClassName = classNames(
     'cbn-counter',
     { 'cbn-counter--disabled': disabled },
     className
   );
+
+  // useEffect(() => {
+  //   if (user) {
+
+  //     console.log("USERINFO", name)
+  //   } else {
+  //     setName('albtest3')
+  //   }
+  // }, [user]);
 
   const {
     state: { cart, total },
@@ -68,21 +78,23 @@ export const Counter2 = (props) => {
     }
   }, [value]);
 
-  const AddToCartApi = async (userName, productId, qty, facilityId) => {
-    const requestOptions = {
-          method: 'GET',
-          headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization' : 'Bearer' + " " + user.token
-                   }
-      };
-     await fetch( `${config.baseUrl}${API.add_to_cart}/${userName}/${productId}/${qty}/${facilityId}`, requestOptions)
-    .then(res => res.json())
-    .then(json => console.log("ADDED TO CART", json))
-  }
+  // const AddToCartApi = (userName, productId, qty, facilityId) => {
+  //   if (user) {
+  //     const requestOptions = {
+  //       method: 'GET',
+  //       headers: {
+  //                 'Content-Type': 'application/json',
+  //                 'Authorization' : 'Bearer' + " " + user.token
+  //                }
+  //     };
+  //    fetch( `${config.baseUrl}${API.add_to_cart}/${userName}/${productId}/${qty}/${facilityId}`, requestOptions)
+  //   .then(res => res.json())
+  //   .then(json => console.log("ADDED TO CART", json))
+  //   }
+  // }
 
 
-
+  
   return (
     <div className={componentClassName}>
       <button
@@ -135,9 +147,7 @@ export const Counter2 = (props) => {
         style={{ marginLeft: -11, width: 99 }}
           className="cbn-button"
           onClick={() => {
-            //updateCart(item)
-            AddToCartApi(user, 95436, 1, 2037)
-            console.log(value);
+            //AddToCartApi( userInfo.userName, 95436, 1, 2037)
             dispatch({
               type: 'ADD_TO_CART',
               payload: item,
@@ -152,14 +162,12 @@ export const Counter2 = (props) => {
           style={{ marginLeft: -7, width: 92 }}
           className="cbn-button"
           onClick={() => {
-            //updateCart(item)
-            AddToCartApi(user, 95436, 1, 2037)
-            console.log(value);
+            //AddToCartApi( userInfo.userName, 95436, 1, 2037)
             dispatch({
-              type: 'ADD_TO_CART',
-              payload: item,
-              qty: item.qty ? item.qty + value : value
-            });
+                type: 'ADD_TO_CART',
+                payload: item,
+                qty: item.qty ? item.qty + value : value
+              })       
           }}
         >
           <span style={{ fontSize: 12}}>Add to Cart</span>

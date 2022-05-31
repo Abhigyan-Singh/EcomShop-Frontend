@@ -396,15 +396,14 @@ const ShopSort = (props) => {
                   gridView ? 'p-1 ml-3 rounded-full ring-2 ring-gray-200' :
                   'p-1 ml-3 rounded-full ring-gray-200'
                 )}
-                // onClick={() => {
-                //   setGridView(true)
-                //   setListView(false)
-                // }}
+                onClick={() => {
+                  setGridView(true)
+                  setListView(false)
+                }}
               >
                 <span className="sr-only">View grid</span>
                 <ViewGridIcon
                   onClick={() => {
-                    console.log("GRIDVIEW")
                     setGridView(true)
                     setListView(false)
                   }}
@@ -420,8 +419,8 @@ const ShopSort = (props) => {
                 )} 
                 onClick={() => {
                   console.log("LISTVIEW")
-                  setListView(false)
-                  setGridView(true) 
+                  setListView(true)
+                  setGridView(false) 
                 }}>
                 <span className="sr-only">View list</span>
                 <ViewListIcon

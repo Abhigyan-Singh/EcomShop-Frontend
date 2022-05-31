@@ -126,9 +126,7 @@ const ShopSidebar = (props) => {
     window.location.reload(false);
   }
 
-  // useEffect(() => {
-  //   localStorage.setItem("subCategory", subdept);
-  // }, [])
+
 
   const tree = () => {
     return (

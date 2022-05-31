@@ -7,21 +7,6 @@ export const search = (productName, facilityId, bannerId, pageNo, itemOnPageCoun
   );
 };
 
-// export const search = (productName, facilityId, pageno, count) => {
-//   return apiClient.get(config.baseUrl + API.search, {
-//     params: {
-//       productName: productName,
-//       facilityId: facilityId,
-//       currentPageNumber: pageno,
-//       itemCount: count
-//     }
-//   });
-// };
-
-// export const search = (productName, facilityId = 500, pageno = 1, itemCount = 1) => {
-//   return apiClient.get( `${config.baseUrl}${API.search}/${productName}/${facilityId}/${pageno}/${itemCount}`);
-// };
-
 export const productDetails = (productId) => {
   return apiClient.get(API.productDetails + productId);
 };

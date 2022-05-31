@@ -22,10 +22,12 @@ const ShopGetPage = ({ query, pageno, loader, error, list, loading, gridView, li
   }, []);
 
   return (
-    <div
-      dataLength={100}
+    <InfiniteScroll
+      pageStart={1}
+      dataLength={list.length}
+      next={true}
       hasMore={true}
-      next={useFetch(query, pageno)}
+      loadMore={useFetch(query, pageno)}
       loader={<h4>...</h4>}
       className="App">
       {gridView 
@@ -37,7 +39,7 @@ const ShopGetPage = ({ query, pageno, loader, error, list, loading, gridView, li
               <Context data={e} key={i}></Context>
             ))}
           </div>
-        : <div>
+        : <div >
             {list.map((e, i) => (
               <Item listItems={listItems} item={e} key={i} />
             ))}
@@ -49,7 +51,7 @@ const ShopGetPage = ({ query, pageno, loader, error, list, loading, gridView, li
         {loading && <p>Loading...</p>} 
         {error && <p>No Products match your criteria</p>}
         <div ref={loader}/>
-    </div>
+    </InfiniteScroll>
   );
 };
 
