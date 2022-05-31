@@ -196,7 +196,7 @@ const App = () => {
       <Alert>
         <span>
           COVID-19 Vaccinations are now available in select locations.
-        </span>{' '}  c
+        </span>{' '} 
         <a className="underline" href="https://www.coborns.com/Covid19">
           Check Availability
         </a>
