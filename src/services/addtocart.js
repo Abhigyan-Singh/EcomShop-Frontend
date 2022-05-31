@@ -26,7 +26,7 @@ const useCart = () => {
     if (userNameFinal) {
       const cartData = await getCartData(userNameFinal);
       const cart = cartData.data.map((each) => ({
-        ...each.id.product,
+       
         currentPrice: each.itemTotal,
         qty: each.quantityInCart
       }));

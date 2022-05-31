@@ -5,6 +5,7 @@ export const config = {
 };
 
 export const API = {
+  departments: '/product/areasolrsearch',
   facilities: '/api/facilities/',
   authenticate: '/authenticate',
   userinfo: '/userinfo',
@@ -30,4 +31,3 @@ export const API = {
 
 export const CookiesAge = 604800;
 
-//http://localhost:8009/pro

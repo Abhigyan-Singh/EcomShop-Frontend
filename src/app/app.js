@@ -17,6 +17,7 @@ import { DisplayShoppingListDetails } from 'stories/pages/dispmyshoppinglistdeta
 import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
 import { StoreLocator } from 'stories/pages/store.locator.js';
+//import { getCartData } from 'services/addtocart';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -38,7 +39,7 @@ const App = () => {
   const [depart, setDepart] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
   const [showCart, setShowCart] = useState(false);
-  
+
   useEffect(() => {
     const { user } = cookies; 
     if (!user && !userInfo) {
@@ -179,6 +180,7 @@ const App = () => {
   // console.log('app', store, facilityStoremapping[store?.facilityId]);
   return (
     <Router>
+
       <div id="yext-facility-hours-setter" style={{ visibility: 'hidden' }}>
         <p>
           <span
@@ -194,7 +196,7 @@ const App = () => {
       <Alert>
         <span>
           COVID-19 Vaccinations are now available in select locations.
-        </span>{' '}
+        </span>{' '} 
         <a className="underline" href="https://www.coborns.com/Covid19">
           Check Availability
         </a>
