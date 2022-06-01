@@ -2,9 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import Item from 'components/item/item';
 import { getAllList } from 'services/mylist';
 import { Context } from 'context/context';
-import { search } from 'services/search';
-import { CircularProgress } from '../../node_modules/@mui/material/index';
-import { LinearProgress } from '../../node_modules/@mui/material/index';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import useFetch from '../hooks/useFetch';
 
