@@ -29,11 +29,9 @@ import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CartState } from 'context/context';
-import Cart from '../../components/cart/cart.js';
 import { map } from 'lodash';
-import StoreLocator from 'stories/pages/store.locator.js';
-import { config, API } from 'apiConfig';
 import { useCart } from 'react-use-cart';
+import { departments } from 'services/departmentSearch';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -98,9 +96,10 @@ const Header = (props) => {
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
   const [modalIsOpen, setModalIsOpen] = useState(query.get('login') === 'show');
 
+
   const fetch = async (item) => {
     if (item) {
-      await search(item, store.facilityId, 1, 1, 6).then((res) =>
+      await search(item, store.facilityId, 1, 1, 8).then((res) =>
         setSearchList(res.data.productList)
       );
       setLoading(false);
@@ -207,7 +206,6 @@ const Header = (props) => {
     window.location.href = url + path;
   };
 
-
   const handleCartClick = (event) => {
     setShowCart(true);
   };
@@ -215,7 +213,6 @@ const Header = (props) => {
   const onClose = (event) => {
     setShowCart(false);
   };
-
 
   useEffect (() => { 
     grocery(109791)
@@ -577,13 +574,27 @@ const Header = (props) => {
                                                   <div>
                                                     <div
                                                       onClick={() => {
-                                                        handleDeptChange(
-                                                          option.description
-                                                        );
-                                                        navigate(
-                                                          '/search?text=' +
+                                                        if (user) {
+                                                          handleDeptChange(
                                                             option.description
-                                                        );
+                                                          );
+                                                          navigate(
+                                                            '/search?text=' +
+                                                              option.description
+                                                          );
+                                                          // departments(
+                                                          //   'sortBy', 'SortOrder', 1,'PRODUCTS', 605, 'NAV_CATALOG', 100000, option.description
+                                                          //   //http://localhost:8009/product/areasolrsearch?sortBy=&sortOrder=&currentPageNumber=0&catalog=PRODUCTS&facilityId=605&locationCode=NAV_CATALOG&areaId=100000&facetName=Earth's
+                                                          // );
+                                                        } else {
+                                                          handleDeptChange(
+                                                            option.description
+                                                          );
+                                                          navigate(
+                                                            '/search?text=' +
+                                                              option.description
+                                                          );
+                                                        }
                                                       }}
                                                     >
                                                       <Popover.Button

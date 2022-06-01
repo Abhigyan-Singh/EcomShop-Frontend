@@ -18,7 +18,8 @@ import Locator from 'components/locator/locator';
 import { userInfoService } from 'services/auth';
 import { LabelRounded, Navigation, SelectAllRounded } from '../../../node_modules/@mui/icons-material/index';
 import { useNavigate } from 'react-router-dom';
-
+import { Map, Marker, Draggable } from "pigeon-maps"
+import L from 'leaflet'
 
 export default {
   title: 'Pages/Home',
@@ -46,8 +47,9 @@ export const StoreLocator = (props) => {
   let timeout 
   const timeoutDuration = 100
   const buttonRef = useRef(null)
-  const [openState, setOpenState] = useState(false)  
- 
+  const [openState, setOpenState] = useState(false)
+  const [center, setCenter] = useState([50.879, 4.6997])
+  const [zoom, setZoom] = useState(11)
 
   useEffect(() => {
     allStores(5).then((res) => {
@@ -134,14 +136,33 @@ export const StoreLocator = (props) => {
       alert("please go back and select a store")
     }
   }, )
-  
-  
-  
 
+  
+  // 'map' refers to a <div> element with the ID map
+  // const map = () => {
+  //   window.onload = function() {
+  //     console.log("STARTED")
+  //     L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
+  //     var map = L.mapquest.map('map', {
+  //       center: [37.7749, -122.4194],
+  //       layers: L.mapquest.tileLayer('map'),
+  //       zoom: 7
+  //     });
+  //     map.addControl(L.mapquest.control());
+  //   }
+  // }
+  
+  
   return (
     <div>
       <Locator preStore={selectedFacility} />
       <div>
+        <div>
+
+        </div>
+        {/* <body>
+          <div id='map' style={{width: "50%", height: "530px"}}></div>
+        </body> */}
         <Popover>
           {({ open }) => (
             <div
@@ -152,7 +173,7 @@ export const StoreLocator = (props) => {
                 paddingBottom: 10,
                 paddingTop: 10,
                 paddingLeft: 20,
-                paddingRight: 10
+                paddingRight: 9
               }}
               className="flex"
             > Preferred Store
@@ -162,7 +183,7 @@ export const StoreLocator = (props) => {
                 ref={buttonRef}  
                 type="button"
                 onClick={() => handleClick(open)}
-                style={{paddingLeft: 10,paddingTop: 5}}
+                style={{marginLeft: 15,paddingTop: 5}}
                 className="bg-white text-sm font-medium text-black hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
               >
                 What does preferred store mean? 
@@ -322,9 +343,8 @@ export const StoreLocator = (props) => {
                             }} >
                             <button
                             onClick={() => {
-                              handleYesClick(selected2)
                               setIsOpen(false)
-                              navigate("/")
+                              window.scrollTo(0, 0)
                             }}
                             style={{
                             width: 190,
@@ -337,13 +357,13 @@ export const StoreLocator = (props) => {
                             marginTop: 20
 
                             }}>
-                              YES
+                              NO
                           </button>
                           <button
                             onClick={() => {
                               handleYesClick(selected2)
                               setIsOpen(false)
-                           
+                              navigate("/")
                             }}
                             style={{
                               width: 190,
@@ -356,7 +376,7 @@ export const StoreLocator = (props) => {
                               marginLeft: 20,
                               marginTop: 20
                             }}>
-                              NO
+                              YES
                             </button>
                           </div>
                       </Dialog.Overlay>

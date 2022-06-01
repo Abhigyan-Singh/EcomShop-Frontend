@@ -126,8 +126,6 @@ const ShopTag = (onSubDeptChange2) => {
           </div> 
       }
     </div>
-    
-            
   );
 };
 

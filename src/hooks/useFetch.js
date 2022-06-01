@@ -9,7 +9,7 @@ function useFetch(query, pageNo) {
   const [error, setError] = useState(false);
   const [list, setList] = useState([]);
   const [data, setData] = useState()
-  const [itemOnPageCount, setItemOnPageCount] = useState(6)
+  const [itemOnPageCount, setItemOnPageCount] = useState(8)
 
 
   const sendQuery = useCallback( async () => {

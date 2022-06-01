@@ -47,13 +47,13 @@ const Item = (props) => {
 
   const [cookies, setCookie] = useCookies();
   const { facility, user } = cookies;
-
   const [sizeOption, setSizeOption] = useState(
     item.sizeOptions && item.sizeOptions[0]
   );
   const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
+
 
   const {
     state: { cart, counter },
@@ -125,10 +125,10 @@ const Item = (props) => {
         </div>
       </div>
       <div className="cbn-item__pricing">
-        <div className="cbn-item__price">$ {item.currentPrice?.toFixed(2)}</div>
+        <div className="cbn-item__price">$ {item.normalPrice?.toFixed(2)}</div>
         {item.onSale && (
           <div className="cbn-item__savings">
-            Save: $ {(item.normalPrice - item.currentPrice)?.toFixed(2)}
+            Save: $ {(item.normalPrice - item.normalPrice)?.toFixed(2)}
           </div>
         )}
         {item.isOutOfStock && (
