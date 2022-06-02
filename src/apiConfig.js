@@ -7,7 +7,7 @@ export const config = {
 export const API = {
   departments: '/product/areasolrsearch',
   facilities: '/api/facilities/',
-  authenticate: '/authenticate',
+  authenticate: '/api/authenticate',
   userinfo: '/userinfo',
   search: '/productn/searchbyname',
   productDetails: '/product/', // then id
