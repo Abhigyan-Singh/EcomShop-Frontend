@@ -16,6 +16,16 @@ import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import Cart from '../../components/cart/cart.js';
 import { CartState } from '../../context/context';
+import { useNavigate } from 'react-router-dom';
+
+
+export const facilityStoremapping = {
+  605: 2029,
+  500: 2032,
+  604: 2038,
+  603: 2042,
+  600: 2046
+};
 
 const LocationOption = ({ option }) => (
   <Listbox.Option
@@ -43,35 +53,42 @@ const LocationOption = ({ option }) => (
 );
 
 const Locator = (props) => {
-  const { className, onLocationChange, ...rest } = props;
+  const { className, onLocationChange, showCart, setShowCart, ...rest } = props;
   const componentClassName = classNames('cbn-locator', {}, className);
   const [cookies, setCookie] = useCookies();
   const [store, setStore] = useState([null]);
   const [storeDelivery, setStoreDelivery] = useState([null]);
-  const { facility, user } = cookies;
+  const { facility, user, userInfo } = cookies;
+  const navigate = useNavigate();
   const [hasLoaded, setHasLoaded] = useState(false);
-  const [showCart, setShowCart] = useState(false);
+  // const [showCart, setShowCart] = useState(false);
   //const [total, setTotal] = useState();
   const {
     state: { cart, total },
     dispatch
   } = CartState();
 
-  useEffect( async () => {
-    await allStores(5).then((res) => {
+  useEffect( () => {
+    allStores(5).then((res) => {
       setStore(res.data);
-      });
+    });
   }, []);
 
-  useEffect( async () => {
-   await allStores(7).then((res) => {
-    setStoreDelivery(res.data);
+  useEffect( () => {
+    allStores(7).then((res) => {
+      setStoreDelivery(res.data);
     });
   }, []);
 
   const [selected, setSelected] = useState(facility);
 
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   const handleOnChange = (option) => {
+    navigate("/")
+    console.log("OPTION", option)
     setSelected(option);
     setCookie('facility', option, {
       path: '/',
@@ -90,6 +107,7 @@ const Locator = (props) => {
     setShowCart(false);
   };
 
+
   return (
     <div id="change_location" className={componentClassName} {...rest}>
       <div className="flex flex-1 md:flex-none items-center divide-x">
@@ -105,7 +123,7 @@ const Locator = (props) => {
                   <span className="block ml-2 mr-6 flex-1 md:flex-none leading-none">
                     Store
                     <span className="block leading-none mb-0.5 md:mb-0">
-                      {selected?.facilityName}
+                      {selected ? selected.facilityName : cookies.facility ? cookies.facility : ""}              
                     </span>
                     <span className="block text-xs leading-none md:hidden">
                       Delivery: Sat, Sep 18: 6pm - 7pm

@@ -5,8 +5,9 @@ export const config = {
 };
 
 export const API = {
+  departments: '/product/areasolrsearch',
   facilities: '/api/facilities/',
-  authenticate: '/authenticate',
+  authenticate: '/api/authenticate',
   userinfo: '/userinfo',
   search: '/productn/searchbyname',
   productDetails: '/product/', // then id
@@ -30,4 +31,3 @@ export const API = {
 
 export const CookiesAge = 604800;
 
-//http://localhost:8009/productn/searchbyname/{productName}/{facilityId}/{pageno}/{itemCount}

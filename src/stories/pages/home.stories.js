@@ -14,6 +14,9 @@ import slides from 'data/slides.json';
 import slidesCashWise from 'data/slidesCashWise.json';
 import slidesMarketPlace from 'data/slidesMarketPlace.json';
 import MobileNav from 'components/mobile-nav/mobile-nav';
+import { useCookies } from 'react-cookie';
+
+
 
 export default {
   title: 'Pages/Home',
@@ -34,11 +37,14 @@ export const HomeStory = ({
   logout,
   onStoreChange,
   onDepartChange4,
+  showCart,
+  setShowCart,
   ...rest
 }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [user, setUser] = useState({ firstName: 'Apple' });
+  const [cookies, setCookie] = useCookies();
+  const {facility} = cookies
 
   const getBranName = () => {
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase())) {
@@ -78,7 +84,11 @@ export const HomeStory = ({
 
   return (
     <Fragment>
-      <Locator onLocationChange={onStoreChange} />
+      <Locator
+        showCart={showCart}
+        setShowCart={setShowCart}
+        onLocationChange={onStoreChange}
+      />
       <Hero slides={getSlides(brandName)} brandName={brandName} />
       <HomeGetStarted />
       <HomePromotions />

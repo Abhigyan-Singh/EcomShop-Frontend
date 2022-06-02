@@ -30,7 +30,7 @@ const ShopFilter = (props, args, value, item) => {
               {({ open }) => {
                 return (
                   <Fragment>
-                    <Popover.Button
+                    <Popover.Button                    
                       className="inline-flex justify-center text-sm font-medium px-2 py-1"
                       id="headlessui-popover-button-22"
                       type="button"
@@ -58,13 +58,13 @@ const ShopFilter = (props, args, value, item) => {
                         style={{ zIndex: 9999 }}
                       >
                         <div
-                          class="absolute border shadow-lg p-4 bg-white rounded justify-center"
+                          class="overflow-auto absolute border shadow-lg p-4 bg-white rounded justify-center"
                           style={{
                             backgroundColor: 'rgb(255, 255, 255, 1)',
                             margin: -3,
                             color: 'black',
                             width: 200,
-                            height: 500
+                            height: 175
                           }}
                         >
                           {filterDropdowns.brands.map((each, index) => (
@@ -129,7 +129,7 @@ const ShopFilter = (props, args, value, item) => {
                             margin: -3,
                             color: 'black',
                             width: 182.25,
-                            height: 130
+                            height: 150
                           }}
                         >
                           <Checkbox

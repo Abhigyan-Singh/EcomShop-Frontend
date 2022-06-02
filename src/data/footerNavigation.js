@@ -45,17 +45,17 @@ const cobornsFooterNavigation = {
   social: [
     {
       name: 'Facebook',
-      href: '#',
+      href: 'https://www.facebook.com/cobornsgrocery',
       image: (props) => <img src={facebookIcon} alt="Facebook" {...props} />
     },
     {
       name: 'Instagram',
-      href: '#',
+      href: 'https:www.instragram.com/cobornsgrocery',
       image: (props) => <img src={instagramIcon} alt="Instagram" {...props} />
     },
     {
       name: 'Pinterest',
-      href: '#',
+      href: 'https://www.printerest.com/coborns',
       image: (props) => <img src={pinterestIcon} alt="Pinterest" {...props} />
     },
     {

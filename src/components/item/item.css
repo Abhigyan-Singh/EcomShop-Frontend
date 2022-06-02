@@ -21,6 +21,11 @@
   @apply mb-4;
 }
 
+/* .cbn-item .cbn-item__media2 {
+
+} */
+
+
 .cbn-item .cbn-item__image-link {
   @apply block;
   @apply rounded;
@@ -52,6 +57,10 @@
   @apply font-medium;
   @apply leading-tight;
   @apply mb-1;
+}
+
+.cbn-item .cbn-item__name2 {
+  @apply font-medium;
 }
 
 .cbn-item .cbn-item__number {

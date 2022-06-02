@@ -34,7 +34,8 @@ import { usefavoriteApi } from 'services/favorites';
 import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
-import { search } from 'services/search';
+import { Refresh } from '../../../node_modules/@mui/icons-material/index';
+// /import getCartData from 'services/addtocart';
 
 export default {
   title: 'Pages/Home',
@@ -57,7 +58,7 @@ const keyToText = {
   isNew: 'New Arrivals',
   onSale: 'Sale Items'
 };
-export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
+export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
   const params = window.location.href.split('?')[1];
@@ -66,7 +67,7 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
   const [pageno, setPageno] = useState(1);
   const { loading, error, list } = useFetch(query, pageno);
   const [cookies, setCookie] = useCookies(['user']);
-  const { userInfo } = cookies;
+  const { userInfo, user } = cookies;
   const { dispatchUser } = CartState();
   const { fetchFavorites } = usefavoriteApi();
   // const [list, setList] = useState();
@@ -96,11 +97,7 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
     },
   });
   const [filterCards, setFilterCards] = useState([]);
-
   const loader = useRef(null);
-
-  
-
   useEffect(() => {
     //handleAbcSort()
     console.log('calling...');
@@ -273,13 +270,16 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
       });
     }
   }, [userInfo]);
-
+  
   useEffect(() => {
     getCartDetails();
     fetchFavorites();
     handleChange();
   }, []);
-
+  
+  function refreshPage() {     
+    window.location.reload(false);
+  }
 
   useEffect( async () => {
     await grocery(109791)
@@ -288,6 +288,9 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
       })
   }, [filterDropdowns]);
 
+  const [gridView, setGridView] = useState(true);
+  const [listView, setListView] = useState(false);
+    
 
   return (
     <Fragment>
@@ -299,7 +302,7 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
         <div className="w-full">
           <div className="pl-6 pt-5">
             <ShopCategory />
-            <ShopTag />
+            <ShopTag onSubDeptChange2={onSubDepartChange2}/>
             <div className="pt-6 flex flex-row justify-between">
               <ShopFilter
                 hanldeFilterChange={hanldeFilterChange}
@@ -308,6 +311,10 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
               <ShopSort
                 list={list}
                 filteredList={filteredList}
+                setGridView={setGridView}
+                setListView={setListView}
+                listView={listView}
+                gridView={gridView}
               />
             </div>
           </div>
@@ -317,11 +324,15 @@ export const ShopStory = ({ isAuthenticated, logout, ...rest }) => {
             filterCards={filterCards}
           />
           <ShopGetPage
-            list={list}
+            listView={listView}
+            gridView={gridView}
+            //list={list}
             loader={loader}
-            //list={filteredList.length === 0 ? list : filteredList}
+            list={filteredList.length === 0 ? list : filteredList}
             error={error}
             loading={loading}
+            pageno={pageno}
+            query={query}
           />
         </div>
       </div>

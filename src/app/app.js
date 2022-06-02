@@ -1,8 +1,6 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-  Routes,
-  Route,
   useRoutes
 } from 'react-router-dom';
 import { HomeStory } from 'stories/pages/home.stories';
@@ -18,12 +16,8 @@ import { ItemStory } from 'stories/pages/item.stories';
 import { DisplayShoppingListDetails } from 'stories/pages/dispmyshoppinglistdetails';
 import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
-import { Geolocation } from '../services/geolocation.js';
-import { StoreLocator } from 'stories/pages/storelocator.js';
-import { CookiesAge } from 'apiConfig';
-import { userInfoService } from 'services/auth.js';
-
-
+import { StoreLocator } from 'stories/pages/store.locator.js';
+//import { getCartData } from 'services/addtocart';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -41,21 +35,19 @@ const App = () => {
   const { facility, dept, user, userInfo, subdept } = cookies;
   // const { dispatchUser } = CartState();
   // const { getCartDetails } = useCart();
-
   const [store, setStore] = useState(facility);
-  const [store2, setStore2] = useState(facility);
   const [depart, setDepart] = useState(dept);
-  const [depart2, setDepart2] = useState(dept);
-  const [depart3, setDepart3] = useState(dept);
-  const [depart4, setDepart4] = useState(dept);
-  const [depart5, setDepart5] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
-  const [subdepart2, setSubdepart2] = useState(subdept);
+  const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
-    const { user } = cookies;
-    if (user?.token) setIsAuthenticated(true);
-    else setIsAuthenticated(false);
+    const { user } = cookies; 
+    if (!user && !userInfo) {
+      setStore("")
+    }
+    if (user?.token) {
+      setIsAuthenticated(true);
+    } else setIsAuthenticated(false);
   }, [cookies]);
 
   useEffect(() => {
@@ -89,47 +81,36 @@ const App = () => {
   };
 
   const onStoreChange = (storeSel) => {
+    console.log('onStoreChange', storeSel);
     setStore(storeSel);
   };
 
-  const onStoreChange2 = (storeSel) => {
-    setStore2(storeSel);
-  };
-
-  const onDepartChange = (storeDept) => {
+  const onDeptChange = (storeDept) => {
     setDepart(storeDept);
   };
 
-  const onDepartChange2 = (storeDept) => {
-    setSubdepart2(storeDept);
-  };
-
-  const onDepartChange3 = (storeDept) => {
-    setDepart3(storeDept);
-  };
-
-  const onDepartChange4 = (storeDept) => {
-    setDepart4(storeDept);
-  };
-
-  const onDepartChange5 = (storeDept) => {
-    setDepart5(storeDept);
-  };
-
-  const onSubDepartChange = (substoreDept) => {
+  const onSubDeptChange = (substoreDept) => {
     setSubdepart(substoreDept);
   };
 
-  const AppRoute = () => {
+  useEffect(() => {
+    console.log("COOKIES", cookies)
+  }, [])
+  
+
+
+  const AppRoute = ({ showCart, setShowCart }) => {
     let routes = useRoutes([
       {
         path: '/',
         element: (
           <HomeStory
+            showCart={showCart}
+            setShowCart={setShowCart}
             isAuthenticated={isAuthenticated}
             onStoreChange={onStoreChange}
-            onDepartChange4={onDepartChange4}
-            onDepartChange5={onDepartChange5}
+            onDepartChange4={onDeptChange}
+            onDepartChange5={onDeptChange}
             logout={onLogout}
           />
         )
@@ -140,9 +121,9 @@ const App = () => {
           <ShopStory
             isAuthenticated={isAuthenticated}
             logout={onLogout}
-            onDepartChange2={onDepartChange2}
-            onDepartChange3={onDepartChange3}
-            onSubDepartChange={onSubDepartChange}
+            onSubDepartChange2={onSubDeptChange}
+            onDepartChange3={onDeptChange}
+            onSubDepartChange={onSubDeptChange}
           />
         )
       },
@@ -183,10 +164,11 @@ const App = () => {
         path: 'store-locator',
         element: (
           <StoreLocator
+            userInfo={userInfo}
             isAuthenticated={isAuthenticated}
             logout={onLogout}
-            onFacilityChange={onStoreChange2}
-            store2={store2}
+            onFacilityChange={onStoreChange}
+            store={store}
           />
         )
       }
@@ -195,9 +177,10 @@ const App = () => {
   };
 
   // console.log('app', store);
-  console.log(store, facilityStoremapping[store?.facilityId]);
+  // console.log('app', store, facilityStoremapping[store?.facilityId]);
   return (
     <Router>
+
       <div id="yext-facility-hours-setter" style={{ visibility: 'hidden' }}>
         <p>
           <span
@@ -213,7 +196,7 @@ const App = () => {
       <Alert>
         <span>
           COVID-19 Vaccinations are now available in select locations.
-        </span>{' '}
+        </span>{' '} 
         <a className="underline" href="https://www.coborns.com/Covid19">
           Check Availability
         </a>
@@ -223,12 +206,13 @@ const App = () => {
         user={isAuthenticated ? { firstName: userInfo?.firstName } : null}
         logout={onLogout}
         store={store}
-        onDeptChange={onDepartChange}
+        onDeptChange={onDeptChange}
+        onSubDeptChange3={onSubDeptChange}
         usr={user}
-       
+        setShowCart={setShowCart}
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
-      <AppRoute />
+      <AppRoute showCart={showCart} setShowCart={setShowCart} />
       <Signup />
       <Footer />
     </Router>
