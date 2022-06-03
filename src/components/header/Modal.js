@@ -7,7 +7,7 @@ import { CookiesAge } from 'apiConfig';
 import useCart from 'services/addtocart';
 import { CartState } from 'context/context';
 
-const Modal = ({ onClose }) => {
+const Modal = ({ onClose, onPostSignIn }) => {
   const [cookies, setCookie] = useCookies(['user']);
   const [loginFailed, setLoginFailed] = useState(false);
   const [visibility, setVisibility] = useState(false);
@@ -42,6 +42,7 @@ const Modal = ({ onClose }) => {
         });
 
         onClose();
+        onPostSignIn();
       } else {
         setLoginFailed(true);
       }

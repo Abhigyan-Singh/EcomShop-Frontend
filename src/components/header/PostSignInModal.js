@@ -1,0 +1,49 @@
+import './PostSignInModal.css';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { authenticate, userInfoService } from 'services/auth';
+import { useCookies } from 'react-cookie';
+import { CookiesAge } from 'apiConfig';
+import useCart from 'services/addtocart';
+import { CartState } from 'context/context';
+
+const PostSignInModal = ({ onClose }) => {
+  const handleReplace = () => {
+    onClose();
+  }
+  const handleMerge = () => {
+    onClose();
+  }
+  const handleIgnore = () => {
+    onClose();
+  }
+  return (
+    <div className="post-signin-modal-card">
+      <div>
+        <p className='modal-info'>We already having shopping cart assinged to your name in our databse. Please select one of the following options</p>
+        <div>
+          <div className='modal-option'>
+            <p>Choose REPLACE if you would like to use current shooping cart only </p>
+            <button className="modal-option-btn" type="button" onClick={handleReplace}>
+              Replace
+            </button>
+          </div>
+          <div className='modal-option'>
+            <p>Choose MERGE if you would like to combine current shooping cart with cart from previous session </p>
+            <button className="modal-option-btn" type="button" onClick={handleMerge}>
+              Merge
+            </button>
+          </div>
+          <div className='modal-option'>
+            <p>Choose IGNORE if you wish to dsicard your current cart and use your previous shooping cart only </p>
+            <button className="modal-option-btn" type="button" onClick={handleIgnore}>
+              Ignore
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div >
+  );
+};
+export default PostSignInModal;
