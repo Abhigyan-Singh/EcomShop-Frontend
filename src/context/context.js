@@ -10,8 +10,8 @@ export const Context = ({ children }, data) => {
   const [state, dispatch] = useReducer(cartReducer, {
     data: items,
     cart: [],
-    tempCart:[]
-
+    tempCart: [],
+    postlogin: false,
   });
 
   const [favorites, dispatchFavorites] = useReducer(favoriteReducer, {

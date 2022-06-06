@@ -7,7 +7,7 @@ export const config = {
 export const API = {
   departments: '/product/areasolrsearch',
   facilities: '/api/facilities/',
-  authenticate: '/authenticate',
+  authenticate: '/api/authenticate',
   userinfo: '/userinfo',
   search: '/productn/searchbyname',
   productDetails: '/product/', // then id
@@ -26,7 +26,10 @@ export const API = {
   get_cart_items: '/cart/getCartItems',
   filter_products: '/productn/findbyarea1/101620/1/10/brand/asc',
   meals: '/productn/meals/',
-  bestsellers: '/productn/bestsellers/'
+  bestsellers: '/productn/bestsellers/',
+  ignore_cart: '/action/Ignore',
+  replace_cart: '/action/Replace',
+  merge_cart: '/action/Merge',
 };
 
 export const CookiesAge = 604800;

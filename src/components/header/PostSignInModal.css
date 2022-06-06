@@ -1,0 +1,51 @@
+.post-signin-modal-card {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: #fff;
+  padding: 1rem;
+  text-align: center;
+  width: 600px;
+  z-index: 10;
+  position: fixed;
+  top: 25vh;
+  left: calc(50% - 10rem);
+  display: flex;
+  justify-content: space-between;
+  height: 370px;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+}
+
+.modal-info {
+  color: #2c6b2c;
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.modal-option {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.modal-option-btn {
+  background-color: #2c6b2c;
+  border: 0;
+  border-radius: 100px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 4px 30px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  width: 100px;
+  line-height: 24px;
+  margin-left: 15px;
+  margin-top: 10px;
+}

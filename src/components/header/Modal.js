@@ -33,15 +33,19 @@ const Modal = ({ onClose }) => {
               path: '/',
               maxAge: CookiesAge
             });
+            setCookie('facility', userRes.data.facility, {
+              path: '/',
+              maxAge: CookiesAge
+            });
             dispatchUser({
               type: 'SET_USER',
-              payload: { userName: data.userName }
+              payload: { userName: userRes.data.userName }
             });
-            getCartDetails(data.userName);
+            getCartDetails(userRes.data.userName, true);
+            onClose();
           }
         });
 
-        onClose();
       } else {
         setLoginFailed(true);
       }

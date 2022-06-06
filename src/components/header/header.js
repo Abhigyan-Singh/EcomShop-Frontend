@@ -32,6 +32,7 @@ import { CartState } from 'context/context';
 import { map } from 'lodash';
 import { useCart } from 'react-use-cart';
 import { departments } from 'services/departmentSearch';
+import PostSignInModal from './PostSignInModal';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -89,13 +90,17 @@ const Header = (props) => {
   //const [showCart, setShowCart] = useState(false);
   const { getCartDetails } = useCart();
   const {
-    state: { cart, qty },
+    state: { cart, postlogin },
     dispatch
   } = CartState();
   const { search } = useLocation();
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
   const [modalIsOpen, setModalIsOpen] = useState(query.get('login') === 'show');
+  const [postSignInModalIsOpen, setPostSignInModalIsOpen] = useState(postlogin);
 
+  useEffect(() => {
+    setPostSignInModalIsOpen(postlogin);
+  }, [postlogin]);
 
   const fetch = async (item) => {
     if (item) {
@@ -152,6 +157,14 @@ const Header = (props) => {
     setModalIsOpen(true);
   };
 
+  const postSignInModelHandler = () => {
+    setPostSignInModalIsOpen(true);
+  };
+
+  const closePostSignInModalHandler = () => {
+    setPostSignInModalIsOpen(false);
+  };
+
   const closeModalHandler = () => {
     setModalIsOpen(false);
   };
@@ -188,6 +201,7 @@ const Header = (props) => {
     const urlObj = {
       localhost: 'https://devweb2.shop.coborns.com',
       dev: 'https://devweb.shop.coborns.com',
+      test: 'https://tshop.coborns.com',
       prod: 'https://shop.coborns.com'
     };
     const path = '/checkautomaticpromotions';
@@ -197,7 +211,10 @@ const Header = (props) => {
       url = urlObj['localhost'];
     } else if (host.includes('devweb2.shop.coborns.com')) {
       url = urlObj['dev'];
-    } else if (host.includes('shop.coborns.com')) {
+    } else if (host.includes('tshop.coborns.com')) {
+      url = urlObj['test'];
+    }
+    else if (host.includes('shop.coborns.com')) {
       url = urlObj['prod'];
     } else {
       url = urlObj['localhost'];
@@ -214,77 +231,60 @@ const Header = (props) => {
     setShowCart(false);
   };
 
-  useEffect (() => { 
+  useEffect(() => {
     grocery(109791)
-      .then((res) => 
-      {setBabySub(res.data)}
-    )
+      .then((res) => { setBabySub(res.data) }
+      )
     grocery(109792)
-      .then((res) => 
-      {setBakerySub(res.data)}
-    )
+      .then((res) => { setBakerySub(res.data) }
+      )
     grocery(109793)
-      .then((res) => 
-      {setMeatSub(res.data)}
-    )
+      .then((res) => { setMeatSub(res.data) }
+      )
     grocery(109794)
-      .then((res) => 
-      {setDairySub(res.data)}
-    )
+      .then((res) => { setDairySub(res.data) }
+      )
     grocery(109795)
-      .then((res) => 
-      {setDeliSub(res.data)}
-    )
+      .then((res) => { setDeliSub(res.data) }
+      )
     grocery(109796)
-      .then((res) => 
-      {setFloralSub(res.data)}
-    )
+      .then((res) => { setFloralSub(res.data) }
+      )
     grocery(109797)
-      .then((res) => 
-      {setGenSub(res.data)}
-    )
+      .then((res) => { setGenSub(res.data) }
+      )
     grocery(109798)
-      .then((res) => 
-      {setGrocerySub(res.data)}
-    )
+      .then((res) => { setGrocerySub(res.data) }
+      )
     grocery(109799)
-      .then((res) => 
-      {setFrozenSub(res.data)}
-    )
+      .then((res) => { setFrozenSub(res.data) }
+      )
     grocery(109800)
-      .then((res) => 
-      {setHBSub(res.data)}
-    )
+      .then((res) => { setHBSub(res.data) }
+      )
     grocery(109801)
-      .then((res) => 
-      {setHouseSub(res.data)}
-    )
+      .then((res) => { setHouseSub(res.data) }
+      )
     grocery(109802)
-      .then((res) => 
-      {setPetSub(res.data)}
-    )
+      .then((res) => { setPetSub(res.data) }
+      )
     grocery(109803)
-      .then((res) => 
-      {setProduceSub(res.data)}
-    )
+      .then((res) => { setProduceSub(res.data) }
+      )
     grocery(109804)
-      .then((res) => 
-      {setBeerSub(res.data)}
-    )
+      .then((res) => { setBeerSub(res.data) }
+      )
     grocery(109805)
-      .then((res) => 
-      {setWineSub(res.data)}
-    )
+      .then((res) => { setWineSub(res.data) }
+      )
     grocery(109806)
-      .then((res) => 
-      {setLiquorSub(res.data)}
-    )
+      .then((res) => { setLiquorSub(res.data) }
+      )
     grocery(109807)
-      .then((res) => 
-      {setTobaccoSub(res.data)}
-    )
-  },[]);
- 
+      .then((res) => { setTobaccoSub(res.data) }
+      )
+  }, []);
+
 
   const handleSubDeptChange3 = (option) => {
     setCookie('subdept', ' ');
@@ -377,13 +377,13 @@ const Header = (props) => {
               {!user && 'Grocery Shopping Made Easy'}
             </div>
             <div className="text-xs font-medium space-x-2">
-              {user 
+              {user
                 ? <a className="underline" href="/store-locator">
-                    Store Locator
-                  </a> 
+                  Store Locator
+                </a>
                 : null
               }
-              
+
               {user && (
                 <a
                   className="underline"
@@ -395,7 +395,7 @@ const Header = (props) => {
               {!user && (
                 <a
                   className="underline"
-                  href="https://devweb2.shop.coborns.com/createaccount"
+                  href="https://tshop.coborns.com/osl/createaccount"
                 >
                   Register
                 </a>
@@ -410,10 +410,18 @@ const Header = (props) => {
                   <button className="underline" onClick={modelHandler}>
                     Sign In
                   </button>
-                  {modalIsOpen && <Modal onClose={closeModalHandler} />}
+                  {modalIsOpen && (
+                    <Modal
+                      onClose={closeModalHandler}
+                    />
+                  )}
                   {modalIsOpen && <Backdrop onClose={closeModalHandler} />}
                 </a>
               )}
+              {postSignInModalIsOpen && (
+                <PostSignInModal onClose={closePostSignInModalHandler} />
+              )}
+              {postSignInModalIsOpen && <Backdrop />}
             </div>
           </div>
           <div className="md:hidden">
@@ -466,13 +474,12 @@ const Header = (props) => {
                           <div className="text-xs font-medium">
                             <a
                               className="underline"
-                              href={`https://www.coborns.com/Cobstore${
-                                facilityStoremapping[store?.facilityId]
-                                  ? facilityStoremapping[
-                                      store?.facilityId
-                                    ]?.toString()
-                                  : store?.facilityId?.toString()
-                              }`}
+                              href={`https://www.coborns.com/Cobstore${facilityStoremapping[store?.facilityId]
+                                ? facilityStoremapping[
+                                  store?.facilityId
+                                ]?.toString()
+                                : store?.facilityId?.toString()
+                                }`}
                               target="_blank"
                               rel="noreferrer"
                             >
@@ -483,9 +490,9 @@ const Header = (props) => {
                         <div className="relative grid grid-cols-1 bg-white">
                           {mainNavigation.map((item) =>
                             !item.children &&
-                            item.name !== 'Rewards' &&
-                            item.name !== 'In-store Services' &&
-                            item.name !== 'Digital Coupons' ? (
+                              item.name !== 'Rewards' &&
+                              item.name !== 'In-store Services' &&
+                              item.name !== 'Digital Coupons' ? (
                               <a
                                 key={item.name}
                                 href={item.href}
@@ -580,7 +587,7 @@ const Header = (props) => {
                                                           );
                                                           navigate(
                                                             '/search?text=' +
-                                                              option.description
+                                                            option.description
                                                           );
                                                           // departments(
                                                           //   'sortBy', 'SortOrder', 1,'PRODUCTS', 605, 'NAV_CATALOG', 100000, option.description
@@ -592,7 +599,7 @@ const Header = (props) => {
                                                           );
                                                           navigate(
                                                             '/search?text=' +
-                                                              option.description
+                                                            option.description
                                                           );
                                                         }
                                                       }}
@@ -618,7 +625,7 @@ const Header = (props) => {
                                                       </Popover.Button>
                                                     </div>
                                                     {option.description ===
-                                                    'Baby' ? (
+                                                      'Baby' ? (
                                                       <div>
                                                         {babySub.map(
                                                           (subItem) => (
@@ -627,7 +634,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -651,7 +658,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -676,7 +683,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -696,7 +703,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -724,7 +731,7 @@ const Header = (props) => {
                                                                   );
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -744,7 +751,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -769,7 +776,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -789,7 +796,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -814,7 +821,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -834,7 +841,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -859,7 +866,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -879,7 +886,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -904,7 +911,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -924,7 +931,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -949,7 +956,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -969,7 +976,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -994,7 +1001,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -1014,11 +1021,11 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                                    //style={{padding: 1}}
+                                                                  //style={{padding: 1}}
                                                                   >
                                                                     {
                                                                       subItem.description
@@ -1040,7 +1047,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -1060,7 +1067,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1085,7 +1092,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -1105,7 +1112,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1130,7 +1137,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -1150,7 +1157,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1175,7 +1182,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -1195,7 +1202,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1220,7 +1227,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -1240,7 +1247,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1265,7 +1272,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -1285,7 +1292,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1310,7 +1317,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -1330,7 +1337,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1355,7 +1362,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?text=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -1375,7 +1382,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?text=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1483,8 +1490,8 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
-  onDeptChange: () => {},
-  onSubDeptChange3: () => {}
+  onDeptChange: () => { },
+  onSubDeptChange3: () => { }
 };
 
 export default Header;

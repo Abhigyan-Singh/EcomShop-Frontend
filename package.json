@@ -45,6 +45,7 @@
     "start": "craco start",
     "build": "craco build",
     "build:dev": "cross-env REACT_APP_ENV=dev craco build",
+    "build:test": "cross-env REACT_APP_ENV=test craco build",
     "build:stage": "cross-env REACT_APP_ENV=stage craco build",
     "build:prod": "cross-env REACT_APP_ENV=prod craco build",
     "test": "craco test",
