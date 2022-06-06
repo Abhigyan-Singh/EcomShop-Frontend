@@ -1,20 +1,21 @@
 import './PostSignInModal.css';
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { authenticate, userInfoService } from 'services/auth';
-import { useCookies } from 'react-cookie';
-import { CookiesAge } from 'apiConfig';
 import useCart from 'services/addtocart';
 import { CartState } from 'context/context';
 
 const PostSignInModal = ({ onClose }) => {
+
+  const { replaceCart, mergeCart, ignoreCart } = useCart();
   const handleReplace = () => {
+    replaceCart()
     onClose();
   }
   const handleMerge = () => {
+    mergeCart()
     onClose();
   }
   const handleIgnore = () => {
+    ignoreCart();
     onClose();
   }
   return (

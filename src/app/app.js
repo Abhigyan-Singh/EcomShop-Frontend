@@ -28,7 +28,7 @@ export const facilityStoremapping = {
 };
 
 const App = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const [cookies, setCookie, removeCookie] = useCookies(['user', 'userInfo']);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   //const location = Geolocation();
@@ -41,9 +41,11 @@ const App = () => {
   const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
-    const { user } = cookies; 
+    const { user } = cookies;
     if (!user && !userInfo) {
       setStore("")
+    } else if (facility) {
+      setStore(facility)
     }
     if (user?.token) {
       setIsAuthenticated(true);
@@ -96,7 +98,7 @@ const App = () => {
   useEffect(() => {
     console.log("COOKIES", cookies)
   }, [])
-  
+
 
 
   const AppRoute = ({ showCart, setShowCart }) => {
@@ -196,7 +198,7 @@ const App = () => {
       <Alert>
         <span>
           COVID-19 Vaccinations are now available in select locations.
-        </span>{' '} 
+        </span>{' '}
         <a className="underline" href="https://www.coborns.com/Covid19">
           Check Availability
         </a>

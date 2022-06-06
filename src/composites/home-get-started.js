@@ -605,7 +605,7 @@ export const mockData = [
     iconAttributeCode: [],
     sections: [{ id: 'wine-spirits', label: 'Wine & Spirits' }]
   },
-  {  
+  {
     productQTY1: '14',
     productQTY2: '15',
     productQTY3: '16',
@@ -733,6 +733,10 @@ const HomeGetStarted = (props) => {
       userInfoService().then((userRes) => {
         if (userRes.data) {
           setCookie('userInfo', userRes.data, {
+            path: '/',
+            maxAge: CookiesAge
+          });
+          setCookie('facility', userRes.data.facility, {
             path: '/',
             maxAge: CookiesAge
           });
