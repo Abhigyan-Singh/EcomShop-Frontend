@@ -7,7 +7,7 @@ import { CookiesAge } from 'apiConfig';
 import useCart from 'services/addtocart';
 import { CartState } from 'context/context';
 
-const Modal = ({ onClose, onPostSignIn }) => {
+const Modal = ({ onClose }) => {
   const [cookies, setCookie] = useCookies(['user']);
   const [loginFailed, setLoginFailed] = useState(false);
   const [visibility, setVisibility] = useState(false);
@@ -33,16 +33,19 @@ const Modal = ({ onClose, onPostSignIn }) => {
               path: '/',
               maxAge: CookiesAge
             });
+            setCookie('facility', userRes.data.facility, {
+              path: '/',
+              maxAge: CookiesAge
+            });
             dispatchUser({
               type: 'SET_USER',
-              payload: { userName: data.userName }
+              payload: { userName: userRes.data.userName }
             });
-            getCartDetails(data.userName);
+            getCartDetails(userRes.data.userName, true);
+            onClose();
           }
         });
 
-        onClose();
-        onPostSignIn();
       } else {
         setLoginFailed(true);
       }

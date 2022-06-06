@@ -1,5 +1,11 @@
 export const cartReducer = (state, action) => {
   switch (action.type) {
+    case 'SET_POST_LOGIN': {
+      return {
+        ...state,
+        postlogin: action.payload
+      };
+    }
     case 'SET_CART_DATA': {
       const cart = action.payload;
       return {
@@ -15,7 +21,7 @@ export const cartReducer = (state, action) => {
         (product) => product.productId === action.payload.productId
       );
       console.log('add to cart', state)
-     
+
       if (item) {
         const cart = state.cart.map((product) => {
           if (product.productId === action.payload.productId) {

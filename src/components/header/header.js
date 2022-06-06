@@ -90,13 +90,17 @@ const Header = (props) => {
   //const [showCart, setShowCart] = useState(false);
   const { getCartDetails } = useCart();
   const {
-    state: { cart, qty },
+    state: { cart, postlogin },
     dispatch
   } = CartState();
   const { search } = useLocation();
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
   const [modalIsOpen, setModalIsOpen] = useState(query.get('login') === 'show');
-  const [postSignInModalIsOpen, setPostSignInModalIsOpen] = useState(false);
+  const [postSignInModalIsOpen, setPostSignInModalIsOpen] = useState(postlogin);
+
+  useEffect(() => {
+    setPostSignInModalIsOpen(postlogin);
+  }, [postlogin]);
 
   const fetch = async (item) => {
     if (item) {
@@ -207,7 +211,7 @@ const Header = (props) => {
       url = urlObj['localhost'];
     } else if (host.includes('devweb2.shop.coborns.com')) {
       url = urlObj['dev'];
-    }  else if (host.includes('tshop.coborns.com')) {
+    } else if (host.includes('tshop.coborns.com')) {
       url = urlObj['test'];
     }
     else if (host.includes('shop.coborns.com')) {
@@ -409,7 +413,6 @@ const Header = (props) => {
                   {modalIsOpen && (
                     <Modal
                       onClose={closeModalHandler}
-                      onPostSignIn={postSignInModelHandler}
                     />
                   )}
                   {modalIsOpen && <Backdrop onClose={closeModalHandler} />}
@@ -418,7 +421,7 @@ const Header = (props) => {
               {postSignInModalIsOpen && (
                 <PostSignInModal onClose={closePostSignInModalHandler} />
               )}
-              {postSignInModalIsOpen && <Backdrop onClose={closePostSignInModalHandler} />}
+              {postSignInModalIsOpen && <Backdrop />}
             </div>
           </div>
           <div className="md:hidden">
