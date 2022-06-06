@@ -74,7 +74,7 @@ const Cart = (props) => {
                 className="text-xs leading-none"
                 style={{ fontWeight: 'bold' }}
               >
-                {item.item.currentPrice}
+                {item.item.normalPrice}
               </div>
               <button
                 onClick={() =>
