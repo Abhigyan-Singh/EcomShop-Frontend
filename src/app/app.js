@@ -53,6 +53,12 @@ const App = () => {
   }, [cookies]);
 
   useEffect(() => {
+    if (userInfo) {
+      console.log("USERFACILITY", userInfo.defaultFacility)
+    }       
+  }, [])
+  
+  useEffect(() => {
     let brand = 'coborns-theme';
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase()) > -1) {
       brand = 'coborns-theme';
@@ -72,6 +78,7 @@ const App = () => {
   const handleMobileButtonClick = (event) => {
     setMobileNavOpen(true);
   };
+
   const handleMobileNavClose = (event) => {
     setMobileNavOpen(event);
   };
@@ -98,8 +105,6 @@ const App = () => {
   useEffect(() => {
     console.log("COOKIES", cookies)
   }, [])
-
-
 
   const AppRoute = ({ showCart, setShowCart }) => {
     let routes = useRoutes([

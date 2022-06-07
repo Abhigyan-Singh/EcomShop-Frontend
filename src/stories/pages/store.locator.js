@@ -16,7 +16,6 @@ import Checkbox from 'components/checkbox/checkbox';
 import Radio from 'components/radio/radio';
 import Locator from 'components/locator/locator';
 import { userInfoService } from 'services/auth';
-import { LabelRounded, Navigation, SelectAllRounded } from '../../../node_modules/@mui/icons-material/index';
 import { useNavigate } from 'react-router-dom';
 import { Map, Marker, Draggable } from "pigeon-maps"
 import L from 'leaflet'
@@ -103,7 +102,7 @@ export const StoreLocator = (props) => {
       path: '/',
       maxAge: CookiesAge
     });
-    if (typeof onFacilityChange === 'function') {
+    if (typeof onFacilityChange === 'function') { 
       onFacilityChange(option);
     }
   };
