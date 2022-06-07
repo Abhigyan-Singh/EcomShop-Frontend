@@ -49,7 +49,7 @@ const Cart = (props) => {
     // window.location.replace(url + path)
     window.location.href = url + path;
   };
-
+}
 
   const CartItem = (item) => {
     const dept1 = item.item.prodDepartment;

@@ -97,7 +97,7 @@ const Header = (props) => {
   const { search } = useLocation();
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
   const [modalIsOpen, setModalIsOpen] = useState(query.get('login') === 'show');
-  const [postSignInModalIsOpen, setPostSignInModalIsOpen] = useState(postlogin);\
+  const [postSignInModalIsOpen, setPostSignInModalIsOpen] = useState(postlogin);
 
   useEffect(() => {
     setPostSignInModalIsOpen(postlogin);
