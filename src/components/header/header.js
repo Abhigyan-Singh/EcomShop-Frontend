@@ -33,6 +33,7 @@ import { map } from 'lodash';
 import { useCart } from 'react-use-cart';
 import { departments } from 'services/departmentSearch';
 import Cart from '../../components/cart/cart.js';
+import PostSignInModal from './PostSignInModal';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -90,13 +91,17 @@ const Header = (props) => {
   const [showCart, setShowCart] = useState(false);
   const { getCartDetails } = useCart();
   const {
-    state: { cart, qty },
+    state: { cart, postlogin },
     dispatch
   } = CartState();
   const { search } = useLocation();
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
   const [modalIsOpen, setModalIsOpen] = useState(query.get('login') === 'show');
+  const [postSignInModalIsOpen, setPostSignInModalIsOpen] = useState(postlogin);\
 
+  useEffect(() => {
+    setPostSignInModalIsOpen(postlogin);
+  }, [postlogin]);
 
   const fetch = async (item) => {
     if (item) {
@@ -127,12 +132,17 @@ const Header = (props) => {
     };
   };
 
+  const searcher = useCallback(
+    debounce((n) => fetch(n), 1000),
+    []
+  );
+
 
   const handleChange = (event) => {
     setLoading(true);
     setSearchList([]);
     setValue(event.target.value);
-    if (event.target.value.length > 0) debounce(event.target.value);
+    if (event.target.value.length > 0) searcher(event.target.value);
   };
 
   const handleItemSelect = (item) => {
@@ -151,6 +161,14 @@ const Header = (props) => {
 
   const closeModalHandler = () => {
     setModalIsOpen(false);
+  };
+ 
+  const postSignInModelHandler = () => {
+    setPostSignInModalIsOpen(true);
+  };
+
+  const closePostSignInModalHandler = () => {
+    setPostSignInModalIsOpen(false);
   };
 
   const [searchArray, setSearchArray] = useState(searchList);
@@ -185,6 +203,7 @@ const Header = (props) => {
     const urlObj = {
       localhost: 'https://devweb2.shop.coborns.com',
       dev: 'https://devweb.shop.coborns.com',
+      test: 'https://tshop.coborns.com',
       prod: 'https://shop.coborns.com'
     };
     const path = '/checkautomaticpromotions';
@@ -194,7 +213,10 @@ const Header = (props) => {
       url = urlObj['localhost'];
     } else if (host.includes('devweb2.shop.coborns.com')) {
       url = urlObj['dev'];
-    } else if (host.includes('shop.coborns.com')) {
+    } else if (host.includes('tshop.coborns.com')) {
+      url = urlObj['test'];
+    }
+    else if (host.includes('shop.coborns.com')) {
       url = urlObj['prod'];
     } else {
       url = urlObj['localhost'];
@@ -392,7 +414,7 @@ const Header = (props) => {
               {!user && (
                 <a
                   className="underline"
-                  href="https://devweb2.shop.coborns.com/createaccount"
+                  href="https://tshop.coborns.com/osl/createaccount"
                 >
                   Register
                 </a>
@@ -407,10 +429,18 @@ const Header = (props) => {
                   <button className="underline" onClick={modelHandler}>
                     Sign In
                   </button>
-                  {modalIsOpen && <Modal onClose={closeModalHandler} />}
+                  {modalIsOpen && (
+                    <Modal
+                      onClose={closeModalHandler}
+                    />
+                  )}
                   {modalIsOpen && <Backdrop onClose={closeModalHandler} />}
                 </a>
               )}
+               {postSignInModalIsOpen && (
+                <PostSignInModal onClose={closePostSignInModalHandler} />
+              )}
+              {postSignInModalIsOpen && <Backdrop />}
             </div>
           </div>
           <div className="md:hidden">
@@ -463,13 +493,12 @@ const Header = (props) => {
                           <div className="text-xs font-medium">
                             <a
                               className="underline"
-                              href={`https://www.coborns.com/Cobstore${
-                                facilityStoremapping[store?.facilityId]
-                                  ? facilityStoremapping[
-                                      store?.facilityId
-                                    ]?.toString()
-                                  : store?.facilityId?.toString()
-                              }`}
+                              href={`https://www.coborns.com/Cobstore${facilityStoremapping[store?.facilityId]
+                                ? facilityStoremapping[
+                                  store?.facilityId
+                                ]?.toString()
+                                : store?.facilityId?.toString()
+                                }`}
                               target="_blank"
                               rel="noreferrer"
                             >

@@ -29,20 +29,23 @@ const Cart = (props) => {
     const urlObj = {
       localhost: 'https://devweb2.shop.coborns.com',
       dev: 'https://devweb2.shop.coborns.com',
+      test: 'https://tshop.coborns.com',
       prod: 'https://shop.coborns.com'
     };
-    const path = '/checkautomaticpromotions';
+    const path = '/osl/checkautomaticpromotions';
     const host = window.location.host;
     let url = '';
     if (host.includes('localhost')) {
       url = urlObj['localhost'];
     } else if (host.includes('devweb2.shop.coborns.com')) {
       url = urlObj['dev'];
-    } else if (host.includes('shop.coborns.com')) {
+    } else if (host.includes('tshop.coborns.com')) {
+      url = urlObj['test'];
+    }else if (host.includes('shop.coborns.com')) {
       url = urlObj['prod'];
     } else {
       url = urlObj['localhost'];
-    }
+
     // window.location.replace(url + path)
     window.location.href = url + path;
   };
