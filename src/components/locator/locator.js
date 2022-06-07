@@ -53,7 +53,7 @@ const LocationOption = ({ option }) => (
 );
 
 const Locator = (props) => {
-  const { className, onLocationChange, showCart, setShowCart, ...rest } = props;
+  const { className, onLocationChange, ...rest } = props;
   const componentClassName = classNames('cbn-locator', {}, className);
   const [cookies, setCookie] = useCookies();
   const [store, setStore] = useState([null]);
@@ -61,7 +61,7 @@ const Locator = (props) => {
   const { facility, user, userInfo } = cookies;
   const navigate = useNavigate();
   const [hasLoaded, setHasLoaded] = useState(false);
-  // const [showCart, setShowCart] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   //const [total, setTotal] = useState();
   const {
     state: { cart, total },
@@ -198,7 +198,7 @@ const Locator = (props) => {
         <div className="border-l border-yellow-200">
           <button
             className="bg-yellow-100 flex items-center h-16 px-6 text-lg font-bold"
-            onClick={handleCartClick}
+            onClick={() => {handleCartClick()}}
           >
             <span className="mr-12">Total:</span>
             {isNaN(total) ? (

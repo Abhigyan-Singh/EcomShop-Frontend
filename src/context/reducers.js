@@ -11,7 +11,7 @@ export const cartReducer = (state, action) => {
       return {
         ...state,
         cart,
-        total: cart.reduce((result, item) => item.currentPrice + result, 0)
+        total: cart.reduce((result, item) => item.normalPrice + result, 0)
       };
     }
 
@@ -39,7 +39,7 @@ export const cartReducer = (state, action) => {
           ...state,
           cart,
           total: cart.reduce(
-            (result, item) => item.qty * item.currentPrice + result,
+            (result, item) => item.qty * item.normalPrice + result,
             0
           )
         };
@@ -55,7 +55,7 @@ export const cartReducer = (state, action) => {
           ...state,
           cart,
           total: cart.reduce(
-            (result, item) => item.qty * item.currentPrice + result,
+            (result, item) => item.qty * item.normalPrice + result,
             0
           )
         };
@@ -73,7 +73,7 @@ export const cartReducer = (state, action) => {
           ...state,
           cart,
           total: cart.reduce(
-            (result, item) => item.qty * item.currentPrice + result,
+            (result, item) => item.qty * item.normalPrice + result,
             0
           )
         };
@@ -97,7 +97,7 @@ export const cartReducer = (state, action) => {
           ...state,
           cart,
           total: cart.reduce(
-            (result, item) => item.qty * item.currentPrice + result,
+            (result, item) => item.qty * item.normalPrice + result,
             0
           )
         };
@@ -121,7 +121,7 @@ export const cartReducer = (state, action) => {
           ...state,
           cart,
           total: cart.reduce(
-            (result, item) => item.qty * item.currentPrice + result,
+            (result, item) => item.qty * item.normalPrice + result,
             0
           )
         };
@@ -141,7 +141,7 @@ export const cartReducer = (state, action) => {
         ...state,
         cart3,
         total: cart3.reduce(
-          (result, item) => item.qty * item.currentPrice + result,
+          (result, item) => item.qty * item.normalPrice + result,
           0
         )
       };
@@ -160,7 +160,7 @@ export const cartReducer = (state, action) => {
         ...state,
         cart,
         total: cart.reduce(
-          (result, item) => item.qty * item.currentPrice + result,
+          (result, item) => item.qty * item.normalPrice + result,
           0
         )
       };

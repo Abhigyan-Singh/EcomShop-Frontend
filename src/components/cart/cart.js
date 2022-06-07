@@ -45,11 +45,11 @@ const Cart = (props) => {
       url = urlObj['prod'];
     } else {
       url = urlObj['localhost'];
-    }
+
     // window.location.replace(url + path)
     window.location.href = url + path;
   };
-
+}
 
   const CartItem = (item) => {
     const dept1 = item.item.prodDepartment;
@@ -77,7 +77,7 @@ const Cart = (props) => {
                 className="text-xs leading-none"
                 style={{ fontWeight: 'bold' }}
               >
-                {item.item.currentPrice}
+                {item.item.normalPrice}
               </div>
               <button
                 onClick={() =>
