@@ -11,6 +11,7 @@ import Button from 'components/button/button';
 import { useCookies } from 'react-cookie';
 import { useCart } from 'react-use-cart';
 import { config, API } from 'apiConfig';
+import apiClient from 'services/api';
 import { AlternateEmail } from '../../../node_modules/@mui/icons-material/index';
 
 
@@ -28,7 +29,7 @@ export const Counter2 = (props) => {
   const [id] = useState(newId('counter'));
   const [value, setValue] = useState(defaultValue);
   const [cookies, setCookie] = useCookies();
-  const { user, userInfo } = cookies;
+  const { user, userInfo, facility } = cookies;
   const [name, setName] = useState(userInfo);
   const componentClassName = classNames(
     'cbn-counter',
@@ -92,13 +93,17 @@ export const Counter2 = (props) => {
   //   .then(json => console.log("ADDED TO CART", json))
   //   }
   // }
+  const addToGuestCart = async (productId, qty, facilityId) => {
+    await apiClient.get(
+      `${config.baseUrl}${API.add_to_guest_cart}/${productId}/${qty}/${facilityId}`
+    );
+  };
 
 
-  
   return (
     <div className={componentClassName}>
       <button
-          style={{right: 13}}
+        style={{ right: 13 }}
         className="cbn-counter__button cbn-counter__button--left"
         disabled={disabled}
         onClick={() => {
@@ -115,7 +120,7 @@ export const Counter2 = (props) => {
         Quantity
       </label>
       <input
-        style={{right: 13}}
+        style={{ right: 13 }}
         className="cbn-counter__input"
         disabled={disabled}
         name="counter-value"
@@ -129,7 +134,7 @@ export const Counter2 = (props) => {
         {...rest}
       />
       <button
-        style={{right: 13}}
+        style={{ right: 13 }}
         className="cbn-counter__button cbn-counter__button--right"
         disabled={disabled}
         onClick={() => {
@@ -144,33 +149,37 @@ export const Counter2 = (props) => {
       </button>
       {cart.some((i) => i.productId === item.productId) ? (
         <button
-        style={{ marginLeft: -11, width: 99 }}
+          style={{ marginLeft: -11, width: 99 }}
           className="cbn-button"
-          onClick={() => {
-            //AddToCartApi( userInfo.userName, 95436, 1, 2037)
+          onClick={async () => {
+            if (!user) {
+              await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
+            }
             dispatch({
               type: 'ADD_TO_CART',
               payload: item,
               qty: item.qty ? item.qty + value : value
-            });            
+            });
           }}
         >
-          <span style={{ fontSize: 12}}>Added to Cart</span>
+          <span style={{ fontSize: 12 }}>Added to Cart</span>
         </button>
       ) : (
         <button
           style={{ marginLeft: -7, width: 92 }}
           className="cbn-button"
-          onClick={() => {
-            //AddToCartApi( userInfo.userName, 95436, 1, 2037)
+          onClick={async () => {
+            if (!user) {
+              await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
+            }
             dispatch({
-                type: 'ADD_TO_CART',
-                payload: item,
-                qty: item.qty ? item.qty + value : value
-              })       
+              type: 'ADD_TO_CART',
+              payload: item,
+              qty: item.qty ? item.qty + value : value
+            })
           }}
         >
-          <span style={{ fontSize: 12}}>Add to Cart</span>
+          <span style={{ fontSize: 12 }}>Add to Cart</span>
         </button>
       )}
     </div>
