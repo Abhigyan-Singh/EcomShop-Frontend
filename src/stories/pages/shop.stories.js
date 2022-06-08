@@ -290,8 +290,11 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
 
   const [gridView, setGridView] = useState(true);
   const [listView, setListView] = useState(false);
-    
 
+  useEffect(() => {
+    console.log("LIST", list)
+  }, [])
+  
   return (
     <Fragment>
       <div className="border-b-2">

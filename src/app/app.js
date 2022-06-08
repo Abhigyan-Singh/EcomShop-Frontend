@@ -53,8 +53,8 @@ const App = () => {
   }, [cookies]);
 
   useEffect(() => {
-    if (userInfo) {
-      console.log("USERFACILITY", userInfo.defaultFacility)
+    if (user) {
+      console.log("USERFACILITY", user)
     }       
   }, [])
   

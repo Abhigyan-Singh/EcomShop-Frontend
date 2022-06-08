@@ -9,22 +9,20 @@ function useFetch(query, pageNo) {
   const [error, setError] = useState(false);
   const [list, setList] = useState([]);
   const [data, setData] = useState()
-  const [itemOnPageCount, setItemOnPageCount] = useState(8)
-
 
   const sendQuery = useCallback( async () => {
     try {
       console.log("STARTED")
       setLoading(true);
       setError(false);
-      const res = await search(query, facilityId, bannerId, pageNo, itemOnPageCount);
+      const res = await search(query, facilityId, 0);
       const favoritesRes = await getAllFavorites();
       const favorites = favoritesRes.data;
-      if (res && res.data.productList) {
-        console.log("RESPONSE",res.data.productList)
-        // /setList(res.data.productList)
+      if (res && res.data.suggestionList) {
+        console.log("RESPONSE", res.data.suggestionList)
+        //setList(res.data.productList)
         setList((prev) => {
-          const newListData = [...prev, ...res.data.productList];
+          const newListData = [...prev, ...res.data.suggestionList];
           const formattedListData = newListData.map((each) => {
             let favorite = false;
             favorites.map((val) => {
@@ -43,15 +41,14 @@ function useFetch(query, pageNo) {
       setError(err);
       console.log("ERROR", err)
     }
-  }, [query, facilityId, pageNo, itemOnPageCount]);
+  }, [query, facilityId]);
 
   useEffect(() => {
     if (query) {
       console.log("QUERY", query)
       sendQuery(query)
     }
-  }, [query, sendQuery, pageNo]);
-
+  }, [query, sendQuery]);
   return { loading, error, list };
 }
 

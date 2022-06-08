@@ -9,7 +9,7 @@ export const API = {
   facilities: '/api/facilities/',
   authenticate: '/api/authenticate',
   userinfo: '/userinfo',
-  search: '/productn/searchbyname',
+  search: '/product/search',
   productDetails: '/product/', // then id
   grocery_tree: '/grocery/tree/5/PRODUCTS/',
   in_store_services: '/api/stores/find/',
