@@ -109,7 +109,7 @@ const Item = (props) => {
       <div className="cbn-item__information">
         <div
           onClick={() =>
-            navigate(`/item/${item.productId}`, { state: { item, listItems } })
+            navigate(`/item/${item.productId}`, { state: {item, listItems} })
           }
         >
           <div className="cbn-item__name">
@@ -120,7 +120,7 @@ const Item = (props) => {
           <div className="cbn-item__number">Item #: {item.productId}</div>
         </div>
         <div className="cbn-item__size">
-          {item.sizeString} | {(item.pricePerUnit / item.sizeNumber).toFixed(2)}{' '}
+          {item.sizeString} | {(0.99).toFixed(2)}{' '}
           / {item.sizeUom}
         </div>
       </div>
@@ -136,7 +136,7 @@ const Item = (props) => {
         )}
       </div>
       <div className="cbn-item__controls">
-        {item.randomWeightFlag !== 0 ? (
+        {item.weightedFlag !== "N" ? (
           <div>
             {item.keywords && (
               <div className="mb-2">

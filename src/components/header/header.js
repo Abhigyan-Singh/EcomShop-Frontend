@@ -105,13 +105,13 @@ const Header = (props) => {
 
   const fetch = async (item) => {
     if (item) {
-      await search(item, store.facilityId, 1, 1, 8).then((res) =>
-        setSearchList(res.data.productList)
+      await search(item, store.facilityId, 0).then((res) =>
+        setSearchList(res.data.suggestionList)
       );
       setLoading(false);
     }
   };
-
+  
   const setHoursHtml = () => {
     if (
       document.getElementById('yext-facility-hours-getter') &&
@@ -136,7 +136,6 @@ const Header = (props) => {
     debounce((n) => fetch(n), 1000),
     []
   );
-
 
   const handleChange = (event) => {
     setLoading(true);
@@ -233,6 +232,10 @@ const Header = (props) => {
     setShowCart(false);
   };
 
+  //http://localhost:8009/product/areasolrsearch?sortBy=&sortOrder=&currentPageNumber=1&catalog=PRODUCTS&facilityId=605&locationCode=NAV_CATALOG&areaId=100000&facetName=Earth's
+  //sortBy, sortOrder, currentPageNumber, catalog, facilityId, locationCode, areaId, facetName
+  //departments()
+
   useEffect (() => { 
     grocery(109791)
       .then((res) => 
@@ -304,7 +307,6 @@ const Header = (props) => {
     )
   },[]);
  
-
   const handleSubDeptChange3 = (option) => {
     setCookie('subdept', ' ');
     setSelected(option);
@@ -601,6 +603,8 @@ const Header = (props) => {
                                                     <div
                                                       onClick={() => {
                                                         if (user) {
+                                                          //http://localhost:8009/product/areasolrsearch?sortBy=&sortOrder=&currentPageNumber=0&catalog=PRODUCTS&facilityId=605&locationCode=NAV_CATALOG&areaId=100000&facetName=Earth's
+                                                          
                                                           handleDeptChange(
                                                             option.description
                                                           );
@@ -608,10 +612,7 @@ const Header = (props) => {
                                                             '/search?text=' +
                                                               option.description
                                                           );
-                                                          // departments(
-                                                          //   'sortBy', 'SortOrder', 1,'PRODUCTS', 605, 'NAV_CATALOG', 100000, option.description
-                                                          //   //http://localhost:8009/product/areasolrsearch?sortBy=&sortOrder=&currentPageNumber=0&catalog=PRODUCTS&facilityId=605&locationCode=NAV_CATALOG&areaId=100000&facetName=Earth's
-                                                          // );
+                                                       
                                                         } else {
                                                           handleDeptChange(
                                                             option.description

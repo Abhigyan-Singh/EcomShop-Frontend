@@ -6,7 +6,6 @@ import {  useLocation } from 'react-router-dom';
 import { search } from 'services/search';
 import { getAllList, getAllListWithDetails } from 'services/mylist';
 
-
 export default {
   title: 'Pages/Home',
   argTypes: {
