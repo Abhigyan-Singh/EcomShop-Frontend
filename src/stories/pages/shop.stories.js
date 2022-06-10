@@ -58,7 +58,7 @@ const keyToText = {
   isNew: 'New Arrivals',
   onSale: 'Sale Items'
 };
-export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
+export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
   const params = window.location.href.split('?')[1];
@@ -67,7 +67,7 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
   const [pageno, setPageno] = useState(1);
   const { loading, error, list } = useFetch(query, pageno);
   const [cookies, setCookie] = useCookies(['user']);
-  const { userInfo, user } = cookies;
+  const { userInfo, user, facility } = cookies;
   const { dispatchUser } = CartState();
   const { fetchFavorites } = usefavoriteApi();
   // const [list, setList] = useState();
@@ -101,24 +101,28 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
   useEffect(() => {
     //handleAbcSort()
     console.log('calling...');
+    const brand = [];
     const payload = {
       brand: [],
       lifestyleAndDietary: [],
       newAndSale: []
     };
     filterDropdowns.brands.map((each) => {
-      console.log(each.brand.trim());
       if (each.checked) {
-        payload.brand.push(each.brand.trim());
+        brand.push(`"${each.brand}"`);
       }
     });
     if (filterDropdowns.onSale) {
       payload.newAndSale.push('sale');
     }
-    filterProducts(payload).then((res) => {
-      setFilteredList(res.data);
-    });
-  }, []);
+    if (brand.length) {
+      filterProducts(1, 1000, facility.facilityId, '100010', brand).then((res) => {
+        res?.data?.products ? setFilteredList(res.data.products) : setFilteredList([]);
+      });
+    } else {
+      setFilteredList([]);
+    }
+  }, [filterCards.length]);
 
   useEffect(() => {
     const filtdropDown = {
@@ -270,18 +274,18 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
       });
     }
   }, [userInfo]);
-  
+
   useEffect(() => {
     getCartDetails();
     fetchFavorites();
     handleChange();
   }, []);
-  
-  function refreshPage() {     
+
+  function refreshPage() {
     window.location.reload(false);
   }
 
-  useEffect( async () => {
+  useEffect(async () => {
     await grocery(109791)
       .then((res) => {
         setData(res);
@@ -294,7 +298,7 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
   useEffect(() => {
     console.log("LIST", list)
   }, [])
-  
+
   return (
     <Fragment>
       <div className="border-b-2">
@@ -305,7 +309,7 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
         <div className="w-full">
           <div className="pl-6 pt-5">
             <ShopCategory />
-            <ShopTag onSubDeptChange2={onSubDepartChange2}/>
+            <ShopTag onSubDeptChange2={onSubDepartChange2} />
             <div className="pt-6 flex flex-row justify-between">
               <ShopFilter
                 hanldeFilterChange={hanldeFilterChange}
