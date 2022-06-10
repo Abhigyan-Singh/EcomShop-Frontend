@@ -25,7 +25,7 @@ export const API = {
   add_to_cart: '/cart/addtocart',
   add_to_guest_cart: '/cart/addtoguestcart',
   get_cart_items: '/cart/getCartItems',
-  filter_products: '/productn/findbyarea1/101620/1/10/brand/asc',
+  filter_products: '/product/areasolrsearch',
   meals: '/productn/meals/',
   bestsellers: '/productn/bestsellers/',
   ignore_cart: '/action/Ignore',
