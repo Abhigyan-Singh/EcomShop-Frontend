@@ -18,6 +18,7 @@ import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
 import { StoreLocator } from 'stories/pages/store.locator.js';
 //import { getCartData } from 'services/addtocart';
+import { departments } from 'services/departmentSearch';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -54,7 +55,7 @@ const App = () => {
 
   useEffect(() => {
     if (user) {
-      console.log("USERFACILITY", user)
+      console.log("USERTOKEN", user)
     }       
   }, [])
   

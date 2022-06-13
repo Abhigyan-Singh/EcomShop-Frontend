@@ -291,9 +291,16 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
   const [gridView, setGridView] = useState(true);
   const [listView, setListView] = useState(false);
 
-  useEffect(() => {
-    console.log("LIST", list)
-  }, [])
+  // const [list2 , setList2] = useState()
+  // useEffect(() => {    
+  //   fetch('http://localhost:8009/product/areasolrsearch?sortBy=&sortOrder=&currentPageNumber=1&catalog=PRODUCTS&facilityId=2035&locationCode=NAV_CATALOG&areaId=109791')
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     setList2(data)
+  //     console.log('REPSPONSE', list2);
+  //   })
+  // }, [list])
+  
   
   return (
     <Fragment>
@@ -329,7 +336,7 @@ export const ShopStory = ({onSubDepartChange2, logout, ...rest }) => {
           <ShopGetPage
             listView={listView}
             gridView={gridView}
-            //list={list}
+            list2={list2}
             loader={loader}
             list={filteredList.length === 0 ? list : filteredList}
             error={error}

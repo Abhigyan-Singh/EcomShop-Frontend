@@ -98,6 +98,7 @@ const Header = (props) => {
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
   const [modalIsOpen, setModalIsOpen] = useState(query.get('login') === 'show');
   const [postSignInModalIsOpen, setPostSignInModalIsOpen] = useState(postlogin);
+  const [searchArray, setSearchArray] = useState(searchList);
 
   useEffect(() => {
     setPostSignInModalIsOpen(postlogin);
@@ -111,6 +112,18 @@ const Header = (props) => {
       setLoading(false);
     }
   };
+
+  // const [list2 , setList2] = useState()
+  // useEffect(() => {    
+  //   fetch('http://localhost:8009/product/areasolrsearch?sortBy=&sortOrder=&currentPageNumber=1&catalog=PRODUCTS&facilityId=2035&locationCode=NAV_CATALOG&areaId=109791')
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     setList2(data)
+  //     console.log('REPSPONSE', list2);
+  //   })
+  // }, [props])
+  
+  
   
   const setHoursHtml = () => {
     if (
@@ -169,8 +182,6 @@ const Header = (props) => {
   const closePostSignInModalHandler = () => {
     setPostSignInModalIsOpen(false);
   };
-
-  const [searchArray, setSearchArray] = useState(searchList);
 
   const onScroll = () => {
     // We need to integrate with solor here on scroll
@@ -231,10 +242,6 @@ const Header = (props) => {
   const onClose = (event) => {
     setShowCart(false);
   };
-
-  //http://localhost:8009/product/areasolrsearch?sortBy=&sortOrder=&currentPageNumber=1&catalog=PRODUCTS&facilityId=605&locationCode=NAV_CATALOG&areaId=100000&facetName=Earth's
-  //sortBy, sortOrder, currentPageNumber, catalog, facilityId, locationCode, areaId, facetName
-  //departments()
 
   useEffect (() => { 
     grocery(109791)
@@ -1442,7 +1449,6 @@ const Header = (props) => {
         </Popover>
         <div className="flex-1 lg:flex-none">
           <Autocomplete
-            handleDeptChange5={onDepartChange5}
             className="block w-full lg:w-96 h-10 md:h-11"
             hasRoundedCorners={true}
             icon={SearchIcon}

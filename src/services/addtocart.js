@@ -46,7 +46,6 @@ const useCart = () => {
         dispatch({ type: 'SET_POST_LOGIN', payload: false });
       }
       const cart = cartData.data.map((each) => ({
-
         currentPrice: each.itemTotal,
         qty: each.quantityInCart
       }));

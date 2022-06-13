@@ -45,7 +45,8 @@ const ShopGetPage = ({ query, pageno, loader, error, list, loading, gridView, li
             ))}
           </div>
       }
-        {loading && <p>Loading...</p>} 
+        {loading && <p>Loading...</p>}
+        {list === [] && <p>No Products match your criteria</p> } 
         {error && <p>No Products match your criteria</p>}
         <div ref={loader}/>
     </InfiniteScroll>
