@@ -193,7 +193,7 @@ const Modal = ({ onClose }) => {
               {errors.password.message}
             </p>
           )}
-          <button className="modal-bsw-btn" type="submit">
+          <button className="modal-bsw-btn sgIn" type="submit">
             Sign In
           </button>
         </div>

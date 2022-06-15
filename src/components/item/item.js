@@ -40,7 +40,7 @@ const Item = (props) => {
     ...rest
   } = props;
   const componentClassName = classNames(
-    'cbn-item group',
+    'cbn-item group custmBox',
     { 'cbn-item--row': layout === 'row', 'cbn-item--sale': item.onSale },
     className
   );

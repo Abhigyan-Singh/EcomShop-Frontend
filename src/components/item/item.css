@@ -233,3 +233,8 @@
   top: 25px;
   right: 35px;
 }
+.cbn-item.custmBox .cbn-item__information {
+  position: relative;
+  display: block;
+  min-height: 80px;
+}

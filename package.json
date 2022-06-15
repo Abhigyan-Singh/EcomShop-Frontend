@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^6.2.0",
+    "@craco/craco": "^6.4.3",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@headlessui/react": "0.0.0-dev.0ce63d8",
@@ -32,7 +32,9 @@
     "react-cookie": "^4.1.1",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.17.2",
+    "react-horizontal-scrolling-menu": "^2.8.2",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-loader-spinner": "^5.1.5",
     "react-router-dom": "^6.2.2",
     "react-scripts": "4.0.3",
     "react-scroll-component": "^0.6.7",

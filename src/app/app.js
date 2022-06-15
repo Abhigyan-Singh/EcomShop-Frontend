@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  useRoutes
-} from 'react-router-dom';
+import { BrowserRouter as Router, useRoutes } from 'react-router-dom';
 import { HomeStory } from 'stories/pages/home.stories';
 import { useCookies } from 'react-cookie';
 import { useState, useEffect } from 'react';
@@ -18,7 +15,8 @@ import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
 import { StoreLocator } from 'stories/pages/store.locator.js';
 //import { getCartData } from 'services/addtocart';
-
+import CartList from 'components/cartList/cartList.js';
+import CheckoutReview from 'components/checkoutReview/checkoutReview';
 export const facilityStoremapping = {
   605: 2029,
   500: 2032,
@@ -39,13 +37,14 @@ const App = () => {
   const [depart, setDepart] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
   const [showCart, setShowCart] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const { user } = cookies;
     if (!user && !userInfo) {
-      setStore("")
+      setStore('');
     } else if (facility) {
-      setStore(facility)
+      setStore(facility);
     }
     if (user?.token) {
       setIsAuthenticated(true);
@@ -54,10 +53,10 @@ const App = () => {
 
   useEffect(() => {
     if (user) {
-      console.log("USERFACILITY", user)
-    }       
-  }, [])
-  
+      console.log('USERFACILITY', user);
+    }
+  }, []);
+
   useEffect(() => {
     let brand = 'coborns-theme';
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase()) > -1) {
@@ -103,8 +102,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    console.log("COOKIES", cookies)
-  }, [])
+    console.log('COOKIES', cookies);
+  }, []);
 
   const AppRoute = ({ showCart, setShowCart }) => {
     let routes = useRoutes([
@@ -178,16 +177,27 @@ const App = () => {
             store={store}
           />
         )
+      },
+      {
+        path: 'CartList',
+        element: (
+          <CartList isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'Checkout',
+        element: (
+          <CheckoutReview isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
       }
     ]);
     return routes;
   };
 
-  // console.log('app', store);
   // console.log('app', store, facilityStoremapping[store?.facilityId]);
+
   return (
     <Router>
-
       <div id="yext-facility-hours-setter" style={{ visibility: 'hidden' }}>
         <p>
           <span
@@ -203,20 +213,21 @@ const App = () => {
       <Alert>
         <span>
           COVID-19 Vaccinations are now available in select locations.
-        </span>{' '}
+        </span>
         <a className="underline" href="https://www.coborns.com/Covid19">
           Check Availability
         </a>
       </Alert>
       <Header
         onMobileButtonClick={handleMobileButtonClick}
-        user={isAuthenticated ? { firstName: userInfo?.firstName } : null}
+        user={isAuthenticated ? { firstName: userInfo?.firstName } : ''}
         logout={onLogout}
         store={store}
         onDeptChange={onDeptChange}
         onSubDeptChange3={onSubDeptChange}
         usr={user}
         setShowCart={setShowCart}
+        setVisible={visible}
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
       <AppRoute showCart={showCart} setShowCart={setShowCart} />

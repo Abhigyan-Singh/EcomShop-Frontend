@@ -46,3 +46,9 @@
 .cbn-select--large {
   @apply h-11;
 }
+.b-carousel .pr-product .cbn-select {
+  width: 90px !important;
+  border: 1px solid #ccc;
+  padding-right: 26px;
+  border-radius: 3px !important;
+}

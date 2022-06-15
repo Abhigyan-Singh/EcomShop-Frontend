@@ -77,3 +77,17 @@
 .cbn-counter__input[type='number'] {
   -moz-appearance: textfield;
 }
+
+.plsMinus {
+  display: inline-flex;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 0 0 0 23px;
+  align-items: center;
+  justify-content: space-around;
+  height: 37px;
+  max-width: 100px;
+}
+.cbn-counter .cbn-button {margin-left: 6px !important; width: auto !important;}
+.cbn-item.custmBox .cbn-counter .cbn-button {margin-left: 6px !important; width: 108px !important;}
+.cbn-counter__button--left, .cbn-counter__input {border-right: 1px solid #ccc;}

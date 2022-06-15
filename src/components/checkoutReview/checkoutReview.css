@@ -1,0 +1,56 @@
+.s-checkout__top {
+    border-top: 1px solid #a5d751;
+    border-bottom: 1px solid #a5d751;
+    background: #ebebeb;
+    padding: 10px 0;
+  }
+  .s-checkout__top .container {
+    position: relative;
+  }
+  .s-checkout__top .container:after {
+    display: block;
+    content: '';
+    height: 0;
+    visibility: hidden;
+    clear: both;
+  }
+  .container {
+    width: 1254px;
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+  .s-checkout__top .container {
+    position: relative;
+  }
+  .s-checkout__top .container:after {
+    display: block;
+    content: '';
+    height: 0;
+    visibility: hidden;
+    clear: both;
+  }
+  .b-step {
+    align-items: center;
+  }
+  .checkout-logo {
+    left: 10px;
+  }
+  .checkout-logo {
+    /* background: url(../../img/logo@2x.png) center center no-repeat; */
+    /* background: url(../../assets/img/logo@2x.png) center center no-repeat;  */
+    background-size: 100%;
+    display: inline-block;
+    position: absolute;
+    width: 250px;
+    height: 30px;
+    margin-top: -40px;
+  }
+  .b-step__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 150px 0 0;
+  }
+  .dladrs.b-review-info__dt + .i-question {width: 17px; height: 17px; display: inline-block; background-color: #ccc; border-radius: 50%;}

@@ -8,10 +8,11 @@ import Counter from 'components/counter/counter';
 import './cart.css';
 import EmptyCart from '../../assets/images/CART.png';
 import { CartState } from 'context/context';
-
+import { useNavigate, useLocation } from 'react-router-dom';
 // COBORNS TODO: Replace this with actual data from data source
 
 const Cart = (props) => {
+  const navigate = useNavigate();
   const {
     state: { cart, total, qty },
     dispatch
@@ -26,29 +27,30 @@ const Cart = (props) => {
 
   const handleCheckoutCart = () => {
     console.log('clicked...');
-    const urlObj = {
-      localhost: 'https://devweb2.shop.coborns.com',
-      dev: 'https://devweb2.shop.coborns.com',
-      test: 'https://tshop.coborns.com',
-      prod: 'https://shop.coborns.com'
-    };
-    const path = '/osl/checkautomaticpromotions';
-    const host = window.location.host;
-    let url = '';
-    if (host.includes('localhost')) {
-      url = urlObj['localhost'];
-    } else if (host.includes('devweb2.shop.coborns.com')) {
-      url = urlObj['dev'];
-    } else if (host.includes('tshop.coborns.com')) {
-      url = urlObj['test'];
-    }else if (host.includes('shop.coborns.com')) {
-      url = urlObj['prod'];
-    } else {
-      url = urlObj['localhost'];
+    navigate('/CartList');
+  //   const urlObj = {
+  //     localhost: 'https://devweb2.shop.coborns.com',
+  //     dev: 'https://devweb2.shop.coborns.com',
+  //     test: 'https://tshop.coborns.com',
+  //     prod: 'https://shop.coborns.com'
+  //   };
+  //   const path = '/osl/checkautomaticpromotions';
+  //   const host = window.location.host;
+  //   let url = '';
+  //   if (host.includes('localhost')) {
+  //     url = urlObj['localhost'];
+  //   } else if (host.includes('devweb2.shop.coborns.com')) {
+  //     url = urlObj['dev'];
+  //   } else if (host.includes('tshop.coborns.com')) {
+  //     url = urlObj['test'];
+  //   }else if (host.includes('shop.coborns.com')) {
+  //     url = urlObj['prod'];
+  //   } else {
+  //     url = urlObj['localhost'];
 
-    // window.location.replace(url + path)
-    window.location.href = url + path;
-  };
+  //   // window.location.replace(url + path)
+  //   window.location.href = url + path;
+  // };
 }
 
   const CartItem = (item) => {
