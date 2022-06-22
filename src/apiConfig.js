@@ -8,6 +8,7 @@ export const API = {
   departments: '/product/areasolrsearch',
   facilities: '/api/facilities/',
   authenticate: '/api/authenticate',
+  ajaxauthenticateuser: '/osl/ajaxauthenticateuser',
   userinfo: '/userinfo',
   search: '/product/search',
   productDetails: '/product/', // then id
