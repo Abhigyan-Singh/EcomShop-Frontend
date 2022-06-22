@@ -724,7 +724,7 @@ export const mockData = [
 const HomeGetStarted = (props) => {
   const [cookies, setCookie] = useCookies(['user']);
   const { userInfo } = cookies;
-  const { dispatchUser } = CartState();
+  const { dispatchUser, favorites } = CartState();
   const { getCartDetails } = useCart();
   const { fetchFavorites } = usefavoriteApi();
 
@@ -748,12 +748,18 @@ const HomeGetStarted = (props) => {
         }
       });
     }
-  }, [userInfo]);
+  }, [dispatchUser, getCartDetails, setCookie, userInfo]);
+
+  useEffect(() => {
+    if (favorites.favorites.length === 0 && favorites.progress === false) {
+      console.log('fetchFavorites');
+      fetchFavorites();
+    }
+  }, [favorites.favorites.length, favorites.progress, fetchFavorites]);
 
   useEffect(() => {
     getCartDetails();
-    fetchFavorites();
-  }, []);
+  }, [getCartDetails]);
   return (
     <div className="p-4 md:p-6">
       <div className="flex flex-col mb-5 lg:items-end lg:flex-row lg:space-x-10">

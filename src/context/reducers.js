@@ -6,6 +6,12 @@ export const cartReducer = (state, action) => {
         postlogin: action.payload
       };
     }
+    case 'SET_CART_PROGRESS': {
+      return {
+        ...state,
+        progress: action.payload
+      };
+    }
     case 'SET_CART_DATA': {
       const cart = action.payload;
       return {
@@ -205,6 +211,12 @@ export const favoriteReducer = (state, action) => {
       return {
         ...state,
         favorites: action.payload
+      };
+    }
+    case 'SET_FAVORITE_PROGRESS': {
+      return {
+        ...state,
+        progress: action.payload
       };
     }
     default:

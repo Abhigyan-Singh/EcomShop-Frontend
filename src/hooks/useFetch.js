@@ -1,11 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import { search } from 'services/search';
-import { getAllFavorites } from 'services/favorites';
+import { usefavoriteApi } from 'services/favorites';
 import { useCookies } from 'react-cookie';
+import { CartState } from 'context/context';
+
 const bannerId = 1
 
 function useFetch(query, pageNo) {
-  const [loading, setLoading] = useState(true);
+  const { favorites, state: { progress }, dispatch } = CartState();
+  const { fetchFavorites } = usefavoriteApi();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [list, setList] = useState([]);
   const [data, setData] = useState();
@@ -18,8 +22,12 @@ function useFetch(query, pageNo) {
       setLoading(true);
       setError(false);
       const res = await search(query, facilityId, 0);
-      const favoritesRes = await getAllFavorites();
-      const favorites = favoritesRes.data;
+      let favoritesData;
+      if (favorites.favorites.length === 0 && favorites.progress === false) {
+        console.log('fetchFavorites');
+        await fetchFavorites();
+      }
+      favoritesData = favorites.favorites;
       if (res && res.data.suggestionList) {
         console.log("RESPONSE", res.data.suggestionList)
         //setList(res.data.productList)
@@ -27,7 +35,7 @@ function useFetch(query, pageNo) {
           const newListData = [...prev, ...res.data.suggestionList];
           const formattedListData = newListData.map((each) => {
             let favorite = false;
-            favorites.map((val) => {
+            favoritesData.map((val) => {
               if (!favorite && val.productId === each.productId) {
                 favorite = true;
               }
@@ -36,21 +44,25 @@ function useFetch(query, pageNo) {
           });
           return [...new Set(formattedListData)];
         });
-        setLoading(false);
       }
+      setLoading(false);
+      dispatch({ type: 'SET_CART_PROGRESS', payload: false })
     } catch (err) {
       console.log("HIT ERROR")
       setError(err);
-      console.log("ERROR", err)
+      console.log("ERROR", err);
+      setLoading(false);
+      dispatch({ type: 'SET_CART_PROGRESS', payload: false });
     }
-  }, [query, facilityId]);
+  }, [query, facilityId, favorites.favorites, favorites.progress, dispatch, fetchFavorites]);
 
   useEffect(() => {
-    if (query) {
+    if (query && progress === false) {
       console.log("QUERY", query)
+      dispatch({ type: 'SET_CART_PROGRESS', payload: true });
       sendQuery(query)
     }
-  }, [query, sendQuery]);
+  }, [query, sendQuery, progress, dispatch]);
   return { loading, error, list };
 }
 

@@ -68,7 +68,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
   const { loading, error, list } = useFetch(query, pageno);
   const [cookies, setCookie] = useCookies(['user']);
   const { userInfo, user, facility } = cookies;
-  const { dispatchUser } = CartState();
+  const { dispatchUser, favorites } = CartState();
   const { fetchFavorites } = usefavoriteApi();
   // const [list, setList] = useState();
   const { getCartDetails } = useCart();
@@ -279,11 +279,17 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
         }
       });
     }
-  }, [userInfo]);
+  }, [dispatchUser, getCartDetails, setCookie, userInfo]);
+
+  useEffect(() => {
+    if (favorites.favorites.length === 0 && favorites.progress === false) {
+      console.log('fetchFavorites');
+      fetchFavorites();
+    }
+  }, [favorites.favorites, favorites.progress, fetchFavorites]);
 
   useEffect(() => {
     getCartDetails();
-    fetchFavorites();
     handleChange();
   }, []);
 
