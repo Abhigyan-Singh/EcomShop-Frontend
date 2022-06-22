@@ -34,7 +34,7 @@ import { usefavoriteApi } from 'services/favorites';
 import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
-import { Refresh } from '../../../node_modules/@mui/icons-material/index';
+import { departments } from 'services/departmentSearch';
 // /import getCartData from 'services/addtocart';
 
 export default {
@@ -299,6 +299,16 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
     console.log("LIST", list)
   }, [])
 
+  const [list2 , setList2] = useState()
+  useEffect(() => {    
+    departments(1, facility.facilityId, cookies.dept)
+    .then((response) => {
+      setList2(response.data.products)
+      console.log('REPSPONSELIST', response.data.products);
+    })
+  }, [])
+
+  
   return (
     <Fragment>
       <div className="border-b-2">

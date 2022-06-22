@@ -58,7 +58,7 @@ const App = () => {
       console.log("USERTOKEN", user)
     }       
   }, [])
-  
+
   useEffect(() => {
     let brand = 'coborns-theme';
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase()) > -1) {
@@ -188,11 +188,22 @@ const App = () => {
   // console.log('app', store, facilityStoremapping[store?.facilityId]);
   return (
     <Router>
-
       <div id="yext-facility-hours-setter" style={{ visibility: 'hidden' }}>
         <p>
           <span
             data-yext-field="hours"
+            data-yext-id={
+              facilityStoremapping[store?.facilityId]
+                ? facilityStoremapping[store?.facilityId]?.toString()
+                : store?.facilityId?.toString()
+            }
+          ></span>
+        </p>
+      </div>
+      <div id="yext-facility-services-setter" style={{ visibility: 'hidden' }}>
+        <p>
+          <span
+            data-yext-field="services"
             data-yext-id={
               facilityStoremapping[store?.facilityId]
                 ? facilityStoremapping[store?.facilityId]?.toString()

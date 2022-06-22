@@ -28,21 +28,31 @@ const HomeServices = (props, onDepartChange4) => {
   const [data2, setData2] = useState();
   const [selected2, setSelected2] = useState(dept);
   
-
-  useEffect(() => {
-    servicesList();
-  }, []);
+  // useEffect(() => {
+  //   fetch('https://api.yext.com/v2/accounts/2285947/entities/2023?api_key=78de6e2905bde12aaacc15e2662d4ec2&v=20220621', 
+  //   { 
+  //     headers: {
+  //       'Access-Control-Allow-Origin':'https://api.yext.com'
+  //     }
+  //   })
+  //   .then((response) => {
+  //     console.log("SERVICES", response)
+  //     setServ(response.services);
+  //   });
+  // }, );
 
   const servicesList = () => {
     if (selected) {
-      inStoreServices(selected.facilityId).then((res) => {
-        setServ(res.data);
+      fetch('https://api.yext.com/v2/accounts/2285947/entities/2023?api_key=78de6e2905bde12aaacc15e2662d4ec2&v=20220621')
+      .then((response) => {
+        console.log("SERVICES", response.response)
+        setServ(response.response);
       });
     }
   };
 
-  useEffect(async () => {
-    await grocery(4433).then((res) => {
+  useEffect(() => {
+     grocery(4433).then((res) => {
       setData2(res.data);
     });
   }, []);

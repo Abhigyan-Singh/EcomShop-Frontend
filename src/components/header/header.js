@@ -62,7 +62,6 @@ const Header = (props) => {
   } = props;
   const componentClassName = classNames('cbn-header', {}, className);
   const [value, setValue] = useState('');
-
   const [searchList, setSearchList] = useState([]);
   const [data, setData] = useState();
   const [cookies, setCookie] = useCookies();
@@ -122,8 +121,6 @@ const Header = (props) => {
   //     console.log('REPSPONSE', list2);
   //   })
   // }, [props])
-  
-  
   
   const setHoursHtml = () => {
     if (
@@ -189,6 +186,7 @@ const Header = (props) => {
 
   useEffect(async () => {
     await grocery(4433).then((res) => {
+      console.log('GROCERY RESPONSE', res.data[0].id.area)
       setData(res.data);
     });
   }, [props]);
@@ -205,6 +203,17 @@ const Header = (props) => {
     }
   };
 
+  useEffect(() => {
+    if (facility) {
+      console.log("NEW FACILITY", facility.facilityId)
+    }
+    
+    if (cookies) {
+      console.log("NEW COOKIES", cookies)    
+   }
+  
+  }, [])
+  
   function refreshPage() {
     window.location.reload(false);
   }
@@ -504,8 +513,7 @@ const Header = (props) => {
                               className="underline"
                               href={`https://www.coborns.com/Cobstore${facilityStoremapping[store?.facilityId]
                                 ? facilityStoremapping[
-                                  store?.facilityId
-                                ]?.toString()
+                                  store?.facilityId]?.toString()
                                 : store?.facilityId?.toString()
                                 }`}
                               target="_blank"
@@ -609,9 +617,7 @@ const Header = (props) => {
                                                   <div>
                                                     <div
                                                       onClick={() => {
-                                                        if (user) {
-                                                          //http://localhost:8009/product/areasolrsearch?sortBy=&sortOrder=&currentPageNumber=0&catalog=PRODUCTS&facilityId=605&locationCode=NAV_CATALOG&areaId=100000&facetName=Earth's
-                                                          
+                                                        if (user) {      
                                                           handleDeptChange(
                                                             option.description
                                                           );
@@ -622,7 +628,7 @@ const Header = (props) => {
                                                        
                                                         } else {
                                                           handleDeptChange(
-                                                            option.description
+                                                            option.id.area
                                                           );
                                                           navigate(
                                                             '/search?text=' +
