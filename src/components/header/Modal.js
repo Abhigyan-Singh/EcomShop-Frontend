@@ -1,7 +1,7 @@
 import './Modal.css';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { authenticate, userInfoService } from 'services/auth';
+import { authenticate, userInfoService, ajaxauthenticateuser } from 'services/auth';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import useCart from 'services/addtocart';
@@ -50,6 +50,7 @@ const Modal = ({ onClose }) => {
         setLoginFailed(true);
       }
     });
+    ajaxauthenticateuser(data).then((res) => { });
   };
 
   const updateError = () => {

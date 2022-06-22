@@ -8,3 +8,6 @@ export const authenticate = (payload) => {
 export const userInfoService = () => {
   return apiClient.get(API.userinfo);
 };
+export const ajaxauthenticateuser = (payload) => {// authenticate user in legacy system.
+  return apiClient.post(API.ajaxauthenticateuser, payload);
+}

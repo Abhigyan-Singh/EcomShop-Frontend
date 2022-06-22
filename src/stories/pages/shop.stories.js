@@ -102,6 +102,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
     //handleAbcSort()
     console.log('calling...');
     const brand = [];
+    let areaId;
     const payload = {
       brand: [],
       lifestyleAndDietary: [],
@@ -109,6 +110,11 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
     };
     filterDropdowns.brands.map((each) => {
       if (each.checked) {
+        const item = list.filter(a => a.brand === each.brand)[0];
+        if (item) {
+          areaId = item.catalogArea[0];
+          areaId = areaId.replace('PRODUCTS_', '');
+        }
         brand.push(`"${each.brand}"`);
       }
     });
@@ -116,7 +122,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
       payload.newAndSale.push('sale');
     }
     if (brand.length) {
-      filterProducts(1, 1000, facility.facilityId, '100010', brand).then((res) => {
+      filterProducts(0, 1000, facility.facilityId, areaId, brand).then((res) => {
         res?.data?.products ? setFilteredList(res.data.products) : setFilteredList([]);
       });
     } else {

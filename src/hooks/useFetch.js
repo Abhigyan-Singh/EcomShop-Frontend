@@ -1,16 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import { search } from 'services/search';
 import { getAllFavorites } from 'services/favorites';
-const facilityId = 2037
+import { useCookies } from 'react-cookie';
 const bannerId = 1
 
 function useFetch(query, pageNo) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [list, setList] = useState([]);
-  const [data, setData] = useState()
-
-  const sendQuery = useCallback( async () => {
+  const [data, setData] = useState();
+  const [cookies, setCookie] = useCookies(['user']);
+  const { facility } = cookies;
+  const facilityId = facility?.facilityId ? facility?.facilityId : 2037;
+  const sendQuery = useCallback(async () => {
     try {
       console.log("STARTED")
       setLoading(true);
