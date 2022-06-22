@@ -3990,7 +3990,7 @@ body {
   line-height: 14px;
   color: #f00;
   vertical-align: middle;
-  display: none;
+  /* display: none; */
 }
 #checkOrderSumError {
   margin-bottom: 7px;

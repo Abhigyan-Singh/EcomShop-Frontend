@@ -1,0 +1,46 @@
+.label_topic {
+    color: #0d791e !important;
+    font-weight: bold !important;
+    font-family: 'Trebuchet MS', Helvetica, Verdana, sans-serif !important;
+    font-size: 25pt !important;
+    margin-left: 10px;
+}
+.cont {padding: 0 10px;}
+.deliPick { margin-top: 20px;}
+.deliPick a {
+    color: #2c6b2c;
+    font-size: inherit;
+    text-decoration: none;
+    transition: color 150ms ease;
+    font-weight: bold;
+    font-size: 11px;
+}
+.deliPick span {
+    color: #4d4d4d;
+    font-weight: bold;
+    font-size: 11px;
+}
+.chosPick {
+    font-weight: bold;
+    font-size: 13px;
+    color: #4d4d4d;
+    margin-top: 10px;
+}
+.chosPick p {margin-top: 5px;}
+.dlsl {margin-top: 10px; font-size: 15px; display: flex; justify-content: space-between;}
+.acorRow {display: flex; justify-content: space-between;}
+.acorRow .cbn-radio__label, .acorRow span { font-size: 14px !important ;}
+.dapuf {background-color: #095b00; color: #FFFFFF; font-family: Verdana,Arial,Helvetica,sans-serif; font-weight: bold; font-size: 16px; padding: 10px 20px; margin-top: 12px; }
+.ndDlvry {background-color: #999; color: #4d4d4d; font-family: Verdana,Arial,Helvetica,sans-serif; font-weight: bold; font-size: 14px; margin-top: 12px; display: flex; }
+.ndDlvryLft {width: 50%; display: inline-block; padding: 10px 20px; text-align: center;}
+.ndDlvryRht {width: 50%; display: inline-block; padding: 10px 20px; text-align: center; background-color: #ccc;}
+.ndDlvryRow {display: flex;}
+.ndDlvryRowLft {width: 50%; display: inline-block; padding: 1px 20px; text-align: left; color: #4d4d4d; font-size: 14px;}
+.ndDlvryRowRght {width: 50%; display: inline-block; padding: 1px 20px; text-align: center; color: #4d4d4d; font-size: 14px;}
+.ndDlvryRowHead {color: #4d4d4d; font-size: 16px; margin-top: 10px; font-weight: bold; padding:0 20px;}
+.ndDlvryRowSubHead {color: #4d4d4d; font-size: 14px; margin-top: 15px; font-weight: bold; padding: 0 20px;}
+b, strong {
+    font-weight: bold;
+}
+.ndDlvryRowFoot {color: #4d4d4d; font-family: Verdana,Helvetica,Arial; font-size: 14px; margin-top: 15px; padding:0 20px; margin-bottom: 20px;}
+.chosPick p img {border: 1px solid #000;}

@@ -17,6 +17,11 @@ import { StoreLocator } from 'stories/pages/store.locator.js';
 //import { getCartData } from 'services/addtocart';
 import CartList from 'components/cartList/cartList.js';
 import CheckoutReview from 'components/checkoutReview/checkoutReview';
+import ContactInformation from 'components/contactInformation/contactInformation';
+import CheckoutPaymentInformation from 'components/checkoutPaymentInformation/checkoutPaymentInformation';
+import DeliverySlot from 'components/deliveryDaySlot/deliverySlot';
+import PleaseWait from 'components/pleaseWait/pleaseWait';
+
 export const facilityStoremapping = {
   605: 2029,
   500: 2032,
@@ -189,7 +194,27 @@ const App = () => {
         element: (
           <CheckoutReview isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      }
+      },{
+        path: 'contactInformation',
+        element: (
+          <ContactInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },{
+        path: 'checkoutPayment',
+        element: (
+          <CheckoutPaymentInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },{
+        path: 'deliverySlot',
+        element: (
+          <DeliverySlot isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },{
+        path: 'pleaseWait',
+        element: (
+          <PleaseWait isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
     ]);
     return routes;
   };

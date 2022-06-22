@@ -1,0 +1,100 @@
+.payInfoHead h2 {margin: 0; font-size: 14px; font-weight: bold; margin-top: 17px;}
+.payInfoWrapper {
+    width: 90%;
+    max-width: 900px;
+    margin: auto;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+.paymentOptionsBox {
+    margin: 20px 0 0 0;
+    display: block;
+    width: 90%;
+    border: 1px solid grey;
+    border-radius: 5px;
+    position: relative;
+}
+.paymentOptionsBox h2 {
+    width: 100%;
+    vertical-align: middle;
+    background: lightgrey;
+    padding: 10px;
+    border-bottom: 1px solid grey;
+    border-radius: 5px 5px 0 0;
+    font-weight: bold;
+}
+.paymentOptionsBoxHd {display: flex; align-items: center; margin: 10px 0; padding-left: 10px; font-weight: bold;}
+.paymentOptionsBoxCol {display: inline-block; font-size: 14px;  padding-right: 10px;}
+.paymentOptionsBoxCol:first-child {width: 11%;}
+.paymentOptionsBoxCol:nth-child(2) {width: 33%;}
+.paymentOptionsBoxCol:nth-child(3) {width: 20%;}
+.paymentOptionsBoxCol:nth-child(4) {width: 26%;}
+.paymentOptionsBoxCol:nth-child(5) {width: 10%; text-align: right;}
+.paymentOptionsBoxRow {display: flex; align-items: center; padding: 10px 0 10px 10px;}
+.paymentOptionsBoxRow:nth-child(even) { background-color: #f2f2f2;}
+.paymentOptionsBoxRowSec {display: block;}
+.paymentOptionsBoxCol input[type="radio"]{border: 1px solid #999;}
+.i-delete-pay, .i-edit-pay {
+    color: transparent;
+    cursor: pointer;
+    font-weight: bold;
+    border: 0;
+    padding-bottom: 2px;
+    margin-left: 10px;
+    height: 20px;
+    width: 20px;
+}
+.i-delete-pay {
+    background: url(../../assets/images/commonimages/deleteBin.png) no-repeat scroll 0 0 transparent;
+}
+.i-edit-pay {
+    background: url(../../assets/images/commonimages/editPencil.png) no-repeat scroll 0 0 transparent;
+}
+.adCrtBot {
+    display: inline-block;
+    border-radius: 5px;
+    line-height: 40px;
+    height: 40px;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 700;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border: 0;
+    outline: 0;
+    padding: 0 20px;
+    min-width: 160px;
+    -webkit-transition: background-color 0.2s ease-out;
+    transition: background-color 0.2s ease-out;
+    color: #fff;
+    background-color: #060;
+}
+.adCrtBot:hover {opacity: 0.8;}
+.adCrtBotSec {justify-content: flex-end; margin: 20px 10px 0 0; display: flex;}
+.bdrd {border-radius: 0 !important; margin-top: 20px; border-top: 1px solid grey;}
+.drcChk .paymentOptionsBoxCol:nth-child(2) {width: 27%;}
+.drcChk .paymentOptionsBoxCol:nth-child(3) {width: 22%;}
+.drcChk .paymentOptionsBoxCol:nth-child(4) {width: 15%;}
+.drcChk .paymentOptionsBoxCol:nth-child(5) {width: 15%;}
+.paymentOptionsBoxCol:nth-child(6) {width: 10%; text-align: right;}
+
+.button-box {
+    display: inline-block;
+    position: relative;
+    width: 90%;
+    margin: 20px 0 0 10px;
+}
+.hard-right {
+    float: right;
+    clear: right;
+}
+.left {
+    float: left;
+}
+.ebtcrd .paymentOptionsBoxCol:nth-child(3) {width: 46%;}
+.ebtcrd .paymentOptionsBoxCol:nth-child(4) {width: 10%;}
+.paymentOptionsBoxRow p {padding-right: 10px;}
+.m-lss {margin-left: 0;}
+.checkout-btn:hover {opacity: 0.8; background-color: #909;}
+.paymentOptionsBoxCol:last-child {text-align: right;}
+.ckoutdisable{opacity: 0.6;}

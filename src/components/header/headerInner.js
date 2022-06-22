@@ -39,7 +39,7 @@ export default function HeaderInner(props) {
   } = props;
   const componentClassName = classNames('cbn-header', {}, className);
   return (
-    <header className="hdContainer" {...rest}>
+    <header className="hdContainer innerHeader" {...rest}>
       <div id="home" className="flex justify-between items-center px-4 lg:px-6">
         {theme === 'coborns' && (
           <div className="">

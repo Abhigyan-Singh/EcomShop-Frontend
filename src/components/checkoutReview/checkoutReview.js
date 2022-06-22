@@ -8,7 +8,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './checkoutReview.css';
-
+import Button from 'components/button/button';
 export default function CheckoutReview(props) {
   const {
     className,
@@ -22,9 +22,86 @@ export default function CheckoutReview(props) {
   //   console.log(props, 'props');
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const checkoutInfo = {
+    contactInfo: {
+      firstName: 'albert',
+      lastName: 'ebt2',
+      email: 'shilaja.kyatham@cobornsinc.com',
+      phoneNo: '(320) 534-2768'
+    },
+    paymentDetails: [
+      { lable: 'EBT-SNAP 6251', value: '$15.15' },
+      { lable: 'Remaining Amount', value: '$5.00' }
+    ],
+    address: {
+      address1: '5698 LaCentre Ave NE',
+      address2: 'Albertville, MN 55301-3972'
+    },
+    alternateno: '(763) 497-0182'
+  };
+  const amount = {
+    pickUpTime: { date: 'Tue, Jun 14', time: '7PM-8PM', timer: '' },
+    subTotal: { Subtotal: '$15.15' },
+    paymentDetails: [
+      { lable: "Manufacturer's Coupons", value: '($0.00)', paymentType: 1 },
+      {
+        lable: "Coborn's Promo Code Discounts",
+        value: '($0.00)',
+        paymentType: 1
+      },
+      { lable: 'Store Credit Applied', value: '($0.00)', paymentType: 1 },
+      { lable: 'Shopping Fee', value: '$5.00', paymentType: 0 },
+      { lable: 'Pick Up Fee', value: '$0.00', paymentType: 0 },
+      { lable: 'Delivery Fee Discounts', value: '($0.00)', paymentType: 1 },
+      { lable: 'Tax', value: '$0.00', paymentType: 0 }
+    ],
+    acceptSubstitution: [
+      { lable: 'Paid Amount', value: '$0.00', paymentType: 0 },
+      { lable: 'EBT Paid Amount', value: '$15.15', paymentType: 0 },
+      { lable: 'Remaining Amount', value: '$5.00', paymentType: 0 }
+    ],
+    totalAmount: '$20.15'
+  };
+  const [message, setMessage] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
+  const [onChecked, setOnChecked] = useState(false);
+  const handleMessageChange = (event) => {
+    setMessage(event.target.value);
+  };
+  const handleCheckBox = (event) => {
+    console.log('handleCheckBox',event.target.checked)
+    setIsChecked(event.target.checked);
+    if (isChecked == false) setOnChecked(false);
+  };
   useEffect(() => {
     setTimeout(() => setLoading(false), 6000);
   }, []);
+  const onFormSubmit = () => {
+    navigate('/contactInformation');
+  };
+  const PreviousSubmit = () => {
+    navigate('/CartList');
+  };
+  const updateCard = () => {
+    navigate('/checkoutPayment');
+  };
+  const ChangedeliverySlot = () => {
+    navigate('/deliverySlot');
+  };
+  const placeOrder = () => {
+    // console.log(message);
+    // console.log(isChecked);
+    // console.log(onChecked);
+    if (isChecked == false) {
+      setOnChecked(true);
+    } else {
+      setOnChecked(false);
+      // console.log(onChecked);
+      navigate('/pleaseWait');
+    }
+
+    //
+  };
   return (
     <div className="wrapper">
       <div className="s-checkout__top mbot-1">
@@ -32,8 +109,8 @@ export default function CheckoutReview(props) {
           <div className="b-step justify-center d-flex">
             <span className="b-step__title">Checkout - Review Information</span>
             <div className="nmbr">
-              <span className="b-step__count">1</span>
-              <span className="l-steps__count">2</span>
+              <span className="l-steps__count">1</span>
+              <span className="b-step__count">2</span>
               <span className="l-steps__count">3</span>
             </div>
           </div>
@@ -86,35 +163,42 @@ export default function CheckoutReview(props) {
               </p>
               <div className="b-review-info__dl">
                 <div className="b-review-info__dl-row">
-                  <a
-                    // href="checkaccountinformation"
+                  <Button
                     className="btn-a"
-                    //  onclick={skipLeaveMessageWindow}
-                  >
-                    Change
-                  </a>
+                    label="Change"
+                    onClick={onFormSubmit}
+                  />
                   <div className="b-review-info__dt">Contact Information</div>
-                  <div className="b-review-info__dd">albert ebt2</div>
                   <div className="b-review-info__dd">
-                    shilaja.kyatham@cobornsinc.com
+                    {checkoutInfo.contactInfo.firstName}{' '}
+                    {checkoutInfo.contactInfo.lastName}
                   </div>
-                  <div className="b-review-info__dd">(320)&nbsp;534-2768</div>
+                  <div className="b-review-info__dd">
+                    {checkoutInfo.contactInfo.email}
+                  </div>
+                  <div className="b-review-info__dd">
+                    {checkoutInfo.contactInfo.phoneNo}
+                  </div>
                 </div>
                 <div className="b-review-info__dl-row">
-                  <a
-                    // href="changepaymentinformation"
+                  <Button
                     className="btn-a"
-                    // onclick="skipLeaveMessageWindow();"
-                  >
-                    Update
-                  </a>
+                    label="Update"
+                    onClick={updateCard}
+                  />
+
                   <div className="b-review-info__dt">Payment</div>
-                  <div className="b-review-info__dd">
-                    EBT-SNAP 6251 – $15.15
-                  </div>
-                  <div className="b-review-info__dd">
-                    Remaining Amount – $5.00
-                  </div>
+                  {/* <div className="b-review-info__dd">
+                   {checkoutInfo.paymentDetails.}
+                    EBT-SNAP 6251 – $15.15 
+                  </div>*/}
+                  {checkoutInfo.paymentDetails.map((data, key) => {
+                    return (
+                      <div className="b-review-info__dd" key={key}>
+                        {data.lable} - {data.value}
+                      </div>
+                    );
+                  })}
                 </div>
                 <div className="b-review-info__dl-row">
                   <div className="b-review-info__dt dladrs">
@@ -133,24 +217,23 @@ export default function CheckoutReview(props) {
                   </a>
                   <div className="b-review-info__dd">Coborn's Pick up</div>
                   <div className="b-review-info__dd">
-                    {'5698 LaCentre Ave NE'}
+                    {checkoutInfo.address.address1}
                   </div>
                   <div className="b-review-info__dd">
-                    {' Albertville, MN 55301-3972'}
+                    {checkoutInfo.address.address2}
                   </div>
+
                   <div className="b-review-info__dd">
-                    Phone Number: {'(763) 497-0182'}
+                    Phone Number: {checkoutInfo.alternateno}
                   </div>
                 </div>
               </div>
-              <a
-                href="CartList"
+
+              <Button
                 className="btn-a"
-                // onClick={navigate('/CartList')}
-                // onclick="skipLeaveMessageWindow();"
-              >
-                PREVIOUS
-              </a>
+                label="PREVIOUS"
+                onClick={PreviousSubmit}
+              />
             </div>
             <div className="b-review-info__right">
               <div className="f-order-summ">
@@ -161,8 +244,12 @@ export default function CheckoutReview(props) {
                   <div className="f-order-summ__subtitle">Pick Up time</div>
                   <div className="f-order-summ__table">
                     <div className="f-order-summ__left">
-                      <div className="f-order-summ__date">{'Tue, Jun 14'}</div>
-                      <div className="f-order-summ__time">{'7PM-8PM'}</div>
+                      <div className="f-order-summ__date">
+                        {amount.pickUpTime.date}
+                      </div>
+                      <div className="f-order-summ__time">
+                        {amount.pickUpTime.time}
+                      </div>
                       <div className="f-order-summ__deadline-title">
                         Time until order deadline:
                       </div>
@@ -174,13 +261,11 @@ export default function CheckoutReview(props) {
                       </div>
                     </div>
                     <div className="f-order-summ__right">
-                      <a
-                        // href="changewindowfromcheckout"
+                      <Button
                         className="btn-a"
-                        // onclick="skipLeaveMessageWindow();"
-                      >
-                        Change
-                      </a>
+                        label="Change"
+                        onClick={ChangedeliverySlot}
+                      />
                     </div>
                   </div>
                 </div>
@@ -188,116 +273,45 @@ export default function CheckoutReview(props) {
                   <dl className="b-total">
                     <div className="b-total__row">
                       <dt className="b-total__dt">
-                        <b>{'Subtotal'}</b>
+                        <b>Subtotal</b>
                       </dt>
                       <div className="b-total__dd">
-                        <b>${'15.15'}</b>
+                        <b>{amount.subTotal.Subtotal}</b>
                       </div>
                     </div>
 
-                    <div className="b-total__row">
-                      <dt className="b-total__dt disc-padding">
-                        Manufacturer's Coupons
-                      </dt>
-                      <div className="b-total__dd copy-red disc-margin">
-                        {' ($0.00)'}
-                      </div>
-                    </div>
+                    {amount.paymentDetails.map((data, key) => {
+                      return (
+                        <div className="b-total__row" key={key}>
+                          <dt className="b-total__dt disc-padding">
+                            {data.lable}
+                          </dt>
+                          <div
+                            className={
+                              data.paymentType == 1
+                                ? 'b-total__dd copy-red disc-margin'
+                                : 'b-total__dd '
+                            }
+                          >
+                            {data.value}
+                          </div>
+                        </div>
+                      );
+                    })}
 
-                    <div className="b-total__row">
-                      <dt className="b-total__dt disc-padding">
-                        Coborn's Promo Code Discounts
-                      </dt>
-                      <div className="b-total__dd copy-red disc-margin">
-                        {'($0.00)'}
-                      </div>
-                    </div>
-                    <div className="b-total__row">
-                      <dt className="b-total__dt disc-padding">
-                        Store Credit Applied
-                      </dt>
-                      <div className="b-total__dd copy-red disc-margin">
-                        {'($0.00)'}
-                        <input
-                          type="hidden"
-                          id="availedStoreCreditAmount"
-                          value="0.0"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="b-total__row notBanner1">
-                      <dt className="b-total__dt">Shopping Fee</dt>
-                      <div className="b-total__dd" id="shoppingFee">
-                        {'$5.00'}
-                      </div>
-                    </div>
-                    <div className="b-total__row">
-                      <dt className="b-total__dt">Pick Up Fee</dt>
-                      <div className="b-total__dd">${'0.00'}</div>
-                    </div>
-                    <div
-                      id="deliveryFeeDiscountRow"
-                      className="b-total__row"
-                      //   style="display: none"
-                    >
-                      <dt className="b-total__dt disc-padding">
-                        Delivery Fee Discounts
-                      </dt>
-                      <div
-                        className="b-total__dd copy-red disc-margin"
-                        id="deliveryFeeDiscount"
-                      >
-                        {'($0.00)'}
-                      </div>
-                    </div>
-                    <div className="b-total__row">
-                      <dt className="b-total__dt">Tax</dt>
-                      <div className="b-total__dd">$0.00</div>
-                    </div>
                     <div className="b-total__row notBanner1">
                       <div className="b-total__dt without-right-padding">
                         Accept Substitutions
                       </div>
                     </div>
-                    <div
-                      className="b-total__row"
-                      // style="display: none;"
-                    >
-                      <dt className="b-total__dt">Paid Amount</dt>
-                      <div className="copy-green b-total__dd">
-                        {'$0.00'}
-                        <input type="hidden" id="paidAmount" value="0.0" />
-                      </div>
-                    </div>
-
-                    <div className="b-total__row">
-                      <dt className="b-total__dt">EBT Paid Amount</dt>
-
-                      <div className="b-total__dd">$15.15</div>
-                    </div>
-
-                    <div
-                      className="b-total__row"
-                      id="remainingAmountRow"
-                      //   style="display: ;"
-                    >
-                      <dt className="b-total__dt">Remaining Amount</dt>
-                      <div className="b-total__dd" id="remainingAmount">
-                        $5.00
-                        <input
-                          type="hidden"
-                          id="remainingAmountVal"
-                          value="5.0"
-                        />
-                        <input
-                          type="hidden"
-                          id="amountToAuthorizeBox"
-                          value="5.0"
-                          minfractiondigits="2"
-                        />
-                      </div>
-                    </div>
+                    {amount.acceptSubstitution.map((data, key) => {
+                      return (
+                        <div className="b-total__row" key={key}>
+                          <dt className="b-total__dt">{data.lable}</dt>
+                          <div className=" b-total__dd">{data.value}</div>
+                        </div>
+                      );
+                    })}
                   </dl>
                 </div>
                 <div className="f-order-summ__block">
@@ -307,7 +321,7 @@ export default function CheckoutReview(props) {
                         <b>TOTAL</b>
                       </dt>
                       <dd className="b-total__dd _fz18" id="total">
-                        {'$20.15'}
+                        {amount.totalAmount}
                       </dd>
                     </div>
                   </dl>
@@ -317,16 +331,14 @@ export default function CheckoutReview(props) {
                       rows="3"
                       cols="35"
                       name="specialShoppingInstructions"
-                      // readonly=""
                       disabled=""
+                      value={message}
+                      onChange={handleMessageChange}
                     ></textarea>
                   </label>
                   <label className="f-order-summ__label"></label>
 
-                  <label
-                    // style="display: "
-                    className="f-order-summ__label"
-                  >
+                  <label className="f-order-summ__label">
                     <div
                       id="deliveryDateTriangleError"
                       className="errorTriangle"
@@ -345,6 +357,8 @@ export default function CheckoutReview(props) {
                       type="checkbox"
                       id="checkDeliveryDate"
                       name="checkDeliveryDate"
+                      value={isChecked}
+                      onChange={handleCheckBox}
                     />
 
                     <div
@@ -352,14 +366,28 @@ export default function CheckoutReview(props) {
                       className="f-order-summ__label-box"
                     ></div>
                   </label>
-
-                  <div
-                    id="checkDeliveryDateError"
-                    className="checkbox-error-before-label"
-                  >
-                    To continue, please check the checkbox to confirm
-                    information is correct.
-                  </div>
+                  {onChecked === true ? (
+                    <>
+                      <div
+                        id="checkDeliveryDateError"
+                        className="checkbox-error-before-label"
+                      >
+                        To continue, please check the checkbox to confirm
+                        information is correct.
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        id="checkDeliveryDateError"
+                        // className="checkbox-error-before-label"
+                        style={{ display: 'none' }}
+                      >
+                        To continue, please check the checkbox to confirm
+                        information is correct.
+                      </div>
+                    </>
+                  )}
 
                   <form
                     name="orderSummaryForm"
@@ -402,11 +430,11 @@ export default function CheckoutReview(props) {
                       value="true"
                     />
                   </form>
-                  <input
-                    type="button"
-                    value="PLACE ORDER"
+
+                  <Button
                     className="btn-d"
-                    // onclick="doSubmitIfPossible();"
+                    label="PLACE ORDER"
+                    onClick={placeOrder}
                   />
                 </div>
               </div>
