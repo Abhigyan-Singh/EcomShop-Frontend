@@ -27,7 +27,7 @@ const HomeServices = (props, onDepartChange4) => {
   const [serv, setServ] = useState([]);
   const [data2, setData2] = useState();
   const [selected2, setSelected2] = useState(dept);
-  
+
 
   useEffect(() => {
     servicesList();
@@ -46,7 +46,7 @@ const HomeServices = (props, onDepartChange4) => {
       setData2(res.data);
     });
   }, []);
-  
+
 
   const handleDeptChange4 = (option) => {
     setCookie('subdept', " ");
@@ -80,7 +80,7 @@ const HomeServices = (props, onDepartChange4) => {
           <div className="grid grid-cols-1 space-y-2 md:grid-cols-2 md:space-y-0">
             <ul className="list-none space-y-2" >
               {shopNavigation1.map((option) => (
-                <li key={option.name}  onClick={() => handleDeptChange4( option.name)}>
+                <li key={option.name} onClick={() => handleDeptChange4(option.name)}>
                   {option.href && <a href={option.href}>{option.name}</a>}
                   {!option.href && <span>{option.name}</span>}
                 </li>
@@ -88,7 +88,7 @@ const HomeServices = (props, onDepartChange4) => {
             </ul>
             <ul className="list-none space-y-2" >
               {shopNavigation2.map((option) => (
-                <li key={option.name} onClick={() => handleDeptChange4( option.name)} >
+                <li key={option.name} onClick={() => handleDeptChange4(option.name)} >
                   {option.href && <a href={option.href}>{option.name}</a>}
                   {!option.href && <span>{option.name}</span>}
                 </li>
@@ -113,7 +113,7 @@ const HomeServices = (props, onDepartChange4) => {
       </div>
       <div className="flex flex-col mt-6 mb-5 lg:items-end lg:flex-row lg:space-x-10">
         <a
-          href={`https://www.coborns.com/Cobstore${selected?.facilityId.toString()}`}
+          href={`https://www.coborns.com/Cobstore${selected?.facilityId?.toString()}`}
           target="_blank"
           rel="noreferrer"
           id="Services"

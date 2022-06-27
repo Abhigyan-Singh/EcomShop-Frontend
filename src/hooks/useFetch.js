@@ -24,12 +24,10 @@ function useFetch(query, pageNo) {
       const res = await search(query, facilityId, 0);
       let favoritesData;
       if (favorites.favorites.length === 0 && favorites.progress === false) {
-        console.log('fetchFavorites');
         await fetchFavorites();
       }
       favoritesData = favorites.favorites;
       if (res && res.data.suggestionList) {
-        console.log("RESPONSE", res.data.suggestionList)
         //setList(res.data.productList)
         setList((prev) => {
           const newListData = [...prev, ...res.data.suggestionList];
@@ -54,7 +52,7 @@ function useFetch(query, pageNo) {
       setLoading(false);
       dispatch({ type: 'SET_CART_PROGRESS', payload: false });
     }
-  }, [query, facilityId, favorites.favorites, favorites.progress, dispatch, fetchFavorites]);
+  }, [query, facilityId]);
 
   useEffect(() => {
     if (query && progress === false) {

@@ -264,7 +264,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
   }, [handleObserver]);
 
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo && user) {
       userInfoService().then((userRes) => {
         if (userRes.data) {
           setCookie('userInfo', userRes.data, {
@@ -279,14 +279,13 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
         }
       });
     }
-  }, [dispatchUser, getCartDetails, setCookie, userInfo]);
+  }, [userInfo]);
 
   useEffect(() => {
     if (favorites.favorites.length === 0 && favorites.progress === false) {
-      console.log('fetchFavorites');
       fetchFavorites();
     }
-  }, [favorites.favorites, favorites.progress, fetchFavorites]);
+  }, []);
 
   useEffect(() => {
     getCartDetails();

@@ -37,7 +37,6 @@ export const DisplayShoppingListDetails = ({
   const fetchPreviouslyPurchased = useCallback(async () => {
     const res = await previouslyPurchased();
     if (favorites.favorites.length === 0 && favorites.progress === false) {
-      console.log('fetchFavorites');
       await fetchFavorites();
     }
     const favoritesData = favorites.favorites;
@@ -57,7 +56,7 @@ export const DisplayShoppingListDetails = ({
       });
       setItems(formattedListData);
     }
-  }, [favorites.favorites, favorites.progress, fetchFavorites]);
+  }, []);
   useEffect(() => {
     fetchPreviouslyPurchased();
     getListItems();

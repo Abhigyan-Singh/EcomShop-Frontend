@@ -31,10 +31,9 @@ export const Favorites = ({ isAuthenticated, logout, ...rest }) => {
 
   useEffect(() => {
     if (favorites.favorites.length === 0 && favorites.progress === false) {
-      console.log('fetchFavorites');
       fetchFavorites();
     }
-  }, [favorites.favorites.length, favorites.progress, fetchFavorites]);
+  }, []);
 
   useEffect(() => {
     getListItems();
