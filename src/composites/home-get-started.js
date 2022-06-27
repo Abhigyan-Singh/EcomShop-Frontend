@@ -723,13 +723,13 @@ export const mockData = [
 
 const HomeGetStarted = (props) => {
   const [cookies, setCookie] = useCookies(['user']);
-  const { userInfo } = cookies;
-  const { dispatchUser } = CartState();
+  const { userInfo, user } = cookies;
+  const { dispatchUser, favorites } = CartState();
   const { getCartDetails } = useCart();
   const { fetchFavorites } = usefavoriteApi();
 
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo && user) {
       userInfoService().then((userRes) => {
         if (userRes.data) {
           setCookie('userInfo', userRes.data, {
@@ -751,8 +751,13 @@ const HomeGetStarted = (props) => {
   }, [userInfo]);
 
   useEffect(() => {
+    if (favorites.favorites.length === 0 && favorites.progress === false) {
+      fetchFavorites();
+    }
+  }, []);
+
+  useEffect(() => {
     getCartDetails();
-    fetchFavorites();
   }, []);
   return (
     <div className="p-4 md:p-6">

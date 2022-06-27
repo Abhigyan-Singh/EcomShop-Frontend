@@ -14,6 +14,7 @@ export const getAllFavorites = () => {
 export const usefavoriteApi = () => {
   const { dispatchFavorites } = CartState();
   const fetchFavorites = async () => {
+    dispatchFavorites({ type: 'SET_FAVORITE_PROGRESS', payload: true });
     const favorites = await getAllFavorites();
     const items = favorites?.data.map((each) => {
       return {
@@ -23,6 +24,7 @@ export const usefavoriteApi = () => {
       };
     });
     dispatchFavorites({ type: 'SET_FAVORITE', payload: items });
+    dispatchFavorites({ type: 'SET_FAVORITE_PROGRESS', payload: false });
   };
 
   const deleteFavorite = async (productId) => {

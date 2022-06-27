@@ -12,10 +12,12 @@ export const Context = ({ children }, data) => {
     cart: [],
     tempCart: [],
     postlogin: false,
+    progress: false,
   });
 
   const [favorites, dispatchFavorites] = useReducer(favoriteReducer, {
-    favorites: []
+    favorites: [],
+    progress: false
   });
 
   const [userStore, dispatchUser] = useReducer(favoriteReducer, {
