@@ -81,6 +81,15 @@
 span.asterisk { color: red; margin-top: 2px; }
 .contFrmRow {margin-top: 7px;}
 .contFrmRow label, .contFrmRowCol label {font-size: 14px; display: block;}
+.contFrmRow.nameCard {color: red;}
+.contFrmRow.Cardno{color: red;}
+.contFrmCol.cvv {color: red;}
+.contFrmCol.exdate {color: red;}
+.contFrmRow.address {color: red;}
+.contFrmRow.city{color: red;}
+.contFrmCol.state{color: red;}
+.contFrmCol.zipcode{color: red;}
+label.digitvalid {color: red;}
 .contFrmRow input[type="text"], .contFrmRow input[type="number"] {
     height: 30px;
     border-radius: 5px;

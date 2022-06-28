@@ -3,9 +3,13 @@ import Button from 'components/button/button';
 import './paymentModal.css';
 import Checkbox from 'components/checkbox/checkbox';
 import Visaout from '../../assets/images/paymentdetails/visa_out.png';
+import VisaoutSelected from '../../assets/images/paymentdetails/visa_hover_selected.png';
 import Master from '../../assets/images/paymentdetails/master_out.png';
+import MasterSeleted from '../../assets/images/paymentdetails/master_hover_selected.png';
 import American from '../../assets/images/paymentdetails/american_out.png';
+import AmericanSelected from '../../assets/images/paymentdetails/american_hover_selected.png';
 import Discover from '../../assets/images/paymentdetails/discover_out.png';
+import DiscoverSelected from '../../assets/images/paymentdetails/discover_hover_selected.png';
 import Checkout from '../../assets/images/paymentdetails/checkout_cvv.jpg';
 
 const PaymentModal = (props) => {
@@ -19,7 +23,191 @@ const PaymentModal = (props) => {
   }
   const [title, settitle] = useState('');
   const [years, SetYear] = useState([]);
-  const location =['AK','AL','AR']
+  const location = ['AK', 'AL', 'AR', 'MN'];
+  const [nameOfCard, setNameOfCard] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [month, setMonth] = useState([]);
+  const [year, setYear] = useState([]);
+  const [cvv, setCVV] = useState('');
+  const [streetAddress, setStreetAddress] = useState('');
+  const [unit, setUnit] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState([]);
+  const [zipCode, setZipCode] = useState('');
+  const [isVAlid, SetValid] = useState(false);
+  const [isnameOfCardVAlid, SetnameOfCardValid] = useState(false);
+  const [iscardNumberVAlid, SetcardNumberValid] = useState(false);
+  const [iscardNumberLengthVAlid, SetcardNumberLengthValid] = useState(false);
+  const [isyearVAlid, SetyearValid] = useState(false);
+  const [ismonthVAlid, SetmonthValid] = useState(false);
+  const [iscvvdVAlid, SetcvvValid] = useState(false);
+  const [iscvvNumberLengthVAlid, SetcvvNumberLengthValid] = useState(false);
+  const [isstreetAddressVAlid, SetstreetAddressValid] = useState(false);
+  const [iscityVAlid, SetcityValid] = useState(false);
+  const [isstateVAlid, SetstateValid] = useState(false);
+  const [iszipCodeVAlid, SetzipCodeValid] = useState(false);
+  const [iszipCodeNumberVAlid, SetzipCodeNumberValid] = useState(false);
+  const [isrecaptchaVAlid, SetrecaptchaValid] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [imgVisaselect, setImgVisaselect] = useState(false);
+  const [imgMasterselect, setImgMasterselect] = useState(false);
+  const [imgAmericaselect, setImgAmericaselect] = useState(false);
+  const [imgDiscoverselect, setImgDiscoverselect] = useState(false);
+  const [noCardImg, SetNoCardImg] = useState(false);
+
+  const checkcard = (event) => {
+    console.log(event.target.value);
+    // console.log(document.getElementById('visa').id);
+    var prefix = event.target.value;
+    if (prefix != '' && prefix != null && prefix != undefined) {
+      if (/^4/.test(prefix)) {
+        if (document.getElementById('visa').id == 'visa')
+          setImgVisaselect(true);
+        SetNoCardImg(false);
+      } else if (/^5[1-5]/.test(prefix)) {
+        if (document.getElementById('master').id == 'master')
+          setImgMasterselect(true);
+        SetNoCardImg(false);
+      } else if (/^3[47]/.test(prefix)) {
+        if (document.getElementById('american').id == 'american')
+          setImgAmericaselect(true);
+        SetNoCardImg(false);
+      } else if (
+        /^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)/.test(
+          prefix
+        )
+      ) {
+        if (document.getElementById('discover').id == 'discover')
+          setImgDiscoverselect(true);
+        SetNoCardImg(false);
+      } else {
+        console.log('error');
+        setImgVisaselect(false);
+        setImgMasterselect(false);
+        setImgAmericaselect(false);
+        setImgDiscoverselect(false);
+        SetNoCardImg(true);
+      }
+      // if(!!prefix && (cardNumber.length > 16 || cardNumber.length < 15))
+    } else {
+      setImgVisaselect(false);
+      setImgMasterselect(false);
+      setImgAmericaselect(false);
+      setImgDiscoverselect(false);
+    }
+  };
+
+  const saveChanges = (event) => {
+    event.preventDefault();
+    console.log('cardNumber.length', cardNumber.length);
+    if (
+      !nameOfCard &
+      !cardNumber &
+      !cvv &
+      !streetAddress &
+      !city &
+      !zipCode &
+      (year == '') &
+      (month == '') &
+      (state == '')
+    ) {
+      SetValid(true);
+      SetnameOfCardValid(true);
+      SetcardNumberValid(true);
+      SetcvvValid(true);
+      SetmonthValid(true);
+      SetyearValid(true);
+      SetstreetAddressValid(true);
+      SetcityValid(true);
+      SetstateValid(true);
+      SetzipCodeValid(true);
+      // SetrecaptchaValid(true)
+    }
+    if (!nameOfCard) {
+      SetnameOfCardValid(true);
+    } else SetnameOfCardValid(false);
+
+    if (!cardNumber) {
+      SetcardNumberValid(true);
+    } else SetcardNumberValid(false);
+    if (!!cardNumber && (cardNumber.length > 16 || cardNumber.length < 15)) {
+      //console.log('cardNumber.length',cardNumber.length)
+      SetcardNumberLengthValid(true);
+    } else SetcardNumberLengthValid(false);
+
+    if ((year == '') & (month == '')) {
+      SetmonthValid(true);
+      SetyearValid(true);
+    } else if ((!!year && month == '') || (year == '' && !!month)) {
+      SetmonthValid(true);
+      SetyearValid(true);
+    } else {
+      SetmonthValid(false);
+      SetyearValid(false);
+    }
+
+    if (!cvv) {
+      SetcvvValid(true);
+    } else SetcvvValid(false);
+    if (!!cvv && (cvv.length > 4 || cvv.length < 3)) {
+      SetcvvNumberLengthValid(true);
+    } else SetcvvNumberLengthValid(false);
+
+    if (!streetAddress) {
+      SetstreetAddressValid(true);
+    } else SetstreetAddressValid(false);
+
+    if (!city) {
+      SetcityValid(true);
+    } else SetcityValid(false);
+
+    if (state == '') {
+      SetstateValid(true);
+    } else SetstateValid(false);
+
+    if (!zipCode) {
+      SetzipCodeValid(true);
+    } else SetzipCodeValid(false);
+    if (!!zipCode && !validationpostcode(zipCode)) {
+      SetzipCodeNumberValid(true);
+    } else SetzipCodeNumberValid(false);
+    // console.log(isnameOfCardVAlid);
+    console.log(
+      'nameOfCard--' + nameOfCard,
+      'cardNumber--' + cardNumber,
+      'month--' + month,
+      'year--' + year,
+      'cvv--' + cvv,
+      'streetAddress--' + streetAddress,
+      'unit--' + unit,
+      'city--' + city,
+      'state--' + state,
+      'zipCode--' + zipCode
+    );
+  };
+  const address = {
+    streetAddress: '6415 Labeaux Ave NE',
+    city: 'Albertville',
+    state: 'MN',
+    zipCode: '55301-3972'
+  };
+  const hanldeFilterChange = (e) => {
+    console.log(e.target.checked);
+
+    if (e.target.checked == true) {
+      setStreetAddress(address.streetAddress);
+      setCity(address.city);
+      setState(address.state);
+      setZipCode(address.zipCode);
+    } else {
+      setStreetAddress('');
+      setCity('');
+      setState([]);
+      setZipCode('');
+    }
+    // setIsChecked(e.target.checked);
+    // if (isChecked == false) setOnChecked(false);
+  };
   useEffect(() => {
     const d = new Date();
     let year = d.getFullYear();
@@ -32,8 +220,16 @@ const PaymentModal = (props) => {
       settitle('CREDIT');
     } else settitle('EBT');
     ////////////
-
   }, [props.title]);
+  const validationpostcode = (text) => {
+    console.log(text);
+    let reg = /^\d{5}([\-]?\d{4})?$/;
+    //let reg= /^\\d{5}(?:[- ]\\d{4})?$/;
+    if (reg.test(text) === false) {
+      console.log('ok');
+      return false;
+    } else return true;
+  };
   return (
     <div className="modal" onClick={closeModal} style={divStyle}>
       <div
@@ -41,59 +237,176 @@ const PaymentModal = (props) => {
         onClick={(e) => e.stopPropagation()}
       >
         <h3>Payment Method: {title} CARD</h3>
+        {isVAlid == true ? (
+          <>
+            <div style={{ color: 'red' }}>
+              <div>Please correct the hignlighted field(s) below:</div>
+              <span>Please Select reCAPTCHA</span>
+              <span>Name on Card</span>
+              <span>Card Number</span>
+              <span>Expiration Date</span>
+              <span>CVV</span>
+              <span>Street Address</span>
+              <span>City</span>
+              <span>State</span>
+              <span>Zip</span>
+            </div>
+          </>
+        ) : (
+          ''
+        )}
 
         <div className="boxcontent">
           <div className="boxcontentLft">
             <h4>{title} CARD INFORMATION</h4>
+
             <div className="chkArea">
-              <Checkbox className="mb-4" id="checkbox-1" />{' '}
+              <Checkbox className="mb-4" id="checkbox-1" />
               <p>Make this card the default payment method</p>
             </div>
             <div className="actp">
               <p>Accepted Card Types</p>
+
               <p className="crdd">
-                <img class="card-img" src={Visaout} />
-                <img class="card-img" src={Master} />
-                <img class="card-img" src={American} />
-                <img class="card-img" src={Discover} />
+                <img
+                  className="card-img"
+                  id="visa"
+                  src={imgVisaselect == true ? VisaoutSelected : Visaout}
+                />
+                <img
+                  className="card-img"
+                  id="master"
+                  src={imgMasterselect == true ? MasterSeleted : Master}
+                />
+                <img
+                  className="card-img"
+                  id="american"
+                  src={imgAmericaselect == true ? AmericanSelected : American}
+                />
+                <img
+                  className="card-img"
+                  id="discover"
+                  src={imgDiscoverselect == true ? DiscoverSelected : Discover}
+                />
               </p>
             </div>
-            <div className="contFrmRow">
+            <div
+              className={
+                isnameOfCardVAlid == true ? 'contFrmRow nameCard' : 'contFrmRow'
+              }
+            >
               <label>
-                <span class="asterisk">*</span> Name on Card
+                <span className="asterisk">*</span> Name on Card
               </label>
-              <input type="text" />
+              <input
+                type="text"
+                value={nameOfCard}
+                onChange={(text) => setNameOfCard(text.target.value)}
+                onKeyDown={(event) => {
+                  if (!!event.key) SetnameOfCardValid(false);
+                }}
+              />
+              {isnameOfCardVAlid == true ? (
+                <label>Name on Card is a required field.</label>
+              ) : (
+                ''
+              )}
             </div>
-            <div className="contFrmRow">
+
+            <div
+              // className="contFrmRow"
+              className={
+                iscardNumberVAlid == true ? 'contFrmRow Cardno' : 'contFrmRow'
+              }
+            >
               <label>
-                <span class="asterisk">*</span> Card Number
+                <span className="asterisk">*</span> Card Number
               </label>
-              <input type="number" />
+              <input
+                type="number"
+                value={cardNumber}
+                minLength={16}
+                onChange={(event) => setCardNumber(event.target.value)}
+                onKeyDown={(event) => {
+                  if (!!event.key) SetcardNumberValid(false);
+                }}
+                onKeyUp={checkcard}
+              />
+              {iscardNumberVAlid == true ? (
+                <label className="digitvalid">
+                  Card Number is a required field.
+                </label>
+              ) : (
+                ''
+              )}
+              {iscardNumberLengthVAlid == true ? (
+                <label className="digitvalid">
+                  Card Number should be a 15 or 16 digit number
+                </label>
+              ) : (
+                ''
+              )}
+              {noCardImg == true ? (
+                <label className="digitvalid">
+                  Cannot recognize card type.
+                </label>
+              ) : (
+                ''
+              )}
             </div>
+
             <div className="contFrmRowCol">
-              <div className="contFrmCol">
+              <div
+                className={
+                  isyearVAlid == true || ismonthVAlid == true
+                    ? 'contFrmCol exdate'
+                    : 'contFrmCol'
+                }
+              >
                 <label>
-                  <span class="asterisk">*</span> Expiration Date
+                  <span className="asterisk">*</span> Expiration Date
                 </label>
                 <div className="contFrmColInner">
-                  <select title="Expiry Month Add CC" required="">
+                  <select
+                    title="Expiry Month Add CC"
+                    required=""
+                    value={month}
+                    onChange={(e) => setMonth(e.target.value)}
+                    onClick={(event) => {
+                      setMonth(event.target.value);
+                      // if(!!event.target.options[event.target.selectedIndex].text)SetmonthValid(false)
+                    }}
+                  >
                     <option value="" style={{ display: 'none' }} selected="">
                       MM
                     </option>
-                    <option value="0"> 1 </option>
-                    <option value="1"> 2 </option>
-                    <option value="2"> 3 </option>
-                    <option value="3"> 4 </option>
-                    <option value="4"> 5 </option>
-                    <option value="5"> 6 </option>
-                    <option value="6"> 7 </option>
-                    <option value="7"> 8 </option>
-                    <option value="8"> 9 </option>
-                    <option value="9"> 10 </option>
-                    <option value="10"> 11 </option>
-                    <option value="11"> 12 </option>
+                    <option value="1"> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                    <option value="5"> 5 </option>
+                    <option value="6"> 6 </option>
+                    <option value="7"> 7 </option>
+                    <option value="8"> 8 </option>
+                    <option value="9"> 9 </option>
+                    <option value="10"> 10 </option>
+                    <option value="11"> 11 </option>
+                    <option value="12"> 12 </option>
                   </select>
-                  <select title="Expiry Year Add CC" required="">
+                  <select
+                    title="Expiry Year Add CC"
+                    required=""
+                    value={year}
+                    onChange={(e) => setYear(e.target.value)}
+                    onClick={(event) => {
+                      if (
+                        !!event.target.options[event.target.selectedIndex]
+                          .text &&
+                        !!month
+                      )
+                        SetyearValid(false);SetmonthValid(false)
+                    }}
+                  >
                     <option style={{ display: 'none' }} selected="" value="">
                       YYYY
                     </option>
@@ -106,130 +419,197 @@ const PaymentModal = (props) => {
                     })}
                   </select>
                 </div>
+                {isyearVAlid == true ? (
+                  <label className="digitvalid">
+                    Expiration Date is a required field.
+                  </label>
+                ) : (
+                  ''
+                )}
               </div>
-              <div className="contFrmCol">
+              <div
+                // className="contFrmCol"
+                className={
+                  iscvvdVAlid == true ? 'contFrmCol cvv' : 'contFrmCol'
+                }
+              >
                 <label>
-                  <span class="asterisk">*</span> CVV
-                  <a class="i-question" onclick="void(0)">
-                    <div class="i-question__text i-question__text-right-side cvvInfoPopup">
-                      <div class="header">Card Validation Value (CVV)</div>
-                      <div class="left inline-block" style={{ width: '48%' }}>
+                  <span className="asterisk">*</span> CVV
+                  <a className="i-question" onclick="void(0)">
+                    <div className="i-question__text i-question__text-right-side cvvInfoPopup">
+                      <div className="header">Card Validation Value (CVV)</div>
+                      <div
+                        className="left inline-block"
+                        style={{ width: '48%' }}
+                      >
                         Card security code is usually found on the back of the
                         card.
                       </div>
                       <div
-                        class="hard-right inline-block"
+                        className="hard-right inline-block"
                         style={{ width: ' 50%' }}
                       >
-                        <img class="cvv-img" src={Checkout} />
+                        <img className="cvv-img" src={Checkout} />
                       </div>
                     </div>
                   </a>
                 </label>
-                <input type="number" />
+                <input
+                  type="number"
+                  value={cvv}
+                  onChange={(event) => setCVV(event.target.value)}
+                  onKeyUp={(event) => {if(!!event.key)SetcvvValid(false)}}
+                />
+                {iscvvdVAlid == true ? (
+                  <label className="digitvalid">CVV is a required field.</label>
+                ) : (
+                  ''
+                )}
+                {iscvvNumberLengthVAlid == true ? (
+                  <label className="digitvalid">
+                    Invalid CVV. Please enter 4 digits for American Express Card
+                    Type and 3 digits for remaining Card Types.
+                  </label>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
           </div>
           <div className="boxcontentRght">
             <h4>{title} CARD BILLING ADDRESS</h4>
             <div className="chkArea">
-              <Checkbox id="checkbox-2" /> <p>Same as delivery address</p>
+              <Checkbox
+                id="checkbox-2"
+                value={isChecked}
+                onChange={hanldeFilterChange}
+              />
+
+              <p>Same as delivery address</p>
             </div>
             <div className="adressMail">
-              6415 Labeaux Ave NE <br />
-              Albertville, MN 55301-9812
+              {address.streetAddress} <br />
+              {address.city},{address.state} {address.zipCode}
             </div>
-            <div className="contFrmRow">
+            <div
+              className={
+                isstreetAddressVAlid == true
+                  ? 'contFrmRow address'
+                  : 'contFrmRow'
+              }
+            >
               <label>
-                <span class="asterisk">*</span> Street Address
+                <span className="asterisk">*</span> Street Address
               </label>
-              <input type="text" />
+              <input
+                type="text"
+                value={streetAddress}
+                onChange={(event) => setStreetAddress(event.target.value)}
+                onKeyUp={(event) => {if(!!event.key)SetstreetAddressValid(false)}}
+              />
+              {isstreetAddressVAlid == true ? (
+                <label className="digitvalid">
+                  Street Address is a required field.
+                </label>
+              ) : (
+                ''
+              )}
             </div>
             <div className="contFrmRow">
               <label>
                 Unit / Apt #<span className="lght">(optional)</span>
               </label>
-              <input type="text" />
+              <input
+                type="text"
+                value={unit}
+                onChange={(event) => setUnit(event.target.value)}
+              />
             </div>
-            <div className="contFrmRow">
+            <div
+              className={iscityVAlid == true ? 'contFrmRow city' : 'contFrmRow'}
+            >
               <label>
-                <span class="asterisk">*</span> City
+                <span className="asterisk">*</span> City
               </label>
-              <input type="text" />
+              <input
+                type="text"
+                value={city}
+                onChange={(event) => setCity(event.target.value)}
+                onKeyUp={(event) => {if(!!event.key)SetcityValid(false)}}
+              />
+              {iscityVAlid == true ? (
+                <label className="digitvalid">City is a required field.</label>
+              ) : (
+                ''
+              )}
             </div>
             <div className="contFrmRowCol">
-              <div className="contFrmCol">
+              <div
+                className={
+                  isstateVAlid == true ? 'contFrmCol state' : 'contFrmCol'
+                }
+              >
                 <label>
-                  <span class="asterisk">*</span> State
+                  <span className="asterisk">*</span> State
                 </label>
                 <div className="contFrmColInner">
-                  <select required="">
-                    <option style={{ display: 'none' }} selected="">
-                     
+                  <select
+                    required=""
+                    value={state}
+                    onChange={(event) => setState(event.target.value)}
+                    onClick={(event) => {
+                      if (!!event.target.options[event.target.selectedIndex].text)SetstateValid(false);
+                        
+                    }}
+                  >
+                    <option style={{ display: 'none' }} value="">
                       Please select
                     </option>
-                    {location.map((data,key)=>{
-                      return <option value="AK" key={key}>{data}</option>
+                    {location.map((data, key) => {
+                      return (
+                        <option value={data} key={key}>
+                          {data}
+                        </option>
+                      );
                     })}
-                    
-                    {/* <option value="AL">AL</option>
-                    <option value="AR">AR</option>
-                    <option value="AZ">AZ</option>
-                    <option value="CA">CA</option>
-                    <option value="CO">CO</option>
-                    <option value="CT">CT</option>
-                    <option value="DC">DC</option>
-                    <option value="DE">DE</option>
-                    <option value="FL">FL</option>
-                    <option value="GA">GA</option>
-                    <option value="HI">HI</option>
-                    <option value="IA">IA</option>
-                    <option value="ID">ID</option>
-                    <option value="IL">IL</option>
-                    <option value="IN">IN</option>
-                    <option value="KS">KS</option>
-                    <option value="KY">KY</option>
-                    <option value="LA">LA</option>
-                    <option value="MA">MA</option>
-                    <option value="MD">MD</option>
-                    <option value="ME">ME</option>
-                    <option value="MI">MI</option>
-                    <option value="MN">MN</option>
-                    <option value="MO">MO</option>
-                    <option value="MS">MS</option>
-                    <option value="MT">MT</option>
-                    <option value="NC">NC</option>
-                    <option value="ND">ND</option>
-                    <option value="NE">NE</option>
-                    <option value="NH">NH</option>
-                    <option value="NJ">NJ</option>
-                    <option value="NM">NM</option>
-                    <option value="NV">NV</option>
-                    <option value="NY">NY</option>
-                    <option value="OH">OH</option>
-                    <option value="OK">OK</option>
-                    <option value="OR">OR</option>
-                    <option value="PA">PA</option>
-                    <option value="RI">RI</option>
-                    <option value="SC">SC</option>
-                    <option value="SD">SD</option>
-                    <option value="TN">TN</option>
-                    <option value="TX">TX</option>
-                    <option value="UT">UT</option>
-                    <option value="VA">VA</option>
-                    <option value="VT">VT</option>
-                    <option value="WA">WA</option>
-                    <option value="WI">WI</option>
-                    <option value="WV">WV</option>
-                    <option value="WY">WY</option> */}
                   </select>
                 </div>
+                {isstateVAlid == true ? (
+                  <label className="digitvalid">
+                    State is a required field.
+                  </label>
+                ) : (
+                  ''
+                )}
               </div>
-              <div className="contFrmCol">
+              <div
+                className={
+                  iszipCodeVAlid == true ? 'contFrmCol zipcode' : 'contFrmCol'
+                }
+              >
                 <label>
-                  <span class="asterisk">*</span> Zip
+                  <span className="asterisk">*</span> Zip
                 </label>
-                <input type="tel" />
+                <input
+                  type="text"
+                  value={zipCode}
+                  onChange={(event) => {
+                    setZipCode(event.target.value);
+                  }}
+                  onKeyUp={(event) => {if(!!event.key)SetzipCodeNumberValid(false);SetzipCodeValid(false)}}
+                />
+                {iszipCodeVAlid == true ? (
+                  <label className="digitvalid">Zip is a required field.</label>
+                ) : (
+                  ''
+                )}
+                {iszipCodeNumberVAlid == true ? (
+                  <label className="digitvalid">
+                    Please enter a valid zip code.
+                  </label>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
           </div>
@@ -242,11 +622,15 @@ const PaymentModal = (props) => {
               label="Cancel"
               onClick={closeModal}
             />
-            <Button className="checkout-btn" label="SAVE CHANGES" />
+            <Button
+              className="checkout-btn"
+              label="SAVE CHANGES"
+              onClick={saveChanges}
+            />
           </div>
           <div className="modFootSecRgt">
             <label>
-              <span class="asterisk">*</span> reCAPTCHA
+              <span className="asterisk">*</span> reCAPTCHA
             </label>
             <div className="re-captchaborder"></div>
           </div>

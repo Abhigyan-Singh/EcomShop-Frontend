@@ -1371,7 +1371,7 @@ body {
 /*wrappers, containers, cols & etc*/
 .wrapper {
   min-height: 100%;
-  width: 1280px;
+  max-width: 1280px;
   padding-bottom: 80px;
   margin: 0 auto;
 }
@@ -4617,4 +4617,25 @@ div.emails input {
   /* @apply h-18; */
   @apply w-full;
   height: 18rem;
+}
+.headMid {justify-content: center;}
+@media (max-width: 1320px){
+.wrapper {padding: 0 15px; box-sizing: border-box;}
+}
+
+@media (max-width: 991px){
+  .headMid .b-step__title {
+    margin: 0;
+  }
+  .headMid {justify-content: space-between;}
+  .innerHeader .m-header {display: none;}
+  
+}
+@media (max-width: 535px){
+.headMid {
+  display: block !important;
+}
+.headMid .b-step__title {
+  margin: 0 0 10px;
+}
 }

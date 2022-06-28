@@ -20,6 +20,27 @@ export default function ContactInformation(props) {
     ...rest
   } = props;
   const navigate = useNavigate();
+  const [salu, setsalu] = useState('');
+  const [name, setName] = useState('');
+  const [Middname, setMiddname] = useState('');
+  const [Lastname, setLastname] = useState('');
+  const [primaryPhone1, setprimaryPhone1] = useState('');
+  const [primaryPhone2, setprimaryPhone2] = useState('');
+  const [primaryPhone3, setprimaryPhone3] = useState('');
+  const [primaryPhone, setprimaryPhone] = useState('');
+
+  const [alternatePhone1, setalternatePhone1] = useState('');
+  const [alternatePhone2, setalternatePhone2] = useState('');
+  const [alternatePhone3, setalternatePhone3] = useState('');
+  const [alternatePhone, setalternatePhone] = useState('');
+
+  const [cellPhone1, setcellPhone1] = useState('');
+  const [cellPhone2, setcellPhone2] = useState('');
+  const [cellPhone3, setcellPhone3] = useState('');
+  const [cellPhone, setcellPhone] = useState('');
+  const [email, setemail] = useState('');
+  const [Reenteremail, setReenteremail] = useState('');
+
   const salutation = [
     { value: 'Mr', name: 'Mr' },
     { value: 'Mrs', name: 'Mrs' },
@@ -37,14 +58,51 @@ export default function ContactInformation(props) {
     cellPhone: '7801234566',
     email: 'shilaja.kyatham@cobornsinc.com'
   };
+  useEffect(() => {
+    setName(contactDetails.name);
+    setsalu(contactDetails.salutation);
+    setMiddname(contactDetails.middleName);
+    setLastname(contactDetails.lastName);
+    setprimaryPhone1(contactDetails.primaryPhone.slice(0, 3));
+    setprimaryPhone2(contactDetails.primaryPhone.slice(3, 6));
+    setprimaryPhone3(contactDetails.primaryPhone.slice(6, 10));
+
+    setalternatePhone1(contactDetails.alternatePhone.slice(0, 3));
+    setalternatePhone2(contactDetails.alternatePhone.slice(3, 6));
+    setalternatePhone3(contactDetails.alternatePhone.slice(6, 10));
+
+    setcellPhone1(contactDetails.cellPhone.slice(0, 3));
+    setcellPhone2(contactDetails.cellPhone.slice(3, 6));
+    setcellPhone3(contactDetails.cellPhone.slice(6, 10));
+    setemail(contactDetails.email);
+  }, []);
   const returnToCheckout = () => {
     navigate('/Checkout');
+  };
+  const saveContactInfo = () => {
+    let alternatePhone = alternatePhone1 + alternatePhone2 + alternatePhone3;
+    let primaryPhone = primaryPhone1 + primaryPhone2 + primaryPhone3;
+    let cellPhone = cellPhone1 + cellPhone2 + cellPhone3;
+    setprimaryPhone(primaryPhone);
+    setalternatePhone(alternatePhone);
+    setcellPhone(cellPhone);
+    console.log(salu, name, Middname, Lastname);
+    console.log(
+      'cellPhone--',
+      cellPhone,
+      'alternatePhone--',
+      alternatePhone,
+      '----',
+      primaryPhone,
+      '---------'
+    );
+    console.log(email);
   };
   return (
     <div className="wrapper">
       <div className="s-checkout__top mbot-1">
         <div className="container">
-          <div className="b-step justify-center d-flex">
+          <div className="b-step headMid d-flex">
             <span className="b-step__title">Checkout - Review Information</span>
             <div className="nmbr">
               <span className="l-steps__count">1</span>
@@ -75,20 +133,29 @@ export default function ContactInformation(props) {
           USER NAME <span>EBTALB2</span>
         </div>
         <div className="contactInfoBoxRow">
+          {/* <label>
+            First Name is required 
+            Last Name is required
+             Email is required Email
+            re-entered does not match
+            Area code for Phone is required 
+            Prefix for Phone is required 
+            Phone line is required
+          </label> */}
           <h3>
             Required fields are marked with an asterisk "<span>*</span>"
           </h3>
           <div className="cibr">
             <label>Title</label>
             <div className="selectBox">
-              <select name="country" value={contactDetails.salutation}>
+              <select
+                required=""
+                value={salu}
+                onChange={(event) => setsalu(event.target.value)}
+              >
                 {salutation.map((data, key) => {
                   return (
-                    <option
-                      key={key}
-                      value={data.value}
-                      style={{ textAlign: 'center' }}
-                    >
+                    <option value={data.name} key={key}>
                       {data.name}
                     </option>
                   );
@@ -96,6 +163,7 @@ export default function ContactInformation(props) {
               </select>
             </div>
           </div>
+
           <div className="cibr">
             <div className="cibrCol">
               <label>
@@ -103,13 +171,10 @@ export default function ContactInformation(props) {
               </label>
               <input
                 type="text"
-                id="firstName"
-                name="firstName"
+                value={name}
                 class="f-sign-up__field required-field"
-                autofocus="autofocus"
-                maxlength="20"
-                value={contactDetails.name}
-              ></input>
+                onChange={(event) => setName(event.target.value)}
+              />
             </div>
             <div className="cibrCol">
               <label>
@@ -117,12 +182,9 @@ export default function ContactInformation(props) {
               </label>
               <input
                 type="text"
-                id="firstName"
-                name="firstName"
                 class="f-sign-up__field required-field"
-                autofocus="autofocus"
-                maxlength="20"
-                value={contactDetails.middleName}
+                value={Middname}
+                onChange={(event) => setMiddname(event.target.value)}
               ></input>
             </div>
 
@@ -132,12 +194,9 @@ export default function ContactInformation(props) {
               </label>
               <input
                 type="text"
-                id="firstName"
-                name="firstName"
                 class="f-sign-up__field required-field"
-                autofocus="autofocus"
-                maxlength="20"
-                value={contactDetails.lastName}
+                value={Lastname}
+                onChange={(event) => setLastname(event.target.value)}
               ></input>
             </div>
           </div>
@@ -155,21 +214,27 @@ export default function ContactInformation(props) {
                 <div className="phnCol">
                   <input
                     type="tel"
-                    value={contactDetails.primaryPhone.slice(0, 3)}
+                    maxLength="3"
+                    value={primaryPhone1}
+                    onChange={(event) => setprimaryPhone1(event.target.value)}
                   ></input>
                 </div>
                 <span>-</span>
                 <div className="phnCol">
                   <input
                     type="tel"
-                    value={contactDetails.primaryPhone.slice(3, 6)}
+                    maxLength="3"
+                    value={primaryPhone2}
+                    onChange={(event) => setprimaryPhone2(event.target.value)}
                   ></input>
                 </div>
                 <span>-</span>
                 <div className="phnCol">
                   <input
                     type="tel"
-                    value={contactDetails.primaryPhone.slice(6, 10)}
+                    maxLength="4"
+                    value={primaryPhone3}
+                    onChange={(event) => setprimaryPhone3(event.target.value)}
                   ></input>
                 </div>
               </div>
@@ -182,21 +247,27 @@ export default function ContactInformation(props) {
                 <div className="phnCol">
                   <input
                     type="tel"
-                    value={contactDetails.alternatePhone.slice(0, 3)}
+                    value={alternatePhone1}
+                    maxLength="3"
+                    onChange={(event) => setalternatePhone1(event.target.value)}
                   ></input>
                 </div>
                 <span>-</span>
                 <div className="phnCol">
                   <input
                     type="tel"
-                    value={contactDetails.alternatePhone.slice(3, 6)}
+                    value={alternatePhone2}
+                    maxLength="3"
+                    onChange={(event) => setalternatePhone2(event.target.value)}
                   ></input>
                 </div>
                 <span>-</span>
                 <div className="phnCol">
                   <input
                     type="tel"
-                    value={contactDetails.alternatePhone.slice(6, 10)}
+                    value={alternatePhone3}
+                    maxLength="4"
+                    onChange={(event) => setalternatePhone3(event.target.value)}
                   ></input>
                 </div>
               </div>
@@ -209,21 +280,27 @@ export default function ContactInformation(props) {
                 <div className="phnCol">
                   <input
                     type="tel"
-                    value={contactDetails.cellPhone.slice(0, 3)}
+                    value={cellPhone1}
+                    maxLength="3"
+                    onChange={(event) => setcellPhone1(event.target.value)}
                   ></input>
                 </div>
                 <span>-</span>
                 <div className="phnCol">
                   <input
                     type="tel"
-                    value={contactDetails.cellPhone.slice(3, 6)}
+                    value={cellPhone2}
+                    maxLength="3"
+                    onChange={(event) => setcellPhone2(event.target.value)}
                   ></input>
                 </div>
                 <span>-</span>
                 <div className="phnCol">
                   <input
                     type="tel"
-                    value={contactDetails.cellPhone.slice(6, 10)}
+                    value={cellPhone3}
+                    maxLength="4"
+                    onChange={(event) => setcellPhone3(event.target.value)}
                   ></input>
                 </div>
               </div>
@@ -236,13 +313,24 @@ export default function ContactInformation(props) {
               <label>
                 <span>*</span> Email
               </label>
-              <input type="email" value={contactDetails.email}></input>
+              <input
+                type="email"
+                value={email}
+                onChange={(event) => setemail(event.target.value)}
+              />
             </div>
             <div className="cibrCol">
               <label>
                 <span>*</span> Re-enter Email
               </label>
-              <input type="email" value={contactDetails.email}></input>
+              <input
+                type="email"
+                value={Reenteremail}
+                onChange={(event) => {
+                  if (email == event.target.value)
+                    setReenteremail(event.target.value);
+                }}
+              />
             </div>
           </div>
         </div>
@@ -254,7 +342,11 @@ export default function ContactInformation(props) {
           label="RETURN TO CHECKOUT"
           onClick={returnToCheckout}
         />
-        <Button className="checkout-btn" label="SAVE CHANGES" />
+        <Button
+          className="checkout-btn"
+          label="SAVE CHANGES"
+          onClick={saveContactInfo}
+        />
       </div>
     </div>
   );

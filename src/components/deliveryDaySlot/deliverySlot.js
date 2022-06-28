@@ -56,7 +56,7 @@ export default function DeliverySlot() {
   ];
   return (
     <div className="cont">
-      <div class="label_topic">Delivery and Pick up Options</div>
+      <div className="label_topic">Delivery and Pick up Options</div>
       <div>
         Below are the days and times we'll be delivering in your neighborhood.
         You may also choose to pick up your groceries at our Superstore in

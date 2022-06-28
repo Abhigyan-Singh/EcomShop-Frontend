@@ -106,7 +106,7 @@ export default function CheckoutReview(props) {
     <div className="wrapper">
       <div className="s-checkout__top mbot-1">
         <div className="container">
-          <div className="b-step justify-center d-flex">
+          <div className="b-step headMid d-flex">
             <span className="b-step__title">Checkout - Review Information</span>
             <div className="nmbr">
               <span className="l-steps__count">1</span>

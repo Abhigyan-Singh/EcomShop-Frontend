@@ -93,3 +93,16 @@ div.names input {
     justify-content: space-between;
     align-items: center;
 }
+
+@media(max-width: 991px){
+.contactInfoBox {
+    width: 100%;
+  }
+}
+@media(max-width: 540px){
+.checkoutButtonBox {
+    display: block;
+    width: 100%;
+}
+.checkoutButtonBox button:first-child {margin-right: 15px;}
+}

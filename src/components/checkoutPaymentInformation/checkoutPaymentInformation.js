@@ -52,11 +52,14 @@ export default function CheckoutPaymentInformation() {
   const onClose = (event) => {
     setModal(false);
   };
+  const returnToCheckout =()=>{
+    navigate('/Checkout');
+  }
   return (
     <div className="wrapper">
       <div className="s-checkout__top mbot-1">
         <div className="container">
-          <div className="b-step justify-center d-flex">
+          <div className="b-step headMid d-flex">
             <span className="b-step__title">Checkout - Review Information</span>
             <div className="nmbr">
               <span className="l-steps__count">1</span>
@@ -219,12 +222,12 @@ export default function CheckoutPaymentInformation() {
           <Button
             className="checkout-btn left"
             label="CANCEL"
-            // onClick={returnToCheckout}
+            onClick={returnToCheckout}
           />
           <Button
             className="checkout-btn hard-right"
             label="SAVE CHANGES"
-            // onClick={returnToCheckout}
+            onClick={returnToCheckout}
           />
         </div>
       </div>

@@ -23,7 +23,7 @@ export default function CartList(props) {
     isItemAdded = false,
     ...rest
   } = props;
-  console.log(props, 'props');
+  // console.log(props, 'props');
   const navigate = useNavigate();
   const [list, setList] = useState('');
   const [value, setValue] = useState(defaultValue);
@@ -1475,6 +1475,24 @@ export default function CartList(props) {
     // console.log(data)
     setIsOpen(true);
   };
+  const totalAmount = {
+    subTotal: { Subtotal: '$15.15' },
+    paymentDetails: [
+      { lable: "Manufacturer's Coupons", value: '($0.00)', paymentType: 1 },
+      {
+        lable: "Coborn's Promo Code Discounts",
+        value: '($0.00)',
+        paymentType: 1
+      },
+      { lable: 'Store Credit Applied', value: '($0.00)', paymentType: 1 },
+      { lable: 'Shopping Fee', value: '$5.00', paymentType: 0 },
+      { lable: 'Pick Up Fee', value: '$0.00', paymentType: 0 }
+    ],
+    acceptSubstitution: [
+      { lable: 'EBT eligible expenses', value: '$24.76', paymentType: 0 }
+    ],
+    totalAmount: '$29.76'
+  };
   console.log(cart);
   const handleDecrementClick = () => {
     if (value > 1) {
@@ -1497,7 +1515,7 @@ export default function CartList(props) {
     <div className="wrapper">
       <div className="s-checkout__top mbot-1">
         <div className="container">
-          <div className="b-step justify-center d-flex">
+          <div className="b-step headMid d-flex">
             <a href="loginMessage" className="checkout-logo"></a>
             <span className="b-step__title">Checkout - Review Cart</span>
             <span className="b-step__count">1</span>
@@ -1768,7 +1786,7 @@ export default function CartList(props) {
         </table>
       </div>
       <div className="f-basket__layout-c">
-        <div id="optInPromotions" v>
+        <div id="optInPromotions">
           <div id="promoHeader" className="f-basket__layout-c-top f-apply ">
             <div className="f-basket__text f-apply__label">
               <b>PROMOTIONS</b>
@@ -1895,21 +1913,38 @@ export default function CartList(props) {
               id="subTotal"
               style={{ fontWeight: 'bold' }}
             >
-              $24.76
+              {totalAmount.subTotal.Subtotal}
+              {/* $24.76 */}
             </dd>
           </div>
-          <div className="b-total__row">
+          {totalAmount.paymentDetails.map((data, key) => {
+            return (
+              <div className="b-total__row" key={key}>
+                <dt className="b-total__dt disc-padding">{data.lable}</dt>
+                <dd
+                  className={
+                    data.paymentType == 1
+                      ? 'b-total__dd copy-red disc-margin'
+                      : 'b-total__dd'
+                  }
+                  id="couponTotal"
+                >
+                  {data.value}
+                </dd>
+              </div>
+            );
+          })}
+
+          {/* <div className="b-total__row">
             <dt className="b-total__dt disc-padding">Manufacturer's Coupons</dt>
-            <input id="cpnTotalValue" type="hidden" value="0.0" />
             <dd className="b-total__dd copy-red disc-margin" id="couponTotal">
               ($0.00)
             </dd>
           </div>
-          <div className="b-total__row">
+           <div className="b-total__row">
             <dt className="b-total__dt disc-padding">
               Coborn's Promo Code Discounts
             </dt>
-            <input id="promoTotalValue" type="hidden" value="0.0" />
             <dd className="b-total__dd copy-red disc-margin">($0.00)</dd>
           </div>
           <div className="b-total__row">
@@ -1920,12 +1955,7 @@ export default function CartList(props) {
             >
               ($0.00)
             </dd>
-            <input
-              type="hidden"
-              value="0.0"
-              id="availedStoreCredit"
-              name="availedStoreCredit"
-            />
+            
           </div>
 
           <div className="b-total__row notBanner1">
@@ -1950,7 +1980,7 @@ export default function CartList(props) {
             >
               ($0.00)
             </dd>
-          </div>
+          </div> */}
         </dl>
       </div>
       <div className="f-basket__layout-e">
@@ -1959,7 +1989,8 @@ export default function CartList(props) {
           <div className="f-basket__layout-e-right">
             <span className="f-basket__total _fl">Total*</span>
             <span className="f-basket__total" id="totalValue">
-              $29.76
+              {/* $29.76 */}
+              {totalAmount.totalAmount}
             </span>
             <input type="hidden" id="cartTotal" value="29.76" />
           </div>
@@ -1983,7 +2014,7 @@ export default function CartList(props) {
             </label>
           </div>
         </div>
-        <div className="f-basket__layout-e-table">
+        {/* <div className="f-basket__layout-e-table">
           <div className="f-basket__layout-e-right">
             <div className="f-basket__cf" style={{ marginBottom: '10px' }}>
               <span className="f-basket__text">EBT eligible expenses:</span>
@@ -1997,7 +2028,22 @@ export default function CartList(props) {
               />
             </div>
           </div>
-        </div>
+        </div> */}
+        {totalAmount.acceptSubstitution.map((data, key) => {
+          return (
+            <div className="f-basket__layout-e-table" key={key}>
+              <div className="f-basket__layout-e-right">
+                <div className="f-basket__cf" style={{ marginBottom: '10px' }}>
+                  <span className="f-basket__text">{data.lable}:</span>
+                  <span className="f-basket__text ib" id="ebtEligibleExpenses">
+                    {/* $24.76 */}
+                    {data.value}
+                  </span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
         <div className="f-basket__layout-e-table">
           <div className=".f-basket__layout-e-right-instr">
             <label className="f-review-substitution__input notBanner1">
