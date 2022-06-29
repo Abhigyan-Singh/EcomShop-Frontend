@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-  useRoutes
+  useRoutes,
 } from 'react-router-dom';
 import { HomeStory } from 'stories/pages/home.stories';
 import { useCookies } from 'react-cookie';
@@ -18,7 +18,6 @@ import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
 import { StoreLocator } from 'stories/pages/store.locator.js';
 //import { getCartData } from 'services/addtocart';
-import { departments } from 'services/departmentSearch';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -40,6 +39,11 @@ const App = () => {
   const [depart, setDepart] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
   const [showCart, setShowCart] = useState(false);
+  const [inputCheck, setInputCheck] = useState(() => {
+    const saved = localStorage.getItem("input");
+    const initialValue = JSON.parse(saved);
+    return initialValue || null;  
+  })
 
   useEffect(() => {
     const { user } = cookies;
@@ -52,12 +56,6 @@ const App = () => {
       setIsAuthenticated(true);
     } else setIsAuthenticated(false);
   }, [cookies]);
-
-  useEffect(() => {
-    if (user) {
-      console.log("USERTOKEN", user)
-    }       
-  }, [])
 
   useEffect(() => {
     let brand = 'coborns-theme';
@@ -102,10 +100,16 @@ const App = () => {
   const onSubDeptChange = (substoreDept) => {
     setSubdepart(substoreDept);
   };
+  
+  function refreshPage() {
+    window.location.reload(false);
+  }
+  
+  const handleInputCheck = (input) => {
+    setInputCheck(input)
+    localStorage.setItem("input", input)
+  }
 
-  useEffect(() => {
-    console.log("COOKIES", cookies)
-  }, [])
 
   const AppRoute = ({ showCart, setShowCart }) => {
     let routes = useRoutes([
@@ -127,6 +131,8 @@ const App = () => {
         path: 'search',
         element: (
           <ShopStory
+            inputCheck={inputCheck}
+            setInputCheck={setInputCheck}
             isAuthenticated={isAuthenticated}
             logout={onLogout}
             onSubDepartChange2={onSubDeptChange}
@@ -200,18 +206,6 @@ const App = () => {
           ></span>
         </p>
       </div>
-      <div id="yext-facility-services-setter" style={{ visibility: 'hidden' }}>
-        <p>
-          <span
-            data-yext-field="services"
-            data-yext-id={
-              facilityStoremapping[store?.facilityId]
-                ? facilityStoremapping[store?.facilityId]?.toString()
-                : store?.facilityId?.toString()
-            }
-          ></span>
-        </p>
-      </div>
       <Alert>
         <span>
           COVID-19 Vaccinations are now available in select locations.
@@ -221,6 +215,9 @@ const App = () => {
         </a>
       </Alert>
       <Header
+        handleInputCheck={handleInputCheck}
+        inputCheck={inputCheck}
+        setInputCheck={setInputCheck}
         onMobileButtonClick={handleMobileButtonClick}
         user={isAuthenticated ? { firstName: userInfo?.firstName } : null}
         logout={onLogout}

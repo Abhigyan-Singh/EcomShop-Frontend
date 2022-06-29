@@ -2,13 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import Item from 'components/item/item';
 import { getAllList } from 'services/mylist';
 import { Context } from 'context/context';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import useFetch from '../hooks/useFetch';
 
-
-const ShopGetPage = ({ query, pageno, loader, error, list, loading, gridView, listView }) => {
+const ShopGetPage = ({loader, error, list, loading, gridView, listView, list2, inputCheck }) => {
   const [listItems, setListItems] = useState([]);
-
   const getListItems = async () => {
     const res = await getAllList();
     setListItems(res.data);
@@ -17,25 +13,37 @@ const ShopGetPage = ({ query, pageno, loader, error, list, loading, gridView, li
   useEffect(() => {
     getListItems();
   }, []);
+  
+  useEffect( () => {
+    console.log("list2 GET PAGE",  list2)
+    console.log("list2 GET PAGE",  list)
+  }, );  
 
   return (
-    <InfiniteScroll
-      pageStart={1}
-      dataLength={list.length}
-      next={true}
-      hasMore={true}
-      loadMore={useFetch(query, pageno)}
-      loader={<h4>...</h4>}
+    <div
       className="App">
-      {gridView 
-        ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
-            {list.map((e, i) => (
-              <Item listItems={listItems} item={e} key={i} listView={listView} gridView={gridView} />
-            ))}
-            {list.map((e, i) => (
-              <Context data={e} key={i}></Context>
-            ))}
-          </div>
+      {gridView
+        ? <div>
+            {list2 
+              ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+                  {list2.map((e, i) => (
+                    <Item listItems={listItems} item={e} key={i} listView={listView} gridView={gridView} />
+                  ))}
+                  {list2.map((e, i) => (
+                    <Context data={e} key={i}></Context>
+                  ))}
+                </div> 
+              : list  ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+                  {list.map((e, i) => (
+                    <Item listItems={listItems} item={e} key={i} listView={listView} gridView={gridView} />
+                  ))}
+                  {list.map((e, i) => (
+                    <Context data={e} key={i}></Context>
+                  ))}
+                </div>
+                : <p>No Products match your criteria</p>
+              }
+          </div>           
         : <div >
             {list.map((e, i) => (
               <Item listItems={listItems} item={e} key={i} />
@@ -46,10 +54,10 @@ const ShopGetPage = ({ query, pageno, loader, error, list, loading, gridView, li
           </div>
       }
         {loading && <p>Loading...</p>}
-        {list === [] && <p>No Products match your criteria</p> } 
+        {list === [] || list2 === [] && <p>No Products match your criteria</p> } 
         {error && <p>No Products match your criteria</p>}
         <div ref={loader}/>
-    </InfiniteScroll>
+    </div>
   );
 };
 

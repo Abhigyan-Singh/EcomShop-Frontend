@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 import { CookiesAge } from 'apiConfig';
 import { useNavigate } from 'react-router-dom'    
 
-const ShopTag = (onSubDeptChange2) => {
+const ShopTag = (props) => {
+  const { onSubDeptChange2, inputCheck, handleInputCheck } = props;
   const [cookies, setCookie] = useCookies();
   const [data, setData] = useState();
   const { facility, dept, subdept } = cookies;
@@ -95,7 +96,7 @@ const ShopTag = (onSubDeptChange2) => {
   }, [dept]);
 
   function refreshPage() {
-    window.location.reload(false);
+    window.location.reload();
   }
 
   const handleSubDeptChange2 = (option) => {
@@ -108,34 +109,42 @@ const ShopTag = (onSubDeptChange2) => {
       onSubDeptChange2(option);
     }
   };
-  
 
   return (
     <div>
-      {cookies.subdept != " "
+      {cookies.subdept != " " 
         ? null
-        : <div onClick={() => refreshPage()} className="flex relative space-x-3 space-y-1 whitespace-nowrap flex-wrap">
+        :  inputCheck
+          ? null
+          :  <div className="flex relative space-x-3 space-y-1 whitespace-nowrap flex-wrap">
             {map(data, (option)=> (           
-            <button
-              className="border border-1 border-green-600 rounded-3xl px-5 pb-1"
-              key={option.id.area} option={option.description} onClick={() => { handleSubDeptChange2(option.description)}} 
-              >
-              <button className="text-xs" onClick={() => navigate('/search?text=' + option.description)}>{option.description}</button>
-            </button>
-            ))}   
-          </div> 
+            <button className="border border-1 border-green-600 rounded-3xl px-5 pb-1" key={option.id.area} option={option.description}
+            onClick={() => {
+            
+            }}>
+            <button className="text-xs" 
+              onClick={() => {
+                navigate('/search?area=' + option.id.area)
+                handleInputCheck(false)
+                handleSubDeptChange2(option.description)
+              }}
+            >{option.description}</button>
+          </button>
+          ))}   
+        </div>  
       }
     </div>
   );
 };
 
-
 ShopTag.propTypes = {
+  handleInputCheck:PropTypes.func,
   onSubDeptChange2: PropTypes.func
 };
 
 ShopTag.defaultProps = {
-  onSubDeptChange2: () => {}
+  onSubDeptChange2: () => {},
+  handleInputCheck: () => {}
 };
 
 
