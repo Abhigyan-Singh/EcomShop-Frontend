@@ -20,37 +20,39 @@ const Modal = ({ onClose }) => {
     formState: { errors }
   } = useForm();
   const submit = (data) => {
-    console.log(JSON.stringify(data));
-    authenticate(data).then((res) => {
-      if (res.data.token) {
-        setCookie('user', res.data, {
-          path: '/',
-          maxAge: CookiesAge
-        });
-        userInfoService().then((userRes) => {
-          if (userRes.data) {
-            setCookie('userInfo', userRes.data, {
-              path: '/',
-              maxAge: CookiesAge
-            });
-            setCookie('facility', userRes.data.facility, {
-              path: '/',
-              maxAge: CookiesAge
-            });
-            dispatchUser({
-              type: 'SET_USER',
-              payload: { userName: userRes.data.userName }
-            });
-            getCartDetails(userRes.data.userName, true);
-            onClose();
-          }
-        });
+    try {
+      console.log(JSON.stringify(data));
+      authenticate(data).then((res) => {
+        if (res.data.token) {
+          setCookie('user', res.data, {
+            path: '/',
+            maxAge: CookiesAge
+          });
+          userInfoService().then((userRes) => {
+            if (userRes.data) {
+              setCookie('userInfo', userRes.data, {
+                path: '/',
+                maxAge: CookiesAge
+              });
+              setCookie('facility', userRes.data.facility, {
+                path: '/',
+                maxAge: CookiesAge
+              });
+              dispatchUser({
+                type: 'SET_USER',
+                payload: { userName: userRes.data.userName }
+              });
+              getCartDetails(userRes.data.userName, true);
+              onClose();
+            }
+          });
 
-      } else {
-        setLoginFailed(true);
-      }
-    });
-    ajaxauthenticateuser(data).then((res) => { });
+        } else {
+          setLoginFailed(true);
+        }
+        // ajaxauthenticateuser(data).then((res) => { });
+      });
+    } catch (err) { }
   };
 
   const updateError = () => {

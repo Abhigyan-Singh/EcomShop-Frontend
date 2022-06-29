@@ -60,7 +60,7 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
   const { loading, error, list } = useFetch(query, pageno);
   const [cookies, setCookie] = useCookies(['user']);
   const { userInfo, user, facility } = cookies;
-  const { dispatchUser } = CartState();
+  const { dispatchUser, favorites } = CartState();
   const { fetchFavorites } = usefavoriteApi();
   const { getCartDetails } = useCart();
   const [list2, setList2] = useState()
@@ -257,7 +257,7 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
   }, [handleObserver]);
 
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo && user) {
       userInfoService().then((userRes) => {
         if (userRes.data) {
           setCookie('userInfo', userRes.data, {
@@ -275,8 +275,13 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
   }, [userInfo]);
 
   useEffect(() => {
+    if (favorites.favorites.length === 0 && favorites.progress === false) {
+      fetchFavorites();
+    }
+  }, []);
+
+  useEffect(() => {
     getCartDetails();
-    fetchFavorites();
     handleChange();
   }, []);
 
