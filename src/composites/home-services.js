@@ -17,6 +17,8 @@ import postageIcon from 'assets/icons/services-icon-postage@2x.png';
 import { CookiesAge } from 'apiConfig';
 import { grocery } from 'services/groceryTree';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+
 export const facilityStoremapping = {
   605: 2029,
   500: 2032,
@@ -33,6 +35,7 @@ const HomeServices = (props, onDepartChange4) => {
   const [services, setServices] = useState([]);
   const [data2, setData2] = useState();
   const [selected2, setSelected2] = useState(dept);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (facility) {
@@ -93,7 +96,7 @@ const HomeServices = (props, onDepartChange4) => {
             </ul>
             <ul className="list-none space-y-2" >
               {shopNavigation2.map((option) => (
-                <li key={option.name} onClick={() => handleDeptChange4(option.name)} >
+                <li key={option.name}  onClick={() => handleDeptChange4(option.name)}>
                   {option.href && <a href={option.href}>{option.name}</a>}
                   {!option.href && <span>{option.name}</span>}
                 </li>
