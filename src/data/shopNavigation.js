@@ -11,67 +11,75 @@ const shopNavigation1 = [
   
   {
     name: 'Baby',
-    href: '/search?text=Baby'
+    href: '/search?area=109791'
   },
   {
     name: 'Bakery',
-    href: 'search?text=Bakery'
-  },
-  {
-    name: 'Dairy',
-    href: 'search?text=Diary'
-  },
-  {
-    name: 'Deli',
-    href: 'search?text=Deli'
-  },
-  {
-    name: 'Floral',
-    href: 'search?text=Floral'
-  },
-  {
-    name: 'Frozen',
-    href: 'search?text=Frozen'
-  },
-  {
-    name: 'General Merchandise',
-    href: 'search?text=General Merchandise'
-  },
-  {
-    name: 'Grocery',
-    href: 'search?text=Grocery'
+    href: '/search?area=109792'
   },
   {
     name: 'Meat & Seafood',
-    href: 'search?text=Meat & Seafood'
+    href: '/search?area=109793'
   },
   {
-    name: 'Pet',
-    href: 'search?text=Pet'
+    name: 'Dairy',
+    href: '/search?area=109794'
+  },
+  {
+    name: 'Deli',
+    href: '/search?area=109795'
+  },
+  {
+    name: 'Floral',
+    href: '/search?area=109796'
+  },
+  {
+    name: 'General Merchandise',
+    href: '/search?area=109797'
+  },
+  {
+    name: 'Grocery',
+    href: '/search?area=109798'
+  },
+  {
+    name: 'Frozen',
+    href: '/search?area=109799'
+  },
+  {
+    name: 'Health & Beauty',
+    href: '/search?area=109800'
   }
 ];
 
 
 const shopNavigation2 = [
   {
+    name: 'Household & Laundry',
+    href: '/search?area=109801'
+  },
+  {
+    name: 'Pet',
+    href: '/search?area=109802'
+  },
+  {
     name: 'Produce',
-    href: 'search?text=Produce'
+    href: '/search?area=109803'
   },
   {
     name: 'Beer',
-    href: 'search?text=Beer'
+    href: '/search?area=109804'
+  },
+  {
+    name: 'Wine',
+    href: '/search?area=109805'
+  },
+  {
+    name: 'Liquor',
+    href: '/search?area=109806'
   },
   {
     name: 'Tobacco',
-    href: 'search?text=Tobacco'
-  },
-  {
-    name: 'Health & Beauty',
-    href: 'search?text=Health & Beauty'
-  },
-  {
-    name: 'Natural Foods',
-    href: 'search?text=Natural Foods'
+    href: '/search?area=109807'
   },
   {
     name: '—',
