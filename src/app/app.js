@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-  useRoutes
+  useRoutes,
 } from 'react-router-dom';
 import { HomeStory } from 'stories/pages/home.stories';
 import { useCookies } from 'react-cookie';
@@ -39,6 +39,11 @@ const App = () => {
   const [depart, setDepart] = useState(dept);
   const [subdepart, setSubdepart] = useState(subdept);
   const [showCart, setShowCart] = useState(false);
+  const [inputCheck, setInputCheck] = useState(() => {
+    const saved = localStorage.getItem("input");
+    const initialValue = JSON.parse(saved);
+    return initialValue || null;  
+  })
 
   useEffect(() => {
     const { user } = cookies;
@@ -52,12 +57,6 @@ const App = () => {
     } else setIsAuthenticated(false);
   }, [cookies]);
 
-  useEffect(() => {
-    if (user) {
-      console.log("USERFACILITY", user)
-    }       
-  }, [])
-  
   useEffect(() => {
     let brand = 'coborns-theme';
     if (window.location.host.indexOf('COBORNS'.toLocaleLowerCase()) > -1) {
@@ -101,10 +100,16 @@ const App = () => {
   const onSubDeptChange = (substoreDept) => {
     setSubdepart(substoreDept);
   };
+  
+  function refreshPage() {
+    window.location.reload(false);
+  }
+  
+  const handleInputCheck = (input) => {
+    setInputCheck(input)
+    localStorage.setItem("input", input)
+  }
 
-  useEffect(() => {
-    console.log("COOKIES", cookies)
-  }, [])
 
   const AppRoute = ({ showCart, setShowCart }) => {
     let routes = useRoutes([
@@ -126,6 +131,8 @@ const App = () => {
         path: 'search',
         element: (
           <ShopStory
+            inputCheck={inputCheck}
+            setInputCheck={setInputCheck}
             isAuthenticated={isAuthenticated}
             logout={onLogout}
             onSubDepartChange2={onSubDeptChange}
@@ -187,7 +194,6 @@ const App = () => {
   // console.log('app', store, facilityStoremapping[store?.facilityId]);
   return (
     <Router>
-
       <div id="yext-facility-hours-setter" style={{ visibility: 'hidden' }}>
         <p>
           <span
@@ -209,6 +215,9 @@ const App = () => {
         </a>
       </Alert>
       <Header
+        handleInputCheck={handleInputCheck}
+        inputCheck={inputCheck}
+        setInputCheck={setInputCheck}
         onMobileButtonClick={handleMobileButtonClick}
         user={isAuthenticated ? { firstName: userInfo?.firstName } : null}
         logout={onLogout}

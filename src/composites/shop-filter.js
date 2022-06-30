@@ -4,10 +4,8 @@ import Checkbox from 'components/checkbox/checkbox';
 import { useNavigate } from 'react-router-dom';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
-import filter from 'services/dropdownfilter';
-import { search } from 'services/search';
 import { useCookies } from 'react-cookie';
-import { CookiesAge } from 'apiConfig';
+
 
 const ShopFilter = (props, args, value, item) => {
   const [Checked, setChecked] = useState([]);
@@ -129,7 +127,7 @@ const ShopFilter = (props, args, value, item) => {
                             margin: -3,
                             color: 'black',
                             width: 182.25,
-                            height: 150
+                            height: 130
                           }}
                         >
                           <Checkbox

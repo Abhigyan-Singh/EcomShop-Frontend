@@ -9,7 +9,7 @@ import { LowPrioritySharp } from '../../node_modules/@mui/icons-material/index';
 import classNames from 'classnames';
 
 const ShopSort = (props) => {
-  const {list, filteredList, setGridView, setListView, gridView, listView} = props;
+  const {list, list2, filteredList, setGridView, setListView, gridView, listView} = props;
 
   function refreshPage() {     
     window.location.reload(false);

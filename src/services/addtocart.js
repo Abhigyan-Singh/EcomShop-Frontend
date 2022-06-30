@@ -4,13 +4,12 @@ import { useCookies } from 'react-cookie';
 import { CartState } from '../context/context';
 
 
-
-
 export const addToCarts = (userName, productId, qty, facilityId) => {
   return apiClient.get(
     `${config.baseUrl}${API.add_to_cart}/${userName}/${productId}/${qty}/${facilityId}`
   );
 };
+
 export const replaceCarts = (userName) => {
   return apiClient.get(
     `${config.baseUrl}${API.replace_cart}/${userName}`
@@ -35,7 +34,6 @@ const useCart = () => {
   const { dispatch } = CartState();
   const [cookies] = useCookies(['user']);
   const { userInfo } = cookies;
-
   const getCartDetails = async (userName, postLogin) => {
     const userNameFinal = userInfo?.userName ? userInfo.userName : userName;
     if (userNameFinal) {
@@ -46,7 +44,6 @@ const useCart = () => {
         dispatch({ type: 'SET_POST_LOGIN', payload: false });
       }
       const cart = cartData.data.map((each) => ({
-
         currentPrice: each.itemTotal,
         qty: each.quantityInCart
       }));

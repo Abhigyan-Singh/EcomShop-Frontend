@@ -53,9 +53,10 @@ function useFetch(query, pageNo) {
       dispatch({ type: 'SET_CART_PROGRESS', payload: false });
     }
   }, [query, facilityId]);
-
+  
+  //&& progress === true 
   useEffect(() => {
-    if (query && progress === false) {
+    if (query ) {  
       console.log("QUERY", query)
       dispatch({ type: 'SET_CART_PROGRESS', payload: true });
       sendQuery(query)

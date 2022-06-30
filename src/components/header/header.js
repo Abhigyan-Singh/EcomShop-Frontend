@@ -23,7 +23,6 @@ import mainNavigation from 'data/mainNavigation';
 import './header.css';
 import Modal from './Modal';
 import Backdrop from './Backdrop';
-import { search } from 'services/search';
 import { grocery } from 'services/groceryTree';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
@@ -31,7 +30,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { CartState } from 'context/context';
 import { map } from 'lodash';
 import { useCart } from 'react-use-cart';
-import { departments } from 'services/departmentSearch';
 import Cart from '../../components/cart/cart.js';
 import PostSignInModal from './PostSignInModal';
 
@@ -57,16 +55,17 @@ const Header = (props) => {
     onDeptChange,
     onDepartChange5,
     onSubDeptChange3,
+    getItems,
+    inputCheck,
+    handleInputCheck,
     //setShowCart,
     ...rest
   } = props;
   const componentClassName = classNames('cbn-header', {}, className);
   const [value, setValue] = useState('');
-
   const [searchList, setSearchList] = useState([]);
   const [data, setData] = useState();
   const [cookies, setCookie] = useCookies();
-  const [slide, setSlide] = useState(false);
   const { facility, dept, subdept } = cookies;
   const [selected, setSelected] = useState(dept);
   const [loading, setLoading] = useState(false);
@@ -98,7 +97,8 @@ const Header = (props) => {
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
   const [modalIsOpen, setModalIsOpen] = useState(query.get('login') === 'show');
   const [postSignInModalIsOpen, setPostSignInModalIsOpen] = useState(postlogin);
-
+  const [searchArray, setSearchArray] = useState(searchList);
+  
   useEffect(() => {
     setPostSignInModalIsOpen(postlogin);
   }, [postlogin]);
@@ -111,7 +111,7 @@ const Header = (props) => {
       setLoading(false);
     }
   };
-  
+
   const setHoursHtml = () => {
     if (
       document.getElementById('yext-facility-hours-getter') &&
@@ -170,14 +170,13 @@ const Header = (props) => {
     setPostSignInModalIsOpen(false);
   };
 
-  const [searchArray, setSearchArray] = useState(searchList);
-
   const onScroll = () => {
     // We need to integrate with solor here on scroll
   };
 
   useEffect(async () => {
     await grocery(4433).then((res) => {
+      console.log('GROCERY RESPONSE', res.data[0].id.area)
       setData(res.data);
     });
   }, [props]);
@@ -234,10 +233,6 @@ const Header = (props) => {
   const onClose = (event) => {
     setShowCart(false);
   };
-
-  //http://localhost:8009/product/areasolrsearch?sortBy=&sortOrder=&currentPageNumber=1&catalog=PRODUCTS&facilityId=605&locationCode=NAV_CATALOG&areaId=100000&facetName=Earth's
-  //sortBy, sortOrder, currentPageNumber, catalog, facilityId, locationCode, areaId, facetName
-  //departments()
 
   useEffect (() => { 
     grocery(109791)
@@ -500,8 +495,7 @@ const Header = (props) => {
                               className="underline"
                               href={`https://www.coborns.com/Cobstore${facilityStoremapping[store?.facilityId]
                                 ? facilityStoremapping[
-                                  store?.facilityId
-                                ]?.toString()
+                                  store?.facilityId]?.toString()
                                 : store?.facilityId?.toString()
                                 }`}
                               target="_blank"
@@ -606,24 +600,23 @@ const Header = (props) => {
                                                     <div
                                                       onClick={() => {
                                                         if (user) {
-                                                          //http://localhost:8009/product/areasolrsearch?sortBy=&sortOrder=&currentPageNumber=0&catalog=PRODUCTS&facilityId=605&locationCode=NAV_CATALOG&areaId=100000&facetName=Earth's
-                                                          
                                                           handleDeptChange(
                                                             option.description
                                                           );
                                                           navigate(
-                                                            '/search?text=' +
-                                                              option.description
+                                                            '/search?area=' +
+                                                              option.id.area
                                                           );
-                                                       
+                                                          handleInputCheck(false)
                                                         } else {
                                                           handleDeptChange(
                                                             option.description
                                                           );
                                                           navigate(
-                                                            '/search?text=' +
-                                                              option.description
+                                                            '/search?area=' +
+                                                              option.id.area
                                                           );
+                                                          handleInputCheck(false)
                                                         }
                                                       }}
                                                     >
@@ -654,12 +647,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -678,10 +665,10 @@ const Header = (props) => {
                                                                     onClick={() => {
                                                                       handleSubDeptChange3(
                                                                         subItem.description
-                                                                      );
+                                                                      );                                                                  
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -703,12 +690,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -725,8 +706,8 @@ const Header = (props) => {
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -748,15 +729,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  handleSubDeptChange3(
-                                                                    subItem.description
-                                                                  );
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -773,9 +745,9 @@ const Header = (props) => {
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
-                                                                      );
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
+                                                                      );  
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
                                                                   >
@@ -796,12 +768,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -818,8 +784,8 @@ const Header = (props) => {
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -841,12 +807,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -858,13 +818,13 @@ const Header = (props) => {
                                                               >
                                                                 <Popover.Panel>
                                                                   <button
-                                                                    onClick={() => {
+                                                                    onClick={() => {      
                                                                       handleSubDeptChange3(
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -886,12 +846,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -908,8 +862,8 @@ const Header = (props) => {
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -933,7 +887,7 @@ const Header = (props) => {
                                                               <Transition
                                                                 onClick={() => {
                                                                   navigate(
-                                                                    '/search?text=' +
+                                                                    '/search?area=' +
                                                                       subItem.description
                                                                   );
                                                                 }}
@@ -953,7 +907,7 @@ const Header = (props) => {
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
+                                                                        '/search?area=' +
                                                                           subItem.description
                                                                       );
                                                                     }}
@@ -978,7 +932,7 @@ const Header = (props) => {
                                                               <Transition
                                                                 onClick={() => {
                                                                   navigate(
-                                                                    '/search?text=' +
+                                                                    '/search?area=' +
                                                                       subItem.description
                                                                   );
                                                                 }}
@@ -993,12 +947,12 @@ const Header = (props) => {
                                                               >
                                                                 <Popover.Panel>
                                                                   <button
-                                                                    onClick={() => {
+                                                                    onClick={() => {      
                                                                       handleSubDeptChange3(
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
+                                                                        '/search?area=' +
                                                                           subItem.description
                                                                       );
                                                                     }}
@@ -1021,12 +975,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -1043,9 +991,9 @@ const Header = (props) => {
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
-                                                                      );
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
+                                                                      );   
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
                                                                     //style={{padding: 1}}
@@ -1067,12 +1015,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -1084,14 +1026,14 @@ const Header = (props) => {
                                                               >
                                                                 <Popover.Panel>
                                                                   <button
-                                                                    onClick={() => {
+                                                                    onClick={() => {    
                                                                       handleSubDeptChange3(
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
-                                                                      );
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
+                                                                      ); 
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
                                                                   >
@@ -1112,12 +1054,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -1134,8 +1070,8 @@ const Header = (props) => {
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1157,12 +1093,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -1174,13 +1104,13 @@ const Header = (props) => {
                                                               >
                                                                 <Popover.Panel>
                                                                   <button
-                                                                    onClick={() => {
+                                                                    onClick={() => {      
                                                                       handleSubDeptChange3(
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1202,12 +1132,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -1224,8 +1148,8 @@ const Header = (props) => {
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1247,12 +1171,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -1269,8 +1187,8 @@ const Header = (props) => {
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1292,12 +1210,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -1314,8 +1226,8 @@ const Header = (props) => {
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1337,12 +1249,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -1359,8 +1265,8 @@ const Header = (props) => {
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1382,12 +1288,6 @@ const Header = (props) => {
                                                           (subItem) => (
                                                             <div>
                                                               <Transition
-                                                                onClick={() => {
-                                                                  navigate(
-                                                                    '/search?text=' +
-                                                                      subItem.description
-                                                                  );
-                                                                }}
                                                                 show={open}
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-200"
@@ -1404,8 +1304,8 @@ const Header = (props) => {
                                                                         subItem.description
                                                                       );
                                                                       navigate(
-                                                                        '/search?text=' +
-                                                                          subItem.description
+                                                                        '/search?area=' +
+                                                                          subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1445,7 +1345,7 @@ const Header = (props) => {
         </Popover>
         <div className="flex-1 lg:flex-none">
           <Autocomplete
-            handleDeptChange5={onDepartChange5}
+            handleInputCheck={handleInputCheck}
             className="block w-full lg:w-96 h-10 md:h-11"
             hasRoundedCorners={true}
             icon={SearchIcon}
@@ -1501,6 +1401,8 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
+  handleInputCheck:PropTypes.func,
+  getItems: PropTypes.func,
   onDeptChange: PropTypes.func,
   onSubDeptChange3: PropTypes.func,
   theme: PropTypes.string,
@@ -1514,8 +1416,10 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
+  getItems: () => {},
   onDeptChange: () => {},
-  onSubDeptChange3: () => {}
+  onSubDeptChange3: () => {},
+  handleInputCheck: () => {}
 };
 
 export default Header;

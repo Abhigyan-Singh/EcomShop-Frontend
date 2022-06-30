@@ -1,23 +1,13 @@
-import { Fragment, useState, useEffect, useCallback, useRef } from 'react';
+import { Fragment, useState, useEffect, useRef } from 'react';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import { allStores } from 'services/facilities';
 import { map } from 'lodash';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { Listbox, Transition, Popover, Dialog} from '@headlessui/react';
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  LocationMarkerIcon
-} from '@heroicons/react/solid';
-import itemStories from './item.stories';
-import Checkbox from 'components/checkbox/checkbox';
+import { Transition, Popover, Dialog} from '@headlessui/react';
 import Radio from 'components/radio/radio';
 import Locator from 'components/locator/locator';
-import { userInfoService } from 'services/auth';
 import { useNavigate } from 'react-router-dom';
-import { Map, Marker, Draggable } from "pigeon-maps"
 import L from 'leaflet'
 
 export default {
