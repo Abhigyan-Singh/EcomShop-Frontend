@@ -12,6 +12,7 @@ import { map } from 'lodash';
 import { CookiesAge } from 'apiConfig';
 import PropTypes from 'prop-types';
 import { Popover, Transition } from '@headlessui/react';
+import {useSearchParams} from 'react-router-dom';
 
 const ShopSidebar = (props) => {
   const {getItems, inputCheck, handleInputCheck} = props;
@@ -22,6 +23,7 @@ const ShopSidebar = (props) => {
   const [selected, setSelected] = useState(subdept);
   const [selected2, setSelected2] = useState(dept);
   const [data2, setData2] = useState();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     if (dept === 'Baby') {
@@ -125,7 +127,7 @@ const ShopSidebar = (props) => {
   function refreshSubDept() {
     window.location.reload(false);
   }
-  
+    
   const tree = () => {
     return (
       <div className="list-none pl-3">
@@ -167,7 +169,7 @@ const ShopSidebar = (props) => {
           <div className="flex-1 flex flex-col min-h-0">
             <div className="flex-1 flex flex-col py-5 overflow-y-auto">
               <div className="flex-1 flex flex-col px-5 border-r">
-                {inputCheck != true
+                {searchParams.get("area")
                   ? <div>
                       <div className="flex-shrink-0 font-serif uppercase tracking-widest mb-4">
                         Departments

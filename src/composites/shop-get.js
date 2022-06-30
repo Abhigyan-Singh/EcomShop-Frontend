@@ -16,7 +16,7 @@ const ShopGetPage = ({loader, error, list, loading, gridView, listView, list2, i
   
   useEffect( () => {
     console.log("list2 GET PAGE",  list2)
-    console.log("list2 GET PAGE",  list)
+    console.log("list1 GET PAGE",  list)
   }, );  
 
   return (

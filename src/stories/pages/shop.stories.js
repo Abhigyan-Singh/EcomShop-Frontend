@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useRef
 } from 'react';
-import {useParams, useSearchParams} from 'react-router-dom';
+import {useSearchParams} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Locator from 'components/locator/locator';
 import ShopSidebar from 'composites/shop-sidebar';
@@ -314,7 +314,7 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
   }, [searchParams.get("area")])
   
   useEffect(() => {
-    console.log("params", searchParams.get("area"))
+    console.log("list Shop Stories", list)
   }, )
   
   return (
