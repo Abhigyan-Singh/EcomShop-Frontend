@@ -98,3 +98,27 @@
 .checkout-btn:hover {opacity: 0.8; background-color: #909;}
 .paymentOptionsBoxCol:last-child {text-align: right;}
 .ckoutdisable{opacity: 0.6;}
+@media(max-width: 991px){
+    .payInfoWrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+    .paymentOptionsBox {
+        width: 100%;
+    }
+    .button-box {
+        width: 100%;
+        margin: 20px 0 0 0;
+    }
+}
+@media(max-width: 767px){
+    .paymentOptionsBoxOuter{
+        overflow: auto;
+    }
+    .paymentOptionsBoxOuter .paymentOptionsBox {width: 800px;}
+}
+@media(max-width: 370px){
+.hard-right {
+    float: left; margin-right: 20px;
+}
+}

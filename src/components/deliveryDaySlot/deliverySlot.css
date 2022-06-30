@@ -44,3 +44,34 @@ b, strong {
 }
 .ndDlvryRowFoot {color: #4d4d4d; font-family: Verdana,Helvetica,Arial; font-size: 14px; margin-top: 15px; padding:0 20px; margin-bottom: 20px;}
 .chosPick p img {border: 1px solid #000;}
+
+.dlsl span:first-child {margin-right: 15px;}
+.dlsl span:nth-child(2) {
+    min-width: 70px;
+}
+
+@media(max-width: 535px){
+    .dlsl span {font-size: 12px;}
+    .dapuf {
+        font-size: 15px;
+    }
+    .ndDlvryRowRght {
+        padding: 1px 2px;
+        font-size: 12px;
+        line-height: 14px;
+        text-align: left;
+    }
+    .ndDlvryRowLft {
+        padding: 1px 20px 1px 6px;
+        font-size: 12px;
+        line-height: 14px;
+    }
+    .ndDlvryRowHead, .ndDlvryRowSubHead, .ndDlvryRowFoot {
+        padding: 0px 5px;
+    }
+    .label_topic {
+        font-size: 21px !important;
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+}

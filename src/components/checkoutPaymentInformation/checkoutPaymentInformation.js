@@ -82,6 +82,7 @@ export default function CheckoutPaymentInformation() {
         <div className="payInfoHead">
           <h2>Payment Information</h2>
         </div>
+        <div className="paymentOptionsBoxOuter">
         <div className="paymentOptionsBox">
           <h2>CREDIT CARD</h2>
           <div className="paymentOptionsBoxHd">
@@ -217,6 +218,7 @@ export default function CheckoutPaymentInformation() {
               />
             </div>
           </div>
+        </div>
         </div>
         <div class="button-box m-lss">
           <Button

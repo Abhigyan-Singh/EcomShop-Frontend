@@ -95,9 +95,30 @@ div.names input {
 }
 
 @media(max-width: 991px){
-.contactInfoBox {
+ .contactInfoBox {
     width: 100%;
   }
+}
+@media(max-width: 670px){
+    .cibrCol {
+        margin: 0;
+        display: block;
+        max-width: 100%;
+    }
+    .phn .cibrCol {
+        max-width: 100%;
+    }
+    .phnCol {
+        max-width: 29%;
+    }
+    .eml .cibrCol {
+        max-width: 100%;
+    }
+    .checkoutButtonBox {
+        width: 100%;
+        margin: 20px 0 0 0;
+    }
+    
 }
 @media(max-width: 540px){
 .checkoutButtonBox {

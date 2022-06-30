@@ -54,3 +54,22 @@
     margin: 0 450px 0 0;
   }
   .dladrs.b-review-info__dt + .i-question {width: 17px; height: 17px; display: inline-block; background-color: #ccc; border-radius: 50%;}
+
+@media(max-width: 535px){
+    .chkOt {padding: 0 0 20px;}
+  }
+  @media(max-width: 480px){
+    .b-review-info__dl {
+      padding-left: 0;
+    }
+    .b-review-info__left {
+      padding: 13px 0 0 0;
+    }
+}
+@media(max-width: 535px){
+  .pickTime {display: block;}
+  .pickTime .f-order-summ__right, .pickTime .f-order-summ__left {
+    width: 100%;
+    display: block;
+  }
+}

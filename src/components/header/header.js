@@ -47,7 +47,7 @@ const Header = (props) => {
   var path = window.location.pathname; // lets imaging that url is "/home/x"
   var pathArray = path.split('/');
   var loc = pathArray[1];
-  console.log('loc', loc);
+  // console.log('loc', loc);
   // BSWING: 'theme' can be passed through like this or pulled from another context - refactor if desired.
   // BSWING: 'user' or another authentication object can be passed through like this or pulled from another context - refactor if desired.
   const {

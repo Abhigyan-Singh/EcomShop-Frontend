@@ -90,7 +90,7 @@ span.asterisk { color: red; margin-top: 2px; }
 .contFrmCol.state{color: red;}
 .contFrmCol.zipcode{color: red;}
 label.digitvalid {color: red;}
-.contFrmRow input[type="text"], .contFrmRow input[type="number"] {
+.contFrmRow input[type="text"], .contFrmRow input[type="number"], .contFrmCol input[type="text"] {
     height: 30px;
     border-radius: 5px;
     padding: 0 10px;
@@ -166,3 +166,39 @@ label.digitvalid {color: red;}
     min-height: 70px;
 }
 .lght {color: #555;}
+
+@media(max-width: 1299px){
+    .adCrtBotSec .modal-content {
+        left: 5% !important;
+        width: 90%;
+    }
+}
+@media(max-width: 692px){
+    .modFootSec {
+        display: block;
+    }
+}
+@media(max-width: 612px){
+    .boxcontent {
+        display: block;
+    }
+    .boxcontentLft {
+        display: block;
+        width: 100%;
+        border-right: none;
+        padding: 15px;
+    }
+    .boxcontentRght {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        border-top: none;
+        border-bottom: 1px solid darkgray;
+    }
+}
+@media(max-width: 424px){
+    .modFootSecLft {
+        display: block;
+        padding: 10px 15px 0;
+    }
+}

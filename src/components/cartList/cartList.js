@@ -1532,7 +1532,6 @@ export default function CartList(props) {
               <a href="changewindowfromcheckout" className="btn-a">
                 Change
               </a>
-              {/* onClick="skipLeaveMessageWindow();" */}
             </div>
           </div>
           <div className="col3">
@@ -1935,52 +1934,6 @@ export default function CartList(props) {
             );
           })}
 
-          {/* <div className="b-total__row">
-            <dt className="b-total__dt disc-padding">Manufacturer's Coupons</dt>
-            <dd className="b-total__dd copy-red disc-margin" id="couponTotal">
-              ($0.00)
-            </dd>
-          </div>
-           <div className="b-total__row">
-            <dt className="b-total__dt disc-padding">
-              Coborn's Promo Code Discounts
-            </dt>
-            <dd className="b-total__dd copy-red disc-margin">($0.00)</dd>
-          </div>
-          <div className="b-total__row">
-            <dt className="b-total__dt disc-padding">Store Credit Applied</dt>
-            <dd
-              className="b-total__dd copy-red disc-margin"
-              id="availedStoreCreditValue"
-            >
-              ($0.00)
-            </dd>
-            
-          </div>
-
-          <div className="b-total__row notBanner1">
-            <dt className="b-total__dt">Shopping Fee</dt>
-            <dd className="b-total__dd">$5.00</dd>
-          </div>
-          <div className="b-total__row">
-            <dt className="b-total__dt">Pick Up Fee</dt>
-            <dd className="b-total__dd">
-              <span id="deliveryFee"> $0.00</span>
-            </dd>
-          </div>
-          <div
-            className="b-total__row"
-            id="deliveryFeeDiscountRow"
-            style={{ display: 'none' }}
-          >
-            <dt className="b-total__dt disc-padding">Delivery Fee Discounts</dt>
-            <dd
-              className="b-total__dd copy-red disc-margin"
-              id="deliveryFeeDiscount"
-            >
-              ($0.00)
-            </dd>
-          </div> */}
         </dl>
       </div>
       <div className="f-basket__layout-e">
@@ -2014,21 +1967,7 @@ export default function CartList(props) {
             </label>
           </div>
         </div>
-        {/* <div className="f-basket__layout-e-table">
-          <div className="f-basket__layout-e-right">
-            <div className="f-basket__cf" style={{ marginBottom: '10px' }}>
-              <span className="f-basket__text">EBT eligible expenses:</span>
-              <span className="f-basket__text ib" id="ebtEligibleExpenses">
-                $24.76
-              </span>
-              <input
-                id="ebtEligibleExpensesValue"
-                type="hidden"
-                value="24.76"
-              />
-            </div>
-          </div>
-        </div> */}
+       
         {totalAmount.acceptSubstitution.map((data, key) => {
           return (
             <div className="f-basket__layout-e-table" key={key}>

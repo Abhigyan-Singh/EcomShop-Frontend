@@ -116,7 +116,7 @@ export default function CheckoutReview(props) {
           </div>
         </div>
       </div>
-      <div className="container">
+      <div className="container chkOt">
         <div className="checkboxErrors">
           Please correct the highlighted field(s) below:
           <div className="confirmCheckbox checkbox-error-top">
@@ -242,7 +242,7 @@ export default function CheckoutReview(props) {
                 </div>
                 <div className="f-order-summ__block">
                   <div className="f-order-summ__subtitle">Pick Up time</div>
-                  <div className="f-order-summ__table">
+                  <div className="f-order-summ__table pickTime">
                     <div className="f-order-summ__left">
                       <div className="f-order-summ__date">
                         {amount.pickUpTime.date}
