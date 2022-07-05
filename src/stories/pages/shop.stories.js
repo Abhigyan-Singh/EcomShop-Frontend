@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useRef
 } from 'react';
-import {useSearchParams} from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Locator from 'components/locator/locator';
 import ShopSidebar from 'composites/shop-sidebar';
@@ -26,6 +26,7 @@ import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
 import { departments } from 'services/departmentSearch';
+import ShopSubDepartment from 'composites/shop-sub-department';
 
 export default {
   title: 'Pages/Home',
@@ -48,7 +49,7 @@ const keyToText = {
   isNew: 'New Arrivals',
   onSale: 'Sale Items'
 };
-export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, inputCheck, ...rest }) => {
+export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputCheck, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
   const [gridView, setGridView] = useState(true);
@@ -58,13 +59,13 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
   const [query, setQuery] = useState(searchText);
   const [pageno, setPageno] = useState(1);
   const { loading, error, list } = useFetch(query, pageno);
-  const [cookies, setCookie] = useCookies(['user']);
-  const { userInfo, user, facility } = cookies;
+  const [cookies, setCookie] = useCookies();
+  const { userInfo, user, facility, dept, subdept } = cookies;
   const { dispatchUser, favorites } = CartState();
   const { fetchFavorites } = usefavoriteApi();
   const { getCartDetails } = useCart();
   const [list2, setList2] = useState()
-
+  const defaultFacilityId = 2035;
   const [filteredList, setFilteredList] = useState([]);
   const [filterDropdowns, setFilterDropdowns] = useState({
     brands: [],
@@ -115,7 +116,8 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
       payload.newAndSale.push('sale');
     }
     if (brand.length) {
-      filterProducts(0, 1000, facility.facilityId, areaId, brand).then((res) => {
+      const facilityId = facility?.facilityId ? facility?.facilityId : defaultFacilityId;
+      filterProducts(0, 1000, facilityId, areaId, brand).then((res) => {
         res?.data?.products ? setFilteredList(res.data.products) : setFilteredList([]);
       });
     } else {
@@ -285,38 +287,39 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
     handleChange();
   }, []);
 
-  
+
   function refreshPage() {
     window.location.reload(false);
   }
 
-  useEffect(async () => {
-    await grocery(109791)
+  useEffect(() => {
+    grocery(109791)
       .then((res) => {
         setData(res);
       })
   }, [filterDropdowns]);
-  
-  
+
+
   const [searchParams] = useSearchParams();
- // const params2 = useParams();
+  // const params2 = useParams();
   const getItems = (id) => {
     console.log("HIT", id)
-    departments(1, 2035, id)
-    .then((response) => {
-      setList2(response.data.products)
-      console.log('LIST2', response.data.products)
-    })
+    const facilityId = facility?.facilityId ? facility?.facilityId : defaultFacilityId;
+    departments(1, facilityId, id)
+      .then((response) => {
+        setList2(response.data.products)
+        console.log('LIST2', response.data.products)
+      })
   }
 
   useEffect(() => {
     getItems(searchParams.get("area"))
   }, [searchParams.get("area")])
-  
+
   useEffect(() => {
     console.log("list Shop Stories", list)
-  }, )
-  
+  })
+
   return (
     <Fragment>
       <div className="border-b-2">
@@ -324,10 +327,10 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
       </div>
       <div className="flex flex-row">
         <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
-        <div className="w-full">
+        {<div className="w-full">
           <div className="pl-6 pt-5">
-            <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck}/>
-            <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2}/>
+            <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck} />
+            <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2} />
             <div className="pt-6 flex flex-row justify-between">
               <ShopFilter
                 hanldeFilterChange={hanldeFilterChange}
@@ -349,6 +352,9 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
             keyToText={keyToText}
             filterCards={filterCards}
           />
+          <ShopSubDepartment
+            list2={list2}
+          ></ShopSubDepartment>
           <ShopGetPage
             inputCheck={inputCheck}
             list2={list2}
@@ -361,7 +367,7 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
             pageno={pageno}
             query={query}
           />
-        </div>
+        </div>}
       </div>
     </Fragment>
   );

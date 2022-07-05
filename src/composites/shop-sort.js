@@ -5,50 +5,49 @@ import {
 } from '@heroicons/react/solid';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Disclosure, Popover, Transition } from '@headlessui/react';
-import { LowPrioritySharp } from '../../node_modules/@mui/icons-material/index';
 import classNames from 'classnames';
 
 const ShopSort = (props) => {
-  const {list, list2, filteredList, setGridView, setListView, gridView, listView} = props;
+  const { list, list2, filteredList, setGridView, setListView, gridView, listView } = props;
 
-  function refreshPage() {     
+  function refreshPage() {
     window.location.reload(false);
   }
 
   const handleAbcSort = () => {
     return list.sort((a, b) =>
-    a.productName.localeCompare(b.productName)
+      a.productName.localeCompare(b.productName)
     )
   }
 
   const handleZyxSort = () => {
     return list.sort((a, b) =>
-      b.productName.localeCompare(a.productName)  
+      b.productName.localeCompare(a.productName)
     )
   }
 
   const handleAbcBrandSort = () => {
     return list.sort((a, b) =>
-      a.productName.localeCompare(b.productName)  
+      a.productName.localeCompare(b.productName)
     )
   }
 
   const handleZxyBrandSort = () => {
     return list.sort((a, b) =>
-      b.productName.localeCompare(a.productName)  
+      b.productName.localeCompare(a.productName)
     )
   }
-  
+
   const handleLowPriceSort = () => {
     list.sort((a, b) => (a.currentPrice > b.currentPrice) ? 1 : -1)
   }
-  
+
   const handleHighPriceSort = () => {
     list.sort((a, b) => (a.currentPrice < b.currentPrice) ? 1 : -1)
   }
 
   const handleSmallSizeSort = () => {
-   list.sort((a, b) => (a.sizeNumber > b.sizeNumber) ? 1 : -1)
+    list.sort((a, b) => (a.sizeNumber > b.sizeNumber) ? 1 : -1)
   }
 
   const handleLargeSizeSort = () => {
@@ -62,49 +61,49 @@ const ShopSort = (props) => {
   const [abcSort, setAbcSort] = useState(() => {
     const saved = localStorage.getItem("abcSort");
     const initialValue = JSON.parse(saved);
-    return initialValue || null;  
+    return initialValue || null;
   })
 
   const [zxySort, setZxySort] = useState(() => {
     const saved = localStorage.getItem("zxySort");
     const initialValue = JSON.parse(saved);
-    return initialValue || null;  
+    return initialValue || null;
   })
 
   const [abcBrandSort, setAbcBrandSort] = useState(() => {
     const saved = localStorage.getItem("abcBrandSort");
     const initialValue = JSON.parse(saved);
-    return initialValue || null;  
+    return initialValue || null;
   })
 
   const [zxyBrandSort, setZxyBrandSort] = useState(() => {
     const saved = localStorage.getItem("zxyBrandSort");
     const initialValue = JSON.parse(saved);
-    return initialValue || null;  
+    return initialValue || null;
   })
 
   const [lowPriceSort, setLowPriceSort] = useState(() => {
     const saved = localStorage.getItem("lowPriceSort");
     const initialValue = JSON.parse(saved);
-    return initialValue || null;  
+    return initialValue || null;
   })
 
   const [highPriceSort, setHighPriceSort] = useState(() => {
     const saved = localStorage.getItem("highPriceSort");
     const initialValue = JSON.parse(saved);
-    return initialValue || null;  
+    return initialValue || null;
   })
 
   const [smallSizeSort, setSmallSizeSort] = useState(() => {
     const saved = localStorage.getItem("smallSizeSort");
     const initialValue = JSON.parse(saved);
-    return initialValue || null;  
+    return initialValue || null;
   })
 
   const [largeSizeSort, setLargeSizeSort] = useState(() => {
     const saved = localStorage.getItem("largeSizeSort");
     const initialValue = JSON.parse(saved);
-    return initialValue || null;  
+    return initialValue || null;
   })
 
   useEffect(() => {
@@ -121,18 +120,18 @@ const ShopSort = (props) => {
   useEffect(() => {
     if (!abcSort && !zxySort && !lowPriceSort && !highPriceSort && !smallSizeSort && !largeSizeSort) {
       defaultList();
-    } 
+    }
     if (abcSort === true) {
       handleAbcSort();
     }
     if (zxySort === true) {
-      handleZyxSort();      
+      handleZyxSort();
     }
     if (abcBrandSort === true) {
       handleAbcBrandSort();
     }
     if (zxyBrandSort === true) {
-      handleZxyBrandSort(); 
+      handleZxyBrandSort();
     }
     if (lowPriceSort == true) {
       handleLowPriceSort();
@@ -146,8 +145,8 @@ const ShopSort = (props) => {
     if (largeSizeSort === true) {
       handleLargeSizeSort();
     }
-  },)
-  
+  })
+
   return (
     <div className="relative inline-block text-left pr-4">
       <Popover className="relative">
@@ -162,32 +161,32 @@ const ShopSort = (props) => {
               >
                 <span>
                   Sort By:
-                  {!abcSort 
+                  {!abcSort
                     && !zxySort
                     && !abcBrandSort
-                    && !zxyBrandSort 
-                    && !largeSizeSort 
-                    && !smallSizeSort 
-                    && !highPriceSort 
+                    && !zxyBrandSort
+                    && !largeSizeSort
+                    && !smallSizeSort
+                    && !highPriceSort
                     && !lowPriceSort
-                      ? <span> Default (Relevance)</span> 
-                      : abcSort === true
-                      ?   <span> Name: A to Z</span>
+                    ? <span> Default (Relevance)</span>
+                    : abcSort === true
+                      ? <span> Name: A to Z</span>
                       : zxySort === true
-                      ?   <span> Name: Z to A</span> 
-                      : abcBrandSort === true
-                      ?   <span> Brand: A to Z</span>
-                      : zxyBrandSort === true
-                      ?   <span> Brand: Z to A</span> 
-                      : largeSizeSort === true
-                      ?   <span> Size: Large to Small</span>
-                      : smallSizeSort === true
-                      ?   <span> Size: Small to Large</span> 
-                      : highPriceSort === true
-                      ?   <span> Price: High to Low</span>
-                      : lowPriceSort === true
-                      ?   <span> Price: Low to High </span> 
-                      : null
+                        ? <span> Name: Z to A</span>
+                        : abcBrandSort === true
+                          ? <span> Brand: A to Z</span>
+                          : zxyBrandSort === true
+                            ? <span> Brand: Z to A</span>
+                            : largeSizeSort === true
+                              ? <span> Size: Large to Small</span>
+                              : smallSizeSort === true
+                                ? <span> Size: Small to Large</span>
+                                : highPriceSort === true
+                                  ? <span> Price: High to Low</span>
+                                  : lowPriceSort === true
+                                    ? <span> Price: Low to High </span>
+                                    : null
                   }
                 </span>
                 <ChevronDownIcon
@@ -227,7 +226,7 @@ const ShopSort = (props) => {
                       role="menuitem"
                       tabindex="-1"
                       onClick={() => {
-                        refreshPage() 
+                        refreshPage()
                         setAbcSort(false)
                         setZxySort(false)
                         setAbcBrandSort(false)
@@ -246,7 +245,7 @@ const ShopSort = (props) => {
                       role="menuitem"
                       tabindex="-1"
                       onClick={() => {
-                        refreshPage() 
+                        refreshPage()
                         setAbcSort(true)
                         setZxySort(false)
                         setAbcBrandSort(false)
@@ -265,7 +264,7 @@ const ShopSort = (props) => {
                       role="menuitem"
                       tabindex="-1"
                       onClick={() => {
-                        refreshPage() 
+                        refreshPage()
                         setZxySort(true)
                         setAbcSort(false)
                         setAbcBrandSort(false)
@@ -273,7 +272,7 @@ const ShopSort = (props) => {
                         setLowPriceSort(false)
                         setHighPriceSort(false)
                         setSmallSizeSort(false)
-                        setLargeSizeSort(false) 
+                        setLargeSizeSort(false)
                       }}
                     >
                       Name: Z to A
@@ -284,7 +283,7 @@ const ShopSort = (props) => {
                       role="menuitem"
                       tabindex="-1"
                       onClick={() => {
-                        refreshPage() 
+                        refreshPage()
                         setAbcBrandSort(true)
                         setZxySort(false)
                         setZxyBrandSort(false)
@@ -292,7 +291,7 @@ const ShopSort = (props) => {
                         setHighPriceSort(false)
                         setSmallSizeSort(false)
                         setLargeSizeSort(false)
-                        
+
                       }}
                     >
                       Brand: A to Z
@@ -303,7 +302,7 @@ const ShopSort = (props) => {
                       role="menuitem"
                       tabindex="-1"
                       onClick={() => {
-                        refreshPage() 
+                        refreshPage()
                         setZxyBrandSort(true)
                         setAbcSort(false)
                         setAbcBrandSort(false)
@@ -394,7 +393,7 @@ const ShopSort = (props) => {
                 type="button"
                 className={classNames(
                   gridView ? 'p-1 ml-3 rounded-full ring-2 ring-gray-200' :
-                  'p-1 ml-3 rounded-full ring-gray-200'
+                    'p-1 ml-3 rounded-full ring-gray-200'
                 )}
                 onClick={() => {
                   setGridView(true)
@@ -411,16 +410,16 @@ const ShopSort = (props) => {
                   aria-hidden="true"
                 />
               </button>
-              <button 
+              <button
                 type="button"
                 className={classNames(
                   listView ? 'p-1 ml-3 rounded-full ring-2 ring-gray-200' :
-                  'p-1 ml-3 rounded-full'
-                )} 
+                    'p-1 ml-3 rounded-full'
+                )}
                 onClick={() => {
                   console.log("LISTVIEW")
                   setListView(true)
-                  setGridView(false) 
+                  setGridView(false)
                 }}>
                 <span className="sr-only">View list</span>
                 <ViewListIcon

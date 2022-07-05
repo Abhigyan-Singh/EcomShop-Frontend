@@ -29,7 +29,7 @@ export const facilityStoremapping = {
 
 const HomeServices = (props, onDepartChange4) => {
   const { store, stores, ...rest } = props;
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies();
   const { facility, dept } = cookies;
   const [selected, setSelected] = useState(facility);
   const [services, setServices] = useState([]);
@@ -44,21 +44,21 @@ const HomeServices = (props, onDepartChange4) => {
           store?.facilityId]?.toString()
         : facility.facilityId
       )
-      .then((response) => response.json())
-      .then((data =>  setServices(data.response.services)))
-      console.log( "RESPONSE", services)
+        .then((response) => response.json())
+        .then((data => setServices(data.response.services)))
+      console.log("RESPONSE", services)
     }
   }, [facility]);
 
-  useEffect(async () => {
-    await grocery(4433).then((res) => {
+  useEffect(() => {
+    grocery(4433).then((res) => {
       setData2(res.data);
     });
   }, []);
 
 
   const handleDeptChange4 = (option) => {
-    setCookie('subdept', " ");
+    removeCookie('subdept');
     setSelected2(option);
     setCookie('dept', option, {
       path: '/',
@@ -96,7 +96,7 @@ const HomeServices = (props, onDepartChange4) => {
             </ul>
             <ul className="list-none space-y-2" >
               {shopNavigation2.map((option) => (
-                <li key={option.name}  onClick={() => handleDeptChange4(option.name)}>
+                <li key={option.name} onClick={() => handleDeptChange4(option.name)}>
                   {option.href && <a href={option.href}>{option.name}</a>}
                   {!option.href && <span>{option.name}</span>}
                 </li>
