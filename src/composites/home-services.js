@@ -12,20 +12,22 @@ import coffeeIcon from 'assets/icons/services-icon-coffee@2x.png';
 import convenienceIcon from 'assets/icons/services-icon-convenience@2x.png';
 import cakesIcon from 'assets/icons/services-icon-cakes@2x.png';
 import lotteryIcon from 'assets/icons/services-icon-lottery@2x.png';
+import carWashIcon from 'assets/icons/carwash.png';
+import cashNCarryIcon from 'assets/icons/CashCarryFloral.png';
+import cateringIcon from 'assets/icons/Catering.png';
+import dryCleaningIcon from 'assets/icons/Drycleaning.png';
+import DunnCoffeeIcon from 'assets/icons/Dunn BrothersCoffee.png';
+import expressGasIcon from 'assets/icons/ExpressGasStation.png';
+import groceryDeliveryIcon from 'assets/icons/Grocerydelivery.png';
+import liquorStoreIcon from 'assets/icons/Liquorstore.png';
+import postOfficeIcon from 'assets/icons/postoffice.png';
+import ebtIcon from 'assets/icons/EBTforCurbside.png';
 import moneyIcon from 'assets/icons/services-icon-money@2x.png';
 import postageIcon from 'assets/icons/services-icon-postage@2x.png';
 import { CookiesAge } from 'apiConfig';
 import { grocery } from 'services/groceryTree';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-
-export const facilityStoremapping = {
-  605: 2029,
-  500: 2032,
-  604: 2038,
-  603: 2042,
-  600: 2046
-};
 
 const HomeServices = (props, onDepartChange4) => {
   const { store, stores, ...rest } = props;
@@ -37,13 +39,20 @@ const HomeServices = (props, onDepartChange4) => {
   const [selected2, setSelected2] = useState(dept);
   const navigate = useNavigate();
 
+  const facilityStoremapping = {
+    605: 2029,
+    500: 2032,
+    604: 2038,
+    603: 2042,
+    600: 2046,
+    2005: 2029
+  };
+
+  
+
   useEffect(() => {
     if (facility) {
-      inStoreServices(facilityStoremapping[store?.facilityId]
-        ? facilityStoremapping[
-          store?.facilityId]?.toString()
-        : facility.facilityId
-      )
+      inStoreServices(facilityStoremapping[facility.facilityId] ? facilityStoremapping[facility.facilityId] : facility.facilityId)
       .then((response) => response.json())
       .then((data =>  setServices(data.response.services)))
       console.log( "RESPONSE", services)
@@ -55,7 +64,6 @@ const HomeServices = (props, onDepartChange4) => {
       setData2(res.data);
     });
   }, []);
-
 
   const handleDeptChange4 = (option) => {
     setCookie('subdept', " ");
@@ -124,12 +132,85 @@ const HomeServices = (props, onDepartChange4) => {
           target="_blank"
           rel="noreferrer"
           id="Services"
-          className="font-serif text-lg tracking-widest uppercase"
+          className="font-serif text-lg tracking-widest uppercase align-items-center justify-content-center text-center"
+    
         >
           In Store Services
         </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-10 text-center">
+      <div className="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-9 text-center">
+      {services.map((item) => (
+          <div id="text" className="flex flex-col items-center" key={item.name}>
+            <div style={{marginLeft: 10}} >
+              {item === 'Floral Shop' ? (
+                <img className="w-20 h-20"src={flowerIcon} alt="" />
+              ) : null}
+              {item === 'Curbside Pickup' ? (
+                <img className="w-20 h-20" 
+                src={moneyIcon} alt="" />
+              ) : null}
+              {item === 'Grocery Delivery' ? (
+                <img className="w-20 h-20" src={groceryDeliveryIcon} alt="" />
+              ) : null}     
+              {item === 'Post Office' ? (
+                <img className="w-20 h-20" src={postageIcon} alt="" />
+              ) : null}
+              {item === 'Dry Cleaning' ? (
+                <img className="w-20 h-20" src={dryCleaningIcon} alt="" />
+              ) : null}
+              {item === 'Catering' ? (
+                <img className="w-20 h-20" src={cateringIcon} alt="" />
+              ) : null}
+              {item === 'Dunn Brothers Coffee' ? (
+                <img className="w-20 h-20" src={DunnCoffeeIcon} alt="" />
+              ) : null}
+              {item === 'Caribou Coffee' ? (
+                <img className="w-20 h-20" src={coffeeIcon} alt="" />
+              ) : null}
+              {item === 'Convenience Stores' ? (
+                <img className="w-20 h-20" src={convenienceIcon} alt="" />
+              ) : null}
+               {item === `Coborn's Express Gas Station` ? (
+                <img className="w-20 h-20" src={convenienceIcon} alt="" />
+              ) : null}
+                {item === 'Gas Station' ? (
+                <img className="w-20 h-20" src={expressGasIcon} alt="" />
+              ) : null}
+              {item === 'Custom Cake Orders' ? (
+                <img className="w-20 h-20" src={cakesIcon} alt="" />
+              ) : null}
+              {item === "Pharmacy" ? (
+                <img className="w-20 h-20" src={pharmacyIcon} alt="" />
+              ) : null}
+              {item === "Liquor Store" ? (
+                <img className="w-20 h-20" src={liquorStoreIcon} alt="" />
+              ) : null}
+              {item === "Liquor" ? (
+                <img className="w-20 h-20" src={liquorStoreIcon} alt="" />
+              ) : null}
+              {item === "Little Dukes Gas Station" ? (
+                <img className="w-20 h-20" src={expressGasIcon} alt="" />
+              ) : null}
+                {item === 'Cash-N-Carry Floral' ? (
+                <img className="w-20 h-20"src={cashNCarryIcon} alt="" />
+              ) : null}
+                 {item === 'Floral Dept' ? (
+                <img className="w-20 h-20"src={flowerIcon} alt="" />
+              ) : null}
+              {item === 'Floral Department' ? (
+                <img className="w-20 h-20"src={flowerIcon} alt="" />
+              ) : null}
+              {item === 'EBT On Curbside Pickup' ? (
+                <img className="w-20 h-20"src={ebtIcon} alt="" />
+              ) : null}
+              {item === 'Car Wash' ? (
+                <img className="w-20 h-20"src={carWashIcon} alt="" />
+              ) : null}
+            </div>
+            <div className="text-sm">{item}</div>
+            <a className="text-xs" href='#'>Learn More</a>
+          </div>
+        ))}
       </div>
     </div>
   );
