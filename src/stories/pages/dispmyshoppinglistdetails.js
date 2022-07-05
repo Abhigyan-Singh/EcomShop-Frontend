@@ -1,9 +1,10 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useCallback } from 'react';
 import List from 'components/list';
 import Item from 'components/item/item';
 import { previouslyPurchased } from 'services/search';
 import { getAllFavorites, usefavoriteApi } from 'services/favorites';
 import { getAllList } from 'services/mylist';
+import { CartState } from 'context/context';
 
 export default {
   title: 'Pages/Home',
@@ -27,18 +28,18 @@ export const DisplayShoppingListDetails = ({
   const [items, setItems] = useState([]);
   const [listItems, setListItems] = useState([]);
   const { fetchFavorites } = usefavoriteApi();
+  const { favorites } = CartState();
 
-  useEffect(() => {
-    fetchFavorites();
-  }, []);
   const getListItems = async () => {
     const res = await getAllList();
     setListItems(res.data);
   };
-  const fetchPreviouslyPurchased = async () => {
+  const fetchPreviouslyPurchased = useCallback(async () => {
     const res = await previouslyPurchased();
-    const favoritesRes = await getAllFavorites();
-    const favorites = favoritesRes.data;
+    if (favorites.favorites.length === 0 && favorites.progress === false) {
+      await fetchFavorites();
+    }
+    const favoritesData = favorites.favorites;
     if (res && res.data) {
       const productList = res.data.map((each) => ({
         ...each.id.product,
@@ -46,7 +47,7 @@ export const DisplayShoppingListDetails = ({
       }));
       const formattedListData = productList.map((each) => {
         let favorite = false;
-        favorites.map((val) => {
+        favoritesData.map((val) => {
           if (!favorite && val.productId === each.productId) {
             favorite = true;
           }
@@ -55,11 +56,11 @@ export const DisplayShoppingListDetails = ({
       });
       setItems(formattedListData);
     }
-  };
+  }, []);
   useEffect(() => {
     fetchPreviouslyPurchased();
     getListItems();
-  }, []);
+  }, [fetchPreviouslyPurchased]);
   return (
     <Fragment>
       <div style={{ minHeight: 500, marginLeft: 10 }}>

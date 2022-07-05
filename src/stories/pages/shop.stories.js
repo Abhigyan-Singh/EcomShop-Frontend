@@ -5,25 +5,16 @@ import React, {
   useCallback,
   useRef
 } from 'react';
-import Header from 'components/header/header';
-import Footer from 'components/footer/footer';
-import Alert from 'components/alert/alert';
-import Hero from 'components/hero/hero';
+import {useSearchParams} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Locator from 'components/locator/locator';
-import Signup from 'components/signup/signup';
 import ShopSidebar from 'composites/shop-sidebar';
 import ShopCategory from 'composites/shop-category';
 import ShopTag from 'composites/shop-tag';
 import ShopFilter from 'composites/shop-filter';
 import ShopSort from 'composites/shop-sort';
 import ShopSelectedFilter from 'composites/shopSelected-filter';
-import user from 'data/user.json';
-import slides from 'data/slides.json';
-import slidesCashWise from 'data/slidesCashWise.json';
-import slidesMarketPlace from 'data/slidesMarketPlace.json';
-import MobileNav from 'components/mobile-nav/mobile-nav';
 import ShopGetPage from 'composites/shop-get';
-import filter from 'services/dropdownfilter';
 import { grocery } from 'services/groceryTree';
 import useFetch from '../../hooks/useFetch';
 import queryString from 'query-string';
@@ -34,8 +25,7 @@ import { usefavoriteApi } from 'services/favorites';
 import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
-import { Refresh } from '../../../node_modules/@mui/icons-material/index';
-// /import getCartData from 'services/addtocart';
+import { departments } from 'services/departmentSearch';
 
 export default {
   title: 'Pages/Home',
@@ -58,9 +48,11 @@ const keyToText = {
   isNew: 'New Arrivals',
   onSale: 'Sale Items'
 };
-export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
+export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, inputCheck, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
+  const [gridView, setGridView] = useState(true);
+  const [listView, setListView] = useState(false);
   const params = window.location.href.split('?')[1];
   const { text: searchText } = queryString.parse(params);
   const [query, setQuery] = useState(searchText);
@@ -68,10 +60,11 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
   const { loading, error, list } = useFetch(query, pageno);
   const [cookies, setCookie] = useCookies(['user']);
   const { userInfo, user, facility } = cookies;
-  const { dispatchUser } = CartState();
+  const { dispatchUser, favorites } = CartState();
   const { fetchFavorites } = usefavoriteApi();
-  // const [list, setList] = useState();
   const { getCartDetails } = useCart();
+  const [list2, setList2] = useState()
+
   const [filteredList, setFilteredList] = useState([]);
   const [filterDropdowns, setFilterDropdowns] = useState({
     brands: [],
@@ -102,6 +95,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
     //handleAbcSort()
     console.log('calling...');
     const brand = [];
+    let areaId;
     const payload = {
       brand: [],
       lifestyleAndDietary: [],
@@ -109,6 +103,11 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
     };
     filterDropdowns.brands.map((each) => {
       if (each.checked) {
+        const item = list.filter(a => a.brand === each.brand)[0];
+        if (item) {
+          areaId = item.catalogArea[0];
+          areaId = areaId.replace('PRODUCTS_', '');
+        }
         brand.push(`"${each.brand}"`);
       }
     });
@@ -116,7 +115,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
       payload.newAndSale.push('sale');
     }
     if (brand.length) {
-      filterProducts(1, 1000, facility.facilityId, '100010', brand).then((res) => {
+      filterProducts(0, 1000, facility.facilityId, areaId, brand).then((res) => {
         res?.data?.products ? setFilteredList(res.data.products) : setFilteredList([]);
       });
     } else {
@@ -258,7 +257,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
   }, [handleObserver]);
 
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo && user) {
       userInfoService().then((userRes) => {
         if (userRes.data) {
           setCookie('userInfo', userRes.data, {
@@ -276,11 +275,17 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
   }, [userInfo]);
 
   useEffect(() => {
+    if (favorites.favorites.length === 0 && favorites.progress === false) {
+      fetchFavorites();
+    }
+  }, []);
+
+  useEffect(() => {
     getCartDetails();
-    fetchFavorites();
     handleChange();
   }, []);
 
+  
   function refreshPage() {
     window.location.reload(false);
   }
@@ -291,31 +296,45 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
         setData(res);
       })
   }, [filterDropdowns]);
-
-  const [gridView, setGridView] = useState(true);
-  const [listView, setListView] = useState(false);
+  
+  
+  const [searchParams] = useSearchParams();
+ // const params2 = useParams();
+  const getItems = (id) => {
+    console.log("HIT", id)
+    departments(1, 2035, id)
+    .then((response) => {
+      setList2(response.data.products)
+      console.log('LIST2', response.data.products)
+    })
+  }
 
   useEffect(() => {
-    console.log("LIST", list)
-  }, [])
-
+    getItems(searchParams.get("area"))
+  }, [searchParams.get("area")])
+  
+  useEffect(() => {
+    console.log("list Shop Stories", list)
+  }, )
+  
   return (
     <Fragment>
       <div className="border-b-2">
         <Locator />
       </div>
       <div className="flex flex-row">
-        <ShopSidebar />
+        <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
         <div className="w-full">
           <div className="pl-6 pt-5">
-            <ShopCategory />
-            <ShopTag onSubDeptChange2={onSubDepartChange2} />
+            <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck}/>
+            <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2}/>
             <div className="pt-6 flex flex-row justify-between">
               <ShopFilter
                 hanldeFilterChange={hanldeFilterChange}
                 filterDropdowns={filterDropdowns}
               />
               <ShopSort
+                list2={list2}
                 list={list}
                 filteredList={filteredList}
                 setGridView={setGridView}
@@ -331,9 +350,10 @@ export const ShopStory = ({ onSubDepartChange2, logout, ...rest }) => {
             filterCards={filterCards}
           />
           <ShopGetPage
+            inputCheck={inputCheck}
+            list2={list2}
             listView={listView}
             gridView={gridView}
-            //list={list}
             loader={loader}
             list={filteredList.length === 0 ? list : filteredList}
             error={error}

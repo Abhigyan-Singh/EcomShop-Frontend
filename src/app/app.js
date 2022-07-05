@@ -1,5 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, useRoutes } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  useRoutes,
+} from 'react-router-dom';
 import { HomeStory } from 'stories/pages/home.stories';
 import { useCookies } from 'react-cookie';
 import { useState, useEffect } from 'react';
@@ -43,6 +46,11 @@ const App = () => {
   const [subdepart, setSubdepart] = useState(subdept);
   const [showCart, setShowCart] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [inputCheck, setInputCheck] = useState(() => {
+    const saved = localStorage.getItem("input");
+    const initialValue = JSON.parse(saved);
+    return initialValue || null;  
+  })
 
   useEffect(() => {
     const { user } = cookies;
@@ -105,10 +113,16 @@ const App = () => {
   const onSubDeptChange = (substoreDept) => {
     setSubdepart(substoreDept);
   };
+  
+  function refreshPage() {
+    window.location.reload(false);
+  }
+  
+  const handleInputCheck = (input) => {
+    setInputCheck(input)
+    localStorage.setItem("input", input)
+  }
 
-  useEffect(() => {
-    console.log('COOKIES', cookies);
-  }, []);
 
   const AppRoute = ({ showCart, setShowCart }) => {
     let routes = useRoutes([
@@ -130,6 +144,8 @@ const App = () => {
         path: 'search',
         element: (
           <ShopStory
+            inputCheck={inputCheck}
+            setInputCheck={setInputCheck}
             isAuthenticated={isAuthenticated}
             logout={onLogout}
             onSubDepartChange2={onSubDeptChange}
@@ -244,6 +260,9 @@ const App = () => {
         </a>
       </Alert>
       <Header
+        handleInputCheck={handleInputCheck}
+        inputCheck={inputCheck}
+        setInputCheck={setInputCheck}
         onMobileButtonClick={handleMobileButtonClick}
         user={isAuthenticated ? { firstName: userInfo?.firstName } : ''}
         logout={onLogout}

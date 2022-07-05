@@ -10,7 +10,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './cartList.css';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { LeftArrow, RightArrow, Card } from './arrow';
-
+import { useCountdown, CountdownTimer } from './countDown';
 // import MyModal from 'components/modalView/modal';
 import { CartState } from '../../context/context';
 export default function CartList(props) {
@@ -27,6 +27,19 @@ export default function CartList(props) {
   const navigate = useNavigate();
   const [list, setList] = useState('');
   const [value, setValue] = useState(defaultValue);
+  const [isChecked, setIsChecked] = useState(false);
+  const [store, setStoreCradit] = useState('');
+  // const [onChecked, setOnChecked] = useState(false);
+  const [message, setMessage] = useState('');
+  const [promoCode, setPromoCode] = useState('');
+  const [storecardit, setStorecardit] = useState('');
+  const [deliveryTimer, setdeliveryTimer] = useState();
+  const [days, hours, minutes, seconds] = useCountdown(deliveryTimer);
+
+  if (days + hours + minutes + seconds <= 0) {
+    return navigate('/deliverySlot');
+  } else {
+  }
   const mockData = [
     {
       productQTY1: '14',
@@ -1463,6 +1476,12 @@ export default function CartList(props) {
     state: { cart, counter, total, qty },
     dispatch
   } = CartState();
+  useEffect(() => {
+    setStorecardit(defaultApi.storeCradit.craditValue);
+
+    setdeliveryTimer(defaultApi.deliverytimeAndDate.deliveryTime);
+  }, []);
+
   const onClose = (event) => {
     setIsOpen(false);
   };
@@ -1475,7 +1494,20 @@ export default function CartList(props) {
     // console.log(data)
     setIsOpen(true);
   };
-  const totalAmount = {
+  const handleCheckBox = (event) => {
+    console.log('handleCheckBox', event.target.checked);
+    setIsChecked(event.target.checked);
+  };
+  const saveShoppingInstructions = (event) => {
+    setMessage(event.target.value);
+  };
+  const defaultApi = {
+    deliverytimeAndDate: {
+      time: '1PM-2PM',
+      date: 'Mon, Jul 4',
+      deliveryTime: '4 Jul, 2022 07:30:00'
+    },
+    storeCradit: { craditValue: '4.00' },
     subTotal: { Subtotal: '$15.15' },
     paymentDetails: [
       { lable: "Manufacturer's Coupons", value: '($0.00)', paymentType: 1 },
@@ -1503,7 +1535,14 @@ export default function CartList(props) {
   const handleIncrementClick = () => {
     setValue((value) => parseInt(value + 1));
   };
+  const acceptPromos = () => {
+    console.log(promoCode);
+  };
+  const applyStoreCredit = () => {
+    console.log(storecardit);
+  };
   const onFormSubmit = () => {
+    console.log(message, isChecked, cart, 'promoCode---' + promoCode);
     navigate('/Checkout');
   };
   // const addtocartapi = () => {
@@ -1529,19 +1568,30 @@ export default function CartList(props) {
           <div className="col3">
             <div className="b-delivery__title">Delivery time</div>
             <div>
-              <a href="changewindowfromcheckout" className="btn-a">
+              <button
+                className="btn-a"
+                onClick={() => navigate('/deliverySlot')}
+              >
                 Change
-              </a>
+              </button>
             </div>
           </div>
           <div className="col3">
-            <div className="b-delivery__date">Mon, May 23</div>
+            <div className="b-delivery__date">Mon, Jul 4</div>
             <div className="b-delivery__time">1PM-2PM</div>
           </div>
           <div className="col3">
             <dt className="b-delivery__dt">Time until order deadline</dt>
             <dd className="b-delivery__dd">
-              <div id="defaultCountdown"></div>
+              <div id="defaultCountdown">
+                {String(days).padStart(2, '0') + "d " +
+                  ':' +
+                  String(hours).padStart(2, '0') + "h "+
+                  ':' +
+                  String(minutes).padStart(2, '0') +"m " + 
+                  ':' +
+                  String(seconds).padStart(2, '0')+ "s "}
+              </div>
             </dd>
           </div>
         </div>
@@ -1629,7 +1679,7 @@ export default function CartList(props) {
       </div>
       <div className="f-basket__layout-a">
         <div className="_text-align-right flr purpleButton">
-          <a className="i-question _step1" onClick="void(0)">
+          <a className="i-question _step1">
             <div className="i-question__text">
               <b>Need Help?</b>Phone 1 (844) 414-7467
             </div>
@@ -1650,7 +1700,7 @@ export default function CartList(props) {
           </div>
           <div className="f-basket__layout-a-right">
             <div className="f-basket__total-price">
-              Total* <span id="totalOnTop">$20.88</span>
+              Total* <span id="totalOnTop"> {defaultApi.totalAmount}</span>
             </div>
           </div>
         </div>
@@ -1665,7 +1715,7 @@ export default function CartList(props) {
               <th>Item Total</th>
               <th>
                 Mfr. Coupon
-                <div className="i-question _grey" onClick="void(0)">
+                <div className="i-question _grey">
                   <div className="i-question__text">
                     We accept manufacturer coupons. Please enter the dollar
                     value next to the item and select apply.
@@ -1812,7 +1862,7 @@ export default function CartList(props) {
         <div id="promoCodeCertificates" className="">
           <div>
             <div className="f-apply _promo ">
-              <label for="promocode" className="f-apply__label">
+              <label htmlFor="promocode" className="f-apply__label">
                 Enter Promo Codes/Gift Certificates, separated by commas:
               </label>
               <div className="f-apply__wrap">
@@ -1821,11 +1871,12 @@ export default function CartList(props) {
                   type="text"
                   placeholder="Enter codes or certificates and click apply"
                   className="f-apply__field"
+                  onChange={(event) => setPromoCode(event.target.value)}
                 />
                 <button
                   type="button"
                   className="f-apply__submit"
-                  // onClick={acceptPromos}
+                  onClick={acceptPromos}
                 >
                   Apply
                 </button>
@@ -1846,8 +1897,9 @@ export default function CartList(props) {
               id="authorizedAmount"
               value="0.00"
             />
-            <label for="storecredit" className="f-apply__label">
-              Store Credit ($0.00 available):
+            <label htmlFor="storecredit" className="f-apply__label">
+              {/* Store Credit ($0.00 available): */}
+              Store Credit (${defaultApi.storeCradit.craditValue} available):
             </label>
             <div className="f-apply__wrap">
               <input
@@ -1855,12 +1907,10 @@ export default function CartList(props) {
                 type="text"
                 placeholder="$0.00"
                 className="f-apply__field"
-                value="0.00"
+                value={storecardit}
+                onChange={(event) => setStorecardit(event.target.value)}
               />
-              <button
-                className="f-apply__submit"
-                // onClick="applyStoreCredit(); return false;"
-              >
+              <button className="f-apply__submit" onClick={applyStoreCredit}>
                 Apply
               </button>
             </div>
@@ -1912,11 +1962,11 @@ export default function CartList(props) {
               id="subTotal"
               style={{ fontWeight: 'bold' }}
             >
-              {totalAmount.subTotal.Subtotal}
+              {defaultApi.subTotal.Subtotal}
               {/* $24.76 */}
             </dd>
           </div>
-          {totalAmount.paymentDetails.map((data, key) => {
+          {defaultApi.paymentDetails.map((data, key) => {
             return (
               <div className="b-total__row" key={key}>
                 <dt className="b-total__dt disc-padding">{data.lable}</dt>
@@ -1933,7 +1983,6 @@ export default function CartList(props) {
               </div>
             );
           })}
-
         </dl>
       </div>
       <div className="f-basket__layout-e">
@@ -1943,7 +1992,7 @@ export default function CartList(props) {
             <span className="f-basket__total _fl">Total*</span>
             <span className="f-basket__total" id="totalValue">
               {/* $29.76 */}
-              {totalAmount.totalAmount}
+              {defaultApi.totalAmount}
             </span>
             <input type="hidden" id="cartTotal" value="29.76" />
           </div>
@@ -1961,14 +2010,15 @@ export default function CartList(props) {
                 type="checkbox"
                 id="acceptSubstitutions"
                 name="acceptSubstitutions"
-                checked=""
+                value={isChecked}
+                onChange={handleCheckBox}
               />
               <div className="f-review-substitution__checkbox"></div>
             </label>
           </div>
         </div>
-       
-        {totalAmount.acceptSubstitution.map((data, key) => {
+
+        {defaultApi.acceptSubstitution.map((data, key) => {
           return (
             <div className="f-basket__layout-e-table" key={key}>
               <div className="f-basket__layout-e-right">
@@ -1994,8 +2044,9 @@ export default function CartList(props) {
                 cols="70"
                 id="specialShoppingInstructions"
                 name="specialShoppingInstructions"
-                onKeyUp="saveShoppingInstructions()"
                 maxLength="255"
+                value={message}
+                onChange={saveShoppingInstructions}
               ></textarea>
             </label>
           </div>
@@ -2030,3 +2081,4 @@ CartList.defaultProps = {
   defaultValue: 1,
   disabled: false
 };
+

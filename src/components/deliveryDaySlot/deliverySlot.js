@@ -26,33 +26,95 @@ export default function DeliverySlot() {
   };
   const DateList = [
     {
-      lable: 'Monday, June 20, 2022',
+      lable: 'Monday, June 4, 2022',
       value: [
         {
-          lable: 'Monday, June 20 (10:00 am - 11:00 am)',
+          lable: 'Monday, June 4 (10:00 am - 11:00 am)',
           value: 'Monday, 8:00 AM'
         },
         {
-          lable: 'Monday, June 20 (10:00 am - 11:00 am)',
+          lable: 'Monday, June 4 (11:00 am - Noon)',
           value: 'Monday, 9:00 AM'
-        }
-      ]
-    },
-    {
-      lable: 'Monday, June 21, 2022',
-      value: [
+        },
         {
-          lable: 'Monday, June 21 (10:00 am - 11:00 am)',
+          lable: 'Monday, June 4 (Noon - 1:00 pm)',
           value: 'Monday, 10:00 AM'
         },
         {
-          lable: 'Monday, June 21 (10:00 am - 11:00 am)',
+          lable: 'Monday, June 4 (1:00 pm - 2:00 pm)',
           value: 'Monday, 11:00 AM'
-        }
+        },
+        {
+          lable: 'Monday, June 4 (2:00 pm - 3:00 pm)',
+          value: 'Monday, 12:00 PM'
+        },
+        {
+          lable: 'Monday, June 4 (3:00 pm - 4:00 pm)',
+          value: 'Monday, 1:00 PM'
+        },
+        {
+          lable: 'Monday, June 4 (4:00 pm - 5:00 pm)',
+          value: 'Monday, 2:00 PM'
+        },
+        {
+          lable: 'Monday, June 4 (5:00 pm - 6:00 pm)',
+          value: 'Monday, 3:00 PM'
+        },
+        {
+          lable: 'Monday, June 4 (6:00 pm - 7:00 pm)',
+          value: 'Monday, 4:00 PM'
+        },
+        {
+          lable: 'Monday, June 4 (7:00 pm - 8:00 pm)',
+          value: 'Monday, 5:00 PM'
+        },
+      ]
+    },
+    {
+      lable: 'Monday, June 5, 2022',
+      value: [
+        {
+          lable: 'Monday, June 5 (10:00 am - 11:00 am)',
+          value: 'Monday, 8:00 AM'
+        },
+        {
+          lable: 'Monday, June 5 (11:00 am - Noon)',
+          value: 'Monday, 9:00 AM'
+        },
+        {
+          lable: 'Monday, June 5 (Noon - 1:00 pm)',
+          value: 'Monday, 10:00 AM'
+        },
+        {
+          lable: 'Monday, June 5 (1:00 pm - 2:00 pm)',
+          value: 'Monday, 11:00 AM'
+        },
+        {
+          lable: 'Monday, June 5 (2:00 pm - 3:00 pm)',
+          value: 'Monday, 12:00 PM'
+        },
+        {
+          lable: 'Monday, June 5 (3:00 pm - 4:00 pm)',
+          value: 'Monday, 1:00 PM'
+        },
+        {
+          lable: 'Monday, June 5 (4:00 pm - 5:00 pm)',
+          value: 'Monday, 2:00 PM'
+        },
+        {
+          lable: 'Monday, June 5 (5:00 pm - 6:00 pm)',
+          value: 'Monday, 3:00 PM'
+        },
+        {
+          lable: 'Monday, June 5 (6:00 pm - 7:00 pm)',
+          value: 'Monday, 4:00 PM'
+        },
+        {
+          lable: 'Monday, June 5 (7:00 pm - 8:00 pm)',
+          value: 'Monday, 5:00 PM'
+        },
       ]
     }
-    // { lable: 'Monday, June 20, 2022', value: '' },
-    // { lable: 'Monday, June 20, 2022', value: '' }
   ];
   return (
     <div className="cont">

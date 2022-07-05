@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // import MyModal from 'components/modalView/modal';
 import { VisibilityContext } from 'react-horizontal-scrolling-menu';
-
+import { CartState } from '../../context/context';
 import './cartList.css';
 import Select from 'components/select/select';
 export function LeftArrow() {
@@ -59,6 +59,24 @@ export function Card({ item, title, itemId, key }) {
   const [sizeOption, setSizeOption] = React.useState(
     item.sizeOptions && item.sizeOptions[0]
   );
+  const {
+    state: { cart, counter, total, qty },
+    dispatch
+  } = CartState();
+  const defaultValue = 1;
+  const [value, setValue] = useState(defaultValue);
+  const cartItem = () => {
+    console.log(item);
+    // if (!user) {
+    //   await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
+    // }
+
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: item,
+      qty: item.qty ? item.qty + value : value
+    });
+  };
   return (
     <div
       // onClick={() => onClick(visibility)}
@@ -101,7 +119,9 @@ export function Card({ item, title, itemId, key }) {
           </Select>
         </div>
 
-        <button className="btn-a">Add to cart</button>
+        <button className="btn-a" onClick={cartItem}>
+          Add to cart
+        </button>
       </div>
     </div>
   );

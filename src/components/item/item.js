@@ -54,7 +54,6 @@ const Item = (props) => {
   const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
 
-
   const {
     state: { cart, counter },
     dispatch
@@ -104,7 +103,6 @@ const Item = (props) => {
           data={item}
           onClose={onClose}
         />
-
       </div>
       <div className="cbn-item__information">
         <div

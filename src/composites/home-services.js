@@ -17,36 +17,45 @@ import postageIcon from 'assets/icons/services-icon-postage@2x.png';
 import { CookiesAge } from 'apiConfig';
 import { grocery } from 'services/groceryTree';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
+export const facilityStoremapping = {
+  605: 2029,
+  500: 2032,
+  604: 2038,
+  603: 2042,
+  600: 2046
+};
 
 const HomeServices = (props, onDepartChange4) => {
   const { store, stores, ...rest } = props;
   const [cookies, setCookie] = useCookies();
   const { facility, dept } = cookies;
   const [selected, setSelected] = useState(facility);
-  const [serv, setServ] = useState([]);
+  const [services, setServices] = useState([]);
   const [data2, setData2] = useState();
   const [selected2, setSelected2] = useState(dept);
-  
+  const navigate = useNavigate();
 
   useEffect(() => {
-    servicesList();
-  }, []);
-
-  const servicesList = () => {
-    if (selected) {
-      inStoreServices(selected.facilityId).then((res) => {
-        setServ(res.data);
-      });
+    if (facility) {
+      inStoreServices(facilityStoremapping[store?.facilityId]
+        ? facilityStoremapping[
+          store?.facilityId]?.toString()
+        : facility.facilityId
+      )
+      .then((response) => response.json())
+      .then((data =>  setServices(data.response.services)))
+      console.log( "RESPONSE", services)
     }
-  };
+  }, [facility]);
 
   useEffect(async () => {
     await grocery(4433).then((res) => {
       setData2(res.data);
     });
   }, []);
-  
+
 
   const handleDeptChange4 = (option) => {
     setCookie('subdept', " ");
@@ -56,7 +65,6 @@ const HomeServices = (props, onDepartChange4) => {
       maxAge: CookiesAge
     });
   };
-
 
   return (
     <div className="bg-yellow-100 p-4 md:p-6">
@@ -80,7 +88,7 @@ const HomeServices = (props, onDepartChange4) => {
           <div className="grid grid-cols-1 space-y-2 md:grid-cols-2 md:space-y-0">
             <ul className="list-none space-y-2" >
               {shopNavigation1.map((option) => (
-                <li key={option.name}  onClick={() => handleDeptChange4( option.name)}>
+                <li key={option.name} onClick={() => handleDeptChange4(option.name)}>
                   {option.href && <a href={option.href}>{option.name}</a>}
                   {!option.href && <span>{option.name}</span>}
                 </li>
@@ -88,7 +96,7 @@ const HomeServices = (props, onDepartChange4) => {
             </ul>
             <ul className="list-none space-y-2" >
               {shopNavigation2.map((option) => (
-                <li key={option.name} onClick={() => handleDeptChange4( option.name)} >
+                <li key={option.name}  onClick={() => handleDeptChange4(option.name)}>
                   {option.href && <a href={option.href}>{option.name}</a>}
                   {!option.href && <span>{option.name}</span>}
                 </li>
@@ -112,56 +120,16 @@ const HomeServices = (props, onDepartChange4) => {
         </div>
       </div>
       <div className="flex flex-col mt-6 mb-5 lg:items-end lg:flex-row lg:space-x-10">
-        <a
-          href={`https://www.coborns.com/Cobstore${selected?.facilityId.toString()}`}
+        <div
           target="_blank"
           rel="noreferrer"
           id="Services"
           className="font-serif text-lg tracking-widest uppercase"
         >
           In Store Services
-        </a>
+        </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-3 text-center">
-        {serv.map((item) => (
-          <div id="text" className="flex flex-col items-center" key={item.name}>
-            <div className="mb-2">
-              {item.name === 'Flower Shoppe' ? (
-                <img className="w-20 h-20" src={flowerIcon} alt="" />
-              ) : null}
-
-              {item.name === 'Coffee Shops' ? (
-                <img className="w-20 h-20" src={coffeeIcon} alt="" />
-              ) : null}
-
-              {item.name === 'Convenience Stores' ? (
-                <img className="w-20 h-20" src={convenienceIcon} alt="" />
-              ) : null}
-
-              {item.name === 'Custom Cakes' ? (
-                <img className="w-20 h-20" src={cakesIcon} alt="" />
-              ) : null}
-
-              {item.name === 'Lottery' ? (
-                <img className="w-20 h-20" src={lotteryIcon} alt="" />
-              ) : null}
-
-              {item.name === 'Money Orders' ? (
-                <img className="w-20 h-20" src={moneyIcon} alt="" />
-              ) : null}
-
-              {item.name === 'Postage' ? (
-                <img className="w-20 h-20" src={postageIcon} alt="" />
-              ) : null}
-
-              {item.name === "Coborn's Pharmacy" ? (
-                <img className="w-20 h-20" src={pharmacyIcon} alt="" />
-              ) : null}
-            </div>
-            <div className="text-sm">{item.name}</div>
-            <div className="text-xs"></div>
-          </div>
-        ))}
+      <div className="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-10 text-center">
       </div>
     </div>
   );

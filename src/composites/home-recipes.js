@@ -15,7 +15,9 @@ const HomeRecipes = (props) => {
     });
   };
   useEffect(() => {
-    fetchMeals(productId);
+    if (productId) {
+      fetchMeals(productId);
+    }
   }, [productId]);
 
   const showItems = items.length <= 4 ? items.splice(0, 3) : [...items];

@@ -158,6 +158,7 @@ export const Counter2 = (props) => {
             if (!user) {
               await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
             }
+     
             dispatch({
               type: 'ADD_TO_CART',
               payload: item,

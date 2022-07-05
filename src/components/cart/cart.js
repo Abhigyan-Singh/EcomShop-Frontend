@@ -32,6 +32,7 @@ const Cart = (props) => {
   //     localhost: 'https://devweb2.shop.coborns.com',
   //     dev: 'https://devweb2.shop.coborns.com',
   //     test: 'https://tshop.coborns.com',
+  //     stage: 'https://sshop.coborns.com',
   //     prod: 'https://shop.coborns.com'
   //   };
   //   const path = '/osl/checkautomaticpromotions';
@@ -43,7 +44,10 @@ const Cart = (props) => {
   //     url = urlObj['dev'];
   //   } else if (host.includes('tshop.coborns.com')) {
   //     url = urlObj['test'];
-  //   }else if (host.includes('shop.coborns.com')) {
+  //   }else if (host.includes('sshop.coborns.com')) {
+  //     url = urlObj['stage'];
+  //   }
+  //   else if (host.includes('shop.coborns.com')) {
   //     url = urlObj['prod'];
   //   } else {
   //     url = urlObj['localhost'];
@@ -169,7 +173,7 @@ const Cart = (props) => {
               </div>
               <div className="bg-yellow-100 p-3">
                 <div className="text-lg mb-2 text-center">
-                  Order Total:{' '}
+                  Order Total:
                   {isNaN(total) ? (
                     <span className="mr-3">
                       ${Number(parseFloat(total || 0).toFixed(2))}
