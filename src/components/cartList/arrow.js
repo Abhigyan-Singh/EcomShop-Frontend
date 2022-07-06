@@ -4,6 +4,7 @@ import { VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { CartState } from '../../context/context';
 import './cartList.css';
 import Select from 'components/select/select';
+import ViewModal from './modalView';
 export function LeftArrow() {
   const {
     getPrevItem,
@@ -55,16 +56,16 @@ export function RightArrow() {
   return <Arrow onClick={clickHandler}></Arrow>;
 }
 export function Card({ item, title, itemId, key }) {
-  const visibility = React.useContext(VisibilityContext);
-  const [sizeOption, setSizeOption] = React.useState(
-    item.sizeOptions && item.sizeOptions[0]
-  );
   const {
     state: { cart, counter, total, qty },
     dispatch
   } = CartState();
   const defaultValue = 1;
   const [value, setValue] = useState(defaultValue);
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = (event) => {
+    setIsOpen(false);
+  };
   const cartItem = () => {
     console.log(item);
     // if (!user) {
@@ -77,52 +78,61 @@ export function Card({ item, title, itemId, key }) {
       qty: item.qty ? item.qty + value : value
     });
   };
+  const openModal = () => {
+    setIsOpen(true);
+  };
   return (
-    <div
-      // onClick={() => onClick(visibility)}
-      tabIndex={0}
-      style={{
-        width: '160px'
-      }}
-      className="pr-product"
-    >
-      <div className="pr-product__img-wrap">
-        <img
-          src={`https://cdn1.cobornsinc.com/cdwebimages/100x100/${item.imagePath}`}
-          alt=""
-        />
-      </div>
+    <div>
       <div
-        class="pr-product__title"
-        // onclick="getProductDetails('93717', 'OOPS_LIST')"
+        tabIndex={0}
+        style={{
+          width: '160px'
+        }}
+        className="pr-product"
       >
-        <span>{item.productName}</span>
-      </div>
-      <div className="pr-product__row">
-        <div className="pr-product__price _red">${item.price}</div>
-        <div>
-          <Select
-            className="w-full"
-            hasRoundedCorners={true}
-            // onChange={(event) => setSizeOption(event.target.value)}
-            aria-label="Size Options"
-          >
-            <option>
-              {item.productQTY1} {item.sizeString}
-            </option>
-            <option>
-              {item.productQTY2} {item.sizeString}
-            </option>
-            <option>
-              {item.productQTY3} {item.sizeString}
-            </option>
-          </Select>
+        <div className="pr-product__img-wrap" onClick={() => openModal()}>
+          <img
+            src={`https://cdn1.cobornsinc.com/cdwebimages/100x100/${item.imagePath}`}
+            alt=""
+          />
         </div>
+        <div
+          class="pr-product__title"
+          // onclick="getProductDetails('93717', 'OOPS_LIST')"
+        >
+          <span>{item.productName}</span>
+        </div>
+        <div className="pr-product__row">
+          <div className="pr-product__price _red">${item.price}</div>
+          <div>
+            <Select
+              className="w-full"
+              hasRoundedCorners={true}
+              // onChange={(event) => setSizeOption(event.target.value)}
+              aria-label="Size Options"
+            >
+              <option>
+                {item.productQTY1} {item.sizeString}
+              </option>
+              <option>
+                {item.productQTY2} {item.sizeString}
+              </option>
+              <option>
+                {item.productQTY3} {item.sizeString}
+              </option>
+            </Select>
+          </div>
 
-        <button className="btn-a" onClick={cartItem}>
-          Add to cart
-        </button>
+          <button className="btn-a" onClick={cartItem}>
+            Add to cart
+          </button>
+        </div>
       </div>
+      <ViewModal
+        displayModal={isOpen}
+        closeModal={() => setIsOpen(false)}
+        item={item}
+      />
     </div>
   );
 }

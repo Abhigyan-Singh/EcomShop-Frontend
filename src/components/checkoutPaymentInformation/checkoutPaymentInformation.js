@@ -10,11 +10,13 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './checkoutPaymentInformation.css';
 import Button from 'components/button/button';
 import PaymentModal from '../PaymentModal/PaymentModal';
+import EBTModal from 'components/PaymentModal/EBTModal';
 export default function CheckoutPaymentInformation() {
   const navigate = useNavigate();
   const [showModal, setModal] = useState(false);
   const [show, setShow] = useState(false);
-  const [title,setTitle] = useState('');
+  const [ebtshow, setebtShow] = useState(false);
+  const [title, setTitle] = useState('');
   const CardArray = {
     craditCard: [
       {
@@ -39,12 +41,18 @@ export default function CheckoutPaymentInformation() {
   };
 
   const CardDetails = (e) => {
-    console.log(e.target.innerText)
+    console.log(e.target.innerText);
     e.preventDefault();
-    setTitle(e.target.innerText)
+    setTitle(e.target.innerText);
     setShow(true);
     // setModal(true);
     // navigate('/contactInformation');
+  };
+  const CardDetailsEbt = (e) => {
+    console.log(e.target.innerText);
+    e.preventDefault();
+    setTitle(e.target.innerText);
+    setebtShow(true);
   };
   const onSiteChanged = (event) => {
     console.log(event.target.value);
@@ -52,9 +60,9 @@ export default function CheckoutPaymentInformation() {
   const onClose = (event) => {
     setModal(false);
   };
-  const returnToCheckout =()=>{
+  const returnToCheckout = () => {
     navigate('/Checkout');
-  }
+  };
   return (
     <div className="wrapper">
       <div className="s-checkout__top mbot-1">
@@ -83,132 +91,60 @@ export default function CheckoutPaymentInformation() {
           <h2>Payment Information</h2>
         </div>
         <div className="paymentOptionsBoxOuter">
-        <div className="paymentOptionsBox">
-          <h2>CREDIT CARD</h2>
-          <div className="paymentOptionsBoxHd">
-            <div className="paymentOptionsBoxCol">Default</div>
-            <div className="paymentOptionsBoxCol">Credit Card</div>
-            <div className="paymentOptionsBoxCol">Name on Card</div>
-            <div className="paymentOptionsBoxCol">Expiration</div>
-          </div>
-          <div className="paymentOptionsBoxRowSec">
-            {CardArray.craditCard.map((data, key) => {
-              return (
-                <div className="paymentOptionsBoxRow" key={key}>
-                  <div className="paymentOptionsBoxCol">
-                    <input
-                      type="radio"
-                      class="phone-cc-drop"
-                      title="Make Default"
-                      name="defaultPaymentType"
-                      value={data.cardNumber}
-                      // checked={data.checked === 1}
-                      onChange={onSiteChanged}
-                    />
-                  </div>
-                  <div className="paymentOptionsBoxCol">{data.cardNumber}</div>
-                  <div className="paymentOptionsBoxCol">{data.holderName}</div>
-                  <div className="paymentOptionsBoxCol">{data.expire}</div>
-                  <div className="paymentOptionsBoxCol">
-                    <input
-                      type="button"
-                      name="delete['0']"
-                      id="deleteButtonCC0"
-                      class="i-delete-pay right"
-                      onclick="deletePaymentOption(this)"
-                    />
-                    <input
-                      type="button"
-                      name="update['0']"
-                      id="editButtonCC0"
-                      class="i-edit-pay right"
-                      onclick="openEditCCModal('0')"
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="adCrtBotSec">
-            <Button
-              className="checkout-btn"
-              label="Add Credit Card"
-              onClick={CardDetails}
-            />
-            <PaymentModal
-              displayModal={show}
-              closeModal={() => setShow(false)}
-              title={title}
-            />
-          </div>
-
-          <h2 className="bdrd">DIRECT CHECK™</h2>
-          <div className="paymentOptionsBoxHd drcChk">
-            <div className="paymentOptionsBoxCol">Default</div>
-            <div className="paymentOptionsBoxCol">Direct Check™</div>
-            <div className="paymentOptionsBoxCol">Acct Holder Name</div>
-            <div className="paymentOptionsBoxCol">Routing Num</div>
-            <div className="paymentOptionsBoxCol">Bank Name</div>
-          </div>
-          <div className="paymentOptionsBoxRowSec">
-            <div className="paymentOptionsBoxRow drcChk">
-              <p>
-                Interested in paying by Direct Check? Contact our Customer
-                Relations department at 1 (844) 414-7467 for more information.
-              </p>
+          <div className="paymentOptionsBox">
+            <h2>CREDIT CARD</h2>
+            <div className="paymentOptionsBoxHd">
+              <div className="paymentOptionsBoxCol">Default</div>
+              <div className="paymentOptionsBoxCol">Credit Card</div>
+              <div className="paymentOptionsBoxCol">Name on Card</div>
+              <div className="paymentOptionsBoxCol">Expiration</div>
             </div>
-          </div>
-          <h2 className="bdrd">EBT CARD</h2>
-          <div className="paymentOptionsBoxHd">
-            <div className="paymentOptionsBoxCol">Default</div>
-            <div className="paymentOptionsBoxCol">EBT Card</div>
-            <div className="paymentOptionsBoxCol">Name on Card</div>
-          </div>
-          <div className="paymentOptionsBoxRowSec">
-            {CardArray.ebtCard.map((data, key) => {
-              return (
-                <div className="paymentOptionsBoxRow ebtcrd" key={key}>
-                  <div className="paymentOptionsBoxCol">
-                    <input
-                      type="radio"
-                      class="phone-cc-drop"
-                      title="Make Default"
-                      name="defaultPaymentType"
-                      value={data.cardNumber}
-                      // checked={data.checked === 1}
-                      onChange={onSiteChanged}
-                    />
+            <div className="paymentOptionsBoxRowSec">
+              {CardArray.craditCard.map((data, key) => {
+                return (
+                  <div className="paymentOptionsBoxRow" key={key}>
+                    <div className="paymentOptionsBoxCol">
+                      <input
+                        type="radio"
+                        class="phone-cc-drop"
+                        title="Make Default"
+                        name="defaultPaymentType"
+                        value={data.cardNumber}
+                        // checked={data.checked === 1}
+                        onChange={onSiteChanged}
+                      />
+                    </div>
+                    <div className="paymentOptionsBoxCol">
+                      {data.cardNumber}
+                    </div>
+                    <div className="paymentOptionsBoxCol">
+                      {data.holderName}
+                    </div>
+                    <div className="paymentOptionsBoxCol">{data.expire}</div>
+                    <div className="paymentOptionsBoxCol">
+                      <input
+                        type="button"
+                        name="delete['0']"
+                        id="deleteButtonCC0"
+                        class="i-delete-pay right"
+                        onclick="deletePaymentOption(this)"
+                      />
+                      <input
+                        type="button"
+                        name="update['0']"
+                        id="editButtonCC0"
+                        class="i-edit-pay right"
+                        onclick="openEditCCModal('0')"
+                      />
+                    </div>
                   </div>
-                  <div className="paymentOptionsBoxCol">{data.cardNumber}</div>
-                  <div className="paymentOptionsBoxCol">{data.holderName}</div>
-                  <div className="paymentOptionsBoxCol">
-                    <input
-                      type="button"
-                      name="delete['0']"
-                      id="deleteButtonCC0"
-                      class="i-delete-pay right"
-                      onclick="deletePaymentOption(this)"
-                    />
-                    <input
-                      type="button"
-                      name="update['0']"
-                      id="editButtonCC0"
-                      class="i-edit-pay right"
-                      onclick="openEditCCModal('0')"
-                    />
-                  </div>
-                </div>
-              );
-            })}
-
+                );
+              })}
+            </div>
             <div className="adCrtBotSec">
               <Button
-                className={
-                  CardArray.ebtCard.length != 0
-                    ? 'checkout-btn ckoutdisable'
-                    : 'checkout-btn '
-                }
-                label="Add EBT Card"
+                className="checkout-btn"
+                label="Add Credit Card"
                 onClick={CardDetails}
               />
               <PaymentModal
@@ -217,8 +153,88 @@ export default function CheckoutPaymentInformation() {
                 title={title}
               />
             </div>
+
+            <h2 className="bdrd">DIRECT CHECK™</h2>
+            <div className="paymentOptionsBoxHd drcChk">
+              <div className="paymentOptionsBoxCol">Default</div>
+              <div className="paymentOptionsBoxCol">Direct Check™</div>
+              <div className="paymentOptionsBoxCol">Acct Holder Name</div>
+              <div className="paymentOptionsBoxCol">Routing Num</div>
+              <div className="paymentOptionsBoxCol">Bank Name</div>
+            </div>
+            <div className="paymentOptionsBoxRowSec">
+              <div className="paymentOptionsBoxRow drcChk">
+                <p>
+                  Interested in paying by Direct Check? Contact our Customer
+                  Relations department at 1 (844) 414-7467 for more information.
+                </p>
+              </div>
+            </div>
+            <h2 className="bdrd">EBT CARD</h2>
+            <div className="paymentOptionsBoxHd">
+              <div className="paymentOptionsBoxCol">Default</div>
+              <div className="paymentOptionsBoxCol">EBT Card</div>
+              <div className="paymentOptionsBoxCol">Name on Card</div>
+            </div>
+            <div className="paymentOptionsBoxRowSec">
+              {CardArray.ebtCard.map((data, key) => {
+                return (
+                  <div className="paymentOptionsBoxRow ebtcrd" key={key}>
+                    <div className="paymentOptionsBoxCol">
+                      <input
+                        type="radio"
+                        class="phone-cc-drop"
+                        title="Make Default"
+                        name="defaultPaymentType"
+                        value={data.cardNumber}
+                        // checked={data.checked === 1}
+                        onChange={onSiteChanged}
+                      />
+                    </div>
+                    <div className="paymentOptionsBoxCol">
+                      {data.cardNumber}
+                    </div>
+                    <div className="paymentOptionsBoxCol">
+                      {data.holderName}
+                    </div>
+                    <div className="paymentOptionsBoxCol">
+                      <input
+                        type="button"
+                        name="delete['0']"
+                        id="deleteButtonCC0"
+                        class="i-delete-pay right"
+                        onclick="deletePaymentOption(this)"
+                      />
+                      <input
+                        type="button"
+                        name="update['0']"
+                        id="editButtonCC0"
+                        class="i-edit-pay right"
+                        onclick="openEditCCModal('0')"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+
+              <div className="adCrtBotSec">
+                <Button
+                  className={
+                    CardArray.ebtCard.length != 0
+                      ? 'checkout-btn ckoutdisable'
+                      : 'checkout-btn '
+                  }
+                  label="Add EBT Card"
+                  onClick={CardDetailsEbt}
+                />
+                <EBTModal
+                  displayModal={ebtshow}
+                  closeModal={() => setebtShow(false)}
+                  title={title}
+                />
+              </div>
+            </div>
           </div>
-        </div>
         </div>
         <div class="button-box m-lss">
           <Button

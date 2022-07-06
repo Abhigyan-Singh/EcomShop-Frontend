@@ -733,6 +733,7 @@ tr:nth-child(even) {
   height: auto;
   display: inline-block;
   vertical-align: middle;
+  cursor: pointer;
 }
 .pr-product__row {
   margin: 0 -10px;
@@ -4595,6 +4596,177 @@ div.emails input {
 .crtTbleSec table td:nth-child(3) { padding-left: 30px; width: 170px;}
 
 
+.proView {
+  width: 700px;
+  margin: 75px auto 0;
+  max-width: 94%;
+  padding: 40px 20px 20px;
+  text-align: left;
+}
+.proViewInner {
+  display: flex;
+  justify-content: space-between;
+}
+.proViewInnerLeft { width: 42%; display: inline-block; text-align: center; padding-top: 40px; }
+.proViewInnerLeft img { max-width: 100%; height: auto; margin: 0 auto; display: inline-block; min-width: 80%; }
+.proViewInnerRight { width: 55%; display: inline-block;}
+.proViewInnerRight h4 {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  font-family: Verdana, sans-serif;
+}
+.proViewInnerRightMiddle {
+  border-top: 1px solid #095b00;
+  border-bottom: 1px solid #095b00;
+  padding: 25px 0;
+  margin-bottom: 15px;
+  font-family: Verdana, sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
+.proViewInnerRightBottom {
+  font-size: 14px;
+  line-height: 16px;
+  margin-bottom: 15px;
+  font-family: Verdana, sans-serif;
+}
+.proViewMiddleLft { width: 90px; display: inline-block;}
+.proViewMiddleRght { width: calc(100% - 110px); display: inline-block; text-align: right;}
+.proViewMiddleLft h5 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fb0016;
+}
+.proViewMiddleLft h5 span {display: block; font-size: 10px; font-weight: 500; color: #000;}
+.proViewMiddleRghtTp {
+  font-weight: 400;
+  font-size: 14px;
+  text-align: right;
+}
+.proViewMiddleRghtTp p {margin: 1px 0;}
+.proViewMiddleRghtTp p span {font-weight: 700; margin-left: 4px;}
+.qtyBox {
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  background: #f4f4f4;
+  padding: 10px 20px;
+  margin-top: 15px;
+}
+.qtyBox h6 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: left;
+}
+.qtyBox .countMinus, .qtyBox .countPlus {
+  width: 30px;
+  height: 25px;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
+.qtyBox .countMinus:before {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 15px;
+  height: 3px;
+  -webkit-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
+  background: #1f562f;
+}
+.qtyBox .countPlus:before {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 15px;
+  height: 3px;
+  -webkit-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
+  background: #1f562f;
+}
+.qtyBox .countPlus:after {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 3px;
+  -webkit-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
+  height: 15px;
+  background: #1f562f;
+}
+.qtyBox input[type="tel"] {
+  width: 40px;
+  border: 1px solid #ccc;
+  text-align: center;
+  height: 25px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.qtyBox .bttn {
+  display: block;
+  margin: 10px auto 0;
+    height: 40px;
+    line-height: 40px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 13px;
+    padding: 0 10px;
+    border-radius: 5px;
+    color: #000;
+    background: #a5d751;
+    -webkit-transition: opacity 0.2s ease-out;
+    transition: opacity 0.2s ease-out;
+}
+.qtyBoxClose {
+  color: #095b00;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  padding-right: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.qtyBoxClose:before {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  right: 0;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid #095b00;
+  content: 'X';
+  text-align: center;
+  line-height: 12px;
+  font-weight: 400;
+  font-size: 10px;
+}
+.proViewOuter {background-color: rgba(0,0,0,0.6);}
+
+
 /* arrow select */
 .cbn-item.cbn-item--row {
   @apply lg:flex;
@@ -4641,7 +4813,32 @@ div.emails input {
   }
   .headMid {justify-content: space-between;}
   .innerHeader .m-header {display: none;}
-  
+}
+@media (max-width: 960px){
+  .proView {
+    padding: 40px 15px;
+  }
+}
+@media (max-width: 767px){
+  .proViewInnerRight h4 {
+    font-size: 20px;
+    line-height: 27px;
+    margin-bottom: 4px;
+  }
+
+}
+@media (max-width: 639px){
+  .proViewMiddleRght {
+    width: calc(100% - 100px);
+  }
+  .proViewMiddleRghtTp {
+    font-size: 13px;
+  }
+  .qtyBox .bttn {
+    height: 37px;
+    line-height: 37px;
+    font-size: 12px;
+  }
 }
 @media (max-width: 535px){
 .headMid {
@@ -4667,6 +4864,18 @@ div.emails input {
 .crtTbleSec th:last-child {
   min-width: 120px;
 }
+.proViewInner, .proViewInnerLeft, .proViewInnerRight {
+  display: block;
+  width: 100%;
+}
+.proViewInnerLeft img {
+  min-width: 30%;
+}
+.proViewInnerLeft {margin-bottom: 20px;}
+.proViewInnerRight h4 {
+  font-size: 14px;
+  line-height: 18px;
+}
 }
 @media screen and (max-width: 420px){
 .headMid {
@@ -4676,6 +4885,7 @@ div.emails input {
   display: block;
 }
 }
+
 @media screen and (max-width: 370px){
   .f-apply._promo .f-apply__wrap {
       min-width: 250px;

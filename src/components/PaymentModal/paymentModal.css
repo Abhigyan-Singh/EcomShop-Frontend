@@ -58,6 +58,12 @@
     border-top: 1px solid darkgray;
     border-bottom: 1px solid darkgray;
 }
+.ebtMod .boxcontentRght {
+    width: 100%;
+}
+.ebtMod .modFootSec {
+    padding: 40px 0 30px;
+}
 .boxcontentLft h4, .boxcontentRght h4 {
     display: block;
     margin: 0 0 1.33em;

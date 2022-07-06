@@ -11,7 +11,6 @@ import './cartList.css';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { LeftArrow, RightArrow, Card } from './arrow';
 import { useCountdown, CountdownTimer } from './countDown';
-// import MyModal from 'components/modalView/modal';
 import { CartState } from '../../context/context';
 export default function CartList(props) {
   const {
@@ -36,10 +35,10 @@ export default function CartList(props) {
   const [deliveryTimer, setdeliveryTimer] = useState();
   const [days, hours, minutes, seconds] = useCountdown(deliveryTimer);
 
-  if (days + hours + minutes + seconds <= 0) {
-    return navigate('/deliverySlot');
-  } else {
-  }
+  // if (days + hours + minutes + seconds <= 0) {
+  //   return navigate('/deliverySlot');
+  // } else {
+  // }
   const mockData = [
     {
       productQTY1: '14',
@@ -1469,9 +1468,7 @@ export default function CartList(props) {
     }
   ];
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [data, setData] = useState({});
-  const [listItems, setlistItems] = useState([]);
+ 
   const {
     state: { cart, counter, total, qty },
     dispatch
@@ -1482,18 +1479,6 @@ export default function CartList(props) {
     setdeliveryTimer(defaultApi.deliverytimeAndDate.deliveryTime);
   }, []);
 
-  const onClose = (event) => {
-    setIsOpen(false);
-  };
-  const onClose1 = (event) => {
-    setIsOpen(false);
-  };
-  const openModal = (item) => {
-    console.log(item);
-    setData(item);
-    // console.log(data)
-    setIsOpen(true);
-  };
   const handleCheckBox = (event) => {
     console.log('handleCheckBox', event.target.checked);
     setIsChecked(event.target.checked);
@@ -1525,7 +1510,7 @@ export default function CartList(props) {
     ],
     totalAmount: '$29.76'
   };
-  console.log(cart);
+  // console.log(cart);
   const handleDecrementClick = () => {
     if (value > 1) {
       setValue((value) => parseInt(value - 1));
@@ -1624,17 +1609,13 @@ export default function CartList(props) {
                   <Card
                     item={item}
                     title={id}
-                    itemId={id} // NOTE: itemId is required for track items
+                    itemId={id} 
                     key={id}
-                    // onClick={() => openModal(item)}
-                    // onClick={() => navigate('/Details')}
                   />
                 ))}
               </ScrollMenu>
             </div>
           </div>
-
-          {/* <MyModal isOpen={isOpen} onClose={onClose1} data={data} /> */}
         </div>
       </div>
       <div className="b-carousel _bb">
@@ -1664,17 +1645,13 @@ export default function CartList(props) {
                   <Card
                     item={item}
                     title={id}
-                    itemId={id} // NOTE: itemId is required for track items
+                    itemId={id} 
                     key={id}
-                    // onClick={() => openModal(item)}
-                    // onClick={() => navigate('/Details')}
                   />
                 ))}
               </ScrollMenu>
             </div>
           </div>
-
-          {/* <MyModal isOpen={isOpen} onClose={onClose} data={data} /> */}
         </div>
       </div>
       <div className="f-basket__layout-a">
