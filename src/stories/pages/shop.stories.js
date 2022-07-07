@@ -327,7 +327,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
       </div>
       <div className="flex flex-row">
         <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
-        {subdept && <div className="w-full">
+        {(!searchParams.get("area") || (searchParams.get("area") && subdept)) && <div className="w-full">
           <div className="pl-6 pt-5">
             <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck} />
             <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2} />
@@ -365,7 +365,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
             query={query}
           />
         </div>}
-        {!subdept && <div className="w-full">
+        {(searchParams.get("area") && !subdept) && <div className="w-full">
           <ShopDepartment
             list2={list2}
           ></ShopDepartment>
