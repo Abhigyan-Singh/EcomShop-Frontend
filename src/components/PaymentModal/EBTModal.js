@@ -21,111 +21,38 @@ const EBTModal = (props) => {
     e.stopPropagation();
     props.closeModal();
   }
-  const [title, settitle] = useState('');
-  const [years, SetYear] = useState([]);
-  const location = ['AK', 'AL', 'AR', 'MN'];
-  const [nameOfCard, setNameOfCard] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
-  const [month, setMonth] = useState([]);
-  const [year, setYear] = useState([]);
-  const [cvv, setCVV] = useState('');
-  const [streetAddress, setStreetAddress] = useState('');
-  const [unit, setUnit] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState([]);
-  const [zipCode, setZipCode] = useState('');
   const [isVAlid, SetValid] = useState(false);
-  const [isnameOfCardVAlid, SetnameOfCardValid] = useState(false);
+  const [firstname, setFirstName] = useState('');
+  const [isnameVAlid, setFirstNameValid] = useState(false);
+  const [lastname, setLastName] = useState('');
+  const [islastnameVAlid, setLastNameValid] = useState(false);
+  const [cardNumber, setCardNumber] = useState('');
   const [iscardNumberVAlid, SetcardNumberValid] = useState(false);
   const [iscardNumberLengthVAlid, SetcardNumberLengthValid] = useState(false);
-  const [isyearVAlid, SetyearValid] = useState(false);
-  const [ismonthVAlid, SetmonthValid] = useState(false);
-  const [iscvvdVAlid, SetcvvValid] = useState(false);
-  const [iscvvNumberLengthVAlid, SetcvvNumberLengthValid] = useState(false);
-  const [isstreetAddressVAlid, SetstreetAddressValid] = useState(false);
-  const [iscityVAlid, SetcityValid] = useState(false);
-  const [isstateVAlid, SetstateValid] = useState(false);
-  const [iszipCodeVAlid, SetzipCodeValid] = useState(false);
-  const [iszipCodeNumberVAlid, SetzipCodeNumberValid] = useState(false);
-  const [isrecaptchaVAlid, SetrecaptchaValid] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  const [imgVisaselect, setImgVisaselect] = useState(false);
-  const [imgMasterselect, setImgMasterselect] = useState(false);
-  const [imgAmericaselect, setImgAmericaselect] = useState(false);
-  const [imgDiscoverselect, setImgDiscoverselect] = useState(false);
   const [noCardImg, SetNoCardImg] = useState(false);
-
-  const checkcard = (event) => {
-    console.log(event.target.value);
-    // console.log(document.getElementById('visa').id);
-    var prefix = event.target.value;
-    if (prefix != '' && prefix != null && prefix != undefined) {
-      if (/^4/.test(prefix)) {
-        if (document.getElementById('visa').id == 'visa')
-          setImgVisaselect(true);
-        SetNoCardImg(false);
-      } else if (/^5[1-5]/.test(prefix)) {
-        if (document.getElementById('master').id == 'master')
-          setImgMasterselect(true);
-        SetNoCardImg(false);
-      } else if (/^3[47]/.test(prefix)) {
-        if (document.getElementById('american').id == 'american')
-          setImgAmericaselect(true);
-        SetNoCardImg(false);
-      } else if (
-        /^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)/.test(
-          prefix
-        )
-      ) {
-        if (document.getElementById('discover').id == 'discover')
-          setImgDiscoverselect(true);
-        SetNoCardImg(false);
-      } else {
-        console.log('error');
-        setImgVisaselect(false);
-        setImgMasterselect(false);
-        setImgAmericaselect(false);
-        setImgDiscoverselect(false);
-        SetNoCardImg(true);
-      }
-      // if(!!prefix && (cardNumber.length > 16 || cardNumber.length < 15))
-    } else {
-      setImgVisaselect(false);
-      setImgMasterselect(false);
-      setImgAmericaselect(false);
-      setImgDiscoverselect(false);
-    }
-  };
+  const [isrecaptchaVAlid, SetrecaptchaValid] = useState(false);
 
   const saveChanges = (event) => {
     event.preventDefault();
     console.log('cardNumber.length', cardNumber.length);
     if (
-      !nameOfCard &
-      !cardNumber &
-      !cvv &
-      !streetAddress &
-      !city &
-      !zipCode &
-      (year == '') &
-      (month == '') &
-      (state == '')
+      !isnameVAlid & !islastnameVAlid &
+      !cardNumber 
     ) {
       SetValid(true);
-      SetnameOfCardValid(true);
+      setFirstNameValid(true);
+      setLastNameValid(true)
       SetcardNumberValid(true);
-      SetcvvValid(true);
-      SetmonthValid(true);
-      SetyearValid(true);
-      SetstreetAddressValid(true);
-      SetcityValid(true);
-      SetstateValid(true);
-      SetzipCodeValid(true);
       // SetrecaptchaValid(true)
-    }
-    if (!nameOfCard) {
-      SetnameOfCardValid(true);
-    } else SetnameOfCardValid(false);
+    } else SetValid(false);
+
+    if (!firstname) {
+      setFirstNameValid(true);
+    } else setFirstNameValid(false);
+
+    if (!lastname) {
+      setLastNameValid(true);
+    } else setLastNameValid(false);
 
     if (!cardNumber) {
       SetcardNumberValid(true);
@@ -135,121 +62,30 @@ const EBTModal = (props) => {
       SetcardNumberLengthValid(true);
     } else SetcardNumberLengthValid(false);
 
-    if ((year == '') & (month == '')) {
-      SetmonthValid(true);
-      SetyearValid(true);
-    } else if ((!!year && month == '') || (year == '' && !!month)) {
-      SetmonthValid(true);
-      SetyearValid(true);
-    } else {
-      SetmonthValid(false);
-      SetyearValid(false);
-    }
-
-    if (!cvv) {
-      SetcvvValid(true);
-    } else SetcvvValid(false);
-    if (!!cvv && (cvv.length > 4 || cvv.length < 3)) {
-      SetcvvNumberLengthValid(true);
-    } else SetcvvNumberLengthValid(false);
-
-    if (!streetAddress) {
-      SetstreetAddressValid(true);
-    } else SetstreetAddressValid(false);
-
-    if (!city) {
-      SetcityValid(true);
-    } else SetcityValid(false);
-
-    if (state == '') {
-      SetstateValid(true);
-    } else SetstateValid(false);
-
-    if (!zipCode) {
-      SetzipCodeValid(true);
-    } else SetzipCodeValid(false);
-    if (!!zipCode && !validationpostcode(zipCode)) {
-      SetzipCodeNumberValid(true);
-    } else SetzipCodeNumberValid(false);
-    // console.log(isnameOfCardVAlid);
     console.log(
-      'nameOfCard--' + nameOfCard,
+      'firstname--' + firstname,
+      'lastname--' + lastname,
       'cardNumber--' + cardNumber,
-      'month--' + month,
-      'year--' + year,
-      'cvv--' + cvv,
-      'streetAddress--' + streetAddress,
-      'unit--' + unit,
-      'city--' + city,
-      'state--' + state,
-      'zipCode--' + zipCode
     );
   };
-  const address = {
-    streetAddress: '6415 Labeaux Ave NE',
-    city: 'Albertville',
-    state: 'MN',
-    zipCode: '55301-3972'
-  };
-  const hanldeFilterChange = (e) => {
-    console.log(e.target.checked);
 
-    if (e.target.checked == true) {
-      setStreetAddress(address.streetAddress);
-      setCity(address.city);
-      setState(address.state);
-      setZipCode(address.zipCode);
-    } else {
-      setStreetAddress('');
-      setCity('');
-      setState([]);
-      setZipCode('');
-    }
-    // setIsChecked(e.target.checked);
-    // if (isChecked == false) setOnChecked(false);
-  };
-  useEffect(() => {
-    const d = new Date();
-    let year = d.getFullYear();
-    for (let i = year; i < year + 20; i++) {
-      years.push(i);
-    }
-    SetYear(years);
-    /////////////
-    if (props.title == 'ADD CREDIT CARD') {
-      settitle('CREDIT');
-    } else settitle('EBT');
-    ////////////
-  }, [props.title]);
-  const validationpostcode = (text) => {
-    console.log(text);
-    let reg = /^\d{5}([\-]?\d{4})?$/;
-    //let reg= /^\\d{5}(?:[- ]\\d{4})?$/;
-    if (reg.test(text) === false) {
-      console.log('ok');
-      return false;
-    } else return true;
-  };
+  useEffect(() => {}, []);
+
   return (
     <div className="modal ebtMod" onClick={closeModal} style={divStyle}>
       <div
         className="modal-content payment"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3>Payment Method: {title}</h3>
+        <h3>Payment Method: EBT</h3>
         {isVAlid == true ? (
           <>
-            <div style={{ color: 'red' }}>
+            <div style={{ color: 'red', background: '#e0e0e0', padding: '7px 20px', lineHeight: '15px' , fontSize: '13px' }}>
               <div>Please correct the hignlighted field(s) below:</div>
-              <span>Please Select reCAPTCHA</span>
-              <span>Name on Card</span>
-              <span>Card Number</span>
-              <span>Expiration Date</span>
-              <span>CVV</span>
-              <span>Street Address</span>
-              <span>City</span>
-              <span>State</span>
-              <span>Zip</span>
+              <div>Please Select reCAPTCHA</div>
+              <div>First Name </div>
+              <div>Last Name</div>
+              <div>Card Number</div>
             </div>
           </>
         ) : (
@@ -267,7 +103,7 @@ const EBTModal = (props) => {
 
             <div
               className={
-                isnameOfCardVAlid == true ? 'contFrmRow nameCard' : 'contFrmRow'
+                isnameVAlid == true ? 'contFrmRow nameCard' : 'contFrmRow'
               }
             >
               <label>
@@ -275,21 +111,21 @@ const EBTModal = (props) => {
               </label>
               <input
                 type="text"
-                value={nameOfCard}
-                onChange={(text) => setNameOfCard(text.target.value)}
+                value={firstname}
+                onChange={(text) => setFirstName(text.target.value)}
                 onKeyDown={(event) => {
-                  if (!!event.key) SetnameOfCardValid(false);
+                  if (!!event.key) setFirstNameValid(false);
                 }}
               />
-              {isnameOfCardVAlid == true ? (
-                <label>Name on Card is a required field.</label>
+              {isnameVAlid == true ? (
+                <label>First Name is a required field.</label>
               ) : (
                 ''
               )}
             </div>
             <div
               className={
-                isnameOfCardVAlid == true ? 'contFrmRow nameCard' : 'contFrmRow'
+                islastnameVAlid == true ? 'contFrmRow nameCard' : 'contFrmRow'
               }
             >
               <label>
@@ -297,14 +133,14 @@ const EBTModal = (props) => {
               </label>
               <input
                 type="text"
-                value={nameOfCard}
-                onChange={(text) => setNameOfCard(text.target.value)}
+                value={lastname}
+                onChange={(text) => setLastName(text.target.value)}
                 onKeyDown={(event) => {
-                  if (!!event.key) SetnameOfCardValid(false);
+                  if (!!event.key) setLastNameValid(false);
                 }}
               />
-              {isnameOfCardVAlid == true ? (
-                <label>Name on Card is a required field.</label>
+              {islastnameVAlid == true ? (
+                <label>Last Name is a required field.</label>
               ) : (
                 ''
               )}
@@ -326,7 +162,6 @@ const EBTModal = (props) => {
                 onKeyDown={(event) => {
                   if (!!event.key) SetcardNumberValid(false);
                 }}
-                onKeyUp={checkcard}
               />
               {iscardNumberVAlid == true ? (
                 <label className="digitvalid">
@@ -365,6 +200,12 @@ const EBTModal = (props) => {
               label="SAVE CHANGES"
               onClick={saveChanges}
             />
+          </div>
+          <div className="modFootSecRgt">
+            <label>
+              <span className="asterisk">*</span> reCAPTCHA
+            </label>
+            <div className="re-captchaborder"></div>
           </div>
         </div>
       </div>

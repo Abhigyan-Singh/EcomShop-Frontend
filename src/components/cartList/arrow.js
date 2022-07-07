@@ -97,7 +97,7 @@ export function Card({ item, title, itemId, key }) {
           />
         </div>
         <div
-          class="pr-product__title"
+          className="pr-product__title"
           // onclick="getProductDetails('93717', 'OOPS_LIST')"
         >
           <span>{item.productName}</span>

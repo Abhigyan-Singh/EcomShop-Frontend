@@ -239,17 +239,17 @@ const PaymentModal = (props) => {
         <h3>Payment Method: {title} CARD</h3>
         {isVAlid == true ? (
           <>
-            <div style={{ color: 'red' }}>
+            <div style={{ color: 'red', background: '#e0e0e0', padding: '7px 20px', lineHeight: '15px' , fontSize: '13px' }}>
               <div>Please correct the hignlighted field(s) below:</div>
-              <span>Please Select reCAPTCHA</span>
-              <span>Name on Card</span>
-              <span>Card Number</span>
-              <span>Expiration Date</span>
-              <span>CVV</span>
-              <span>Street Address</span>
-              <span>City</span>
-              <span>State</span>
-              <span>Zip</span>
+              <div>Please Select reCAPTCHA</div>
+              <div>Name on Card</div>
+              <div>Card Number</div>
+              <div>Expiration Date</div>
+              <div>CVV</div>
+              <div>Street Address</div>
+              <div>City</div>
+              <div>State</div>
+              <div>Zip</div>
             </div>
           </>
         ) : (

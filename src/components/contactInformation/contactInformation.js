@@ -361,7 +361,7 @@ export default function ContactInformation(props) {
               <input
                 type="text"
                 value={name}
-                class="f-sign-up__field required-field"
+                className="f-sign-up__field required-field"
                 onChange={(event) => setName(event.target.value)}
               />
             </div>
@@ -371,7 +371,7 @@ export default function ContactInformation(props) {
               </label>
               <input
                 type="text"
-                class="f-sign-up__field required-field"
+                className="f-sign-up__field required-field"
                 value={Middname}
                 onChange={(event) => setMiddname(event.target.value)}
               ></input>
@@ -383,7 +383,7 @@ export default function ContactInformation(props) {
               </label>
               <input
                 type="text"
-                class="f-sign-up__field required-field"
+                className="f-sign-up__field required-field"
                 value={Lastname}
                 onChange={(event) => setLastname(event.target.value)}
               ></input>

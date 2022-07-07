@@ -1,15 +1,7 @@
-import { Fragment, useState } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { Dialog, Transition } from '@headlessui/react';
-import { ClipboardListIcon, HeartIcon, XIcon } from '@heroicons/react/outline';
-import saleRibbon from 'assets/images/sale-ribbon@2x.png';
+import React, { useEffect, useState } from 'react';
 import Button from 'components/button/button';
-import Counter from 'components/counter/counter';
 import './cartList.css';
 import { CartState } from '../../context/context';
-import Favorite from 'components/favorite/favorite';
-import Wishlist from 'components/wishllist/wishlist';
 
 const ViewModal = (props) => {
   const divStyle = {
@@ -19,12 +11,41 @@ const ViewModal = (props) => {
     e.stopPropagation();
     props.closeModal();
   }
+  const defaultValue = 1;
   const [quantity, setQuantity] = useState(0);
+  const [value, setValue] = useState(defaultValue);
+  const [items, setItems] = useState({});
   //   const [favourite, setFavourite] = useState(data.favorite);
   const {
-    state: { cart },
+    state: { cart, counter, total, qty },
     dispatch
   } = CartState();
+  useEffect(() => {
+    setItems(props.item);
+  }, [props]);
+  const cartItem = () => {
+    console.log(items);
+    // if (!user) {
+    //   await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
+    // }
+
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: items,
+      qty: items.qty ? items.qty + value : value
+    });
+    console.log(cart);
+  };
+  const handleDecrementClick = () => {
+    if (value > 1) {
+      setValue((value) => parseInt(value - 1));
+    }
+  };
+
+  const handleIncrementClick = () => {
+    console.log(value);
+    setValue((value) => parseInt(value + 1));
+  };
   return (
     <div className="modal proViewOuter" onClick={closeModal} style={divStyle}>
       <div
@@ -37,62 +58,68 @@ const ViewModal = (props) => {
         <div className="proViewInner">
           <div className="proViewInnerLeft">
             <img
-              src={`https://cdn1.cobornsinc.com/cdwebimages/350x350/${props.item.imagePath}`}
+              src={`https://cdn1.cobornsinc.com/cdwebimages/350x350/${items.imagePath}`}
               alt=""
             />
           </div>
           <div className="proViewInnerRight">
-            <h4>{props.item.productName}</h4>
+            <h4>{items.productName}</h4>
             <div className="proViewInnerRightMiddle">
               <div className="proViewMiddleLft">
                 <h5>
-                  SALE: ${props.item.normalPrice?.toFixed(2)}
+                  SALE: ${items.normalPrice?.toFixed(2)}
                   <span>
-                    Save: $ {(
-                      props.item.normalPrice - props.item.currentPrice
-                    )?.toFixed(2)}
+                    Save: $
+                    {(items.normalPrice - items.currentPrice)?.toFixed(2)}
                   </span>
                 </h5>
               </div>
               <div className="proViewMiddleRght">
                 <div className="proViewMiddleRghtTp">
                   <p>
-                    Item Size: <span>{props.item?.sizeString} 
-                    
-                </span>
+                    Item Size: <span>{items?.sizeString}</span>
                   </p>
                   <p>
-                    Item Number: <span>{props.item?.productId}</span>
+                    Item Number: <span>{items?.productId}</span>
                   </p>
                   <p>
-                    Price Per OZ: <span>$0.19</span>
+                    Price Per OZ: <span>{}</span>
                   </p>
                 </div>
                 <div className="qtyBox">
                   <h6>QUANTITY</h6>
-                  <div className="countMinus"></div>
-                  <input type="tel" placeholder="1"></input>
-                  <div className="countPlus"></div>
-                  <button class="bttn">Add to cart</button>
+                  <div
+                    className="countMinus"
+                    onClick={() => {
+                      handleDecrementClick();
+                      dispatch({
+                        type: 'DECREASE_ITEM_QTY',
+                        payload: items,
+                        qty: items.qty
+                      });
+                    }}
+                  ></div>
+                  <input type="tel" placeholder="1" value={value}></input>
+                  <div
+                    className="countPlus"
+                    onClick={() => {
+                      handleIncrementClick();
+                      dispatch({
+                        type: 'INCREASE_ITEM_QTY',
+                        payload: items,
+                        qty: items.qty
+                      });
+                    }}
+                  ></div>
+                  <Button className="bttn" onClick={cartItem} label="Add to cart" />
                 </div>
               </div>
             </div>
-            <div className="proViewInnerRightBottom">
-              Non-fat Greek yogurt. No artificial flavors. No gluten. 0%
-              milkfat. No GMO ingredients. Only natural ingredients. Billions of
-              probiotics. 9 essential amino acids. Authentically crafted. No
-              fake fruit. No artificial sweeteners. No preservatives. No rBST
-              (According to the FDA, no significant difference has been shown
-              between milk derived from rBST and milk derived from non-rBST
-              cows). Grade A. chobani.com. Questions or comments?
-              1-877-847-6181. A portion of profits for a better world. Tear off
-              label and recycle cup. A portion of profits for a better world.
+            <div className="proViewInnerRightBottom">{items.ingredients}
             </div>
           </div>
         </div>
-        {/* <div className="modFootSec">
-          <div className="modFootSecLft"><Button className="checkout-btn" label="Cancel" onClick={closeModal} /></div>
-        </div> */}
+        
       </div>
     </div>
   );

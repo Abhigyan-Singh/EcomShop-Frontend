@@ -106,7 +106,7 @@ export default function CheckoutPaymentInformation() {
                     <div className="paymentOptionsBoxCol">
                       <input
                         type="radio"
-                        class="phone-cc-drop"
+                        className="phone-cc-drop"
                         title="Make Default"
                         name="defaultPaymentType"
                         value={data.cardNumber}
@@ -126,14 +126,14 @@ export default function CheckoutPaymentInformation() {
                         type="button"
                         name="delete['0']"
                         id="deleteButtonCC0"
-                        class="i-delete-pay right"
+                        className="i-delete-pay right"
                         onclick="deletePaymentOption(this)"
                       />
                       <input
                         type="button"
                         name="update['0']"
                         id="editButtonCC0"
-                        class="i-edit-pay right"
+                        className="i-edit-pay right"
                         onclick="openEditCCModal('0')"
                       />
                     </div>
@@ -183,7 +183,7 @@ export default function CheckoutPaymentInformation() {
                     <div className="paymentOptionsBoxCol">
                       <input
                         type="radio"
-                        class="phone-cc-drop"
+                        className="phone-cc-drop"
                         title="Make Default"
                         name="defaultPaymentType"
                         value={data.cardNumber}
@@ -202,14 +202,14 @@ export default function CheckoutPaymentInformation() {
                         type="button"
                         name="delete['0']"
                         id="deleteButtonCC0"
-                        class="i-delete-pay right"
+                        className="i-delete-pay right"
                         onclick="deletePaymentOption(this)"
                       />
                       <input
                         type="button"
                         name="update['0']"
                         id="editButtonCC0"
-                        class="i-edit-pay right"
+                        className="i-edit-pay right"
                         onclick="openEditCCModal('0')"
                       />
                     </div>
@@ -236,7 +236,7 @@ export default function CheckoutPaymentInformation() {
             </div>
           </div>
         </div>
-        <div class="button-box m-lss">
+        <div className="button-box m-lss">
           <Button
             className="checkout-btn left"
             label="CANCEL"
