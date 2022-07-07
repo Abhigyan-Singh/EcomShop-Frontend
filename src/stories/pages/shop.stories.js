@@ -26,7 +26,7 @@ import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
 import { departments } from 'services/departmentSearch';
-import ShopSubDepartment from 'composites/shop-sub-department';
+import ShopDepartment from 'composites/shop-department';
 
 export default {
   title: 'Pages/Home',
@@ -184,7 +184,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
     setFilterDropdowns({ ...filtdropDown });
   }, [list]);
 
-  const hanldeFilterChange = (event, key, isBrand, index) => {
+  const handleFilterChange = (event, key, isBrand, index) => {
     if (isBrand) {
       filterDropdowns.brands[index].checked = event.target.checked;
       if (event.target.checked) {
@@ -327,13 +327,13 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
       </div>
       <div className="flex flex-row">
         <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
-        {<div className="w-full">
+        {subdept && <div className="w-full">
           <div className="pl-6 pt-5">
             <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck} />
             <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2} />
             <div className="pt-6 flex flex-row justify-between">
               <ShopFilter
-                hanldeFilterChange={hanldeFilterChange}
+                handleFilterChange={handleFilterChange}
                 filterDropdowns={filterDropdowns}
               />
               <ShopSort
@@ -352,9 +352,6 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
             keyToText={keyToText}
             filterCards={filterCards}
           />
-          <ShopSubDepartment
-            list2={list2}
-          ></ShopSubDepartment>
           <ShopGetPage
             inputCheck={inputCheck}
             list2={list2}
@@ -367,6 +364,11 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
             pageno={pageno}
             query={query}
           />
+        </div>}
+        {!subdept && <div className="w-full">
+          <ShopDepartment
+            list2={list2}
+          ></ShopDepartment>
         </div>}
       </div>
     </Fragment>

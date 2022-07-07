@@ -6,7 +6,7 @@ import { groupBy } from 'lodash';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { CustomLeftArrow, CustomRightArrow } from 'components/custom-arrow/custom-arrow';
-import './shop-sub-department.css';
+import './shop-department.css';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
@@ -30,7 +30,7 @@ const responsive = {
     items: 1
   }
 };
-const ShopSubDepartment = ({ loader, error, list, loading, gridView, listView, list2 }) => {
+const ShopDepartment = ({ loader, error, list, loading, gridView, listView, list2 }) => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
   const [itemsByGroup, setItemsByGroup] = useState([]);
@@ -101,4 +101,4 @@ const ShopSubDepartment = ({ loader, error, list, loading, gridView, listView, l
   );
 };
 
-export default ShopSubDepartment;
+export default ShopDepartment;
