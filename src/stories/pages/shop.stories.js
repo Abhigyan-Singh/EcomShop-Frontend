@@ -49,6 +49,29 @@ const keyToText = {
   isNew: 'New Arrivals',
   onSale: 'Sale Items'
 };
+const filterdropDown = {
+  brands: [],
+  glutenFree: {
+    checked: false,
+    count: 0
+  },
+  nationalLocal: {
+    checked: false,
+    count: 0
+  },
+  naturalOrganic: {
+    checked: false,
+    count: 0
+  },
+  isNew: {
+    checked: false,
+    count: 0
+  },
+  onSale: {
+    checked: false,
+    count: 0
+  }
+};
 export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputCheck, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -67,29 +90,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
   const [list2, setList2] = useState()
   const defaultFacilityId = 2035;
   const [filteredList, setFilteredList] = useState([]);
-  const [filterDropdowns, setFilterDropdowns] = useState({
-    brands: [],
-    glutenFree: {
-      checked: false,
-      count: 0
-    },
-    nationalLocal: {
-      checked: false,
-      count: 0
-    },
-    naturalOrganic: {
-      checked: false,
-      count: 0
-    },
-    isNew: {
-      checked: false,
-      count: 0
-    },
-    onSale: {
-      checked: false,
-      count: 0
-    },
-  });
+  const [filterDropdowns, setFilterDropdowns] = useState(JSON.parse(JSON.stringify(filterdropDown)));
   const [filterCards, setFilterCards] = useState([]);
   const loader = useRef(null);
   useEffect(() => {
@@ -102,9 +103,9 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
       lifestyleAndDietary: [],
       newAndSale: []
     };
-    filterDropdowns.brands.map((each) => {
+    filterDropdowns.brands.forEach((each) => {
       if (each.checked) {
-        const item = list.filter(a => a.brand === each.brand)[0];
+        const item = searchParams.get("area") ? list2.filter(a => a.brand === each.brand)[0] : list.filter(a => a.brand === each.brand)[0];
         if (item) {
           areaId = item.catalogArea[0];
           areaId = areaId.replace('PRODUCTS_', '');
@@ -126,29 +127,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
   }, [filterCards.length]);
 
   useEffect(() => {
-    const filtdropDown = {
-      brands: [],
-      glutenFree: {
-        checked: false,
-        count: 0
-      },
-      nationalLocal: {
-        checked: false,
-        count: 0
-      },
-      naturalOrganic: {
-        checked: false,
-        count: 0
-      },
-      isNew: {
-        checked: false,
-        count: 0
-      },
-      onSale: {
-        checked: false,
-        count: 0
-      }
-    };
+    const filtdropDown = JSON.parse(JSON.stringify(filterdropDown));
     let brandsObj = {};
     list.forEach((each) => {
       if (!brandsObj[each.brand]) {
@@ -184,6 +163,24 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
     setFilterDropdowns({ ...filtdropDown });
   }, [list]);
 
+  const updateFilterDrop = (brands, facets) => {
+    const filtdropDown = JSON.parse(JSON.stringify(filterdropDown));
+    brands.forEach(brand => {
+      filtdropDown.brands.push({
+        brand: brand.name,
+        count: brand.count,
+        checked: false
+      });
+    });
+    Object.keys(facets).forEach(facet => {
+      if (facet === 'onSale' || facet === 'onsale') {
+        filtdropDown.onSale.count = facets[facet].count;
+      } else {
+        filtdropDown[facet].count = facets[facet].count;
+      }
+    })
+    setFilterDropdowns({ ...filtdropDown });
+  }
   const handleFilterChange = (event, key, isBrand, index) => {
     if (isBrand) {
       filterDropdowns.brands[index].checked = event.target.checked;
@@ -305,11 +302,14 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
   const getItems = (id) => {
     console.log("HIT", id)
     const facilityId = facility?.facilityId ? facility?.facilityId : defaultFacilityId;
-    departments(1, facilityId, id)
-      .then((response) => {
-        setList2(response.data.products)
-        console.log('LIST2', response.data.products)
-      })
+    if (id) {
+      departments(1, facilityId, id)
+        .then((response) => {
+          updateFilterDrop(response.data.brands, response.data.facets);
+          setList2(response.data.products)
+          console.log('LIST2', response.data.products)
+        })
+    }
   }
 
   useEffect(() => {

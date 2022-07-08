@@ -58,7 +58,11 @@ const HomeServices = (props, onDepartChange4) => {
         : facility.facilityId
       )
         .then((response) => response.json())
-        .then((data => setServices(data.response.services)))
+        .then((data => {
+          if (data?.response?.services) {
+            setServices(data.response.services);
+          }
+        }))
       console.log("RESPONSE", services)
     }
   }, [facility]);
