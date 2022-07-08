@@ -10,19 +10,19 @@ export const addToCarts = (userName, productId, qty, facilityId) => {
   );
 };
 
-export const replaceCarts = (userName) => {
+export const replaceCarts = () => {
   return apiClient.get(
-    `${config.baseUrl}${API.replace_cart}/${userName}`
+    `${config.baseUrl}${API.replace_cart}`
   );
 };
-export const mergeCarts = (userName) => {
+export const mergeCarts = () => {
   return apiClient.get(
-    `${config.baseUrl}${API.merge_cart}/${userName}`
+    `${config.baseUrl}${API.merge_cart}`
   );
 };
-export const ignoreCarts = (userName) => {
+export const ignoreCarts = () => {
   return apiClient.get(
-    `${config.baseUrl}${API.ignore_cart}/${userName}`
+    `${config.baseUrl}${API.ignore_cart}`
   );
 };
 
