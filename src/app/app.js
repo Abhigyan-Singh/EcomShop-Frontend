@@ -24,6 +24,7 @@ import ContactInformation from 'components/contactInformation/contactInformation
 import CheckoutPaymentInformation from 'components/checkoutPaymentInformation/checkoutPaymentInformation';
 import DeliverySlot from 'components/deliveryDaySlot/deliverySlot';
 import PleaseWait from 'components/pleaseWait/pleaseWait';
+import ScrollToTop from 'ScrollToTop.js/ScrollToTop';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -275,6 +276,7 @@ const App = () => {
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
       <AppRoute showCart={showCart} setShowCart={setShowCart} />
+      <ScrollToTop />
       <Signup />
       <Footer />
     </Router>
