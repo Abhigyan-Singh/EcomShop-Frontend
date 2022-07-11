@@ -65,7 +65,7 @@ const Header = (props) => {
   const [value, setValue] = useState('');
   const [searchList, setSearchList] = useState([]);
   const [data, setData] = useState();
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies();
   const { facility, dept, subdept } = cookies;
   const [selected, setSelected] = useState(dept);
   const [loading, setLoading] = useState(false);
@@ -98,7 +98,7 @@ const Header = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(query.get('login') === 'show');
   const [postSignInModalIsOpen, setPostSignInModalIsOpen] = useState(postlogin);
   const [searchArray, setSearchArray] = useState(searchList);
-  
+
   useEffect(() => {
     setPostSignInModalIsOpen(postlogin);
   }, [postlogin]);
@@ -161,7 +161,7 @@ const Header = (props) => {
   const closeModalHandler = () => {
     setModalIsOpen(false);
   };
- 
+
   const postSignInModelHandler = () => {
     setPostSignInModalIsOpen(true);
   };
@@ -174,15 +174,15 @@ const Header = (props) => {
     // We need to integrate with solor here on scroll
   };
 
-  useEffect(async () => {
-    await grocery(4433).then((res) => {
+  useEffect(() => {
+    grocery(4433).then((res) => {
       console.log('GROCERY RESPONSE', res.data[0].id.area)
       setData(res.data);
     });
   }, [props]);
 
   const handleDeptChange = (option) => {
-    setCookie('subdept', ' ');
+    removeCookie('subdept');
     setSelected(option);
     setCookie('dept', option, {
       path: '/',
@@ -214,7 +214,7 @@ const Header = (props) => {
       url = urlObj['dev'];
     } else if (host.includes('tshop.coborns.com')) {
       url = urlObj['test'];
-    }else if (host.includes('sshop.coborns.com')) {
+    } else if (host.includes('sshop.coborns.com')) {
       url = urlObj['stage'];
     }
     else if (host.includes('shop.coborns.com')) {
@@ -234,79 +234,62 @@ const Header = (props) => {
     setShowCart(false);
   };
 
-  useEffect (() => { 
+  useEffect(() => {
     grocery(109791)
-      .then((res) => 
-      {setBabySub(res.data)}
-    )
+      .then((res) => { setBabySub(res.data) }
+      )
     grocery(109792)
-      .then((res) => 
-      {setBakerySub(res.data)}
-    )
+      .then((res) => { setBakerySub(res.data) }
+      )
     grocery(109793)
-      .then((res) => 
-      {setMeatSub(res.data)}
-    )
+      .then((res) => { setMeatSub(res.data) }
+      )
     grocery(109794)
-      .then((res) => 
-      {setDairySub(res.data)}
-    )
+      .then((res) => { setDairySub(res.data) }
+      )
     grocery(109795)
-      .then((res) => 
-      {setDeliSub(res.data)}
-    )
+      .then((res) => { setDeliSub(res.data) }
+      )
     grocery(109796)
-      .then((res) => 
-      {setFloralSub(res.data)}
-    )
+      .then((res) => { setFloralSub(res.data) }
+      )
     grocery(109797)
-      .then((res) => 
-      {setGenSub(res.data)}
-    )
+      .then((res) => { setGenSub(res.data) }
+      )
     grocery(109798)
-      .then((res) => 
-      {setGrocerySub(res.data)}
-    )
+      .then((res) => { setGrocerySub(res.data) }
+      )
     grocery(109799)
-      .then((res) => 
-      {setFrozenSub(res.data)}
-    )
+      .then((res) => { setFrozenSub(res.data) }
+      )
     grocery(109800)
-      .then((res) => 
-      {setHBSub(res.data)}
-    )
+      .then((res) => { setHBSub(res.data) }
+      )
     grocery(109801)
-      .then((res) => 
-      {setHouseSub(res.data)}
-    )
+      .then((res) => { setHouseSub(res.data) }
+      )
     grocery(109802)
-      .then((res) => 
-      {setPetSub(res.data)}
-    )
+      .then((res) => { setPetSub(res.data) }
+      )
     grocery(109803)
-      .then((res) => 
-      {setProduceSub(res.data)}
-    )
+      .then((res) => { setProduceSub(res.data) }
+      )
     grocery(109804)
-      .then((res) => 
-      {setBeerSub(res.data)}
-    )
+      .then((res) => { setBeerSub(res.data) }
+      )
     grocery(109805)
-      .then((res) => 
-      {setWineSub(res.data)}
-    )
+      .then((res) => { setWineSub(res.data) }
+      )
     grocery(109806)
-      .then((res) => 
-      {setLiquorSub(res.data)}
-    )
+      .then((res) => { setLiquorSub(res.data) }
+      )
     grocery(109807)
-      .then((res) => 
-      {setTobaccoSub(res.data)}
-    )
-  },[]);
- 
+      .then((res) => { setTobaccoSub(res.data) }
+      )
+  }, []);
+
   const handleSubDeptChange3 = (option) => {
-    setCookie('subdept', ' ');
+    removeCookie('subdept');
     setSelected(option);
     setCookie('subdept', option, {
       path: '/',
@@ -396,13 +379,13 @@ const Header = (props) => {
               {!user && 'Grocery Shopping Made Easy'}
             </div>
             <div className="text-xs font-medium space-x-2">
-              {user 
+              {user
                 ? <a className="underline" href="/store-locator">
-                    Store Locator
-                  </a> 
+                  Store Locator
+                </a>
                 : null
               }
-              
+
               {user && (
                 <a
                   className="underline"
@@ -437,7 +420,7 @@ const Header = (props) => {
                   {modalIsOpen && <Backdrop onClose={closeModalHandler} />}
                 </a>
               )}
-               {postSignInModalIsOpen && (
+              {postSignInModalIsOpen && (
                 <PostSignInModal onClose={closePostSignInModalHandler} />
               )}
               {postSignInModalIsOpen && <Backdrop />}
@@ -508,9 +491,9 @@ const Header = (props) => {
                         <div className="relative grid grid-cols-1 bg-white">
                           {mainNavigation.map((item) =>
                             !item.children &&
-                            item.name !== 'Rewards' &&
-                            item.name !== 'In-store Services' &&
-                            item.name !== 'Digital Coupons' ? (
+                              item.name !== 'Rewards' &&
+                              item.name !== 'In-store Services' &&
+                              item.name !== 'Digital Coupons' ? (
                               <a
                                 key={item.name}
                                 href={item.href}
@@ -605,7 +588,7 @@ const Header = (props) => {
                                                           );
                                                           navigate(
                                                             '/search?area=' +
-                                                              option.id.area
+                                                            option.id.area
                                                           );
                                                           handleInputCheck(false)
                                                         } else {
@@ -614,7 +597,7 @@ const Header = (props) => {
                                                           );
                                                           navigate(
                                                             '/search?area=' +
-                                                              option.id.area
+                                                            option.id.area
                                                           );
                                                           handleInputCheck(false)
                                                         }
@@ -641,7 +624,7 @@ const Header = (props) => {
                                                       </Popover.Button>
                                                     </div>
                                                     {option.description ===
-                                                    'Baby' ? (
+                                                      'Baby' ? (
                                                       <div>
                                                         {babySub.map(
                                                           (subItem) => (
@@ -665,10 +648,10 @@ const Header = (props) => {
                                                                     onClick={() => {
                                                                       handleSubDeptChange3(
                                                                         subItem.description
-                                                                      );                                                                  
+                                                                      );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
+                                                                        subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -707,7 +690,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
+                                                                        subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -746,8 +729,8 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
-                                                                      );  
+                                                                        subItem.id.area
+                                                                      );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
                                                                   >
@@ -785,7 +768,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
+                                                                        subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -818,13 +801,13 @@ const Header = (props) => {
                                                               >
                                                                 <Popover.Panel>
                                                                   <button
-                                                                    onClick={() => {      
+                                                                    onClick={() => {
                                                                       handleSubDeptChange3(
                                                                         subItem.description
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
+                                                                        subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -863,7 +846,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
+                                                                        subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -888,7 +871,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?area=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -908,7 +891,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -933,7 +916,7 @@ const Header = (props) => {
                                                                 onClick={() => {
                                                                   navigate(
                                                                     '/search?area=' +
-                                                                      subItem.description
+                                                                    subItem.description
                                                                   );
                                                                 }}
                                                                 show={open}
@@ -947,13 +930,13 @@ const Header = (props) => {
                                                               >
                                                                 <Popover.Panel>
                                                                   <button
-                                                                    onClick={() => {      
+                                                                    onClick={() => {
                                                                       handleSubDeptChange3(
                                                                         subItem.description
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.description
+                                                                        subItem.description
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -992,11 +975,11 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
-                                                                      );   
+                                                                        subItem.id.area
+                                                                      );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
-                                                                    //style={{padding: 1}}
+                                                                  //style={{padding: 1}}
                                                                   >
                                                                     {
                                                                       subItem.description
@@ -1026,14 +1009,14 @@ const Header = (props) => {
                                                               >
                                                                 <Popover.Panel>
                                                                   <button
-                                                                    onClick={() => {    
+                                                                    onClick={() => {
                                                                       handleSubDeptChange3(
                                                                         subItem.description
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
-                                                                      ); 
+                                                                        subItem.id.area
+                                                                      );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
                                                                   >
@@ -1071,7 +1054,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
+                                                                        subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1104,13 +1087,13 @@ const Header = (props) => {
                                                               >
                                                                 <Popover.Panel>
                                                                   <button
-                                                                    onClick={() => {      
+                                                                    onClick={() => {
                                                                       handleSubDeptChange3(
                                                                         subItem.description
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
+                                                                        subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1149,7 +1132,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
+                                                                        subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1188,7 +1171,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
+                                                                        subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1227,7 +1210,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
+                                                                        subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1266,7 +1249,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
+                                                                        subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1305,7 +1288,7 @@ const Header = (props) => {
                                                                       );
                                                                       navigate(
                                                                         '/search?area=' +
-                                                                          subItem.id.area
+                                                                        subItem.id.area
                                                                       );
                                                                     }}
                                                                     className="py-1 pl-12 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full hover:bg-yellow-100"
@@ -1401,7 +1384,7 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
-  handleInputCheck:PropTypes.func,
+  handleInputCheck: PropTypes.func,
   getItems: PropTypes.func,
   onDeptChange: PropTypes.func,
   onSubDeptChange3: PropTypes.func,
@@ -1416,10 +1399,10 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
-  getItems: () => {},
-  onDeptChange: () => {},
-  onSubDeptChange3: () => {},
-  handleInputCheck: () => {}
+  getItems: () => { },
+  onDeptChange: () => { },
+  onSubDeptChange3: () => { },
+  handleInputCheck: () => { }
 };
 
 export default Header;
