@@ -15,7 +15,7 @@ function useFetch(query, pageNo) {
   const [data, setData] = useState();
   const [cookies, setCookie] = useCookies(['user']);
   const { facility } = cookies;
-  const facilityId = facility?.facilityId ? facility?.facilityId : 2037;
+  const facilityId = facility?.facilityId ? facility?.facilityId : 2035;
   const sendQuery = useCallback(async () => {
     try {
       console.log("STARTED")
@@ -53,10 +53,10 @@ function useFetch(query, pageNo) {
       dispatch({ type: 'SET_CART_PROGRESS', payload: false });
     }
   }, [query, facilityId]);
-  
+
   //&& progress === true 
   useEffect(() => {
-    if (query ) {  
+    if (query) {
       console.log("QUERY", query)
       dispatch({ type: 'SET_CART_PROGRESS', payload: true });
       sendQuery(query)

@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useRef
 } from 'react';
-import {useSearchParams} from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Locator from 'components/locator/locator';
 import ShopSidebar from 'composites/shop-sidebar';
@@ -26,6 +26,7 @@ import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
 import { departments } from 'services/departmentSearch';
+import ShopDepartment from 'composites/shop-department';
 
 export default {
   title: 'Pages/Home',
@@ -48,7 +49,30 @@ const keyToText = {
   isNew: 'New Arrivals',
   onSale: 'Sale Items'
 };
-export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, inputCheck, ...rest }) => {
+const filterdropDown = {
+  brands: [],
+  glutenFree: {
+    checked: false,
+    count: 0
+  },
+  nationalLocal: {
+    checked: false,
+    count: 0
+  },
+  naturalOrganic: {
+    checked: false,
+    count: 0
+  },
+  isNew: {
+    checked: false,
+    count: 0
+  },
+  onSale: {
+    checked: false,
+    count: 0
+  }
+};
+export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputCheck, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
   const [gridView, setGridView] = useState(true);
@@ -58,37 +82,15 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
   const [query, setQuery] = useState(searchText);
   const [pageno, setPageno] = useState(1);
   const { loading, error, list } = useFetch(query, pageno);
-  const [cookies, setCookie] = useCookies(['user']);
-  const { userInfo, user, facility } = cookies;
+  const [cookies, setCookie] = useCookies();
+  const { userInfo, user, facility, dept, subdept } = cookies;
   const { dispatchUser, favorites } = CartState();
   const { fetchFavorites } = usefavoriteApi();
   const { getCartDetails } = useCart();
   const [list2, setList2] = useState()
-
+  const defaultFacilityId = 2035;
   const [filteredList, setFilteredList] = useState([]);
-  const [filterDropdowns, setFilterDropdowns] = useState({
-    brands: [],
-    glutenFree: {
-      checked: false,
-      count: 0
-    },
-    nationalLocal: {
-      checked: false,
-      count: 0
-    },
-    naturalOrganic: {
-      checked: false,
-      count: 0
-    },
-    isNew: {
-      checked: false,
-      count: 0
-    },
-    onSale: {
-      checked: false,
-      count: 0
-    },
-  });
+  const [filterDropdowns, setFilterDropdowns] = useState(JSON.parse(JSON.stringify(filterdropDown)));
   const [filterCards, setFilterCards] = useState([]);
   const loader = useRef(null);
   useEffect(() => {
@@ -101,9 +103,9 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
       lifestyleAndDietary: [],
       newAndSale: []
     };
-    filterDropdowns.brands.map((each) => {
+    filterDropdowns.brands.forEach((each) => {
       if (each.checked) {
-        const item = list.filter(a => a.brand === each.brand)[0];
+        const item = searchParams.get("area") ? list2.filter(a => a.brand === each.brand)[0] : list.filter(a => a.brand === each.brand)[0];
         if (item) {
           areaId = item.catalogArea[0];
           areaId = areaId.replace('PRODUCTS_', '');
@@ -115,7 +117,8 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
       payload.newAndSale.push('sale');
     }
     if (brand.length) {
-      filterProducts(0, 1000, facility.facilityId, areaId, brand).then((res) => {
+      const facilityId = facility?.facilityId ? facility?.facilityId : defaultFacilityId;
+      filterProducts(0, 1000, facilityId, areaId, brand).then((res) => {
         res?.data?.products ? setFilteredList(res.data.products) : setFilteredList([]);
       });
     } else {
@@ -124,29 +127,7 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
   }, [filterCards.length]);
 
   useEffect(() => {
-    const filtdropDown = {
-      brands: [],
-      glutenFree: {
-        checked: false,
-        count: 0
-      },
-      nationalLocal: {
-        checked: false,
-        count: 0
-      },
-      naturalOrganic: {
-        checked: false,
-        count: 0
-      },
-      isNew: {
-        checked: false,
-        count: 0
-      },
-      onSale: {
-        checked: false,
-        count: 0
-      }
-    };
+    const filtdropDown = JSON.parse(JSON.stringify(filterdropDown));
     let brandsObj = {};
     list.forEach((each) => {
       if (!brandsObj[each.brand]) {
@@ -182,7 +163,25 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
     setFilterDropdowns({ ...filtdropDown });
   }, [list]);
 
-  const hanldeFilterChange = (event, key, isBrand, index) => {
+  const updateFilterDrop = (brands, facets) => {
+    const filtdropDown = JSON.parse(JSON.stringify(filterdropDown));
+    brands.forEach(brand => {
+      filtdropDown.brands.push({
+        brand: brand.name,
+        count: brand.count,
+        checked: false
+      });
+    });
+    Object.keys(facets).forEach(facet => {
+      if (facet === 'onSale' || facet === 'onsale') {
+        filtdropDown.onSale.count = facets[facet].count;
+      } else {
+        filtdropDown[facet].count = facets[facet].count;
+      }
+    })
+    setFilterDropdowns({ ...filtdropDown });
+  }
+  const handleFilterChange = (event, key, isBrand, index) => {
     if (isBrand) {
       filterDropdowns.brands[index].checked = event.target.checked;
       if (event.target.checked) {
@@ -285,38 +284,42 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
     handleChange();
   }, []);
 
-  
+
   function refreshPage() {
     window.location.reload(false);
   }
 
-  useEffect(async () => {
-    await grocery(109791)
+  useEffect(() => {
+    grocery(109791)
       .then((res) => {
         setData(res);
       })
   }, [filterDropdowns]);
-  
-  
+
+
   const [searchParams] = useSearchParams();
- // const params2 = useParams();
+  // const params2 = useParams();
   const getItems = (id) => {
     console.log("HIT", id)
-    departments(1, 2035, id)
-    .then((response) => {
-      setList2(response.data.products)
-      console.log('LIST2', response.data.products)
-    })
+    const facilityId = facility?.facilityId ? facility?.facilityId : defaultFacilityId;
+    if (id) {
+      departments(1, facilityId, id)
+        .then((response) => {
+          updateFilterDrop(response.data.brands, response.data.facets);
+          setList2(response.data.products)
+          console.log('LIST2', response.data.products)
+        })
+    }
   }
 
   useEffect(() => {
     getItems(searchParams.get("area"))
   }, [searchParams.get("area")])
-  
+
   useEffect(() => {
     console.log("list Shop Stories", list)
-  }, )
-  
+  })
+
   return (
     <Fragment>
       <div className="border-b-2">
@@ -324,13 +327,13 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
       </div>
       <div className="flex flex-row">
         <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
-        <div className="w-full">
+        {(!searchParams.get("area") || (searchParams.get("area") && subdept)) && <div className="w-full">
           <div className="pl-6 pt-5">
-            <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck}/>
-            <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2}/>
+            <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck} />
+            <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2} />
             <div className="pt-6 flex flex-row justify-between">
               <ShopFilter
-                hanldeFilterChange={hanldeFilterChange}
+                handleFilterChange={handleFilterChange}
                 filterDropdowns={filterDropdowns}
               />
               <ShopSort
@@ -361,7 +364,12 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
             pageno={pageno}
             query={query}
           />
-        </div>
+        </div>}
+        {(searchParams.get("area") && !subdept) && <div className="w-full">
+          <ShopDepartment
+            list2={list2}
+          ></ShopDepartment>
+        </div>}
       </div>
     </Fragment>
   );

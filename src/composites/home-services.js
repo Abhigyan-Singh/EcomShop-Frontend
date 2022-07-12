@@ -31,7 +31,7 @@ import { useNavigate } from 'react-router-dom';
 
 const HomeServices = (props, onDepartChange4) => {
   const { store, stores, ...rest } = props;
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies();
   const { facility, dept } = cookies;
   const [selected, setSelected] = useState(facility);
   const [services, setServices] = useState([]);
@@ -48,25 +48,33 @@ const HomeServices = (props, onDepartChange4) => {
     2005: 2029
   };
 
-  
+
 
   useEffect(() => {
     if (facility) {
-      inStoreServices(facilityStoremapping[facility.facilityId] ? facilityStoremapping[facility.facilityId] : facility.facilityId)
-      .then((response) => response.json())
-      .then((data =>  setServices(data.response.services)))
-      console.log( "RESPONSE", services)
+      inStoreServices(facilityStoremapping[store?.facilityId]
+        ? facilityStoremapping[
+          store?.facilityId]?.toString()
+        : facility.facilityId
+      )
+        .then((response) => response.json())
+        .then((data => {
+          if (data?.response?.services) {
+            setServices(data.response.services);
+          }
+        }))
+      console.log("RESPONSE", services)
     }
   }, [facility]);
 
-  useEffect(async () => {
-    await grocery(4433).then((res) => {
+  useEffect(() => {
+    grocery(4433).then((res) => {
       setData2(res.data);
     });
   }, []);
 
   const handleDeptChange4 = (option) => {
-    setCookie('subdept', " ");
+    removeCookie('subdept');
     setSelected2(option);
     setCookie('dept', option, {
       path: '/',
@@ -104,7 +112,7 @@ const HomeServices = (props, onDepartChange4) => {
             </ul>
             <ul className="list-none space-y-2" >
               {shopNavigation2.map((option) => (
-                <li key={option.name}  onClick={() => handleDeptChange4(option.name)}>
+                <li key={option.name} onClick={() => handleDeptChange4(option.name)}>
                   {option.href && <a href={option.href}>{option.name}</a>}
                   {!option.href && <span>{option.name}</span>}
                 </li>
@@ -133,25 +141,25 @@ const HomeServices = (props, onDepartChange4) => {
           rel="noreferrer"
           id="Services"
           className="font-serif text-lg tracking-widest uppercase align-items-center justify-content-center text-center"
-    
+
         >
           In Store Services
         </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-9 text-center">
-      {services.map((item) => (
+        {services.map((item) => (
           <div id="text" className="flex flex-col items-center" key={item.name}>
-            <div style={{marginLeft: 10}} >
+            <div style={{ marginLeft: 10 }} >
               {item === 'Floral Shop' ? (
-                <img className="w-20 h-20"src={flowerIcon} alt="" />
+                <img className="w-20 h-20" src={flowerIcon} alt="" />
               ) : null}
               {item === 'Curbside Pickup' ? (
-                <img className="w-20 h-20" 
-                src={moneyIcon} alt="" />
+                <img className="w-20 h-20"
+                  src={moneyIcon} alt="" />
               ) : null}
               {item === 'Grocery Delivery' ? (
                 <img className="w-20 h-20" src={groceryDeliveryIcon} alt="" />
-              ) : null}     
+              ) : null}
               {item === 'Post Office' ? (
                 <img className="w-20 h-20" src={postageIcon} alt="" />
               ) : null}
@@ -170,10 +178,10 @@ const HomeServices = (props, onDepartChange4) => {
               {item === 'Convenience Stores' ? (
                 <img className="w-20 h-20" src={convenienceIcon} alt="" />
               ) : null}
-               {item === `Coborn's Express Gas Station` ? (
+              {item === `Coborn's Express Gas Station` ? (
                 <img className="w-20 h-20" src={convenienceIcon} alt="" />
               ) : null}
-                {item === 'Gas Station' ? (
+              {item === 'Gas Station' ? (
                 <img className="w-20 h-20" src={expressGasIcon} alt="" />
               ) : null}
               {item === 'Custom Cake Orders' ? (
@@ -191,20 +199,20 @@ const HomeServices = (props, onDepartChange4) => {
               {item === "Little Dukes Gas Station" ? (
                 <img className="w-20 h-20" src={expressGasIcon} alt="" />
               ) : null}
-                {item === 'Cash-N-Carry Floral' ? (
-                <img className="w-20 h-20"src={cashNCarryIcon} alt="" />
+              {item === 'Cash-N-Carry Floral' ? (
+                <img className="w-20 h-20" src={cashNCarryIcon} alt="" />
               ) : null}
-                 {item === 'Floral Dept' ? (
-                <img className="w-20 h-20"src={flowerIcon} alt="" />
+              {item === 'Floral Dept' ? (
+                <img className="w-20 h-20" src={flowerIcon} alt="" />
               ) : null}
               {item === 'Floral Department' ? (
-                <img className="w-20 h-20"src={flowerIcon} alt="" />
+                <img className="w-20 h-20" src={flowerIcon} alt="" />
               ) : null}
               {item === 'EBT On Curbside Pickup' ? (
-                <img className="w-20 h-20"src={ebtIcon} alt="" />
+                <img className="w-20 h-20" src={ebtIcon} alt="" />
               ) : null}
               {item === 'Car Wash' ? (
-                <img className="w-20 h-20"src={carWashIcon} alt="" />
+                <img className="w-20 h-20" src={carWashIcon} alt="" />
               ) : null}
             </div>
             <div className="text-sm">{item}</div>
