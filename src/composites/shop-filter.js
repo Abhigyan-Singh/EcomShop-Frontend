@@ -17,7 +17,7 @@ const ShopFilter = (props, args, value, item) => {
   function refreshPage() {
     window.location.reload(false);
   }
-  const { filterDropdowns, hanldeFilterChange } = props;
+  const { filterDropdowns, handleFilterChange } = props;
 
   return (
     <div className="hidden lg:block">
@@ -28,7 +28,7 @@ const ShopFilter = (props, args, value, item) => {
               {({ open }) => {
                 return (
                   <Fragment>
-                    <Popover.Button                    
+                    <Popover.Button
                       className="inline-flex justify-center text-sm font-medium px-2 py-1"
                       id="headlessui-popover-button-22"
                       type="button"
@@ -73,7 +73,7 @@ const ShopFilter = (props, args, value, item) => {
                               value={each}
                               label={each.brand}
                               onChange={(e) =>
-                                hanldeFilterChange(e, null, true, index)
+                                handleFilterChange(e, null, true, index)
                               }
                               count={each.count}
                               checked={each.checked}
@@ -137,7 +137,7 @@ const ShopFilter = (props, args, value, item) => {
                             value="1"
                             label="Local"
                             onChange={(e) =>
-                              hanldeFilterChange(e, 'nationalLocal')
+                              handleFilterChange(e, 'nationalLocal')
                             }
                             count={filterDropdowns.nationalLocal.count}
                             checked={filterDropdowns.nationalLocal.checked}
@@ -149,7 +149,7 @@ const ShopFilter = (props, args, value, item) => {
                             value="2"
                             label="Organic &amp; Natural"
                             onChange={(e) =>
-                              hanldeFilterChange(e, 'naturalOrganic')
+                              handleFilterChange(e, 'naturalOrganic')
                             }
                             count={filterDropdowns.naturalOrganic.count}
                             checked={filterDropdowns.naturalOrganic.checked}
@@ -161,7 +161,7 @@ const ShopFilter = (props, args, value, item) => {
                             value="3"
                             label="Gluten Free"
                             onChange={(e) =>
-                              hanldeFilterChange(e, 'glutenFree')
+                              handleFilterChange(e, 'glutenFree')
                             }
                             count={filterDropdowns.glutenFree.count}
                             checked={filterDropdowns.glutenFree.checked}
@@ -219,7 +219,7 @@ const ShopFilter = (props, args, value, item) => {
                             id="checkbox-1"
                             value="1"
                             label="New Arrivals"
-                            onChange={(e) => hanldeFilterChange(e, 'isNew')}
+                            onChange={(e) => handleFilterChange(e, 'isNew')}
                             count={filterDropdowns.isNew.count}
                             checked={filterDropdowns.isNew.checked}
                           />
@@ -229,7 +229,7 @@ const ShopFilter = (props, args, value, item) => {
                             id="checkbox-2"
                             value="2"
                             label="Sale Items"
-                            onChange={(e) => hanldeFilterChange(e, 'onSale')}
+                            onChange={(e) => handleFilterChange(e, 'onSale')}
                             count={filterDropdowns.onSale.count}
                             checked={filterDropdowns.onSale.checked}
                           />

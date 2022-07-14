@@ -84,10 +84,10 @@ const ShopGetPage = ({loader, error, list, loading, gridView, listView, list2, l
                 </div>
               :<p>No Products match your criteria</p>
       }
-        {loading && <p>Loading...</p>}
-        {list === [] || list2 === [] && <p>No Products match your criteria</p> } 
-        {error && <p>No Products match your criteria</p>}
-        <div ref={loader}/>
+      {loading && <p>Loading...</p>}
+      {list === [] || list2 === [] && <p>No Products match your criteria</p>}
+      {error && <p>No Products match your criteria</p>}
+      <div ref={loader} />
     </div>
   );
 };
