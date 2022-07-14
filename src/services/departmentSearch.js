@@ -6,4 +6,11 @@ export const departments = (currentPageNumber, facilityId, areaId) => {
     `${config.baseUrl}${API.departments}?sortBy=&sortOrder=&currentPageNumber=${currentPageNumber}&size=100&catalog=PRODUCTS&facilityId=${facilityId}&locationCode=NAV_CATALOG&areaId=${areaId}`
   );
 };
-//areasolrsearch?catalog=PRODUCTS&facilityId=605&locationCode=NAV_CATALOG&areaId=100152
+
+export const onSale = (page, facilityId, areaId) => {
+  return apiClient.get(
+    `${config.baseUrl}${API.departments}?facilityId=2025&catalog=LISTS&areaId=102188&sortBy=productname_sortable%20ASC&page=1&size=100&locationCode=ALL_SPECIALS`
+  );
+};
+
+export default onSale;

@@ -12,8 +12,6 @@ import { useCookies } from 'react-cookie';
 import { useCart } from 'react-use-cart';
 import { config, API } from 'apiConfig';
 import apiClient from 'services/api';
-import { AlternateEmail } from '../../../node_modules/@mui/icons-material/index';
-
 
 export const Counter2 = (props) => {
   const {
@@ -155,7 +153,6 @@ export const Counter2 = (props) => {
             if (!user) {
               await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
             }
-     
             dispatch({
               type: 'ADD_TO_CART',
               payload: item,

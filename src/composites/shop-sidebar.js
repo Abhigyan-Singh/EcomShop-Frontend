@@ -161,7 +161,7 @@ const ShopSidebar = (props) => {
       </div>
     );
   };
-
+  
   return (
     <div className="flex">
       <div className="hidden md:flex md:flex-shrink-0">
@@ -169,7 +169,7 @@ const ShopSidebar = (props) => {
           <div className="flex-1 flex flex-col min-h-0">
             <div className="flex-1 flex flex-col py-5 overflow-y-auto">
               <div className="flex-1 flex flex-col px-5 border-r">
-                {searchParams.get("area")
+                {searchParams.get("area") 
                   ? <div>
                       <div className="flex-shrink-0 font-serif uppercase tracking-widest mb-4">
                         Departments

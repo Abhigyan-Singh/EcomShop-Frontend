@@ -26,6 +26,7 @@ import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
 import { departments } from 'services/departmentSearch';
+import onSale from 'services/departmentSearch';
 
 export default {
   title: 'Pages/Home',
@@ -297,9 +298,7 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
       })
   }, [filterDropdowns]);
   
-  
   const [searchParams] = useSearchParams();
- // const params2 = useParams();
   const getItems = (id) => {
     console.log("HIT", id)
     departments(1, 2035, id)
@@ -308,14 +307,21 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
       console.log('LIST2', response.data.products)
     })
   }
+  const [list3, setList3] = useState()
+  const getOnSaleItems = () => {
+    onSale()
+    .then((response) => {
+      setList3(response.data.products)
+      console.log('LIST3', response.data.products)
+    })
+  }
 
   useEffect(() => {
+    if (searchParams.get("area") === "102188") {
+      getOnSaleItems()
+    }
     getItems(searchParams.get("area"))
   }, [searchParams.get("area")])
-  
-  useEffect(() => {
-    console.log("list Shop Stories", list)
-  }, )
   
   return (
     <Fragment>
@@ -323,10 +329,17 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
         <Locator />
       </div>
       <div className="flex flex-row">
-        <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
+        {list3 || list && !list2
+          ?  null
+          : <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
+        }
         <div className="w-full">
           <div className="pl-6 pt-5">
-            <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck}/>
+            {list3 
+              ? null 
+              : <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck}/>
+            }
+            
             <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2}/>
             <div className="pt-6 flex flex-row justify-between">
               <ShopFilter
@@ -350,6 +363,7 @@ export const ShopStory = ({ onSubDepartChange2, logout,  handleInputCheck, input
             filterCards={filterCards}
           />
           <ShopGetPage
+            list3={list3}
             inputCheck={inputCheck}
             list2={list2}
             listView={listView}

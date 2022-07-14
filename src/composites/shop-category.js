@@ -64,7 +64,7 @@ const ShopCategory = (props) => {
                   <button
                     onClick={() => {
                       refreshPage();
-                      navigate('/search?text=' + subdept);
+                      navigate('/=' + subdept);
                     } }
                     className="ml-2 hover:underline" aria-current="page">
                     {subdept}
