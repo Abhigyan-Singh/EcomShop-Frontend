@@ -136,15 +136,19 @@ const HomeServices = (props, onDepartChange4) => {
         </div>
       </div>
       <div className="flex flex-col mt-6 mb-5 lg:items-end lg:flex-row lg:space-x-10">
-        <a
-          target="_blank"
-          rel="noreferrer"
-          id="Services"
-          className="font-serif text-lg tracking-widest uppercase align-items-center justify-content-center text-center"
-          href={`https://www.coborns.com/Cobstore${facilityStoremapping[facility.facilityId] ? facilityStoremapping[facility.facilityId] : facility.facilityId}`}
-        >
-          In Store Services
-        </a>
+        {facility.facilityId 
+          ? <a
+              target="_blank"
+              rel="noreferrer"
+              id="Services"
+              className="font-serif text-lg tracking-widest uppercase align-items-center justify-content-center text-center"
+              href={`https://www.coborns.com/Cobstore${facilityStoremapping[facility.facilityId] ? facilityStoremapping[facility.facilityId] : facility.facilityId}`}
+            >
+              In Store Services
+            </a> 
+          : <div className="font-serif text-lg tracking-widest uppercase align-items-center justify-content-center text-center">In Store Services</div>
+        }
+
       </div>
       <div className="grid grid-cols-2 md:grid-cols-1 xl:grid-cols-9 text-center">
         {services.map((item) => (

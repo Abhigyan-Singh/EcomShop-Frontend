@@ -27,6 +27,7 @@ import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
 import { departments } from 'services/departmentSearch';
 import onSale from 'services/departmentSearch';
+import ShopDepartment from 'composites/shop-department';
 
 export default {
   title: 'Pages/Home',
