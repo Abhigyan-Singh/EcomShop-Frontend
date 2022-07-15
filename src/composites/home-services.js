@@ -136,7 +136,7 @@ const HomeServices = (props, onDepartChange4) => {
         </div>
       </div>
       <div className="flex flex-col mt-6 mb-5 lg:items-end lg:flex-row lg:space-x-10">
-        {facility.facilityId 
+        {facility?.facilityId 
           ? <a
               target="_blank"
               rel="noreferrer"
