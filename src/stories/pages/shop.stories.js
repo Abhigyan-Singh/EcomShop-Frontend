@@ -92,6 +92,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
   const [filteredList, setFilteredList] = useState([]);
   const [filterDropdowns, setFilterDropdowns] = useState(JSON.parse(JSON.stringify(filterdropDown)));
   const [filterCards, setFilterCards] = useState([]);
+  const [inProgress, setInProgress] = useState(false);
   const loader = useRef(null);
   useEffect(() => {
     //handleAbcSort()
@@ -118,8 +119,14 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
     }
     if (brand.length) {
       const facilityId = facility?.facilityId ? facility?.facilityId : defaultFacilityId;
-      filterProducts(0, 1000, facilityId, areaId, brand).then((res) => {
-        res?.data?.products ? setFilteredList(res.data.products) : setFilteredList([]);
+      setInProgress(true);
+      filterProducts(0, 100, facilityId, areaId, brand).then((res) => {
+        if (res?.data?.products?.length) {
+          setFilteredList(res.data.products);
+        } else {
+          setFilteredList([]);
+        };
+        setInProgress(false)
       });
     } else {
       setFilteredList([]);
@@ -300,14 +307,14 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
   const [searchParams] = useSearchParams();
   // const params2 = useParams();
   const getItems = (id) => {
-    console.log("HIT", id)
     const facilityId = facility?.facilityId ? facility?.facilityId : defaultFacilityId;
     if (id) {
+      setInProgress(true)
       departments(1, facilityId, id)
         .then((response) => {
           updateFilterDrop(response.data.brands, response.data.facets);
-          setList2(response.data.products)
-          console.log('LIST2', response.data.products)
+          setList2(response.data.products);
+          setInProgress(false);
         })
     }
   }
@@ -354,13 +361,13 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
           />
           <ShopGetPage
             inputCheck={inputCheck}
-            list2={list2}
+            list2={filteredList.length === 0 ? list2 : filteredList}
             listView={listView}
             gridView={gridView}
             loader={loader}
             list={filteredList.length === 0 ? list : filteredList}
             error={error}
-            loading={loading}
+            loading={loading || inProgress}
             pageno={pageno}
             query={query}
           />
@@ -368,6 +375,8 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
         {(searchParams.get("area") && !subdept) && <div className="w-full">
           <ShopDepartment
             list2={list2}
+            loader={loader}
+            loading={loading || inProgress}
           ></ShopDepartment>
         </div>}
       </div>

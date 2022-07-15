@@ -64,7 +64,6 @@ const ShopDepartment = ({ loader, error, list, loading, gridView, listView, list
       Object.keys(result).forEach(a => {
         final.push({ name: a, items: result[a], id: result[a][0]['id'] });
       });
-      console.log(final);
       setItemsByGroup(final);
     }
   }, [list2])
@@ -72,31 +71,33 @@ const ShopDepartment = ({ loader, error, list, loading, gridView, listView, list
   return (
     <div
       className="App">
-      <div>
-        <div className="grid grid-cols-1 gap-3">
-          {itemsByGroup && itemsByGroup.map((e, i) => (
-            <div key={`sub-department-${i}`}>
-              <div className='sub-department-container'>
-                <div>{e.name.toUpperCase()}</div>
-                <div onClick={() => onViewAll(e)} className='viewall-container'><p>View All</p><i className="viewall-right-arrow" /></div>
-              </div>
-              <Carousel responsive={responsive}
-                customLeftArrow={<CustomLeftArrow />}
-                customRightArrow={<CustomRightArrow />}
-                containerClass="carousel-custom-container"
-                itemClass="carousel-custom-item">
-                {
-                  e.items.map((item, i) => <Item key={`sub-department-item-${i}`}
-                    listItems={listItems} item={item} listView={listView} gridView={gridView} />)
-                }
-                {e.items.map((e, i) => (
-                  <Context data={e} key={i}></Context>
-                ))}
-              </Carousel>
+      {list2 && <div className="grid grid-cols-1 gap-3">
+        {itemsByGroup && itemsByGroup.map((e, i) => (
+          <div key={`sub-department-${i}`}>
+            <div className='sub-department-container'>
+              <div>{e.name.toUpperCase()}</div>
+              <div onClick={() => onViewAll(e)} className='viewall-container'><p>View All</p><i className="viewall-right-arrow" /></div>
             </div>
-          ))}
-        </div>
-      </div>
+            <Carousel responsive={responsive}
+              customLeftArrow={<CustomLeftArrow />}
+              customRightArrow={<CustomRightArrow />}
+              containerClass="carousel-custom-container"
+              itemClass="carousel-custom-item">
+              {
+                e.items.map((item, i) => <Item key={`sub-department-item-${i}`}
+                  listItems={listItems} item={item} listView={listView} gridView={gridView} />)
+              }
+              {e.items.map((e, i) => (
+                <Context data={e} key={i}></Context>
+              ))}
+            </Carousel>
+          </div>
+        ))}
+      </div>}
+      {loading && <p>Loading...</p>}
+      {list2 === [] && <p>No Products match your criteria</p>}
+      {error && <p>No Products match your criteria</p>}
+      <div ref={loader} />
     </div>
   );
 };
