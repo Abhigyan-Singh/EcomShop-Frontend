@@ -78,7 +78,7 @@ const Item = (props) => {
   };
 
   return (
-    <div className={componentClassName} {...rest} style={{height:325,}}>
+    <div className={componentClassName} {...rest} style={{height:325}}>
       {item.onSale && (
         <img className="cbn-item__ribbon" src={saleRibbon} alt="Sale" />
       )}

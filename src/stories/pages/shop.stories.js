@@ -26,6 +26,7 @@ import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
 import { departments } from 'services/departmentSearch';
+import onSale from 'services/departmentSearch';
 import ShopDepartment from 'composites/shop-department';
 
 export default {
@@ -302,10 +303,8 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
         setData(res);
       })
   }, [filterDropdowns]);
-
-
+  
   const [searchParams] = useSearchParams();
-  // const params2 = useParams();
   const getItems = (id) => {
     const facilityId = facility?.facilityId ? facility?.facilityId : defaultFacilityId;
     if (id) {
@@ -318,14 +317,21 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
         })
     }
   }
+  const [list3, setList3] = useState()
+  const getOnSaleItems = () => {
+    onSale()
+    .then((response) => {
+      setList3(response.data.products)
+      console.log('LIST3', response.data.products)
+    })
+  }
 
   useEffect(() => {
+    if (searchParams.get("area") === "102188") {
+      getOnSaleItems()
+    }
     getItems(searchParams.get("area"))
   }, [searchParams.get("area")])
-
-  useEffect(() => {
-    console.log("list Shop Stories", list)
-  })
 
   return (
     <Fragment>
@@ -333,10 +339,16 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
         <Locator />
       </div>
       <div className="flex flex-row">
-        <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
-        {(!searchParams.get("area") || (searchParams.get("area") && subdept)) && <div className="w-full">
+        {list3 || list && !list2
+          ?  null
+          : <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
+        }
+        {(list3 || !searchParams.get("area") || (searchParams.get("area") && subdept)) && <div className="w-full">
           <div className="pl-6 pt-5">
-            <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck} />
+           {list3 
+              ? null 
+              : <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck}/>
+            }
             <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2} />
             <div className="pt-6 flex flex-row justify-between">
               <ShopFilter
@@ -360,6 +372,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
             filterCards={filterCards}
           />
           <ShopGetPage
+            list3={list3}
             inputCheck={inputCheck}
             list2={filteredList.length === 0 ? list2 : filteredList}
             listView={listView}
@@ -372,7 +385,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
             query={query}
           />
         </div>}
-        {(searchParams.get("area") && !subdept) && <div className="w-full">
+        {(searchParams.get("area") && !subdept && !list3) && <div className="w-full">
           <ShopDepartment
             list2={list2}
             loader={loader}
