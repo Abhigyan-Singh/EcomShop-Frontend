@@ -332,7 +332,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
     }
     getItems(searchParams.get("area"))
   }, [searchParams.get("area")])
-  
+
   return (
     <Fragment>
       <div className="border-b-2">
@@ -343,14 +343,13 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
           ?  null
           : <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
         }
-        <div className="w-full">
+        {(list3 || !searchParams.get("area") || (searchParams.get("area") && subdept)) && <div className="w-full">
           <div className="pl-6 pt-5">
-            {list3 
+           {list3 
               ? null 
               : <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck}/>
             }
-            
-            <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2}/>
+            <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2} />
             <div className="pt-6 flex flex-row justify-between">
               <ShopFilter
                 handleFilterChange={handleFilterChange}
@@ -385,8 +384,8 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
             pageno={pageno}
             query={query}
           />
-        </div>
-        {(searchParams.get("area") && !subdept) && <div className="w-full">
+        </div>}
+        {(searchParams.get("area") && !subdept && !list3) && <div className="w-full">
           <ShopDepartment
             list2={list2}
             loader={loader}

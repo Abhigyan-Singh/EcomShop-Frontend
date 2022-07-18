@@ -148,19 +148,19 @@ export const StoreLocator = (props) => {
   }, )
 
   
-  // 'map' refers to a <div> element with the ID map
-  // const map = () => {
-  //   window.onload = function() {
-  //     console.log("STARTED")
-  //     L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
-  //     var map = L.mapquest.map('map', {
-  //       center: [37.7749, -122.4194],
-  //       layers: L.mapquest.tileLayer('map'),
-  //       zoom: 7
-  //     });
-  //     map.addControl(L.mapquest.control());
-  //   }
-  // }
+  //'map' refers to a <div> element with the ID map
+  const map = () => {
+    window.onload = function() {
+      console.log("STARTED")
+      L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
+      var map = L.mapquest.map('map', {
+        center: [37.7749, -122.4194],
+        layers: L.mapquest.tileLayer('map'),
+        zoom: 7
+      });
+      map.addControl(L.mapquest.control());
+    }
+  }
   
   
   return (
@@ -170,9 +170,9 @@ export const StoreLocator = (props) => {
         <div>
 
         </div>
-        {/* <body>
+        <body>
           <div id='map' style={{width: "50%", height: "530px"}}></div>
-        </body> */}
+        </body>
         <Popover>
           {({ open }) => (
             <div
