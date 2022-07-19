@@ -9,6 +9,8 @@ import Radio from 'components/radio/radio';
 import Locator from 'components/locator/locator';
 import { useNavigate } from 'react-router-dom';
 import L from 'leaflet'
+import qs from 'qs'
+import axios from 'axios'
 
 export default {
   title: 'Pages/Home',
@@ -39,6 +41,24 @@ export const StoreLocator = (props) => {
   const [openState, setOpenState] = useState(false)
   const [center, setCenter] = useState([50.879, 4.6997])
   const [zoom, setZoom] = useState(11)
+  // facility update
+  
+  // update root 
+
+  //
+
+  const updateDefaultFacility = () => {
+    axios({
+      method: 'put',
+      url: `http://localhost:8009/customer/${user.userName}/facility`,
+      data: qs.stringify({
+          facility : facility.faciltyId
+      }),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+      }
+    })
+  }
 
   useEffect(() => {
     allStores(5).then((res) => {
@@ -105,6 +125,7 @@ export const StoreLocator = (props) => {
   }
   const handleSaveClick = () => {
     setIsOpen(true)
+    updateDefaultFacility()
   }
 
   const [selected2, setSelected2] = useState()
@@ -115,11 +136,11 @@ export const StoreLocator = (props) => {
   
   },)
 
-
   const onChange = (option) => {
     setFacility(option.facilityDtl.facilityName)
     setSelected2(option.facilityDtl)
   }
+  
   useEffect(() => {
     if (!facility) {
       alert("please go back and select a store")
@@ -127,19 +148,19 @@ export const StoreLocator = (props) => {
   }, )
 
   
-  // 'map' refers to a <div> element with the ID map
-  // const map = () => {
-  //   window.onload = function() {
-  //     console.log("STARTED")
-  //     L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
-  //     var map = L.mapquest.map('map', {
-  //       center: [37.7749, -122.4194],
-  //       layers: L.mapquest.tileLayer('map'),
-  //       zoom: 7
-  //     });
-  //     map.addControl(L.mapquest.control());
-  //   }
-  // }
+  //'map' refers to a <div> element with the ID map
+  const map = () => {
+    window.onload = function() {
+      console.log("STARTED")
+      L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
+      var map = L.mapquest.map('map', {
+        center: [37.7749, -122.4194],
+        layers: L.mapquest.tileLayer('map'),
+        zoom: 7
+      });
+      map.addControl(L.mapquest.control());
+    }
+  }
   
   
   return (
@@ -149,9 +170,9 @@ export const StoreLocator = (props) => {
         <div>
 
         </div>
-        {/* <body>
+        <body>
           <div id='map' style={{width: "50%", height: "530px"}}></div>
-        </body> */}
+        </body>
         <Popover>
           {({ open }) => (
             <div

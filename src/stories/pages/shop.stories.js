@@ -26,6 +26,7 @@ import { CookiesAge } from 'apiConfig';
 import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
 import { departments } from 'services/departmentSearch';
+import onSale from 'services/departmentSearch';
 import ShopDepartment from 'composites/shop-department';
 
 export default {
@@ -92,6 +93,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
   const [filteredList, setFilteredList] = useState([]);
   const [filterDropdowns, setFilterDropdowns] = useState(JSON.parse(JSON.stringify(filterdropDown)));
   const [filterCards, setFilterCards] = useState([]);
+  const [inProgress, setInProgress] = useState(false);
   const loader = useRef(null);
   useEffect(() => {
     //handleAbcSort()
@@ -118,8 +120,14 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
     }
     if (brand.length) {
       const facilityId = facility?.facilityId ? facility?.facilityId : defaultFacilityId;
-      filterProducts(0, 1000, facilityId, areaId, brand).then((res) => {
-        res?.data?.products ? setFilteredList(res.data.products) : setFilteredList([]);
+      setInProgress(true);
+      filterProducts(0, 100, facilityId, areaId, brand).then((res) => {
+        if (res?.data?.products?.length) {
+          setFilteredList(res.data.products);
+        } else {
+          setFilteredList([]);
+        };
+        setInProgress(false)
       });
     } else {
       setFilteredList([]);
@@ -295,30 +303,35 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
         setData(res);
       })
   }, [filterDropdowns]);
-
-
+  
   const [searchParams] = useSearchParams();
-  // const params2 = useParams();
   const getItems = (id) => {
-    console.log("HIT", id)
     const facilityId = facility?.facilityId ? facility?.facilityId : defaultFacilityId;
     if (id) {
+      setInProgress(true)
       departments(1, facilityId, id)
         .then((response) => {
           updateFilterDrop(response.data.brands, response.data.facets);
-          setList2(response.data.products)
-          console.log('LIST2', response.data.products)
+          setList2(response.data.products);
+          setInProgress(false);
         })
     }
   }
+  const [list3, setList3] = useState()
+  const getOnSaleItems = () => {
+    onSale()
+    .then((response) => {
+      setList3(response.data.products)
+      console.log('LIST3', response.data.products)
+    })
+  }
 
   useEffect(() => {
+    if (searchParams.get("area") === "102188") {
+      getOnSaleItems()
+    }
     getItems(searchParams.get("area"))
   }, [searchParams.get("area")])
-
-  useEffect(() => {
-    console.log("list Shop Stories", list)
-  })
 
   return (
     <Fragment>
@@ -326,10 +339,16 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
         <Locator />
       </div>
       <div className="flex flex-row">
-        <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
-        {(!searchParams.get("area") || (searchParams.get("area") && subdept)) && <div className="w-full">
+        {list3 || list && !list2
+          ?  null
+          : <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
+        }
+        {(list3 || !searchParams.get("area") || (searchParams.get("area") && subdept)) && <div className="w-full">
           <div className="pl-6 pt-5">
-            <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck} />
+           {list3 
+              ? null 
+              : <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck}/>
+            }
             <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2} />
             <div className="pt-6 flex flex-row justify-between">
               <ShopFilter
@@ -353,21 +372,24 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
             filterCards={filterCards}
           />
           <ShopGetPage
+            list3={list3}
             inputCheck={inputCheck}
-            list2={list2}
+            list2={filteredList.length === 0 ? list2 : filteredList}
             listView={listView}
             gridView={gridView}
             loader={loader}
             list={filteredList.length === 0 ? list : filteredList}
             error={error}
-            loading={loading}
+            loading={loading || inProgress}
             pageno={pageno}
             query={query}
           />
         </div>}
-        {(searchParams.get("area") && !subdept) && <div className="w-full">
+        {(searchParams.get("area") && !subdept && !list3) && <div className="w-full">
           <ShopDepartment
             list2={list2}
+            loader={loader}
+            loading={loading || inProgress}
           ></ShopDepartment>
         </div>}
       </div>

@@ -13,7 +13,6 @@ import { useCart } from 'react-use-cart';
 import { config, API } from 'apiConfig';
 import apiClient from 'services/api';
 
-
 export const Counter2 = (props) => {
   const {
     className,
@@ -157,7 +156,6 @@ export const Counter2 = (props) => {
             if (!user) {
               await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
             }
-
             dispatch({
               type: 'ADD_TO_CART',
               payload: item,

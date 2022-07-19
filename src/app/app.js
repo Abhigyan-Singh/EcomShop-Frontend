@@ -61,6 +61,7 @@ const App = () => {
       setStore(facility);
     }
     if (user?.token) {
+      console.log("TOKEN", user.token)
       setIsAuthenticated(true);
     } else setIsAuthenticated(false);
   }, [cookies]);
