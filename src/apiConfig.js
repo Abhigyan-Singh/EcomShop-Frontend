@@ -7,8 +7,7 @@ export const config = {
 export const API = {
   departments: '/product/areasolrsearch',
   facilities: '/api/facilities/',
-  // authenticate: '/api/authenticate',
-  authenticate: '/authenticate',
+  authenticate: '/api/authenticate',
   ajaxauthenticateuser: '/osl/ajaxauthenticateuser',
   userinfo: '/userinfo',
   search: '/product/search',

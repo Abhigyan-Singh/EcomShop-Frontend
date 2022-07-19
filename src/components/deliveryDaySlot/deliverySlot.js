@@ -16,108 +16,115 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CarImg from '../../assets/images/delOptions-doordash-cob.jpg';
-
+import moment from 'moment';
+import { useCountdown } from '../cartList/countDown';
 export default function DeliverySlot() {
   const navigate = useNavigate();
   const [expanded, setExpanded] = React.useState(false);
-
+  var moment = require('moment');
+  
   const handleChange = (key) => (event, isExpanded) => {
     setExpanded(isExpanded ? key : false);
   };
   const DateList = [
     {
-      lable: 'Tuesday, June 14, 2022',
+      lable: 'Tuesday, July 14, 2022',
       value: [
         {
-          lable: 'Tuesday, June 14 (10:00 am - 11:00 am)',
+          lable: 'Tuesday, July 14 (10:00 am - 11:00 am)',
           value: 'Tuesday, 8:00 AM'
         },
         {
-          lable: 'Tuesday, June 14 (11:00 am - Noon)',
+          lable: 'Tuesday, July 14 (11:00 am - Noon)',
           value: 'Tuesday, 9:00 AM'
         },
         {
-          lable: 'Tuesday, June 14 (Noon - 1:00 pm)',
+          lable: 'Tuesday, July 14 (Noon - 1:00 pm)',
           value: 'Tuesday, 10:00 AM'
         },
         {
-          lable: 'Tuesday, June 14 (1:00 pm - 2:00 pm)',
+          lable: 'Tuesday, July 14 (1:00 pm - 2:00 pm)',
           value: 'Tuesday, 11:00 AM'
         },
         {
-          lable: 'Tuesday, June 14 (2:00 pm - 3:00 pm)',
+          lable: 'Tuesday, July 14 (2:00 pm - 3:00 pm)',
           value: 'Tuesday, 12:00 PM'
         },
         {
-          lable: 'Tuesday, June 14 (3:00 pm - 4:00 pm)',
+          lable: 'Tuesday, July 14 (3:00 pm - 4:00 pm)',
           value: 'Tuesday, 1:00 PM'
         },
         {
-          lable: 'Tuesday, June 14 (4:00 pm - 5:00 pm)',
+          lable: 'Tuesday, July 14 (4:00 pm - 5:00 pm)',
           value: 'Tuesday, 2:00 PM'
         },
         {
-          lable: 'Tuesday, June 14 (5:00 pm - 6:00 pm)',
+          lable: 'Tuesday, July 14 (5:00 pm - 6:00 pm)',
           value: 'Tuesday, 3:00 PM'
         },
         {
-          lable: 'Tuesday, June 14 (6:00 pm - 7:00 pm)',
+          lable: 'Tuesday, July 14 (6:00 pm - 7:00 pm)',
           value: 'Tuesday, 4:00 PM'
         },
         {
-          lable: 'Tuesday, June 14 (7:00 pm - 8:00 pm)',
+          lable: 'Tuesday, July 14 (7:00 pm - 8:00 pm)',
           value: 'Tuesday, 5:00 PM'
         },
       ]
     },
     {
-      lable: 'Friday, June 15, 2022',
+      lable: 'Friday, July 15, 2022',
       value: [
         {
-          lable: 'Friday, June 15 (10:00 am - 11:00 am)',
+          lable: 'Friday, July 15 (10:00 am - 11:00 am)',
           value: 'Friday, 8:00 AM'
         },
         {
-          lable: 'Friday, June 15 (11:00 am - Noon)',
+          lable: 'Friday, July 15 (11:00 am - Noon)',
           value: 'Friday, 9:00 AM'
         },
         {
-          lable: 'Friday, June 15 (Noon - 1:00 pm)',
+          lable: 'Friday, July 15 (Noon - 1:00 pm)',
           value: 'Friday, 10:00 AM'
         },
         {
-          lable: 'Friday, June 15 (1:00 pm - 2:00 pm)',
+          lable: 'Friday, July 15 (1:00 pm - 2:00 pm)',
           value: 'Friday, 11:00 AM'
         },
         {
-          lable: 'Friday, June 15 (2:00 pm - 3:00 pm)',
+          lable: 'Friday, July 15 (2:00 pm - 3:00 pm)',
           value: 'Friday, 12:00 PM'
         },
         {
-          lable: 'Friday, June 15 (3:00 pm - 4:00 pm)',
+          lable: 'Friday, July 15 (3:00 pm - 4:00 pm)',
           value: 'Friday, 1:00 PM'
         },
         {
-          lable: 'Friday, June 15 (4:00 pm - 5:00 pm)',
+          lable: 'Friday, July 15 (4:00 pm - 5:00 pm)',
           value: 'Friday, 2:00 PM'
         },
         {
-          lable: 'Friday, June 15 (5:00 pm - 6:00 pm)',
+          lable: 'Friday, July 15 (5:00 pm - 6:00 pm)',
           value: 'Friday, 3:00 PM'
         },
         {
-          lable: 'Friday, June 15 (6:00 pm - 7:00 pm)',
+          lable: 'Friday, July 15 (6:00 pm - 7:00 pm)',
           value: 'Friday, 4:00 PM'
         },
         {
-          lable: 'Friday, June 15 (7:00 pm - 8:00 pm)',
+          lable: 'Friday, July 15 (7:00 pm - 8:00 pm)',
           value: 'Friday, 5:00 PM'
         },
       ]
     }
   ];
-  const onRadioChange =(e)=>{
-    console.log(e)
+  const [deliveryTimer, setdeliveryTimer] = useState();
+  const [days, hours, minutes, seconds] = useCountdown(deliveryTimer);
+  const onRadioChange =(e,f)=>{
+    console.log(e+' '+moment(f).format("MMM DD YYYY"))
+    let time =e+' '+moment(f).format("MMM DD YYYY")
+    console.log(time)
+    setdeliveryTimer(time)
   }
   return (
     <div className="cont">
@@ -175,7 +182,7 @@ export default function DeliverySlot() {
                           key={j}
                           label={i.value}
                           // checked={option.facilityDtl.facilityName == selectedFacility}
-                          onChange={() => onRadioChange(i.lable)}
+                          onChange={() => onRadioChange(i.value,data.lable)}
                         />
 
                         <span>{i.value}</span>
