@@ -55,7 +55,7 @@ const ShopGetPage = ({loader, error, list, loading, gridView, listView, list2, l
                   : <p>No Products match your criteria</p>
               }
           </div>           
-        : list && !list2 && !list3
+        : listView && list && !list2 && !list3
           ? <div>
               {list.map((e, i) => (
                 <Item listItems={listItems} item={e} key={i} />
@@ -85,7 +85,7 @@ const ShopGetPage = ({loader, error, list, loading, gridView, listView, list2, l
               :<p>No Products match your criteria</p>
       }
       {loading && <p>Loading...</p>}
-      {list === [] || list2 === []|| list3 === [] && <p>No Products match your criteria</p>}
+      {list === [] || list2 === [] || list3 === [] && <p>No Products match your criteria</p>}
       {error && <p>No Products match your criteria</p>}
       <div ref={loader} />
     </div>

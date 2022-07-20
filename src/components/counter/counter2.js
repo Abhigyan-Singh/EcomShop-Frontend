@@ -35,15 +35,6 @@ export const Counter2 = (props) => {
     className
   );
 
-  // useEffect(() => {
-  //   if (user) {
-
-  //     console.log("USERINFO", name)
-  //   } else {
-  //     setName('albtest3')
-  //   }
-  // }, [user]);
-
   const {
     state: { cart, total },
     dispatch
@@ -77,20 +68,20 @@ export const Counter2 = (props) => {
     }
   }, [value]);
 
-  // const AddToCartApi = (userName, productId, qty, facilityId) => {
-  //   if (user) {
-  //     const requestOptions = {
-  //       method: 'GET',
-  //       headers: {
-  //                 'Content-Type': 'application/json',
-  //                 'Authorization' : 'Bearer' + " " + user.token
-  //                }
-  //     };
-  //    fetch( `${config.baseUrl}${API.add_to_cart}/${userName}/${productId}/${qty}/${facilityId}`, requestOptions)
-  //   .then(res => res.json())
-  //   .then(json => console.log("ADDED TO CART", json))
-  //   }
-  // }
+  const AddToCartApi = (userName, productId, qty, facilityId) => {
+    if (user) {
+      const requestOptions = {
+        method: 'GET',
+        headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization' : 'Bearer' + " " + user.token
+                 }
+      };
+     fetch( `${config.baseUrl}${API.add_to_cart}/${userName}/${productId}/${qty}/${facilityId}`, requestOptions)
+    .then(res => res.json())
+    .then(json => console.log("ADDED TO CART", json))
+    }
+  }
   const addToGuestCart = async (productId, qty, facilityId) => {
     await apiClient.get(
       `${config.baseUrl}${API.add_to_guest_cart}/${productId}/${qty}/${facilityId}`
@@ -152,6 +143,8 @@ export const Counter2 = (props) => {
           onClick={async () => {
             if (!user) {
               await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
+            } else {
+              AddToCartApi(user.userName, item.productId, item.qty, facility.facilityId)
             }
             dispatch({
               type: 'ADD_TO_CART',
@@ -169,6 +162,8 @@ export const Counter2 = (props) => {
           onClick={async () => {
             if (!user) {
               await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
+            } else {
+              AddToCartApi(user.userName, item.productId, item.qty, facility.facilityId)
             }
             dispatch({
               type: 'ADD_TO_CART',
