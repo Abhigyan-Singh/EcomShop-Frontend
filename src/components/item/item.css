@@ -56,7 +56,7 @@
 .cbn-item .cbn-item__name {
   @apply font-medium;
   @apply leading-tight;
-  @apply mb-1;
+  @apply mb-2;
 }
 
 .cbn-item .cbn-item__name2 {
