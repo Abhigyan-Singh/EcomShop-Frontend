@@ -99,7 +99,7 @@ const Item = (props) => {
           
         </a>
         <Button
-          className="cbn-item__view-button invisible group-hover:visible group-focus-within:visible"
+          className="cbn-item__view-button invisible group-hover:visible group-focus-within:visible +"
           label="Quick View"
           onClick={handleViewClick}
           style={{marginTop: 20}}
@@ -128,7 +128,7 @@ const Item = (props) => {
           {item.sizeString} | {(0.99).toFixed(2)}{' '}
           / {item.sizeUom}
         </div>
-      </div>
+      </div>    
       <div className={gridView === true ? "cbn-item__pricing" : null}>
         <div className={gridView === true ? "cbn-item__price" : "cbn-item__price postion absolute top-0 pt-7 start-50"} style={gridView === true ? {} : {paddingLeft: 235}}>$ {item.normalPrice?.toFixed(2)}</div>
         {item.onSale && (
