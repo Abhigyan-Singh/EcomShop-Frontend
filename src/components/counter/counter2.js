@@ -144,7 +144,7 @@ export const Counter2 = (props) => {
             if (!user) {
               await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
             } else {
-              //AddToCartApi(user.userName, item.productId, item.qty, facility.facilityId)
+              AddToCartApi(user.userName, item.productId, item.qty, facility.facilityId)
             }
             dispatch({
               type: 'ADD_TO_CART',
@@ -163,7 +163,7 @@ export const Counter2 = (props) => {
             if (!user) {
               await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
             } else {
-              //AddToCartApi(user.userName, item.productId, item.qty, facility.facilityId)
+              AddToCartApi(user.userName, item.productId, item.qty, facility.facilityId)
             }
             dispatch({
               type: 'ADD_TO_CART',
