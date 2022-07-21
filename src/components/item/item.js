@@ -131,11 +131,11 @@ const Item = (props) => {
       </div>    
       <div className={gridView === true ? "cbn-item__pricing" : null}>
         <div className={gridView === true ? "cbn-item__price" : "cbn-item__price postion absolute top-0 pt-7 start-50"} style={gridView === true ? {} : {paddingLeft: 235}}>$ {item.normalPrice?.toFixed(2)}</div>
-        {item.onSale && (
-          <div className={gridView === true ? "cbn-item__savings" : "cbn-item__savings position absolute top-0 pt-12"} style={gridView ? {} : {paddingLeft: 850}}>
-            Save: $ {(item.normalPrice - item.normalPrice)?.toFixed(2)}
-          </div>
-        )}
+        {/* {item.onSale && (
+          // <div className={gridView === true ? "cbn-item__savings" : "cbn-item__savings position absolute top-0 pt-12"} style={gridView ? {} : {paddingLeft: 850}}>
+          //   Save: $ {(item.normalPrice - item.normalPrice)?.toFixed(2)}
+          // </div>
+        )} */}
         {item.isOutOfStock && (
           <div className="cbn-item__sold-out">Sold Out</div>
         )}

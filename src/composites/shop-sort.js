@@ -414,9 +414,10 @@ const ShopSort = (props) => {
                 )}
                 onClick={() => {
                   console.log("LISTVIEW", listView)
-                  setListView(true)
+                  setListView(true) 
                   setGridView(false)
-                }}>
+                }}
+              >
                 <span className="sr-only">View list</span>
                 <ViewListIcon
                   className="h-5 w-5 text-black-300"
