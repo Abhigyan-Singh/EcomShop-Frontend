@@ -37,6 +37,8 @@ const App = () => {
   // const { getCartDetails } = useCart();
   const [store, setStore] = useState(facility);
   const [depart, setDepart] = useState(dept);
+  const [gridView, setGridView] = useState(true);
+  const [listView, setListView] = useState(!gridView);
   const [subdepart, setSubdepart] = useState(subdept);
   const [showCart, setShowCart] = useState(false);
   const [inputCheck, setInputCheck] = useState(() => {
@@ -132,6 +134,10 @@ const App = () => {
         path: 'search',
         element: (
           <ShopStory
+            setGridView={setGridView}
+            setListView={setListView}
+            gridView={gridView}
+            listView={listView}
             inputCheck={inputCheck}
             setInputCheck={setInputCheck}
             isAuthenticated={isAuthenticated}

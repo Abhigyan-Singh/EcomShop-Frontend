@@ -30,7 +30,7 @@ const responsive = {
     items: 1
   }
 };
-const ShopDepartment = ({ loader, error, list, loading, gridView, listView, list2 }) => {
+const ShopDepartment = ({ loader, error, list, loading, setGridView, setListView, gridView, listView, list2 }) => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
   const [itemsByGroup, setItemsByGroup] = useState([]);
@@ -49,8 +49,11 @@ const ShopDepartment = ({ loader, error, list, loading, gridView, listView, list
   useEffect(() => {
     getListItems();
   }, []);
+
   useEffect(() => {
     if (list2) {
+      setGridView(true)
+      setListView(false)
       list2.forEach(a => {
         if (a.productAreaHierarchy?.length) {
           const ids = a.productAreaHierarchy[0].split('|');

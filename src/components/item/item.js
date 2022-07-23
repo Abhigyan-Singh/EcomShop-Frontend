@@ -37,11 +37,13 @@ const Item = (props) => {
     onListClick,
     onViewClick,
     listItems = [],
+    gridView,
+    listView,
     ...rest
   } = props;
   const componentClassName = classNames(
     'cbn-item group',
-    { 'cbn-item--row': layout === 'row', 'cbn-item--sale': item.onSale },
+    { 'cbn-item--row position-relative position-relative-example': layout === 'row', 'cbn-item--sale': item.onSale },
     className
   );
 
@@ -77,22 +79,27 @@ const Item = (props) => {
     dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty + quantity });
   };
 
+
+  useEffect(() => {
+    console.log("gridview",  gridView)
+  }, [gridView]);
   return (
-    <div className={componentClassName} {...rest} style={{height:325}}>
+    <div className={componentClassName} {...rest} style={gridView ? {height: 325} : {height: 125}}>
       {item.onSale && (
         <img className="cbn-item__ribbon" src={saleRibbon} alt="Sale" />
       )}
-      <div className="cbn-item__media">
+      <div  className={gridView === true ? "cbn-item__media" : 'position-absolute top-0 start-0 pt-5'}>
         <a className="cbn-item__image-link">
           <img
             className="cbn-item__image"
             src={`https://cdn1.cobornsinc.com/cdwebimages/100x100/${item.imagePath}`}
             alt=""
           />
-          <span className="sr-only">{item.productName}</span>
+          <span className="sr-only ">{item.productName}</span>
+          
         </a>
         <Button
-          className="cbn-item__view-button invisible group-hover:visible group-focus-within:visible"
+          className="cbn-item__view-button invisible group-hover:visible group-focus-within:visible +"
           label="Quick View"
           onClick={handleViewClick}
           style={{marginTop: 20}}
@@ -104,31 +111,31 @@ const Item = (props) => {
           onClose={onClose}
         />
       </div>
-      <div className="cbn-item__information">
+      <div className={gridView === true ? "cbn-item__information" : "p-1"}>
         <div
           onClick={() =>
             navigate(`/item/${item.productId}`, { state: {item, listItems} })
           }
         >
-          <div className="cbn-item__name">
-            <a href="#" className="block">
+          <div className="cbn-item__name" style={gridView ? {} : {width: 650, paddingLeft: 80}} >
+            <a href="" className="block">
               {item.productName}
             </a>
           </div>
-          <div className="cbn-item__number">Item #: {item.productId}</div>
+          <div className={gridView === true ? "cbn-item__number" : "pl-20"} style={{color:'grey'}}>Item #: {item.productId}</div>
         </div>
-        <div className="cbn-item__size">
+        <div className={gridView === true ? "cbn-item__size" : " cbn-item__size position-absolute start-50 top-0 pt-8"} style={gridView ? {} : {paddingLeft: 80}}>
           {item.sizeString} | {(0.99).toFixed(2)}{' '}
           / {item.sizeUom}
         </div>
-      </div>
-      <div className="cbn-item__pricing">
-        <div className="cbn-item__price">$ {item.normalPrice?.toFixed(2)}</div>
-        {item.onSale && (
-          <div className="cbn-item__savings">
-            Save: $ {(item.normalPrice - item.normalPrice)?.toFixed(2)}
-          </div>
-        )}
+      </div>    
+      <div className={gridView === true ? "cbn-item__pricing" : null}>
+        <div className={gridView === true ? "cbn-item__price" : "cbn-item__price postion absolute top-0 pt-7 start-50"} style={gridView === true ? {} : {paddingLeft: 235}}>$ {item.normalPrice?.toFixed(2)}</div>
+        {/* {item.onSale && (
+          // <div className={gridView === true ? "cbn-item__savings" : "cbn-item__savings position absolute top-0 pt-12"} style={gridView ? {} : {paddingLeft: 850}}>
+          //   Save: $ {(item.normalPrice - item.normalPrice)?.toFixed(2)}
+          // </div>
+        )} */}
         {item.isOutOfStock && (
           <div className="cbn-item__sold-out">Sold Out</div>
         )}
@@ -152,7 +159,7 @@ const Item = (props) => {
             )}
           </div>
         ) : null}
-        <a key={item.id} className="flex items-center space-x-2">
+        <a key={item.id} className={gridView === true ? null : "position-absolute top-0 end-0 pt-8 pr-20"}>
           <Counter2
             item={item}
             disabled={item.isOutOfStock}
