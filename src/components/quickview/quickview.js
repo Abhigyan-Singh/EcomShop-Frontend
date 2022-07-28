@@ -141,7 +141,7 @@ const Quickview = (props) => {
                         <h4 className="sr-only">Description</h4>
                       </div>
                       <div className="flex items-end space-x-2 mb-4">
-                        <div className="cbn-quickview__price">{data.normalPrice}</div>
+                        <div className="cbn-quickview__price">${data.normalPrice}</div>
                         {data.isOnSale && (
                           <div className="cbn-quickview__savings">
                             Save: {data.savings}

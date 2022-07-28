@@ -29,20 +29,22 @@ export const cartReducer = (state, action) => {
       console.log('add to cart', state)
 
       if (item) {
+        const count = state.count + 1
         const cart = state.cart.map((product) => {
           if (product.productId === action.payload.productId) {
             const totalQuantity = action.qty
-              ? action.qty + product.qty
-              : product.qty + 1;
+              ? action.qty + product.qty + cart.length === cart.length + 1
+              : product.qty + 1 + cart.length === cart.length + 1
             return {
               ...product,
-              qty: totalQuantity
+              qty: totalQuantity,
             };
           }
           return product;
         });
         return {
           ...state,
+          count,
           cart,
           total: cart.reduce(
             (result, item) => item.qty * item.normalPrice + result,
@@ -50,6 +52,7 @@ export const cartReducer = (state, action) => {
           )
         };
       } else {
+        const count = state.count + 1
         const cart = [
           ...state.cart,
           {
@@ -59,6 +62,7 @@ export const cartReducer = (state, action) => {
         ];
         return {
           ...state,
+          count,
           cart,
           total: cart.reduce(
             (result, item) => item.qty * item.normalPrice + result,
@@ -68,6 +72,7 @@ export const cartReducer = (state, action) => {
       }
 
     case 'REMOVE_FROM_CART':
+      const decreaseCount = state.count - 1
       const item2 = state.cart.find(
         (product) => product.productId === action.payload.productId
       );
@@ -77,6 +82,7 @@ export const cartReducer = (state, action) => {
         );
         return {
           ...state,
+          decreaseCount,
           cart,
           total: cart.reduce(
             (result, item) => item.qty * item.normalPrice + result,
@@ -86,6 +92,7 @@ export const cartReducer = (state, action) => {
       }
 
     case 'INCREASE_ITEM_QTY':
+      const increaseCount = state.count + 1
       const item3 = state.cart.find(
         (product) => product.productId === action.payload.productId
       );
@@ -102,6 +109,7 @@ export const cartReducer = (state, action) => {
         return {
           ...state,
           cart,
+          increaseCount,
           total: cart.reduce(
             (result, item) => item.qty * item.normalPrice + result,
             0
@@ -110,6 +118,7 @@ export const cartReducer = (state, action) => {
       }
 
     case 'DECREASE_ITEM_QTY':
+      const decreaseCount2 = state.count - 1
       const item4 = state.cart.find(
         (product) => product.productId === action.payload.productId
       );
@@ -126,6 +135,7 @@ export const cartReducer = (state, action) => {
         return {
           ...state,
           cart,
+          decreaseCount2,
           total: cart.reduce(
             (result, item) => item.qty * item.normalPrice + result,
             0
