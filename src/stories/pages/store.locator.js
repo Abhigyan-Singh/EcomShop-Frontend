@@ -12,6 +12,8 @@ import L from 'leaflet'
 import qs from 'qs'
 import axios from 'axios'
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import { OpenStreetMapProvider, GeoSearchControl } from 'leaflet-geosearch'
+//import 'node_modules/leaflet-geosearch/dist/geosearch.css'
 
 export default {
   title: 'Pages/Home',
@@ -164,6 +166,23 @@ export const StoreLocator = (props) => {
   // }
 
 
+
+  const Search = () => {
+    const map = useMap();
+    useEffect(() => {
+      const provider = new OpenStreetMapProvider();
+      const searchControl = new GeoSearchControl({
+        provider,
+        style: 'button',
+        marker: {
+          //icon
+        }
+      });
+      map.addControl(searchControl);
+      return () => map.removeControl(searchControl);
+    }, []);
+    return null;
+  }
   
   const position = [45.23389900, -93.66082100]  
   return (
@@ -171,7 +190,7 @@ export const StoreLocator = (props) => {
       <Locator preStore={selectedFacility} />
       <div>  
         <div>
-          <MapContainer  style={{height: 500, width: 500}} center={position} zoom={10} scrollWheelZoom={true}>
+          <MapContainer  style={{ height: 1000, width: '100%'}} center={position} zoom={10} scrollWheelZoom={true}>
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -181,6 +200,7 @@ export const StoreLocator = (props) => {
                 A pretty CSS3 popup. <br /> Easily customizable.
               </Popup>
             </Marker>
+            <Search />
           </MapContainer>
         </div>
         {/* <body>
