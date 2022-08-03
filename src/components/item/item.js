@@ -79,10 +79,6 @@ const Item = (props) => {
     dispatch({ type: 'ADD_TO_CART', payload: item, qty: item.qty + quantity });
   };
 
-
-  useEffect(() => {
-    console.log("gridview",  gridView)
-  }, [gridView]);
   return (
     <div className={componentClassName} {...rest} style={gridView ? {height: 325} : {height: 125}}>
       {item.onSale && (
