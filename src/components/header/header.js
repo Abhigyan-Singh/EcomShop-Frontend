@@ -556,7 +556,7 @@ const Header = (props) => {
                                     </Popover.Button>
                                     <Popover.Panel className="space-y-1">
                                       {item.children.map((subItem) =>
-                                        subItem.name === 'Our brands' ? (
+                                        subItem.parent === 'ourbrand' ? (
                                           <a
                                             key={subItem.name}
                                             href={subItem.href}
@@ -566,7 +566,7 @@ const Header = (props) => {
                                           >
                                             {subItem.name}
                                           </a>
-                                        ) : subItem.name == 'Four brothers' ? (
+                                        ) : subItem.name === 'Four brothers' ? (
                                           <a
                                             key={subItem.name}
                                             href={subItem.href}
