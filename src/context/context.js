@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer, useState } from 'react';
 import { mockData } from 'composites/home-get-started.js';
-import { cartReducer, itemReducer, favoriteReducer } from './reducers';
+import { cartReducer, itemReducer, favoriteReducer ,userReducer} from './reducers';
 import useFetch from '../hooks/useFetch';
 import queryString from 'query-string';
 
@@ -20,7 +20,7 @@ export const Context = ({ children }, data) => {
     progress: false
   });
 
-  const [userStore, dispatchUser] = useReducer(favoriteReducer, {
+  const [userStore, dispatchUser] = useReducer(userReducer, {
     user: {}
   });
 

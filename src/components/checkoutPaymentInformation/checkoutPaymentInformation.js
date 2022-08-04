@@ -11,43 +11,110 @@ import './checkoutPaymentInformation.css';
 import Button from 'components/button/button';
 import PaymentModal from '../PaymentModal/PaymentModal';
 import EBTModal from 'components/PaymentModal/EBTModal';
+import { cardDetails, ebtDetails, DeleteCards } from 'services/cardDetails';
+import { useCookies } from 'react-cookie';
+import { userInfoService } from 'services/auth';
+import { CartState } from '../../context/context';
+
 export default function CheckoutPaymentInformation() {
   const navigate = useNavigate();
   const [showModal, setModal] = useState(false);
   const [show, setShow] = useState(false);
   const [ebtshow, setebtShow] = useState(false);
   const [title, setTitle] = useState('');
-  const CardArray = {
-    craditCard: [
-      {
-        cardNumber: 'Visa-xxxx-xxxx-xxxx-2345',
-        holderName: 'K Naskar',
-        expire: '05/2027'
-      },
-      {
-        cardNumber: 'Visa-xxxx-xxxx-xxxx-2346',
-        holderName: 'S Naskar',
-        expire: '05/2027'
-      }
-    ],
-    ebtCard: [
-      // {
-      //   cardNumber: 'Visa-xxxx-xxxx-xxxx-2347',
-      //   holderName: 'K Naskar',
-      //   expire: '05/2027',
-      // }
-    ],
-    sellectedCheckbox: 'Visa-xxxx-xxxx-xxxx-2347'
-  };
+  const [cookies, setCookie] = useCookies();
+  const { facility, user, userInfo } = cookies;
+  const [loading, setLoading] = useState(false);
+  const { dispatchUser } = CartState();
+  const [craditCard, SetCraditcard] = useState([])
+  const [ebtCard, SetEbtitcard] = useState([])
+  const [selectedvalue, setselectedvalue] = useState(1)
+  const [userName, SetuserName] = useState("")
 
+  const CardArray = {
+    // craditCard: [
+    //   {
+    //     cardNumber: 'Visa-xxxx-xxxx-xxxx-2345',
+    //     holderName: 'K Naskar',
+    //     expire: '05/2027'
+    //   },
+    //   {
+    //     cardNumber: 'Visa-xxxx-xxxx-xxxx-2346',
+    //     holderName: 'S Naskar',
+    //     expire: '05/2027'
+    //   }
+    // ],
+    // ebtCard: [
+    //   {
+    //     cardNumber: 'Visa-xxxx-xxxx-xxxx-2347',
+    //     holderName: 'K Naskar',
+    //     expire: '05/2027',
+    //   }
+    // ],
+    // sellectedCheckbox: 'Visa-xxxx-xxxx-xxxx-2347'
+  };
+  useEffect(() => {
+    if (!userInfo && user) {
+          SetuserName(cookies.userName)
+          getCardData(cookies.userName);
+          getEbtData(cookies.userName)
+    }
+    
+
+
+  }, [cookies.userName]);
   const CardDetails = (e) => {
-    console.log(e.target.innerText);
+    console.log(e.target.name);
     e.preventDefault();
-    setTitle(e.target.innerText);
+    setTitle(e.target.name);
     setShow(true);
     // setModal(true);
     // navigate('/contactInformation');
   };
+  const getCardData = (name) => {
+    // alert(name)
+    cardDetails(name).then((resp) => {
+      console.log(resp.data.data)
+      SetCraditcard(resp.data.data)
+    });
+
+  }
+  const getDate = (date) => {
+    if (!date)
+      return null;
+    const d = new Date(date);
+    const m = (d.getMonth() + 1).toString().padStart(2, 0)
+    const y = d.getFullYear()
+    // const date = m+'/'+y
+    return `${m}/${y}`
+  }
+  const cardnumber = (card) => {
+    // let reg= card.replace(/\d(?=\d{4})/g,"x")
+    // console.log(card);
+    let finalString = ''
+    for (let i = 0; i < Math.ceil((card.length - 4) / 4); i++) {
+      finalString += 'xxxx-';
+    }
+    finalString += card.toString().substring(card.length - 4);
+    // console.log(finalString)
+    return finalString
+  }
+  const getEbtData = (name) => {
+    ebtDetails(name).then((res) => {
+      console.log(res.data.data)
+      SetEbtitcard(res.data.data)
+    });
+  }
+  const deletePaymentOption = (id) => {
+    console.log(userName, id);
+    DeleteCards(userName, id).then((res) => {
+      console.log(res.data.data)
+      getCardData(userName);
+      getEbtData(userName)
+      // SetEbtitcard(res.data.data)SGFS
+    });
+  }
+
   const CardDetailsEbt = (e) => {
     console.log(e.target.innerText);
     e.preventDefault();
@@ -55,7 +122,8 @@ export default function CheckoutPaymentInformation() {
     setebtShow(true);
   };
   const onSiteChanged = (event) => {
-    console.log(event.target.value);
+    console.log(event.target.value)
+    setselectedvalue(event.target.value)
   };
   const onClose = (event) => {
     setModal(false);
@@ -64,7 +132,8 @@ export default function CheckoutPaymentInformation() {
     navigate('/Checkout');
   };
   return (
-    <div className="wrapper">
+
+    <div className="wrapper" loading={loading}>
       <div className="s-checkout__top mbot-1">
         <div className="container">
           <div className="b-step headMid d-flex">
@@ -81,7 +150,7 @@ export default function CheckoutPaymentInformation() {
         <div className="header-gray margin-20px-btm">
           <a
             href="/Checkout"
-            // onclick="skipLeaveMessageWindow();"
+          // onclick="skipLeaveMessageWindow();"
           >
             <b>Checkout</b>
           </a>
@@ -100,7 +169,8 @@ export default function CheckoutPaymentInformation() {
               <div className="paymentOptionsBoxCol">Expiration</div>
             </div>
             <div className="paymentOptionsBoxRowSec">
-              {CardArray.craditCard.map((data, key) => {
+              {craditCard.map((data, key) => {
+
                 return (
                   <div className="paymentOptionsBoxRow" key={key}>
                     <div className="paymentOptionsBoxCol">
@@ -109,32 +179,34 @@ export default function CheckoutPaymentInformation() {
                         className="phone-cc-drop"
                         title="Make Default"
                         name="defaultPaymentType"
-                        value={data.cardNumber}
-                        // checked={data.checked === 1}
+                        value={data.paymentToken}
+                        // id={data.paymentToken}
+                        // checked={data.defaultFlag ==1}
+                        checked={selectedvalue == data.defaultFlag}
                         onChange={onSiteChanged}
                       />
                     </div>
                     <div className="paymentOptionsBoxCol">
-                      {data.cardNumber}
+                      {data.dataLine1.split(" ")[0] + '-' + cardnumber(data.paymentToken)}
                     </div>
                     <div className="paymentOptionsBoxCol">
-                      {data.holderName}
+                      {data.nameOnAccount}
                     </div>
-                    <div className="paymentOptionsBoxCol">{data.expire}</div>
+                    <div className="paymentOptionsBoxCol">{getDate(data.paymentExpirationDate)}</div>
                     <div className="paymentOptionsBoxCol">
                       <input
                         type="button"
                         name="delete['0']"
                         id="deleteButtonCC0"
                         className="i-delete-pay right"
-                        onclick="deletePaymentOption(this)"
+                        onClick={() => deletePaymentOption(data.paymentToken)}
                       />
                       <input
                         type="button"
-                        name="update['0']"
+                        name="edit"
                         id="editButtonCC0"
                         className="i-edit-pay right"
-                        onclick="openEditCCModal('0')"
+                        onClick={CardDetails}
                       />
                     </div>
                   </div>
@@ -177,7 +249,7 @@ export default function CheckoutPaymentInformation() {
               <div className="paymentOptionsBoxCol">Name on Card</div>
             </div>
             <div className="paymentOptionsBoxRowSec">
-              {CardArray.ebtCard.map((data, key) => {
+              {ebtCard.map((data, key) => {
                 return (
                   <div className="paymentOptionsBoxRow ebtcrd" key={key}>
                     <div className="paymentOptionsBoxCol">
@@ -186,16 +258,22 @@ export default function CheckoutPaymentInformation() {
                         className="phone-cc-drop"
                         title="Make Default"
                         name="defaultPaymentType"
-                        value={data.cardNumber}
-                        // checked={data.checked === 1}
+                        value={data.paymentToken}
+                        // id={data.paymentToken}
+                        // checked={data.defaultFlag ==1}
+                        checked={selectedvalue == data.defaultFlag}
                         onChange={onSiteChanged}
                       />
                     </div>
                     <div className="paymentOptionsBoxCol">
-                      {data.cardNumber}
+                      {cardnumber(data.paymentToken)}
+                      {/* {data.dataLine1} */}
+
                     </div>
                     <div className="paymentOptionsBoxCol">
-                      {data.holderName}
+
+                      {data.nameOnAccount}
+
                     </div>
                     <div className="paymentOptionsBoxCol">
                       <input
@@ -203,7 +281,7 @@ export default function CheckoutPaymentInformation() {
                         name="delete['0']"
                         id="deleteButtonCC0"
                         className="i-delete-pay right"
-                        onclick="deletePaymentOption(this)"
+                        onClick={() => deletePaymentOption(data.paymentToken)}
                       />
                       <input
                         type="button"
@@ -220,7 +298,7 @@ export default function CheckoutPaymentInformation() {
               <div className="adCrtBotSec">
                 <Button
                   className={
-                    CardArray.ebtCard.length != 0
+                    ebtCard.length != 0
                       ? 'checkout-btn ckoutdisable'
                       : 'checkout-btn '
                   }

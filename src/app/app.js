@@ -25,6 +25,9 @@ import CheckoutPaymentInformation from 'components/checkoutPaymentInformation/ch
 import DeliverySlot from 'components/deliveryDaySlot/deliverySlot';
 import PleaseWait from 'components/pleaseWait/pleaseWait';
 import ScrollToTop from 'ScrollToTop.js/ScrollToTop';
+import MyAccount from 'components/myAccount/MyAccount';
+import MyAccountInformation from 'components/MyAccountInformation/MyAccountInformation';
+import UpdateAccountAddress from 'components/updateAddress/updateaccountaddress';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -232,7 +235,24 @@ const App = () => {
         element: (
           <PleaseWait isAuthenticated={isAuthenticated} logout={onLogout} />
         )
+      },{
+        path: 'myAccount',
+        element: (
+          <MyAccount isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
       },
+      {
+        path: 'myaccountinformation',
+        element: (
+          <MyAccountInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'updateaccountaddress',
+        element: (
+          <UpdateAccountAddress isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      }
     ]);
     return routes;
   };

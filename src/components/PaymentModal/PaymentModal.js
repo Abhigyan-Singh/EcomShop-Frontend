@@ -21,7 +21,7 @@ const PaymentModal = (props) => {
     e.stopPropagation();
     props.closeModal();
   }
-  const [title, settitle] = useState('');
+  const [title, settitle] = useState(false);
   const [years, SetYear] = useState([]);
   const location = ['AK', 'AL', 'AR', 'MN'];
   const [nameOfCard, setNameOfCard] = useState('');
@@ -54,9 +54,11 @@ const PaymentModal = (props) => {
   const [imgAmericaselect, setImgAmericaselect] = useState(false);
   const [imgDiscoverselect, setImgDiscoverselect] = useState(false);
   const [noCardImg, SetNoCardImg] = useState(false);
+  const [disabledInput, setdisabledInput]= useState(false);
 
   const checkcard = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
+    // console.log(props.title);
     // console.log(document.getElementById('visa').id);
     var prefix = event.target.value;
     if (prefix != '' && prefix != null && prefix != undefined) {
@@ -216,9 +218,9 @@ const PaymentModal = (props) => {
     }
     SetYear(years);
     /////////////
-    if (props.title == 'ADD CREDIT CARD') {
-      settitle('CREDIT');
-    } else settitle('EBT');
+    if (props.title == 'edit') {
+      settitle(true);
+    } else settitle(false);
     ////////////
   }, [props.title]);
   const validationpostcode = (text) => {
@@ -236,7 +238,7 @@ const PaymentModal = (props) => {
         className="modal-content payment"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3>Payment Method: {title} CARD</h3>
+        <h3>Payment Method: CRADIT CARD</h3>
         {isVAlid == true ? (
           <>
             <div style={{ color: 'red', background: '#e0e0e0', padding: '7px 20px', lineHeight: '15px' , fontSize: '13px' }}>
@@ -258,7 +260,7 @@ const PaymentModal = (props) => {
 
         <div className="boxcontent">
           <div className="boxcontentLft">
-            <h4>{title} CARD INFORMATION</h4>
+            <h4>CRADIT CARD INFORMATION</h4>
 
             <div className="chkArea">
               <Checkbox className="mb-4" id="checkbox-1" />
@@ -305,6 +307,7 @@ const PaymentModal = (props) => {
                 onKeyDown={(event) => {
                   if (!!event.key) SetnameOfCardValid(false);
                 }}
+                disabled={title}
               />
               {isnameOfCardVAlid == true ? (
                 <label>Name on Card is a required field.</label>
@@ -331,6 +334,7 @@ const PaymentModal = (props) => {
                   if (!!event.key) SetcardNumberValid(false);
                 }}
                 onKeyUp={checkcard}
+                disabled={title}
               />
               {iscardNumberVAlid == true ? (
                 <label className="digitvalid">
@@ -459,6 +463,7 @@ const PaymentModal = (props) => {
                   value={cvv}
                   onChange={(event) => setCVV(event.target.value)}
                   onKeyUp={(event) => {if(!!event.key)SetcvvValid(false)}}
+                  disabled={title}
                 />
                 {iscvvdVAlid == true ? (
                   <label className="digitvalid">CVV is a required field.</label>
@@ -477,7 +482,7 @@ const PaymentModal = (props) => {
             </div>
           </div>
           <div className="boxcontentRght">
-            <h4>{title} CARD BILLING ADDRESS</h4>
+            <h4>CRADIT CARD BILLING ADDRESS</h4>
             <div className="chkArea">
               <Checkbox
                 id="checkbox-2"

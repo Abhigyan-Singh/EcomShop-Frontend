@@ -32,7 +32,13 @@ export const API = {
   ignore_cart: '/action/Ignore',
   replace_cart: '/action/Replace',
   merge_cart: '/action/Merge',
-  default_facility: '/customer/'
+  default_facility: '/customer/',
+  carddetails:'/payment-option/',
+  cradit_card:'/credit-cards',
+  ebt_card:'/ebt-cards',
+  delete_card:'/cards/',
+  myAccount_Addredd:'/address/addresses/'
+
 };
 
 export const CookiesAge = 604800;
