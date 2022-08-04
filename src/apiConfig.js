@@ -37,8 +37,9 @@ export const API = {
   cradit_card:'/credit-cards',
   ebt_card:'/ebt-cards',
   delete_card:'/cards/',
-  myAccount_Addredd:'/address/addresses/'
-
+  myAccount_Address:'/address/addresses/',
+  state_address:'/address/state/',
+  buildings_address:'/address/buildings',
 };
 
 export const CookiesAge = 604800;

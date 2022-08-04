@@ -42,6 +42,10 @@ const Modal = ({ onClose }) => {
                 path: '/',
                 maxAge: CookiesAge
               });
+              setCookie('FacilityId', userRes.data.defaultFacilityId, {
+                path: '/',
+                maxAge: CookiesAge
+              });
               dispatchUser({
                 type: 'SET_USER',
                 payload: { userName: userRes.data.userName }

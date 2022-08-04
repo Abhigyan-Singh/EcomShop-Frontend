@@ -26,11 +26,11 @@ export default function MyAccountInformation() {
     dispatchUser
   } = CartState();
   useEffect(() => {
-    alert(cookies.userName)
+   
     if (!!cookies.userName) {
       getData(cookies.userName)
     }
-    //    console.log(cookies.userName)
+    
 
   }, [cookies.userName]);
   const getData = (name) => {
@@ -125,7 +125,7 @@ export default function MyAccountInformation() {
                 console.log(data)
                 return <div key={key}>
                   <div>{data.addressLine1}</div>
-                  <div>{data.city},{data.state} {data.zipCode}-{ }</div>
+                  <div>{data.city},{data.state} {data.zipCode}</div>
                 </div>
               })}
               <div className="adCrtBotSec">
