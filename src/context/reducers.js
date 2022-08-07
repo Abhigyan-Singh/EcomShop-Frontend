@@ -29,6 +29,7 @@ export const cartReducer = (state, action) => {
       console.log('add to cart', state)
 
       if (item) {
+        const count = state.count + 1
         const cart = state.cart.map((product) => {
           if (product.productId === action.payload.productId) {
             const totalQuantity = action.qty
@@ -44,22 +45,25 @@ export const cartReducer = (state, action) => {
         return {
           ...state,
           cart,
+          count,
           total: cart.reduce(
             (result, item) => item.qty * item.normalPrice + result,
             0
           )
         };
       } else {
+        const count = state.count + 1
         const cart = [
           ...state.cart,
           {
             ...action.payload,
-            qty: action.qty ? action.qty : 1
+            qty: action.qty ? action.qty : 1,
           }
         ];
         return {
           ...state,
           cart,
+          count,
           total: cart.reduce(
             (result, item) => item.qty * item.normalPrice + result,
             0
@@ -68,6 +72,7 @@ export const cartReducer = (state, action) => {
       }
 
     case 'REMOVE_FROM_CART':
+      const decreaseCount = state.count - 1
       const item2 = state.cart.find(
         (product) => product.productId === action.payload.productId
       );
@@ -78,6 +83,7 @@ export const cartReducer = (state, action) => {
         return {
           ...state,
           cart,
+          decreaseCount,
           total: cart.reduce(
             (result, item) => item.qty * item.normalPrice + result,
             0
@@ -86,6 +92,7 @@ export const cartReducer = (state, action) => {
       }
 
     case 'INCREASE_ITEM_QTY':
+      const count2 = state.count + 1
       const item3 = state.cart.find(
         (product) => product.productId === action.payload.productId
       );
@@ -102,6 +109,7 @@ export const cartReducer = (state, action) => {
         return {
           ...state,
           cart,
+          count2,
           total: cart.reduce(
             (result, item) => item.qty * item.normalPrice + result,
             0

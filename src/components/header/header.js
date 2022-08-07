@@ -90,7 +90,7 @@ const Header = (props) => {
   const [showCart, setShowCart] = useState(false);
   const { getCartDetails } = useCart();
   const {
-    state: { cart, postlogin },
+    state: { cart, postlogin, count },
     dispatch
   } = CartState();
   const { search } = useLocation();
@@ -1373,7 +1373,7 @@ const Header = (props) => {
           >
             <img className="w-6 h-auto" src={cartIcon} alt="" />
             <span className="text-base md:text-lg font-bold ml-3">
-              {cart.length}
+              {count}
             </span>
           </button>
           <Cart open={showCart} onClose={onClose} />

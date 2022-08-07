@@ -36,7 +36,7 @@ export const Counter2 = (props) => {
   );
 
   const {
-    state: { cart, total },
+    state: { cart, total, count },
     dispatch
   } = CartState();
   const { updateCart } = useCart();
@@ -149,7 +149,7 @@ export const Counter2 = (props) => {
             dispatch({
               type: 'ADD_TO_CART',
               payload: item,
-              qty: item.qty ? item.qty + value : value
+              qty: item.qty ? item.qty + value : value,
             });
           }}
         >
