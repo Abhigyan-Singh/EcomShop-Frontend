@@ -73,11 +73,9 @@ const filterdropDown = {
     count: 0
   }
 };
-export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputCheck, ...rest }) => {
+export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputCheck, gridView, listView, setListView, setGridView, ...rest }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [gridView, setGridView] = useState(true);
-  const [listView, setListView] = useState(false);
   const params = window.location.href.split('?')[1];
   const { text: searchText } = queryString.parse(params);
   const [query, setQuery] = useState(searchText);
@@ -387,6 +385,9 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
         </div>}
         {(searchParams.get("area") && !subdept && !list3) && <div className="w-full">
           <ShopDepartment
+            setGridView={setGridView}
+            setListView={setListView}
+            gridView={gridView}
             list2={list2}
             loader={loader}
             loading={loading || inProgress}

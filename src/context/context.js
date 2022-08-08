@@ -11,6 +11,7 @@ export const Context = ({ children }, data) => {
     data: items,
     cart: [],
     tempCart: [],
+    count: 0,
     postlogin: false,
     progress: false,
   });

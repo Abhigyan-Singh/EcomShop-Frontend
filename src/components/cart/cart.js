@@ -83,7 +83,7 @@ const Cart = (props) => {
                 className="text-xs leading-none"
                 style={{ fontWeight: 'bold' }}
               >
-                {item.item.normalPrice}
+                ${item.item.normalPrice.toFixed(2)}
               </div>
               <button
                 onClick={() =>

@@ -392,7 +392,7 @@ const ShopSort = (props) => {
               <button
                 type="button"
                 className={classNames(
-                  gridView ? 'p-1 ml-3 rounded-full ring-2 ring-gray-200' :
+                  gridView === true ? 'p-1 ml-3 rounded-full ring-2 ring-gray-200' :
                     'p-1 ml-3 rounded-full ring-gray-200'
                 )}
                 onClick={() => {
@@ -402,10 +402,6 @@ const ShopSort = (props) => {
               >
                 <span className="sr-only">View grid</span>
                 <ViewGridIcon
-                  onClick={() => {
-                    setGridView(true)
-                    setListView(false)
-                  }}
                   className="h-5 w-5 text-black-300"
                   aria-hidden="true"
                 />
@@ -413,14 +409,15 @@ const ShopSort = (props) => {
               <button
                 type="button"
                 className={classNames(
-                  listView ? 'p-1 ml-3 rounded-full ring-2 ring-gray-200' :
+                  listView === true ? 'p-1 ml-3 rounded-full ring-2 ring-gray-200' :
                     'p-1 ml-3 rounded-full'
                 )}
                 onClick={() => {
-                  console.log("LISTVIEW")
-                  setListView(true)
+                  console.log("LISTVIEW", listView)
+                  setListView(true) 
                   setGridView(false)
-                }}>
+                }}
+              >
                 <span className="sr-only">View list</span>
                 <ViewListIcon
                   className="h-5 w-5 text-black-300"
