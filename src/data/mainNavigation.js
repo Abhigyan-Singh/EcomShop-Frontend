@@ -43,8 +43,11 @@ const mainNavigation = [
     name: 'Our Brands',
     href: '#link',
     children: [
-      { name: 'Four brothers', href: 'https://www.coborns.com/four-brothers' },
-      { name: 'Our brands', href: ' https://coborns.ourbrandfamily.com/' }
+      { parent: 'ourbrand', name: 'Cape Covelle SeaFood', href: 'https://www.coborns.com/four-brothers' },
+      { parent: 'ourbrand', name: 'CharKing', href: 'https://www.coborns.com/four-brothers' },
+      { parent: 'ourbrand', name: 'Crav`n Flavor', href: 'https://www.coborns.com/four-brothers' },
+      { parent: 'ourbrand', name: 'Four brothers', href: 'https://www.coborns.com/four-brothers' },
+      { parent: 'ourbrand', name: 'Our brands', href: ' https://coborns.ourbrandfamily.com/' }
     ]
   },
   {

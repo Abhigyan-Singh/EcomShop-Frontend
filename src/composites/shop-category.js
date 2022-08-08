@@ -1,15 +1,15 @@
 import { ChevronRightIcon, HomeIcon } from '@heroicons/react/solid';
 import { useCookies } from 'react-cookie';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'    
+import { useNavigate } from 'react-router-dom'
 import queryString from 'query-string';
-import {useSearchParams} from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 const ShopCategory = (props) => {
-  const {inputCheck, list} = props;
+  const { inputCheck, list } = props;
   const [cookies, setCookie] = useCookies();
   const { facility, dept, subdept } = cookies;
-  const params = window.location.href.split('?')[1]; 
+  const params = window.location.href.split('?')[1];
   const { text: searchText } = queryString.parse(params);
   const [query, setQuery] = useState(searchText);
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const ShopCategory = (props) => {
             </div>
           </li>
           {searchParams.get("area")
-              ? <>
+            ? <>
               <li>
                 <div className="flex items-center">
                   <ChevronRightIcon
@@ -52,7 +52,7 @@ const ShopCategory = (props) => {
                     onClick={() => {
                       refreshPage();
                       navigate('/search?text=' + dept);
-                    } }>{dept}
+                    }}>{dept}
                   </button>
                 </div>
               </li>
@@ -65,15 +65,15 @@ const ShopCategory = (props) => {
                     onClick={() => {
                       refreshPage();
                       navigate('/=' + subdept);
-                    } }
+                    }}
                     className="ml-2 hover:underline" aria-current="page">
                     {subdept}
                   </button>
                 </div>
               </li>
-              </>             
-              : <div> {list.length} Results for: <a style={{fontWeight: 'bold'}}>{query}</a></div>
-            }
+            </>
+            : <div> {list?.length} Results for: <a style={{ fontWeight: 'bold' }}>{query}</a></div>
+          }
         </ol>
       </nav>
     </div>

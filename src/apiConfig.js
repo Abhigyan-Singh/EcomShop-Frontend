@@ -33,13 +33,15 @@ export const API = {
   replace_cart: '/action/Replace',
   merge_cart: '/action/Merge',
   default_facility: '/customer/',
-  carddetails:'/payment-option/',
-  cradit_card:'/credit-cards',
-  ebt_card:'/ebt-cards',
-  delete_card:'/cards/',
-  myAccount_Address:'/address/addresses/',
-  state_address:'/address/state/',
-  buildings_address:'/address/buildings',
+  own_brand: '/productn/findownbrand',
+  products_by_brand_name: '/productn/findbybrand/',
+  carddetails: '/payment-option/',
+  cradit_card: '/credit-cards',
+  ebt_card: '/ebt-cards',
+  delete_card: '/cards/',
+  myAccount_Address: '/address/addresses/',
+  state_address: '/address/state/',
+  buildings_address: '/address/buildings',
 };
 
 export const CookiesAge = 604800;

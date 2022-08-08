@@ -77,10 +77,11 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [data, setData] = useState([]);
   const params = window.location.href.split('?')[1];
-  const { text: searchText } = queryString.parse(params);
-  const [query, setQuery] = useState(searchText);
+  const { text: searchText, brandname } = queryString.parse(params);
+  const [query, setQuery] = useState(searchText || brandname);
   const [pageno, setPageno] = useState(1);
-  const { loading, error, list } = useFetch(query, pageno);
+  const { loading, error, list } = useFetch(!!brandname, query, pageno);
+  console.log(query, params)
   const [cookies, setCookie] = useCookies();
   const { userInfo, user, facility, dept, subdept } = cookies;
   const { dispatchUser, favorites } = CartState();
@@ -301,7 +302,7 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
         setData(res);
       })
   }, [filterDropdowns]);
-  
+
   const [searchParams] = useSearchParams();
   const getItems = (id) => {
     const facilityId = facility?.facilityId ? facility?.facilityId : defaultFacilityId;
@@ -318,10 +319,10 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
   const [list3, setList3] = useState()
   const getOnSaleItems = () => {
     onSale()
-    .then((response) => {
-      setList3(response.data.products)
-      console.log('LIST3', response.data.products)
-    })
+      .then((response) => {
+        setList3(response.data.products)
+        console.log('LIST3', response.data.products)
+      })
   }
 
   useEffect(() => {
@@ -338,14 +339,14 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
       </div>
       <div className="flex flex-row">
         {list3 || list && !list2
-          ?  null
+          ? null
           : <ShopSidebar handleInputCheck={handleInputCheck} inputCheck={inputCheck} />
         }
         {(list3 || !searchParams.get("area") || (searchParams.get("area") && subdept)) && <div className="w-full">
           <div className="pl-6 pt-5">
-           {list3 
-              ? null 
-              : <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck}/>
+            {list3
+              ? null
+              : <ShopCategory handleInputCheck={handleInputCheck} list={list} inputCheck={inputCheck} />
             }
             <ShopTag handleInputCheck={handleInputCheck} inputCheck={inputCheck} onSubDeptChange2={onSubDepartChange2} />
             <div className="pt-6 flex flex-row justify-between">
