@@ -34,7 +34,14 @@ export const API = {
   merge_cart: '/action/Merge',
   default_facility: '/customer/',
   own_brand: '/productn/findownbrand',
-  products_by_brand_name: '/productn/findbybrand/'
+  products_by_brand_name: '/productn/findbybrand/',
+  carddetails: '/payment-option/',
+  cradit_card: '/credit-cards',
+  ebt_card: '/ebt-cards',
+  delete_card: '/cards/',
+  myAccount_Address: '/address/addresses/',
+  state_address: '/address/state/',
+  buildings_address: '/address/buildings',
 };
 
 export const CookiesAge = 604800;

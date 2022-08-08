@@ -1,0 +1,210 @@
+.modal-card {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #fff;
+    padding: 1rem;
+    text-align: center;
+    width: 285px;
+    z-index: 10;
+    position: fixed;
+    top: 25vh;
+    left: calc(50% - 10rem);
+    display: flex;
+    justify-content: space-between;
+    height: 370px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+  }
+  
+  .containerModal {
+    width: 750px;
+    margin: auto;
+    background-color: white;
+    padding-top: 1px;
+}
+
+.paymentInformation * {
+    font-size: 14px;
+}
+.checkout-btn:hover {opacity: 0.8; background-color: #909;}
+.payment h3 {
+    display: block;
+    font-size: 14px;
+    padding: 0.83em 0;
+    font-weight: bold;
+    color: #000000;
+    font-family: Verdana, Helvetica, Arial, sans-serif !important;
+    background-color: #fff;
+    text-align: center;
+}
+.boxcontent {
+    background-color: #e0e0e0;
+    display: flex;
+}
+.boxcontentLft {
+    display: inline-block;
+    width: 45%;
+    border-right: 1px solid darkgray;
+    padding: 20px;
+    border-top: 1px solid darkgray;
+    border-bottom: 1px solid darkgray;
+}
+.boxcontentRght {
+    display: inline-block;
+    width: 55%;
+    padding: 20px;
+    border-top: 1px solid darkgray;
+    border-bottom: 1px solid darkgray;
+}
+.ebtMod .boxcontentRght {
+    width: 100%;
+}
+.ebtMod .modFootSec {
+    padding: 40px 0 30px;
+}
+.boxcontentLft h4, .boxcontentRght h4 {
+    display: block;
+    margin: 0 0 1.33em;
+    font-weight: bold;
+    color: #000000;
+    font-family: Verdana, Helvetica, Arial, sans-serif !important;
+    font-size: 14px;
+}
+.chkArea {display: flex;}
+.chkArea .cbn-checkbox__input {
+    border: 1px solid #666;
+}
+.chkArea p {
+    font-weight: bold;
+    line-height: 16px;
+}
+.actp {margin-top: 35px;}
+.actp p {font-size: 14px; margin: 0;}
+.actp p.crdd {display: flex; margin: 3px 0 0;}
+.actp p.crdd img {margin-right: 10px; width: 46px; height: 30px;}
+span.asterisk { color: red; margin-top: 2px; }
+.contFrmRow {margin-top: 7px;}
+.contFrmRow label, .contFrmRowCol label {font-size: 14px; display: block;}
+.contFrmRow.nameCard {color: red;}
+.contFrmRow.Cardno{color: red;}
+.contFrmCol.cvv {color: red;}
+.contFrmCol.exdate {color: red;}
+.contFrmRow.address {color: red;}
+.contFrmRow.city{color: red;}
+.contFrmCol.state{color: red;}
+.contFrmCol.zipcode{color: red;}
+label.digitvalid {color: red;}
+.contFrmRow input[type="text"], .contFrmRow input[type="number"], .contFrmCol input[type="text"] {
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid darkgrey;
+    width: 100%;
+}
+.contFrmRowCol {margin-top: 7px; display: flex; justify-content: space-between;}
+.contFrmColInner select, .contFrmColInner select {
+    font-size: 12px !important;
+    border-radius: 5px !important;
+    height: 30px !important;
+    padding: 0 !important;
+    border: 1px solid #a9a9a9;
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
+    appearance: menulist;
+    background: #ffffff none;
+    width: auto;
+    margin-right: 10px;
+}
+.contFrmCol {display: inline-block;}
+.contFrmColInner {display: inline-flex;}
+.i-question {
+    display: inline-block;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background-color: #CCCCCC;
+    position: relative;
+    border-radius: 50%;
+    -webkit-transition: background-color 0.2s ease-out;
+    transition: background-color 0.2s ease-out;
+    margin-left: 8px;
+}
+.i-question__text {
+    min-width: 275px;
+    font-size: 14px;
+}
+.i-question:hover .i-question__text {
+    display: block;
+}
+.i-question__text .header {
+    color: #000000;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+.contFrmCol input[type='number'] {
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid darkgrey;
+    width: 50px;
+    font-size: 14px;
+}
+.adressMail {font-size: 14px; padding-left: 25px; margin-bottom: 20px;}
+.contFrmCol input[type='tel'] {
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid darkgrey;
+    width: 185px;
+    font-size: 14px;
+}
+.modFootSec {display: flex; justify-content: space-between;}
+.modFootSecLft {display: inline-flex; padding: 10px 20px 0; align-items: center;}
+.modFootSecRgt {display: inline-block; padding: 10px 20px;}
+.modFootSecLft button {margin-right: 10px;}
+.modFootSecRgt label {font-size: 14px; display: block;}
+.re-captchaborder {
+    border: 6px solid #990099;
+    min-width: 200px;
+    min-height: 70px;
+}
+.lght {color: #555;}
+
+@media(max-width: 1299px){
+    .adCrtBotSec .modal-content {
+        left: 5% !important;
+        width: 90%;
+    }
+}
+@media(max-width: 692px){
+    .modFootSec {
+        display: block;
+    }
+}
+@media(max-width: 612px){
+    .boxcontent {
+        display: block;
+    }
+    .boxcontentLft {
+        display: block;
+        width: 100%;
+        border-right: none;
+        padding: 15px;
+    }
+    .boxcontentRght {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        border-top: none;
+        border-bottom: 1px solid darkgray;
+    }
+}
+@media(max-width: 424px){
+    .modFootSecLft {
+        display: block;
+        padding: 10px 15px 0;
+    }
+}

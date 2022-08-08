@@ -1,0 +1,129 @@
+body {font-family: Verdana, sans-serif;}
+.header-gray {font-size: 14px; font-weight: 600; color: #666666;}
+.header-gray a {color: #5d2f99}
+.cnInfHead {display: block;}
+.cnInfHead h2 {font-size: 18px; font-weight: 600; color: #006600; margin-top: 20px;}
+.cnInfHead p {font-size: 16px; font-weight: 400;  color: #333;; margin-top: 20px;}
+.contactInfoBox {
+    display: block;
+    width: 80%;
+    border: 1px solid grey;
+    border-radius: 5px;
+    position: relative;
+    margin: 10px 0;
+}
+.contactInfoBoxHeader {
+    display: block;
+    width: 100%;
+    background: lightgrey;
+    padding: 10px;
+    border-bottom: 1px solid grey;
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold;
+}
+.contactInfoBoxHeader span {color: #5d2f99; font-weight: 400;}
+.contactInfoBoxRow {padding: 10px; border-bottom: 1px solid #000;}
+.contactInfoBoxRow h3 { color: #000000; font-size: 16px; margin: 0;}
+.contactInfoBoxRow h3 span {color: #fb0016;}
+.cibr {margin: 10px;}
+.cibr label {font-size: 12px;}
+.cibr select {
+    font-size: 12px;
+    line-height: 1;
+    padding: 0 10px;
+    outline: 0;
+    border: 1px solid #a2d750;
+    border-radius: 5px;
+    height: 40px;
+    background: #f6f6f6 url(../../assets/images/commonimages/select-green.gif) 100% 0 no-repeat;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    -moz-transition: border-color .2s ease-out;
+    -webkit-transition: border-color .2s ease-out;
+    transition: border-color .2s ease-out;
+    width: 100px;
+}
+.cibr label span {color: #fb0016;}
+.cibrCol {margin: 0 10px; display: inline-block; vertical-align: top; max-width: 180px;}
+.cibrCol:first-child {margin-left: 0;}
+.cibrCol:last-child {margin-right: 0;}
+.cibrCol input[type="text"] {width: 100%; border: 1px solid #a2d750; background: #f6f6f6; height: 40px; border-radius: 5px; font-size: 12px; padding: 0 10px;}
+div.names input {
+    width: 180px;
+}
+.f-sign-up__field, .f-sign-up__textarea {
+    border: 1px solid #a2d750;
+    background: #f6f6f6;
+}
+.phn .cibrCol {max-width: 230px;}
+.phnCol {margin: 0 5px; display: inline-block; vertical-align: top; max-width: 55px;}
+.phnCol:first-child {margin-left: 0;}
+.phRw {display: flex; align-items: center;}
+.phnCol input[type="tel"] {width: 100%; border: 1px solid #a2d750; background: #f6f6f6; height: 40px; border-radius: 5px; font-size: 12px; padding: 0 7px;}
+.phRw span {display: inline-block;}
+.eml .cibrCol {max-width: 210px;}
+.eml .cibrCol input[type="email"] {width: 100%; border: 1px solid #a2d750; background: #f6f6f6; height: 40px; border-radius: 5px; font-size: 12px; padding: 0 10px;}
+.checkout-btn {
+    display: inline-block;
+    border-radius: 5px;
+    line-height: 40px;
+    height: 40px;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 700;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border: 0;
+    outline: 0;
+    margin-bottom: 12px;
+    padding: 0 25px;
+    min-width: 160px;
+    -webkit-transition: background-color 0.2s ease-out;
+    transition: background-color 0.2s ease-out;
+    color: #fff;
+    background-color: #909;
+}
+.checkoutButtonBox {
+    display: flex;
+    position: relative;
+    width: 80%;
+    margin: 20px 0 0 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media(max-width: 991px){
+ .contactInfoBox {
+    width: 100%;
+  }
+}
+@media(max-width: 670px){
+    .cibrCol {
+        margin: 0;
+        display: block;
+        max-width: 100%;
+    }
+    .phn .cibrCol {
+        max-width: 100%;
+    }
+    .phnCol {
+        max-width: 29%;
+    }
+    .eml .cibrCol {
+        max-width: 100%;
+    }
+    .checkoutButtonBox {
+        width: 100%;
+        margin: 20px 0 0 0;
+    }
+    
+}
+@media(max-width: 540px){
+.checkoutButtonBox {
+    display: block;
+    width: 100%;
+}
+.checkoutButtonBox button:first-child {margin-right: 15px;}
+}

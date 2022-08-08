@@ -30,4 +30,31 @@ a:hover, a:focus {
   outline: none ;
   outline-offset: none;
 }
-
+.accorSec .css-1elwnq4-MuiPaper-root-MuiAccordion-root {box-shadow: inherit !important; border-radius: 0 !important; padding-left: 0 !important;}
+.accorSec .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root {min-height: 1px !important; padding-left: 0 !important;}
+.accorSec .cbn-radio__input {border: 2px solid green !important; padding-top: 0 !important; margin-left: 0px !important;}
+.accorSec .css-o4b71y-MuiAccordionSummary-content.Mui-expanded .cbn-radio.mb-4 {margin:  0 !important;}
+.accorSec .css-o4b71y-MuiAccordionSummary-content.Mui-expanded .cbn-radio.mb-4 {margin:  0 !important;}
+.accorSec .css-15v22id-MuiAccordionDetails-root {
+  padding: 11px 0px 0 !important;
+}
+.accorSec .css-o4b71y-MuiAccordionSummary-content {margin: 10px 0 0;}
+.css-o4b71y-MuiAccordionSummary-content.Mui-expanded {
+  margin: 10px 0 0 !important;
+}
+.MuiAccordionSummary-expandIconWrapper.css-yw020d-MuiAccordionSummary-expandIconWrapper {display: none;}
+.accorSec .css-o4b71y-MuiAccordionSummary-content p {display: inline-block; width: auto;}
+.accorSec .css-o4b71y-MuiAccordionSummary-content p:hover {
+  background-color: rgba(43, 255, 51, 0.37);
+}
+.accorSec .cbn-radio.mb-4 {
+  margin-bottom: 5px !important;
+}
+.adCrtBotSec .modal-content {
+  left: 25% !important;
+  top: 20px !important;
+  width: 50%;
+}
+.adCrtBotSec .modal {
+  background: rgba(0,0,0,0.6) !important;
+}

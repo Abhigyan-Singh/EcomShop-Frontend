@@ -1,0 +1,145 @@
+import React, { useState } from 'react';
+// import MyModal from 'components/modalView/modal';
+import { VisibilityContext } from 'react-horizontal-scrolling-menu';
+import { CartState } from '../../context/context';
+import './cartList.css';
+import Select from 'components/select/select';
+import ViewModal from './modalView';
+export function LeftArrow() {
+  const {
+    getPrevItem,
+    isFirstItemVisible,
+    scrollToItem,
+    visibleItemsWithoutSeparators,
+    initComplete
+  } = React.useContext(VisibilityContext);
+
+  const [disabled, setDisabled] = React.useState(
+    !initComplete || (initComplete && isFirstItemVisible)
+  );
+  React.useEffect(() => {
+    if (visibleItemsWithoutSeparators.length) {
+      setDisabled(isFirstItemVisible);
+    }
+  }, [isFirstItemVisible, visibleItemsWithoutSeparators]);
+
+  // NOTE: for scroll 1 item
+  const clickHandler = () => {
+    const prevItem = getPrevItem();
+    scrollToItem(prevItem?.entry?.target, 'smooth', 'start');
+  };
+  return <Arrow onClick={() => clickHandler()}> </Arrow>;
+}
+
+export function RightArrow() {
+  const {
+    getNextItem,
+    isLastItemVisible,
+    scrollToItem,
+    visibleItemsWithoutSeparators
+  } = React.useContext(VisibilityContext);
+
+  const [disabled, setDisabled] = React.useState(
+    !visibleItemsWithoutSeparators.length && isLastItemVisible
+  );
+  React.useEffect(() => {
+    if (visibleItemsWithoutSeparators.length) {
+      setDisabled(isLastItemVisible);
+    }
+  }, [isLastItemVisible, visibleItemsWithoutSeparators]);
+
+  // NOTE: for scroll 1 item
+  const clickHandler = () => {
+    const nextItem = getNextItem();
+    scrollToItem(nextItem?.entry?.target, 'smooth', 'end');
+  };
+  return <Arrow onClick={clickHandler}></Arrow>;
+}
+export function Card({ item, title, itemId, key }) {
+  const {
+    state: { cart, counter, total, qty },
+    dispatch
+  } = CartState();
+  const defaultValue = 1;
+  const [value, setValue] = useState(defaultValue);
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = (event) => {
+    setIsOpen(false);
+  };
+  const cartItem = () => {
+    console.log(item);
+    // if (!user) {
+    //   await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
+    // }
+
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: item,
+      qty: item.qty ? item.qty + value : value
+    });
+  };
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  return (
+    <div>
+      <div
+        tabIndex={0}
+        style={{
+          width: '160px'
+        }}
+        className="pr-product"
+      >
+        <div className="pr-product__img-wrap" onClick={() => openModal()}>
+          <img
+            src={`https://cdn1.cobornsinc.com/cdwebimages/100x100/${item.imagePath}`}
+            alt=""
+          />
+        </div>
+        <div
+          className="pr-product__title"
+          // onclick="getProductDetails('93717', 'OOPS_LIST')"
+        >
+          <span>{item.productName}</span>
+        </div>
+        <div className="pr-product__row">
+          <div className="pr-product__price _red">${item.price}</div>
+          <div>
+            <Select
+              className="w-full"
+              hasRoundedCorners={true}
+              // onChange={(event) => setSizeOption(event.target.value)}
+              aria-label="Size Options"
+            >
+              <option>
+                {item.productQTY1} {item.sizeString}
+              </option>
+              <option>
+                {item.productQTY2} {item.sizeString}
+              </option>
+              <option>
+                {item.productQTY3} {item.sizeString}
+              </option>
+            </Select>
+          </div>
+
+          <button className="btn-a" onClick={cartItem}>
+            Add to cart
+          </button>
+        </div>
+      </div>
+      <ViewModal
+        displayModal={isOpen}
+        closeModal={() => setIsOpen(false)}
+        item={item}
+      />
+    </div>
+  );
+}
+function Arrow({ children, onClick }) {
+  return (
+    <div onClick={onClick} className="slideArrow">
+      {children}
+    </div>
+  );
+}

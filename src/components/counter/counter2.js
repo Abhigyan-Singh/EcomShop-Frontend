@@ -91,6 +91,7 @@ export const Counter2 = (props) => {
 
   return (
     <div className={componentClassName}>
+       <div className='plsMinus'>
       <button
         style={{ right: 13 }}
         className="cbn-counter__button cbn-counter__button--left"
@@ -136,11 +137,13 @@ export const Counter2 = (props) => {
         <PlusSmIcon className="cbn-counter__icon mr-0.5" />
         <span className="sr-only">Increment</span>
       </button>
+      </div>
       {cart.some((i) => i.productId === item.productId) ? (
         <button
           style={{ marginLeft: -11, width: 99 }}
           className="cbn-button"
           onClick={async () => {
+            console.log(facility)
             if (!user) {
               await addToGuestCart(item.productId, item.qty ? item.qty + value : value, facility.facilityId);
             } else {
