@@ -32,7 +32,9 @@ export const API = {
   ignore_cart: '/action/Ignore',
   replace_cart: '/action/Replace',
   merge_cart: '/action/Merge',
-  default_facility: '/customer/'
+  default_facility: '/customer/',
+  own_brand: '/productn/findownbrand',
+  products_by_brand_name: '/productn/findbybrand/'
 };
 
 export const CookiesAge = 604800;

@@ -32,6 +32,7 @@ import { map } from 'lodash';
 import { useCart } from 'react-use-cart';
 import Cart from '../../components/cart/cart.js';
 import PostSignInModal from './PostSignInModal';
+import { getOwnBrands } from 'services/brand';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -98,6 +99,7 @@ const Header = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(query.get('login') === 'show');
   const [postSignInModalIsOpen, setPostSignInModalIsOpen] = useState(postlogin);
   const [searchArray, setSearchArray] = useState(searchList);
+  const [mainNavigationState, setMainNavigationState] = useState(mainNavigation)
 
   useEffect(() => {
     setPostSignInModalIsOpen(postlogin);
@@ -286,6 +288,12 @@ const Header = (props) => {
     grocery(109807)
       .then((res) => { setTobaccoSub(res.data) }
       )
+
+    getOwnBrands().then(res => {
+      const childrens = res.data.map(each => ({ parent: 'ourbrand', name: each, href: '/search?brandname=' + each }))
+      const newMainNavigationState = mainNavigationState.map(each => each.name === 'Our Brands' ? { ...each, children: childrens } : each)
+      setMainNavigationState(newMainNavigationState)
+    })
   }, []);
 
   const handleSubDeptChange3 = (option) => {
@@ -489,7 +497,7 @@ const Header = (props) => {
                           </div>
                         </div>
                         <div className="relative grid grid-cols-1 bg-white">
-                          {mainNavigation.map((item) =>
+                          {mainNavigationState.map((item) =>
                             !item.children &&
                               item.name !== 'Rewards' &&
                               item.name !== 'In-store Services' &&
@@ -560,7 +568,7 @@ const Header = (props) => {
                                           <a
                                             key={subItem.name}
                                             href={subItem.href}
-                                            target="_blank"
+                                            // target="_blank"
                                             rel="noreferrer noopener"
                                             className="py-2 pl-6 pr-3 flex items-center rounded transition ease-in-out duration-150 w-full text-gray-500 hover:bg-yellow-100"
                                           >

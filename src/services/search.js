@@ -2,6 +2,7 @@ import apiClient from './api';
 import { API, config } from 'apiConfig';
 
 export const search = (searchKey, facilityId, currentPageNumber) => {
+  console.log(searchKey)
   return apiClient.get(
     `${config.baseUrl}${API.search}?pageSize=1000&searchKey=${searchKey}&facilityId=${facilityId}&currentPageNumber=${currentPageNumber}`
   );
