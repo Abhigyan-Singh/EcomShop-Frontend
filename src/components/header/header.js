@@ -396,7 +396,7 @@ const Header = (props) => {
               {user && (
                 <a
                   className="underline"
-                  href="https://devweb2.shop.coborns.com/myaccountdetails"
+                  href="/myAccount"
                 >
                   My Account
                 </a>
