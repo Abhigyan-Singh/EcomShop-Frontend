@@ -11,8 +11,9 @@ import { useNavigate } from 'react-router-dom';
 import L from 'leaflet'
 import qs from 'qs'
 import axios from 'axios'
-//import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import { OpenStreetMapProvider, GeoSearchControl } from 'leaflet-geosearch'
+import { searchFacilities } from 'services/store.locator.facilities';
 
 export default {
   title: 'Pages/Home',
@@ -30,8 +31,8 @@ export default {
 
 export const StoreLocator = (props) => {
   const { className, onFacilityChange} = props
-  const [store, setStore] = useState([null]);
-  const [storeDelivery, setStoreDelivery] = useState([null]);
+  const [store, setStore] = useState();
+  const [storeDelivery, setStoreDelivery] = useState();
   const [cookies, setCookie] = useCookies();
   const { facility, dept, user, userInfo } = cookies;
   const [selected, setSelected] = useState(facility);
@@ -63,10 +64,11 @@ export const StoreLocator = (props) => {
   }
 
   useEffect(() => {
-    allStores(5).then((res) => {
+    searchFacilities(2031).then((res) => {
       setStore(res.data);
+      console.log("data",store)
     });
-  }, []);
+  }, [store]);
 
   useEffect(() => {
     allStores(7).then((res) => {
@@ -151,59 +153,53 @@ export const StoreLocator = (props) => {
 
 
   //'map' refers to a <div> element with the ID map
-  // const map = () => {
-  //   window.onload = function() {
-  //     console.log("STARTED")
-  //     L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
-  //     var map = L.mapquest.map('map', {
-  //       center: [45.23389900, -93.66082100],
-  //       layers: L.mapquest.tileLayer('map'),
-  //       zoom: 7
-  //     });
-  //     map.addControl(L.mapquest.control());
-  //   }
-  // }
+  const map = () => {
+    window.onload = function() {
+      console.log("STARTED")
+      L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
+      var map = L.mapquest.map('map', {
+        center: [45.23389900, -93.66082100],
+        layers: L.mapquest.tileLayer('map'),
+        zoom: 7
+      });
+      map.addControl(L.mapquest.control());
+    }
+  }
 
+  const Search = () => {
+    const map = useMap();
+    useEffect(() => {
+      const provider = new OpenStreetMapProvider();
+      const searchControl = new GeoSearchControl({
+        provider,
+        style: 'button',
+        marker: {
+          //icon
+        }
+      });
+      map.addControl(searchControl);
+      return () => map.removeControl(searchControl);
+    }, []);
+    return null;
+  }
 
-  // const Search = () => {
-  //   const map = useMap();
-  //   useEffect(() => {
-  //     const provider = new OpenStreetMapProvider();
-  //     const searchControl = new GeoSearchControl({
-  //       provider,
-  //       style: 'button',
-  //       marker: {
-  //         //icon
-  //       }
-  //     });
-  //     map.addControl(searchControl);
-  //     return () => map.removeControl(searchControl);
-  //   }, []);
-  //   return null;
-  // }
-  
   const position = [45.23389900, -93.66082100]  
   return (
     <div>
       <Locator preStore={selectedFacility} />
       <div>  
         <div>
-          {/* <MapContainer  style={{ height: 1000, width: '100%'}} center={position} zoom={10} scrollWheelZoom={true}>
+          <MapContainer  style={{ height: 300, width: '33%'}} center={position} zoom={10} scrollWheelZoom={true}>
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <Marker position={position}>
-              <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-              </Popup>
+      
             </Marker>
-            <Search />
-          </MapContainer> */}
+    
+          </MapContainer> 
         </div>
-        {/* <body>
-          <div id='map' style={{width: "50%", height: "250px"}}></div>
-        </body> */}
         <Popover>
           {({ open }) => (
             <div
@@ -286,14 +282,14 @@ export const StoreLocator = (props) => {
               STORE PICK UP SERVICE
             </div>
             {store &&
-              map(store.facilitiesPickup, (option, index) => (
+              map(store, (option, index) => (
                 <Radio
                   className="mb-4"
                   id="checkbox-1"
-                  key={option.facilityDtl.facilityName}
-                  label={option.facilityDtl.facilityName}
+                  key={option.facilityName}
+                  label={option.facilityName}
                   style={{ paddingBottom: 10, marginLeft: 50, fontWeight: 'bold'}}
-                  checked={option.facilityDtl.facilityName == selectedFacility}
+                  checked={option.facilityName == selectedFacility}
                   onChange={() => onChange(option)}
                 />
               ))}
