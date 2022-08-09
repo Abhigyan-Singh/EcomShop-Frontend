@@ -100,5 +100,10 @@
   @apply marketplace:bg-clementine;
   @apply cashwise:focus:ring-clementine-100;
 }
+.innerHeader .lg\:px-6 {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 8px 0 5px!important;
+}
 
 

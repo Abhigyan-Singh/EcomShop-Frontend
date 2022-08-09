@@ -3,10 +3,11 @@ import { search } from 'services/search';
 import { usefavoriteApi } from 'services/favorites';
 import { useCookies } from 'react-cookie';
 import { CartState } from 'context/context';
+import { getProductsByBrandName } from 'services/brand';
 
 const bannerId = 1
 
-function useFetch(query, pageNo) {
+function useFetch(isBrand, query, pageNo) {
   const { favorites, state: { progress }, dispatch } = CartState();
   const { fetchFavorites } = usefavoriteApi();
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,13 @@ function useFetch(query, pageNo) {
       console.log("STARTED")
       setLoading(true);
       setError(false);
-      const res = await search(query, facilityId, 0);
+      let res = {};
+      if (isBrand) {
+        const data = await getProductsByBrandName(query);
+        res.data = { suggestionList: data.data }
+      } else {
+        res = await search(query, facilityId, 0);
+      }
       let favoritesData;
       if (favorites.favorites.length === 0 && favorites.progress === false) {
         await fetchFavorites();
@@ -52,7 +59,7 @@ function useFetch(query, pageNo) {
       setLoading(false);
       dispatch({ type: 'SET_CART_PROGRESS', payload: false });
     }
-  }, [query, facilityId]);
+  }, [isBrand, query, facilityId]);
 
   //&& progress === true 
   useEffect(() => {

@@ -38,6 +38,14 @@ const Modal = ({ onClose }) => {
                 path: '/',
                 maxAge: CookiesAge
               });
+              setCookie('userName', userRes.data.userName, {
+                path: '/',
+                maxAge: CookiesAge
+              });
+              setCookie('FacilityId', userRes.data.defaultFacilityId, {
+                path: '/',
+                maxAge: CookiesAge
+              });
               dispatchUser({
                 type: 'SET_USER',
                 payload: { userName: userRes.data.userName }
@@ -196,7 +204,7 @@ const Modal = ({ onClose }) => {
               {errors.password.message}
             </p>
           )}
-          <button className="modal-bsw-btn" type="submit">
+          <button className="modal-bsw-btn sgIn" type="submit">
             Sign In
           </button>
         </div>

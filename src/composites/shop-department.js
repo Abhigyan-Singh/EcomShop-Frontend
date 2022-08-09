@@ -82,6 +82,7 @@ const ShopDepartment = ({ loader, error, list, loading, setGridView, setListView
               <div onClick={() => onViewAll(e)} className='viewall-container'><p>View All</p><i className="viewall-right-arrow" /></div>
             </div>
             <Carousel responsive={responsive}
+              arrows={e.items?.length > 5}
               customLeftArrow={<CustomLeftArrow />}
               customRightArrow={<CustomRightArrow />}
               containerClass="carousel-custom-container"

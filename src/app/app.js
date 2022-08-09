@@ -18,6 +18,16 @@ import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
 import { StoreLocator } from 'stories/pages/store.locator.js';
 //import { getCartData } from 'services/addtocart';
+import CartList from 'components/cartList/cartList.js';
+import CheckoutReview from 'components/checkoutReview/checkoutReview';
+import ContactInformation from 'components/contactInformation/contactInformation';
+import CheckoutPaymentInformation from 'components/checkoutPaymentInformation/checkoutPaymentInformation';
+import DeliverySlot from 'components/deliveryDaySlot/deliverySlot';
+import PleaseWait from 'components/pleaseWait/pleaseWait';
+import ScrollToTop from 'ScrollToTop.js/ScrollToTop';
+import MyAccount from 'components/myAccount/MyAccount';
+import MyAccountInformation from 'components/MyAccountInformation/MyAccountInformation';
+import UpdateAccountAddress from 'components/updateAddress/updateaccountaddress';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -41,6 +51,7 @@ const App = () => {
   const [listView, setListView] = useState(!gridView);
   const [subdepart, setSubdepart] = useState(subdept);
   const [showCart, setShowCart] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [inputCheck, setInputCheck] = useState(() => {
     const saved = localStorage.getItem("input");
     const initialValue = JSON.parse(saved);
@@ -50,15 +61,21 @@ const App = () => {
   useEffect(() => {
     const { user } = cookies;
     if (!user && !userInfo) {
-      setStore("")
+      setStore('');
     } else if (facility) {
-      setStore(facility)
+      setStore(facility);
     }
     if (user?.token) {
       console.log("TOKEN", user.token)
       setIsAuthenticated(true);
     } else setIsAuthenticated(false);
   }, [cookies]);
+
+  useEffect(() => {
+    if (user) {
+      console.log('USERFACILITY', user);
+    }
+  }, []);
 
   useEffect(() => {
     let brand = 'coborns-theme';
@@ -192,13 +209,62 @@ const App = () => {
             store={store}
           />
         )
+      },
+      {
+        path: 'CartList',
+        element: (
+          <CartList isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'Checkout',
+        element: (
+          <CheckoutReview isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },{
+        path: 'contactInformation',
+        element: (
+          <ContactInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },{
+        path: 'checkoutPayment',
+        element: (
+          <CheckoutPaymentInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },{
+        path: 'deliverySlot',
+        element: (
+          <DeliverySlot isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },{
+        path: 'pleaseWait',
+        element: (
+          <PleaseWait isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },{
+        path: 'myAccount',
+        element: (
+          <MyAccount isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'myaccountinformation',
+        element: (
+          <MyAccountInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'updateaccountaddress',
+        element: (
+          <UpdateAccountAddress isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
       }
     ]);
     return routes;
   };
 
-  // console.log('app', store);
   // console.log('app', store, facilityStoremapping[store?.facilityId]);
+
   return (
     <Router>
       <div id="yext-facility-hours-setter" style={{ visibility: 'hidden' }}>
@@ -216,7 +282,7 @@ const App = () => {
       <Alert>
         <span>
           COVID-19 Vaccinations are now available in select locations.
-        </span>{' '}
+        </span>
         <a className="underline" href="https://www.coborns.com/Covid19">
           Check Availability
         </a>
@@ -226,16 +292,18 @@ const App = () => {
         inputCheck={inputCheck}
         setInputCheck={setInputCheck}
         onMobileButtonClick={handleMobileButtonClick}
-        user={isAuthenticated ? { firstName: userInfo?.firstName } : null}
+        user={isAuthenticated ? { firstName: userInfo?.firstName } : ''}
         logout={onLogout}
         store={store}
         onDeptChange={onDeptChange}
         onSubDeptChange3={onSubDeptChange}
         usr={user}
         setShowCart={setShowCart}
+        setVisible={visible}
       />
       <MobileNav open={mobileNavOpen} onClose={handleMobileNavClose} />
       <AppRoute showCart={showCart} setShowCart={setShowCart} />
+      <ScrollToTop />
       <Signup />
       <Footer />
     </Router>
