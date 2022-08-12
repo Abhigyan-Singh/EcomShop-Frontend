@@ -19,7 +19,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { searchFacilities } from 'services/store.locator.facilities'
 import { facilityStoremapping } from 'app/app';
- 
+import './storelocator.css'
 export default {
   title: 'Pages/Home',
   argTypes: {
@@ -200,10 +200,10 @@ export const StoreLocator = (props) => {
               padding: 10,
               marginBottom: 10,
               boxShadow: 1,
-              paddingBottom: 5, 
-              paddingTop: 5, 
-              paddingLeft: 10, 
-              paddingRight: 10
+              marginBottom: 5, 
+              marginTop: 5, 
+              marginLeft: 10, 
+              marginRight: 10
             }} >
               <CardContent>
                 <Typography variant="h5" component="div" target="_blank" rel="noreferrer">
@@ -247,13 +247,18 @@ export const StoreLocator = (props) => {
       <Locator preStore={selectedFacility}/>
       <div  style={{fontSize: 30,  backgroundColor: "rgba(44, 107, 44, 0.5)"}}>Store Locator</div>
       <div style={{display:"flex", flexDirection: "row", height: "100vh",}}> 
-      <div style={{width: "25vw", overflowX: "hidden", overflowY: "auto", paddingBottom: 10, paddingTop: 5, paddingLeft: 5, paddingRight: 5}}>
+      <div style={{width: "25vw", overflowX: "hidden", overflowY: "auto"}}>
         <input style={{
-          width: "33vw", 
+          border: "0.5px solid black",
+          width: "21.7vw", 
           height: 50,
-          backgroundColor: 'white',
+          boxShadow: 1,
+          marginBottom: 10, 
+          marginTop: 5,
+          paddingLeft: 10,
+          marginLeft: 10,
         }} 
-        placeholder={"Zip Code, City, State, or Store Name"}/>
+        placeholder={"Zip Code, or City"}/>
         <List/>
       </div>
       <div id="map" style={{width: "75vw"}}>
