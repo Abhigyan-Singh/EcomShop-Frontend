@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect, useRef } from 'react';
 import { useCookies } from 'react-cookie';
 import { CookiesAge } from 'apiConfig';
 import { allStores } from 'services/facilities';
-//import { map } from 'lodash';
+import { map } from 'lodash';
 import PropTypes from 'prop-types';
 import { Transition, Popover, Dialog} from '@headlessui/react';
 import Radio from 'components/radio/radio';
@@ -18,7 +18,8 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { searchFacilities } from 'services/store.locator.facilities'
-
+import { facilityStoremapping } from 'app/app';
+ 
 export default {
   title: 'Pages/Home',
   argTypes: {
@@ -34,13 +35,13 @@ export default {
 };
 
 export const StoreLocator = (props) => {
-  const { className, onFacilityChange} = props
-  const [store, setStore] = useState([]);
+  const { className, onFacilityChange, store} = props
+  const [stores, setStores] = useState([]);
   const [storeDelivery, setStoreDelivery] = useState([]);
   const [cookies, setCookie] = useCookies();
   const { facility, dept, user, userInfo } = cookies;
   const [selected, setSelected] = useState(facility);
-  const [selectedFacility, setFacility] = useState(cookies.facility.facilityName);
+  const [selectedFacility, setFacility] = useState(cookies?.facility?.facilityName);
   const navigate = useNavigate();
   let timeout 
   const timeoutDuration = 100
@@ -69,10 +70,10 @@ export const StoreLocator = (props) => {
 
   useEffect(() => {
     searchFacilities(2031).then((res) => {
-      setStore(res.data);
+      setStores(res.data);
       console.log("NEW", res.data)
     });
-  }, []);
+  }, );
 
   useEffect(() => {
     allStores(7).then((res) => {
@@ -155,62 +156,23 @@ export const StoreLocator = (props) => {
   }, )
 
   useEffect(() => {
+    //'map' refers to a <div> element with the ID map
+    // L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
+    //  var map = L.mapquest.map('map', {
+    //       center: [45.23389900, -93.66082100],
+    //       layers: L.mapquest.tileLayer('map'),
+    //       zoom: 12
+    //     });
+    //     map.addControl(L.mapquest.control());
     let map = L.map('map', {
       center: [45.23389900, -93.66082100],
       zoom: 10
     });
-
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-
   }, [])
   
-    //'map' refers to a <div> element with the ID map
-    // L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
-    // L.mapquest.open = true;
-    // L.mapquest.map('map', {
-    //   center: [45.23389900, -93.66082100],
-    //   layers: L.mapquest.tileLayer('map'),
-    //   zoom: 12
-    // });
-
-  // const List = () => {
-  //   return (
-  //     <div>
-  //       <ul>
-  //         <li>
-  //         {store &&
-  //           map(store, (option, index) => (
-  //           <Card style={{ maxWidth: "25%", borderBottomWidth: 1, borderBottomColor: 'black' }}>
-  //             <CardContent>
-  //               <Typography variant="h5" component="div">
-  //                 {option.facilityName}
-  //               </Typography>
-  //               <Typography variant="body2" style={{ paddingTop:20 }}>
-  //                 {option.address1}, {option.state} {option.zipCode}
-  //               </Typography>
-  //               <Typography variant="body2" style={{ paddingTop:20 }}>
-  //                 Store: {option.phoneNumber}
-  //               </Typography>
-  //               <Typography variant="body2">
-  //                 Customer Relations : {option.customerRelationsPhone}
-  //               </Typography>
-  //               <Typography variant="body2" style={{ paddingTop:20 }}>
-  //                 <div id="yext-facility-hours-getter" />
-  //               </Typography>
-  //             </CardContent>
-  //             <CardActions>
-  //               <Button size="small">Shop This Store</Button>
-  //             </CardActions>
-  //           </Card>
-  //         ))}
-  //         </li>
-  //       </ul>
-  //     </div>
-  //   )
-  // }
-
   const setHoursHtml = () => {
     if (
       document.getElementById('yext-facility-hours-getter') &&
@@ -223,15 +185,80 @@ export const StoreLocator = (props) => {
 
   useEffect(() => {
     setHoursHtml()
-  }, [])
+  },[])  
+
+  const List = () => {
+    return (
+      <div>
+        <ul>
+          <li>
+          {stores &&
+            map(stores, (option, index) => (
+            <Card style={{
+              maxWidth: "100%",
+              border: "1px solid",
+              padding: 10,
+              marginBottom: 10,
+              boxShadow: 1,
+              paddingBottom: 5, 
+              paddingTop: 5, 
+              paddingLeft: 10, 
+              paddingRight: 10
+            }} >
+              <CardContent>
+                <Typography variant="h5" component="div" target="_blank" rel="noreferrer">
+                  <a
+                    href={`https://www.coborns.com/Cobstore${facilityStoremapping[store?.facilityId]
+                    ? facilityStoremapping[
+                      store?.facilityId]?.toString()
+                    : store?.facilityId?.toString()
+                    }`}
+                  >
+                    {option.facilityName}
+                  </a>
+                </Typography>
+                <Typography variant="body1" component="div" style={{ paddingTop:20 }}>
+                  {option.address1}, {option.state} {option.zipCode}
+                </Typography>
+                <Typography variant="body1" component="div" style={{ paddingTop:20 }}>
+                  <a href={`tel:${option.phoneNumber}`}>Store: {option.phoneNumber}</a>
+                </Typography>
+                <Typography variant="body1" component="div">
+                  <a href={`tel:${option.customerRelationsPhone}`}>Customer Relations : {option.customerRelationsPhone}</a>
+                </Typography>
+                <Typography variant="body1" component="div" style={{ paddingTop:20 }}>
+                  <div id="yext-facility-hours-getter" />
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small" component="div">Shop This Store</Button>
+              </CardActions>
+            </Card>
+          ))}
+          </li>
+        </ul>
+      </div>
+    )
+  }
 
   const position = [45.23389900, -93.66082100]  
   return (
     <div>
-      <Locator preStore={selectedFacility} />
-      <input style={{height: 50, width:"25%"}}></input>
-      <div id="map" style={{width: 500, height: 500}}></div>
-      
+      <Locator preStore={selectedFacility}/>
+      <div  style={{fontSize: 30,  backgroundColor: "rgba(44, 107, 44, 0.5)"}}>Store Locator</div>
+      <div style={{display:"flex", flexDirection: "row", height: "100vh",}}> 
+      <div style={{width: "25vw", overflowX: "hidden", overflowY: "auto", paddingBottom: 10, paddingTop: 5, paddingLeft: 5, paddingRight: 5}}>
+        <input style={{
+          width: "33vw", 
+          height: 50,
+          backgroundColor: 'white',
+        }} 
+        placeholder={"Zip Code, City, State, or Store Name"}/>
+        <List/>
+      </div>
+      <div id="map" style={{width: "75vw"}}>
+      </div>
+    </div>
     </div>
   );
 };
