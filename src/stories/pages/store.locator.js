@@ -196,6 +196,7 @@ export const StoreLocator = (props) => {
             map(stores, (option, index) => (
             <Card style={{
               maxWidth: "100%",
+              height: "25%",
               border: "1px solid",
               padding: 10,
               marginBottom: 10,
@@ -220,14 +221,11 @@ export const StoreLocator = (props) => {
                 <Typography variant="body1" component="div" style={{ paddingTop:20 }}>
                   {option.address1}, {option.state} {option.zipCode}
                 </Typography>
-                <Typography variant="body1" component="div" style={{ paddingTop:20 }}>
+                <Typography variant="body1" component="div" style={{ paddingTop:20}}>
                   <a href={`tel:${option.phoneNumber}`}>Store: {option.phoneNumber}</a>
                 </Typography>
-                <Typography variant="body1" component="div">
-                  <a href={`tel:${option.customerRelationsPhone}`}>Customer Relations : {option.customerRelationsPhone}</a>
-                </Typography>
-                <Typography variant="body1" component="div" style={{ paddingTop:20 }}>
-                  <div id="yext-facility-hours-getter" />
+                <Typography variant="body1" component="div" style={{ paddingTop:20, fontSize: 13 }} >
+                  <div id="yext-facility-hours-getter" />Monday - Sunday 6:00 am - 10:00 pm
                 </Typography>
               </CardContent>
               <CardActions>
@@ -245,18 +243,19 @@ export const StoreLocator = (props) => {
   return (
     <div>
       <Locator preStore={selectedFacility}/>
-      <div  style={{fontSize: 30,  backgroundColor: "rgba(44, 107, 44, 0.5)"}}>Store Locator</div>
+      <div style={{fontSize: 30, height: 70,  backgroundColor: "rgba(44, 107, 44, 0.1)", paddingTop: 10, paddingBottom: 10, paddingLeft: 10}}>Store Locator</div>
       <div style={{display:"flex", flexDirection: "row", height: "100vh",}}> 
       <div style={{width: "25vw", overflowX: "hidden", overflowY: "auto"}}>
         <input style={{
           border: "0.5px solid black",
           width: "21.7vw", 
-          height: 50,
+          height: 40,
           boxShadow: 1,
           marginBottom: 10, 
           marginTop: 5,
           paddingLeft: 10,
           marginLeft: 10,
+          borderRadius: 3
         }} 
         placeholder={"Zip Code, or City"}/>
         <List/>
