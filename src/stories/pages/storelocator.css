@@ -1,0 +1,9 @@
+.rowC {
+    display:flex; 
+    flex-direction:row;
+}
+
+input::placeholder {
+    color: rgb(172, 172, 172);
+  }
+  
