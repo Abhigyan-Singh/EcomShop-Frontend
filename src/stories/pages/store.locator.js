@@ -244,20 +244,21 @@ export const StoreLocator = (props) => {
     <div>
       <Locator preStore={selectedFacility}/>
       <div style={{fontSize: 30, height: 70,  backgroundColor: "rgba(44, 107, 44, 0.1)", paddingTop: 10, paddingBottom: 10, paddingLeft: 10}}>Store Locator</div>
-      <div style={{display:"flex", flexDirection: "row", height: "100vh",}}> 
-      <div style={{width: "25vw", overflowX: "hidden", overflowY: "auto"}}>
-        <input style={{
+      <input style={{
           border: "0.5px solid black",
           width: "21.7vw", 
           height: 40,
           boxShadow: 1,
-          marginBottom: 10, 
-          marginTop: 5,
+          marginBottom: 10,
+          marginTop: 10,
           paddingLeft: 10,
           marginLeft: 10,
           borderRadius: 3
         }} 
-        placeholder={"Zip Code, or City"}/>
+        placeholder={"Zip Code, or City"}
+      /> 
+      <div style={{display:"flex", flexDirection: "row", height: "100vh",}}>
+      <div style={{width: "25vw", overflowX: "hidden", overflowY: "auto"}}>
         <List/>
       </div>
       <div id="map" style={{width: "75vw"}}>
