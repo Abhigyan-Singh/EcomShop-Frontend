@@ -391,7 +391,7 @@ const Header = (props) => {
             <div className="flex items-center justify-between text-right float right">
               <div className="hidden md:block">
                 <div className="text-lg font-medium">
-                  {user && `Welcome Back, ${user.firstName}`}
+                  {user && `Welcome Back, ${user && user.firstName ? user.firstName : ''}`}
                   {!user && 'Grocery Shopping Made Easy'}
                 </div>
                 <div className="text-xs font-medium space-x-2">
