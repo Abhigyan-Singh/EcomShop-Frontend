@@ -19,7 +19,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { searchFacilities } from 'services/store.locator.facilities'
 import { facilityStoremapping } from 'app/app';
-import './storelocator.css'
+ 
 export default {
   title: 'Pages/Home',
   argTypes: {
@@ -156,23 +156,29 @@ export const StoreLocator = (props) => {
   }, )
 
   useEffect(() => {
-    //'map' refers to a <div> element with the ID map
-    // L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
-    //  var map = L.mapquest.map('map', {
-    //       center: [45.23389900, -93.66082100],
-    //       layers: L.mapquest.tileLayer('map'),
-    //       zoom: 12
-    //     });
-    //     map.addControl(L.mapquest.control());
-    let map = L.map('map', {
-      center: [45.23389900, -93.66082100],
-      zoom: 10
-    });
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
+     var map = L.mapquest.map('map', {
+          center: [45.23389900, -93.66082100],
+          layers: L.mapquest.tileLayer('map'),
+          zoom: 12
+        });
+
+        map.addControl(L.mapquest.control());
+      
+    // let map = L.map('map', {
+    //   center: [45.23389900, -93.66082100],
+    //   zoom: 10
+    // });
+
+    // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    //   attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    // }).addTo(map);
+
   }, [])
   
+    //'map' refers to a <div> element with the ID map
+
+
   const setHoursHtml = () => {
     if (
       document.getElementById('yext-facility-hours-getter') &&
@@ -185,81 +191,75 @@ export const StoreLocator = (props) => {
 
   useEffect(() => {
     setHoursHtml()
-  },[])  
+  },[facility])  
 
-  const List = () => {
-    return (
-      <div>
-        <ul>
-          <li>
-          {stores &&
-            map(stores, (option, index) => (
-            <Card style={{
-              maxWidth: "100%",
-              height: "25%",
-              border: "1px solid",
-              padding: 10,
-              marginBottom: 10,
-              boxShadow: 1,
-              marginBottom: 5, 
-              marginTop: 5, 
-              marginLeft: 10, 
-              marginRight: 10
-            }} >
-              <CardContent>
-                <Typography variant="h5" component="div" target="_blank" rel="noreferrer">
-                  <a
-                    href={`https://www.coborns.com/Cobstore${facilityStoremapping[store?.facilityId]
-                    ? facilityStoremapping[
-                      store?.facilityId]?.toString()
-                    : store?.facilityId?.toString()
-                    }`}
-                  >
-                    {option.facilityName}
-                  </a>
-                </Typography>
-                <Typography variant="body1" component="div" style={{ paddingTop:20 }}>
-                  {option.address1}, {option.state} {option.zipCode}
-                </Typography>
-                <Typography variant="body1" component="div" style={{ paddingTop:20}}>
-                  <a href={`tel:${option.phoneNumber}`}>Store: {option.phoneNumber}</a>
-                </Typography>
-                <Typography variant="body1" component="div" style={{ paddingTop:20, fontSize: 13 }} >
-                  <div id="yext-facility-hours-getter" />Monday - Sunday 6:00 am - 10:00 pm
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" component="div">Shop This Store</Button>
-              </CardActions>
-            </Card>
-          ))}
-          </li>
-        </ul>
-      </div>
-    )
+  // const List = () => {
+  //   return (
+  //     <div>
+  //       <ul>
+  //         <li>
+  //         {stores &&
+  //           map(stores, (option, index) => (
+  //           <Card style={{
+  //             maxWidth: "100%",
+  //             border: "1px solid",
+  //             padding: 10,
+  //             marginBottom: 10,
+  //             boxShadow: 2
+  //           }} >
+  //             <CardContent>
+  //               <Typography variant="h5" component="div" target="_blank" rel="noreferrer">
+  //                 <a
+  //                   href={`https://www.coborns.com/Cobstore${facilityStoremapping[store?.facilityId]
+  //                   ? facilityStoremapping[
+  //                     store?.facilityId]?.toString()
+  //                   : store?.facilityId?.toString()
+  //                   }`}
+  //                 >
+  //                   {option.facilityName}
+  //                 </a>
+  //               </Typography>
+  //               <Typography variant="body1" component="div" style={{ paddingTop:20 }}>
+  //                 {option.address1}, {option.state} {option.zipCode}
+  //               </Typography>
+  //               <Typography variant="body1" component="div" style={{ paddingTop:20 }}>
+  //                 <a href={`tel:${option.phoneNumber}`}>Store: {option.phoneNumber}</a>
+  //               </Typography>
+  //               <Typography variant="body1" component="div">
+  //                 <a href={`tel:${option.customerRelationsPhone}`}>Customer Relations : {option.customerRelationsPhone}</a>
+  //               </Typography>
+  //               <Typography variant="body1" component="div" style={{ paddingTop:20 }}>
+  //                 <div id="yext-facility-hours-getter" />
+  //               </Typography>
+  //             </CardContent>
+  //             <CardActions>
+  //               <Button size="small" component="div">Shop This Store</Button>
+  //             </CardActions>
+  //           </Card>
+  //         ))}
+  //         </li>
+  //       </ul>
+  //     </div>
+  //   )
+  // }
+  const Map = () => {
+    
   }
 
   const position = [45.23389900, -93.66082100]  
   return (
     <div>
       <Locator preStore={selectedFacility}/>
-      <div style={{fontSize: 30, height: 70,  backgroundColor: "rgba(44, 107, 44, 0.1)", paddingTop: 10, paddingBottom: 10, paddingLeft: 10}}>Store Locator</div>
-      <input style={{
-          border: "0.5px solid black",
-          width: "21.7vw", 
-          height: 40,
-          boxShadow: 1,
-          marginBottom: 10,
-          marginTop: 10,
-          paddingLeft: 10,
-          marginLeft: 10,
-          borderRadius: 3
+      <div style={{display:"flex", flexDirection: "row", height: "100vh",}}> 
+        <div variant="h5" style={{}}>Store Locator</div>
+      <div style={{width: "25vw", overflowX: "hidden", overflowY: "auto", paddingTop: 20}}>
+        <input style={{
+          width: "33vw", 
+          height: 50,
+          backgroundColor: 'white',
         }} 
-        placeholder={"Zip Code, or City"}
-      /> 
-      <div style={{display:"flex", flexDirection: "row", height: "100vh",}}>
-      <div style={{width: "25vw", overflowX: "hidden", overflowY: "auto"}}>
-        <List/>
+        placeholder={"Zip Code, City, State, or Store Name"}/>
+        
       </div>
       <div id="map" style={{width: "75vw"}}>
       </div>
