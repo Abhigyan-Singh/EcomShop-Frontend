@@ -4,11 +4,10 @@ import { CookiesAge } from 'apiConfig';
 import { allStores } from 'services/facilities';
 import { map } from 'lodash';
 import PropTypes from 'prop-types';
-import { Transition, Popover, Dialog} from '@headlessui/react';
+import { Transition, Popover, Dialog } from '@headlessui/react';
 import Radio from 'components/radio/radio';
 import Locator from 'components/locator/locator';
 import { useNavigate } from 'react-router-dom';
-import L from 'leaflet'
 import qs from 'qs'
 import axios from 'axios'
 import Box from '@mui/material/Box';
@@ -19,7 +18,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { searchFacilities } from 'services/store.locator.facilities'
 import { facilityStoremapping } from 'app/app';
- 
+
 export default {
   title: 'Pages/Home',
   argTypes: {
@@ -35,7 +34,7 @@ export default {
 };
 
 export const StoreLocator = (props) => {
-  const { className, onFacilityChange, store} = props
+  const { className, onFacilityChange, store } = props
   const [stores, setStores] = useState([]);
   const [storeDelivery, setStoreDelivery] = useState([]);
   const [cookies, setCookie] = useCookies();
@@ -43,14 +42,14 @@ export const StoreLocator = (props) => {
   const [selected, setSelected] = useState(facility);
   const [selectedFacility, setFacility] = useState(cookies?.facility?.facilityName);
   const navigate = useNavigate();
-  let timeout 
+  let timeout
   const timeoutDuration = 100
   const buttonRef = useRef(null)
   const [openState, setOpenState] = useState(false)
   const [center, setCenter] = useState([50.879, 4.6997])
   const [zoom, setZoom] = useState(11)
   // facility update
-  
+
   // update root 
 
   //
@@ -60,7 +59,7 @@ export const StoreLocator = (props) => {
       method: 'put',
       url: `http://localhost:8009/customer/${user.userName}/facility`,
       data: qs.stringify({
-          facility : facility.faciltyId
+        facility: facility.faciltyId
       }),
       headers: {
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -73,14 +72,14 @@ export const StoreLocator = (props) => {
       setStores(res.data);
       console.log("NEW", res.data)
     });
-  }, );
+  });
 
   useEffect(() => {
     allStores(7).then((res) => {
       setStoreDelivery(res.data);
     });
   }, []);
-    
+
   const toggleMenu = (open) => {
     setOpenState((openState) => !openState)
     buttonRef?.current?.click()
@@ -97,8 +96,8 @@ export const StoreLocator = (props) => {
   }
 
   const handleClick = (open) => {
-    setOpenState(!open) 
-    clearTimeout(timeout) 
+    setOpenState(!open)
+    clearTimeout(timeout)
   }
 
   const handleClickOutside = (event) => {
@@ -120,13 +119,13 @@ export const StoreLocator = (props) => {
       path: '/',
       maxAge: CookiesAge
     });
-    if (typeof onFacilityChange === 'function') { 
+    if (typeof onFacilityChange === 'function') {
       onFacilityChange(option);
     }
   };
 
   const handleYesClick = (selected) => {
-    if ( user && selected) {
+    if (user && selected) {
       handleFacilityChange(selected)
       window.scrollTo(0, 0)
     }
@@ -141,30 +140,30 @@ export const StoreLocator = (props) => {
   useEffect(() => {
     console.log("STORE.LOCATER SELECTED", selectedFacility)
     console.log("STORE.LOCATER Cookies", cookies)
-  
-  },)
+
+  })
 
   const onChange = (option) => {
     setFacility(option.facilityDtl.facilityName)
     setSelected2(option.facilityDtl)
   }
-  
+
   useEffect(() => {
     if (!facility) {
       alert("please go back and select a store")
     }
-  }, )
+  })
 
   useEffect(() => {
     L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
-     var map = L.mapquest.map('map', {
-          center: [45.23389900, -93.66082100],
-          layers: L.mapquest.tileLayer('map'),
-          zoom: 12
-        });
+    var map = L.mapquest.map('map', {
+      center: [45.23389900, -93.66082100],
+      layers: L.mapquest.tileLayer('map'),
+      zoom: 12
+    });
 
-        map.addControl(L.mapquest.control());
-      
+    map.addControl(L.mapquest.control());
+
     // let map = L.map('map', {
     //   center: [45.23389900, -93.66082100],
     //   zoom: 10
@@ -175,8 +174,8 @@ export const StoreLocator = (props) => {
     // }).addTo(map);
 
   }, [])
-  
-    //'map' refers to a <div> element with the ID map
+
+  //'map' refers to a <div> element with the ID map
 
 
   const setHoursHtml = () => {
@@ -185,13 +184,13 @@ export const StoreLocator = (props) => {
       document.getElementById('yext-facility-hours-setter')
     ) {
       document.getElementById('yext-facility-hours-getter').innerHTML =
-      document.getElementById('yext-facility-hours-setter').innerHTML;
+        document.getElementById('yext-facility-hours-setter').innerHTML;
     }
   };
 
   useEffect(() => {
     setHoursHtml()
-  },[facility])  
+  }, [facility])
 
   // const List = () => {
   //   return (
@@ -243,27 +242,27 @@ export const StoreLocator = (props) => {
   //   )
   // }
   const Map = () => {
-    
+
   }
 
-  const position = [45.23389900, -93.66082100]  
+  const position = [45.23389900, -93.66082100]
   return (
     <div>
-      <Locator preStore={selectedFacility}/>
-      <div style={{display:"flex", flexDirection: "row", height: "100vh",}}> 
+      <Locator preStore={selectedFacility} />
+      <div style={{ display: "flex", flexDirection: "row", height: "100vh", }}>
         <div variant="h5" style={{}}>Store Locator</div>
-      <div style={{width: "25vw", overflowX: "hidden", overflowY: "auto", paddingTop: 20}}>
-        <input style={{
-          width: "33vw", 
-          height: 50,
-          backgroundColor: 'white',
-        }} 
-        placeholder={"Zip Code, City, State, or Store Name"}/>
-        
+        <div style={{ width: "25vw", overflowX: "hidden", overflowY: "auto", paddingTop: 20 }}>
+          <input style={{
+            width: "33vw",
+            height: 50,
+            backgroundColor: 'white',
+          }}
+            placeholder={"Zip Code, City, State, or Store Name"} />
+
+        </div>
+        <div id="map" style={{ width: "75vw" }}>
+        </div>
       </div>
-      <div id="map" style={{width: "75vw"}}>
-      </div>
-    </div>
     </div>
   );
 };
@@ -273,5 +272,5 @@ StoreLocator.propTypes = {
 };
 
 StoreLocator.defaultProps = {
-  onFacilityChange: () => {}
+  onFacilityChange: () => { }
 };
