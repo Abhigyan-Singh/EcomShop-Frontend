@@ -3,6 +3,8 @@ h1.myAccountHeader {
     font: bold 40px Trebuchet MS;
     color: #006600;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    margin-bottom: 15px;
+    display: block;
 }
 p {
     margin: 0;
@@ -30,4 +32,9 @@ a {
     display: flex;
     align-items: center;
     margin-top: 22px;
+}
+.headDivide {border-top: 2px solid #a5d751; margin: 10px 0 20px;}
+
+@media(max-width: 1320px){
+    .myAccountSec {padding-bottom: 30px;}
 }

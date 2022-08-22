@@ -106,4 +106,9 @@
   padding: 8px 0 5px!important;
 }
 
+@media(max-width: 1320px){
+  .innerHeader .lg\:px-6 {
+    padding: 8px 15px 5px!important;
+  }
+}
 

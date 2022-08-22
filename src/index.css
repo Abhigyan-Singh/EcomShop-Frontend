@@ -58,3 +58,5 @@ a:hover, a:focus {
 .adCrtBotSec .modal {
   background: rgba(0,0,0,0.6) !important;
 }
+iframe {display: none;}
+#root iframe {display:inherit}

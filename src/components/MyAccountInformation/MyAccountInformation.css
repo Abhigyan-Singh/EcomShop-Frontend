@@ -1,0 +1,28 @@
+.pmntOptnBxHd h3 {font-size: 14px !important; margin-bottom: 20px;}
+.pmntOptnBxHd p {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+    font-size: 16px; 
+    color: #4d4d4d;
+    margin: 10px 0 0;
+    font-weight: normal;
+}
+.pmntOptnBxHd {
+    margin: 10px 0;
+    padding-left: 10px;
+    font-weight: bold;
+    position: relative;
+    min-height: 40px;
+}
+.pmntOptnBxHd .checkout-btn {position: absolute; top: 0; right: 15px; background-color: #060;}
+.pmntOptnBxDivid {
+    width: 100%;
+    margin-top: 20px;
+    border-top: 1px solid grey;
+    margin-bottom: 18px;
+}
+@media(max-width: 767px){
+    .paymentOptionsBoxOuter .paymentOptionsBox.poBxSec {
+        width: 800px;
+        max-width: 100%;
+    }
+}

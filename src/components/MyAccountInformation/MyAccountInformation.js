@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../checkoutPaymentInformation/checkoutPaymentInformation.css';
+import './MyAccountInformation.css'
 import Button from 'components/button/button';
 import { useCookies } from 'react-cookie';
 import { addressDetails } from 'services/myAccountapi';
@@ -26,7 +27,7 @@ export default function MyAccountInformation() {
     dispatchUser
   } = CartState();
   useEffect(() => {
-   
+  //  alert()
     if (!!cookies.userName) {
       getData(cookies.userName)
     }
@@ -56,7 +57,7 @@ export default function MyAccountInformation() {
           </div>
         </div>
       </div>
-      <div className="payInfoWrapper">
+      <div>
         <div className="header-gray margin-20px-btm">
           <a
             href="/Checkout"
@@ -70,72 +71,47 @@ export default function MyAccountInformation() {
 
         </div>
         <div className="paymentOptionsBoxOuter">
-          <div className="paymentOptionsBox">
+          <div className="paymentOptionsBox poBxSec">
             <h2>USER NAME { }</h2>
-            <div className="paymentOptionsBoxHd">
-              <div className="paymentOptionsBoxCol">Password</div>
+            <div className="pmntOptnBxHd">
+              <h3>Password</h3>
+              <p>**********</p>
               {/* <div className="paymentOptionsBoxCol">Credit Card</div>
                   <div className="paymentOptionsBoxCol">Name on Card</div>
                   <div className="paymentOptionsBoxCol">Expiration</div> */}
-            </div>
-            <div className="paymentOptionsBoxRowSec">
-
-            </div>
-            <div className="adCrtBotSec">
-              <Button
-                className="checkout-btn"
-                label="Edit Password"
-              // onClick={CardDetails}
+              <Button className="checkout-btn" label="Edit Password" // onClick={CardDetails}
               />
-
             </div>
 
-            <h2 className="bdrd"></h2>
-            <div className="paymentOptionsBoxHd drcChk">
-              <div className="paymentOptionsBoxCol">Contact Information</div>
+            <div className="pmntOptnBxDivid"></div>
+            <div className="pmntOptnBxHd drcChk">
+              <h3>Contact Information</h3>
+              <p>albtest5 albert</p>
+              <p>(912) 699-8908</p>
+              <p><a href="mailto:Tamal.Dutta@cobornsinc.com">Tamal.Dutta@cobornsinc.com</a></p>
               {/* <div className="paymentOptionsBoxCol">Direct Check™</div>
                     <div className="paymentOptionsBoxCol">Acct Holder Name</div>
                   <div className="paymentOptionsBoxCol">Routing Num</div>
                   <div className="paymentOptionsBoxCol">Bank Name</div> */}
-            </div>
-            <div className="paymentOptionsBoxRowSec">
-              <div className="paymentOptionsBoxRow drcChk">
-                {/* <p>
-                      Interested in paying by Direct Check? Contact our Customer
-                      Relations department at 1 (844) 414-7467 for more information.
-                    </p> */}
-              </div>
-            </div>
-            <div className="adCrtBotSec">
-              <Button
-                className="checkout-btn"
-                label="Edit Contact"
-              // onClick={CardDetails}
+              <Button className="checkout-btn" label="Edit Contact" // onClick={CardDetails}
               />
-
             </div>
-            <h2 className="bdrd"></h2>
-            <div className="paymentOptionsBoxHd">
-              <div className="paymentOptionsBoxCol">Account Address</div>
-
-            </div>
-            <div className="paymentOptionsBoxRowSec">
-
-              {address.map((data, key) => {
+            
+            <div className="pmntOptnBxDivid"></div>
+            <div className="pmntOptnBxHd">
+              <h3>Account Address</h3>
+              {address?.map((data, key) => {
                 console.log(data)
                 return <div key={key}>
-                  <div>{data.addressLine1}</div>
-                  <div>{data.city},{data.state} {data.zipCode}</div>
+                  <p>{data.addressLine1}</p>
+                  <p>{data.city},{data.state} {data.zipCode}</p>
                 </div>
               })}
-              <div className="adCrtBotSec">
-                <Button
-                  className='checkout-btn '
-                  label="Edit Address"
-                  onClick={() => navigate('/updateaccountaddress')}
-                />
+              <Button className='checkout-btn ' label="Edit Address"  onClick={() => navigate('/updateaccountaddress')}/>
+            </div>
+            <div className="paymentOptionsBoxRowSec">
 
-              </div>
+              
             </div>
           </div>
         </div>
