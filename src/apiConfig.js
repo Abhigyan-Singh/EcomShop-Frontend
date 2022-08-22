@@ -33,6 +33,7 @@ export const API = {
   replace_cart: '/action/Replace',
   merge_cart: '/action/Merge',
   default_facility: '/customer/',
+  store_locator_facilities: '/address/facilities',
   own_brand: '/productn/findownbrand',
   products_by_brand_name: '/productn/findbybrand/',
   carddetails: '/payment-option/',
