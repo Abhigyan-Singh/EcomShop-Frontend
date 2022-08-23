@@ -4,11 +4,10 @@ import { CookiesAge } from 'apiConfig';
 import { allStores } from 'services/facilities';
 import { map } from 'lodash';
 import PropTypes from 'prop-types';
-import { Transition, Popover, Dialog} from '@headlessui/react';
+import { Transition, Popover, Dialog } from '@headlessui/react';
 import Radio from 'components/radio/radio';
 import Locator from 'components/locator/locator';
 import { useNavigate } from 'react-router-dom';
-import L from 'leaflet'
 import qs from 'qs'
 import axios from 'axios'
 
@@ -27,7 +26,7 @@ export default {
 };
 
 export const StoreLocator = (props) => {
-  const { className, onFacilityChange} = props
+  const { className, onFacilityChange } = props
   const [store, setStore] = useState([null]);
   const [storeDelivery, setStoreDelivery] = useState([null]);
   const [cookies, setCookie] = useCookies();
@@ -35,14 +34,14 @@ export const StoreLocator = (props) => {
   const [selected, setSelected] = useState(facility);
   const [selectedFacility, setFacility] = useState(cookies.facility.facilityName);
   const navigate = useNavigate();
-  let timeout 
+  let timeout
   const timeoutDuration = 100
   const buttonRef = useRef(null)
   const [openState, setOpenState] = useState(false)
   const [center, setCenter] = useState([50.879, 4.6997])
   const [zoom, setZoom] = useState(11)
   // facility update
-  
+
   // update root 
 
   //
@@ -52,7 +51,7 @@ export const StoreLocator = (props) => {
       method: 'put',
       url: `http://localhost:8009/customer/${user.userName}/facility`,
       data: qs.stringify({
-          facility : facility.faciltyId
+        facility: facility.faciltyId
       }),
       headers: {
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -71,7 +70,7 @@ export const StoreLocator = (props) => {
       setStoreDelivery(res.data);
     });
   }, []);
-    
+
   const toggleMenu = (open) => {
     setOpenState((openState) => !openState)
     buttonRef?.current?.click()
@@ -88,8 +87,8 @@ export const StoreLocator = (props) => {
   }
 
   const handleClick = (open) => {
-    setOpenState(!open) 
-    clearTimeout(timeout) 
+    setOpenState(!open)
+    clearTimeout(timeout)
   }
 
   const handleClickOutside = (event) => {
@@ -112,13 +111,13 @@ export const StoreLocator = (props) => {
       path: '/',
       maxAge: CookiesAge
     });
-    if (typeof onFacilityChange === 'function') { 
+    if (typeof onFacilityChange === 'function') {
       onFacilityChange(option);
     }
   };
 
   const handleYesClick = (selected) => {
-    if ( user && selected) {
+    if (user && selected) {
       handleFacilityChange(selected)
       window.scrollTo(0, 0)
     }
@@ -133,36 +132,36 @@ export const StoreLocator = (props) => {
   useEffect(() => {
     console.log("STORE.LOCATER SELECTED", selectedFacility)
     console.log("STORE.LOCATER Cookies", cookies)
-  
-  },)
+
+  })
 
   const onChange = (option) => {
     setFacility(option.facilityDtl.facilityName)
     setSelected2(option.facilityDtl)
   }
-  
+
   useEffect(() => {
     if (!facility) {
       alert("please go back and select a store")
     }
-  }, )
+  })
 
-  
-  //'map' refers to a <div> element with the ID map
-  const map = () => {
-    window.onload = function() {
-      console.log("STARTED")
-      L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
-      var map = L.mapquest.map('map', {
-        center: [37.7749, -122.4194],
-        layers: L.mapquest.tileLayer('map'),
-        zoom: 7
-      });
-      map.addControl(L.mapquest.control());
-    }
-  }
-  
-  
+
+  // //'map' refers to a <div> element with the ID map
+  // const map = () => {
+  //   window.onload = function () {
+  //     console.log("STARTED")
+  //     L.mapquest.key = 'Gmjtd|luu2206zn9,8g=o5-lz2s1';
+  //     var map = L.mapquest.map('map', {
+  //       center: [37.7749, -122.4194],
+  //       layers: L.mapquest.tileLayer('map'),
+  //       zoom: 7
+  //     });
+  //     map.addControl(L.mapquest.control());
+  //   }
+  // }
+
+
   return (
     <div>
       <Locator preStore={selectedFacility} />
@@ -171,7 +170,7 @@ export const StoreLocator = (props) => {
 
         </div>
         <body>
-          <div id='map' style={{width: "50%", height: "530px"}}></div>
+          <div id='map' style={{ width: "50%", height: "530px" }}></div>
         </body>
         <Popover>
           {({ open }) => (
@@ -190,13 +189,13 @@ export const StoreLocator = (props) => {
               <Popover.Button
                 onMouseEnter={() => onHover(open, "onMouseEnter")}
                 onMouseLeave={() => onHover(open, "onMouseLeave")}
-                ref={buttonRef}  
+                ref={buttonRef}
                 type="button"
                 onClick={() => handleClick(open)}
-                style={{marginLeft: 15,paddingTop: 5}}
+                style={{ marginLeft: 15, paddingTop: 5 }}
                 className="bg-white text-sm font-medium text-black hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
               >
-                What does preferred store mean? 
+                What does preferred store mean?
               </Popover.Button>
               <Transition
                 show={open}
@@ -208,7 +207,7 @@ export const StoreLocator = (props) => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <Popover.Panel  
+                <Popover.Panel
                   static
                   className="relative -ml-0 mt-1"
                   style={{ zIndex: 9999 }}>
@@ -232,171 +231,171 @@ export const StoreLocator = (props) => {
             </div>
           )}
         </Popover>
+      </div>
+      <div>
+        <div style={{ paddingLeft: 20, paddingBottom: 10 }}>
+          DELIVERY SERVICE
         </div>
-          <div>
-            <div style={{ paddingLeft: 20, paddingBottom: 10 }}>
-              DELIVERY SERVICE
-            </div>
-            {storeDelivery &&
-              map(storeDelivery.facilitiesDeliveryOrPickup, (option, index) => (
-                <Radio
-                  className="mb-4"
-                  id="checkbox-1"
-                  key={option.facilityDtl.facilityName}
-                  label={option.facilityDtl.facilityName}
-                  style={{ paddingBottom: 10, marginLeft: 50, paddingTop: 5 }}
-                  checked={option.facilityDtl.facilityName == selectedFacility}
-                  onChange={() => onChange(option)}
-                />
-              ))}
-          </div>
-          <div>
-            <div style={{ paddingLeft: 20, paddingBottom: 10 }}>
-              STORE PICK UP SERVICE
-            </div>
-            {store &&
-              map(store.facilitiesPickup, (option, index) => (
-                <Radio
-                  className="mb-4"
-                  id="checkbox-1"
-                  key={option.facilityDtl.facilityName}
-                  label={option.facilityDtl.facilityName}
-                  style={{ paddingBottom: 10, marginLeft: 50, fontWeight: 'bold'}}
-                  checked={option.facilityDtl.facilityName == selectedFacility}
-                  onChange={() => onChange(option)}
-                />
-              ))}
-          </div>
-          <div >
-          <>
-            <div style={{paddingBottom: 20, paddingLeft: 10 }} className="flex justify-left">  
+        {storeDelivery &&
+          map(storeDelivery.facilitiesDeliveryOrPickup, (option, index) => (
+            <Radio
+              className="mb-4"
+              id="checkbox-1"
+              key={option.facilityDtl.facilityName}
+              label={option.facilityDtl.facilityName}
+              style={{ paddingBottom: 10, marginLeft: 50, paddingTop: 5 }}
+              checked={option.facilityDtl.facilityName == selectedFacility}
+              onChange={() => onChange(option)}
+            />
+          ))}
+      </div>
+      <div>
+        <div style={{ paddingLeft: 20, paddingBottom: 10 }}>
+          STORE PICK UP SERVICE
+        </div>
+        {store &&
+          map(store.facilitiesPickup, (option, index) => (
+            <Radio
+              className="mb-4"
+              id="checkbox-1"
+              key={option.facilityDtl.facilityName}
+              label={option.facilityDtl.facilityName}
+              style={{ paddingBottom: 10, marginLeft: 50, fontWeight: 'bold' }}
+              checked={option.facilityDtl.facilityName == selectedFacility}
+              onChange={() => onChange(option)}
+            />
+          ))}
+      </div>
+      <div >
+        <>
+          <div style={{ paddingBottom: 20, paddingLeft: 10 }} className="flex justify-left">
             <button
-                type="button"
-                onClick={() => {
-                  navigate('/')
-                  window.scrollTo(0, 0)
-                  setIsOpen(false)
-                }}
-                style={{
-                  width: 190,
-                  height: 40,
-                  borderRadius: 7, 
-                  backgroundColor: '#9ac035',
-                  borderColor: '#9ac035',
-                  borderWidth: 3,
-                  fontSize: 20,
-                  marginLeft: 10
-                }}>Cancel
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  handleSaveClick()
-                }}
-                style={{
-                  width: 190,
-                  height: 40,
-                  borderRadius: 7, 
-                  backgroundColor: '#9ac035',
-                  borderColor: '#9ac035',
-                  borderWidth: 3,
-                  fontSize: 20,
-                  marginLeft: 30
-                }}>Save
-              </button>
-            </div>
-            <Transition.Root appear show={isOpen} as={Fragment}>
-              <Dialog
-                as="div" 
-                className="relative z-10" 
-                onClose={() => setIsOpen(false)}>
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-25" />
-                </Transition.Child>
-                <div className="fixed inset-0 overflow-y-auto">
-                  <div className="flex min-h-full items-center justify-center p-4 text-center">
-                    <Transition.Child
-                      as={Fragment}
-                      enter="ease-out duration-300"
-                      enterFrom="opacity-0 scale-95"
-                      enterTo="opacity-100 scale-100"
-                      leave="ease-in duration-200"
-                      leaveFrom="opacity-100 scale-100"
-                      leaveTo="opacity-0 scale-95"
-                    >
-                      <Dialog.Overlay className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                        <Dialog.Title
-                            as="h3"
-                            className="text-lg font-medium leading-6 text-gray-900"
-                          >
-                            Save Successful
-                        </Dialog.Title>
-                        <div>
-                            <p className="text-sm text-gray-500">
-                                Your account change has been saved.
-                                Do you want to navigate to your new preferred store now?
-                            </p>
-                          </div>
-                          <div
-                             style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                            }} >
-                            <button
-                            onClick={() => {
-                              setIsOpen(false)
-                              window.scrollTo(0, 0)
-                            }}
-                            style={{
+              type="button"
+              onClick={() => {
+                navigate('/')
+                window.scrollTo(0, 0)
+                setIsOpen(false)
+              }}
+              style={{
+                width: 190,
+                height: 40,
+                borderRadius: 7,
+                backgroundColor: '#9ac035',
+                borderColor: '#9ac035',
+                borderWidth: 3,
+                fontSize: 20,
+                marginLeft: 10
+              }}>Cancel
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                handleSaveClick()
+              }}
+              style={{
+                width: 190,
+                height: 40,
+                borderRadius: 7,
+                backgroundColor: '#9ac035',
+                borderColor: '#9ac035',
+                borderWidth: 3,
+                fontSize: 20,
+                marginLeft: 30
+              }}>Save
+            </button>
+          </div>
+          <Transition.Root appear show={isOpen} as={Fragment}>
+            <Dialog
+              as="div"
+              className="relative z-10"
+              onClose={() => setIsOpen(false)}>
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-25" />
+              </Transition.Child>
+              <div className="fixed inset-0 overflow-y-auto">
+                <div className="flex min-h-full items-center justify-center p-4 text-center">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <Dialog.Overlay className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-gray-900"
+                      >
+                        Save Successful
+                      </Dialog.Title>
+                      <div>
+                        <p className="text-sm text-gray-500">
+                          Your account change has been saved.
+                          Do you want to navigate to your new preferred store now?
+                        </p>
+                      </div>
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }} >
+                        <button
+                          onClick={() => {
+                            setIsOpen(false)
+                            window.scrollTo(0, 0)
+                          }}
+                          style={{
                             width: 190,
                             height: 40,
-                            borderRadius: 7, 
+                            borderRadius: 7,
                             backgroundColor: '#9ac035',
                             borderColor: '#9ac035',
                             borderWidth: 3,
                             fontSize: 20,
                             marginTop: 20
 
-                            }}>
-                              NO
-                          </button>
-                          <button
-                            onClick={() => {
-                              handleYesClick(selected2)
-                              setIsOpen(false)
-                              navigate("/")
-                            }}
-                            style={{
-                              width: 190,
-                              height: 40,
-                              borderRadius: 7, 
-                              backgroundColor: '#9ac035',
-                              borderColor: '#9ac035',
-                              borderWidth: 3,
-                              fontSize: 20,
-                              marginLeft: 20,
-                              marginTop: 20
-                            }}>
-                              YES
-                            </button>
-                          </div>
-                      </Dialog.Overlay>
-                    </Transition.Child>
-                  </div>
+                          }}>
+                          NO
+                        </button>
+                        <button
+                          onClick={() => {
+                            handleYesClick(selected2)
+                            setIsOpen(false)
+                            navigate("/")
+                          }}
+                          style={{
+                            width: 190,
+                            height: 40,
+                            borderRadius: 7,
+                            backgroundColor: '#9ac035',
+                            borderColor: '#9ac035',
+                            borderWidth: 3,
+                            fontSize: 20,
+                            marginLeft: 20,
+                            marginTop: 20
+                          }}>
+                          YES
+                        </button>
+                      </div>
+                    </Dialog.Overlay>
+                  </Transition.Child>
                 </div>
-              </Dialog>
-            </Transition.Root>
-          </>
-        </div>
+              </div>
+            </Dialog>
+          </Transition.Root>
+        </>
+      </div>
     </div>
   );
 };
@@ -406,7 +405,7 @@ StoreLocator.propTypes = {
 };
 
 StoreLocator.defaultProps = {
-  onFacilityChange: () => {}
+  onFacilityChange: () => { }
 };
 
 
