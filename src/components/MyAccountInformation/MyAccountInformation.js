@@ -60,8 +60,8 @@ export default function MyAccountInformation() {
       <div>
         <div className="header-gray margin-20px-btm">
           <a
-            href="/Checkout"
-          // onclick="skipLeaveMessageWindow();"
+            href="/myAccount"
+          
           >
             <b>My Account</b>
           </a>
@@ -72,15 +72,13 @@ export default function MyAccountInformation() {
         </div>
         <div className="paymentOptionsBoxOuter">
           <div className="paymentOptionsBox poBxSec">
-            <h2>USER NAME { }</h2>
+            <h2>USER NAME { cookies.userName}</h2>
             <div className="pmntOptnBxHd">
               <h3>Password</h3>
               <p>**********</p>
-              {/* <div className="paymentOptionsBoxCol">Credit Card</div>
-                  <div className="paymentOptionsBoxCol">Name on Card</div>
-                  <div className="paymentOptionsBoxCol">Expiration</div> */}
-              <Button className="checkout-btn" label="Edit Password" // onClick={CardDetails}
-              />
+              
+              <Button className="checkout-btn" label="Edit Password" 
+              onClick={() => navigate('/gotochangepassword')}  />
             </div>
 
             <div className="pmntOptnBxDivid"></div>
@@ -89,11 +87,8 @@ export default function MyAccountInformation() {
               <p>albtest5 albert</p>
               <p>(912) 699-8908</p>
               <p><a href="mailto:Tamal.Dutta@cobornsinc.com">Tamal.Dutta@cobornsinc.com</a></p>
-              {/* <div className="paymentOptionsBoxCol">Direct Check™</div>
-                    <div className="paymentOptionsBoxCol">Acct Holder Name</div>
-                  <div className="paymentOptionsBoxCol">Routing Num</div>
-                  <div className="paymentOptionsBoxCol">Bank Name</div> */}
-              <Button className="checkout-btn" label="Edit Contact" // onClick={CardDetails}
+          
+              <Button className="checkout-btn" label="Edit Contact"  onClick={()=>navigate('/contactInformation/edit', )}
               />
             </div>
             
@@ -115,18 +110,7 @@ export default function MyAccountInformation() {
             </div>
           </div>
         </div>
-        {/* <div className="button-box m-lss">
-              <Button
-                className="checkout-btn left"
-                label="CANCEL"
-                // onClick={returnToCheckout}
-              />
-              <Button
-                className="checkout-btn hard-right"
-                label="SAVE CHANGES"
-                // onClick={returnToCheckout}
-              />
-            </div> */}
+       
       </div>
     </div>
   );

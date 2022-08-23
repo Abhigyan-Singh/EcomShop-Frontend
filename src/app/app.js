@@ -28,6 +28,7 @@ import ScrollToTop from 'ScrollToTop.js/ScrollToTop';
 import MyAccount from 'components/myAccount/MyAccount';
 import MyAccountInformation from 'components/MyAccountInformation/MyAccountInformation';
 import UpdateAccountAddress from 'components/updateAddress/updateaccountaddress';
+import ChangePassword from 'components/changePassword/changePassword';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -222,6 +223,12 @@ const App = () => {
           <CheckoutReview isAuthenticated={isAuthenticated} logout={onLogout} />
         )
       },{
+        path: 'contactInformation/edit',
+        element: (
+          <ContactInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
         path: 'contactInformation',
         element: (
           <ContactInformation isAuthenticated={isAuthenticated} logout={onLogout} />
@@ -257,6 +264,12 @@ const App = () => {
         path: 'updateaccountaddress',
         element: (
           <UpdateAccountAddress isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'gotochangepassword',
+        element: (
+          <ChangePassword isAuthenticated={isAuthenticated} logout={onLogout} />
         )
       }
     ]);

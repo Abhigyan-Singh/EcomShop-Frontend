@@ -25,6 +25,7 @@ export const AddressWeekdays = () => {
 export const AddressopeningHours = (subRouteId) => {
   return apiClient.get(config.baseUrl + API.openingHours + subRouteId);
 };
-export const updateAccount = (name,payload) => {
-  return apiClient.put(config.baseUrl + API.update_account + name,payload);
+export const updateAccount = (name, payload) => {
+  console.log(config.baseUrl + API.update_account + name);
+  return apiClient.put(config.baseUrl + API.update_account + name, payload);
 };

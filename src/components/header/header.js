@@ -1397,7 +1397,7 @@ const Header = (props) => {
           </div>
         </header>
       ) : (
-        <HeaderInner />
+        <HeaderInner onClick={props.logout} />
       )}
     </>
   );

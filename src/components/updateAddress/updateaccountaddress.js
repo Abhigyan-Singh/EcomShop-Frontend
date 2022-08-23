@@ -1,23 +1,17 @@
 import React, {
-    Fragment,
     useState,
     useEffect,
-    useCallback,
-    useRef
 } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate,  } from 'react-router-dom';
 import './updateaccountaddress.css';
-import Button from 'components/button/button';
 import { useCookies } from 'react-cookie';
+import { Cookies } from 'react-cookie';
 import {
     addressDetails, StateArray, BuildingsArray, AddressValidation, getdeliveryaddress, AddressWeekdays,
     AddressopeningHours, updateAccount
 } from 'services/myAccountapi';
-import { userInfoService } from 'services/auth';
-import { CartState } from '../../context/context';
-import Checkbox from 'components/checkbox/checkbox';
+import axios from 'axios'
 import AddressModal from 'components/verifyAddress/addressModal';
-import Radio from 'components/radio/radio';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -28,7 +22,7 @@ let response;
 let body;
 let globalVar = null;
 let subRouteId;
-
+let jwt;
 export default function UpdateAccountAddress() {
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
@@ -45,6 +39,7 @@ export default function UpdateAccountAddress() {
     const [typeOfHome, settypeOfHome] = useState('')
     const [isdeliveryAddress, setisdeliveryAddress] = useState(false);
     const [isaddress, setisaddress] = useState(true);
+    const [updateSuccess,setupdateSuccess]  = useState(false);
     const [deliveryAddressArray, setdeliveryAddressArray] = useState([]);
     const [openmodal, setopenmodal] = useState(false);
     const [checkLocation, setLocation] = useState('');
@@ -58,6 +53,7 @@ export default function UpdateAccountAddress() {
     const [DateNTime, setDateNTime] = useState('');
     const [showDateNTime, setshowDateNTime] = useState(false);
     const [Instruction, setInstruction] = useState('');
+    const cookie = new Cookies();
     const Days = [
         { code: 1, name: "Sunday" },
         { code: 2, name: "Monday" },
@@ -72,8 +68,10 @@ export default function UpdateAccountAddress() {
             getData(cookies.userName)
             StategetData(cookies.FacilityId)
             Building_getData()
+
         }
 
+        jwt = cookie.get('user');
 
     }, [cookies.userName, cookies.FacilityId]);
     useEffect(() => {
@@ -126,6 +124,7 @@ export default function UpdateAccountAddress() {
 
         if (globalVar != null) {
             setisaddress(false)
+            setupdateSuccess(false)
             setisdeliveryAddress(true)
             getdeliveryPickup(body)
         } else checkaddress(body)
@@ -140,6 +139,7 @@ export default function UpdateAccountAddress() {
                 globalVar = 1;
                 setisaddress(false)
                 setisdeliveryAddress(true)
+                setupdateSuccess(false)
                 getdeliveryPickup(body)
             } else {
                 globalVar = 0;
@@ -168,6 +168,7 @@ export default function UpdateAccountAddress() {
             // console.log(res.data.data);
             globalVar = value;
             setopenmodal(false)
+            
 
         })
     }
@@ -216,9 +217,24 @@ export default function UpdateAccountAddress() {
         }
         console.log(Body);
         // updateAccount(cookies.userName,Body).then((res) => {
-        //     // console.log(res.data.data);
+        //     console.log(res.data.data);
 
         // })
+
+        const headers = {
+            // 'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+            'Authorization': 'Bearer ' + jwt.token,
+
+        };
+        axios.put(`http://localhost:8009/address/validate-and-update/${cookies.userName}`, Body, { headers })
+            .then(res => {
+                console.log(res.data.data)
+                if (res.data.success == 1) {
+                    setisdeliveryAddress(false);
+                    setisaddress(false);
+                    setupdateSuccess(true)
+                }
+            })
     }
     return (
         <div className="wrapper" >
@@ -294,7 +310,7 @@ export default function UpdateAccountAddress() {
                             </div>
                         </div>
                     </div>
-                    {isaddress == true &&
+                    {(isaddress == true && updateSuccess == false) &&
                         <>
                             <div className="change-address-box">
                                 <div className="change-address-header">
@@ -312,13 +328,13 @@ export default function UpdateAccountAddress() {
                                 <div className="pad margin-20px-btm">
                                     Required fields are marked with an asterisk.
                                 </div>
-                                <div className="pad margin-5px-btm">
+                                <div className="pad margin-5px-btm actAdrss">
                                     <div className="f-sign-up__validation-directive">
                                         <label htmlFor="delivery-area__street" className="f-sign-up__label">
                                             <span className="asterisk">*</span> Street Address
                                         </label>
                                         <input id="delivery-area__street" name="streetAddress" className="f-sign-up__field required-field"
-                                            type="text" autofocus="autofocus" maxlength="45"
+                                            type="text" autoFocus="autofocus" maxlength="45"
                                             value={street}
                                             onChange={(event) => setStreet(event.target.value)}
                                         // onKeyUp={(event) => { if (!!event.key) SetcvvValid(false) }}
@@ -332,7 +348,7 @@ export default function UpdateAccountAddress() {
                                     </div>
                                 </div>
 
-                                <div className="pad margin-5px-btm">
+                                <div className="pad margin-5px-btm actAdrss">
                                     <div className="f-sign-up__validation-directive">
                                         <label htmlFor="delivery-area__unit" className="f-sign-up__label">
                                             Unit / Apt. # <span className="optional">(Optional)</span>
@@ -348,13 +364,13 @@ export default function UpdateAccountAddress() {
                                     </div>
                                 </div>
 
-                                <div className="pad margin-5px-btm">
+                                <div className="pad margin-5px-btm actAdrss">
                                     <div className="f-sign-up__validation-directive">
                                         <label htmlFor="delivery-area__city" className="f-sign-up__label">
                                             <span className="asterisk">*</span> City
                                         </label>
                                         <input id="delivery-area__city" name="city" className="f-sign-up__field required-field"
-                                            type="text" autofocus="autofocus" maxlength="50"
+                                            type="text" autoFocus="autofocus" maxlength="50"
                                             value={city}
                                             onChange={(event) => setcity(event.target.value)} />
                                         <span className="f-sign-up__error-msg _required delivery-area__city">
@@ -366,7 +382,7 @@ export default function UpdateAccountAddress() {
                                     </div>
                                 </div>
 
-                                <div className="pad margin-5px-btm inline-block" style={{ width: '100%' }}>
+                                <div className="pad margin-5px-btm inline-block actAdrss" style={{ width: '100%' }}>
                                     <div className="half-block left">
                                         <label htmlFor="delivery-area__state-styler" className="f-sign-up__label">
                                             <span className="asterisk">*</span> State1
@@ -446,7 +462,7 @@ export default function UpdateAccountAddress() {
                                 </div>
 
 
-                                <div className="pad margin-5px-btm inline-block" style={{ width: '100%' }}>
+                                <div className="pad margin-5px-btm inline-block actAdrss" style={{ width: '100%' }}>
                                     <div className="f-sign-up__validation-directive">
                                         <label htmlFor="delivery-area__type-styler" className="f-sign-up__label" data-placeholder="Please select">
                                             <span className="asterisk">*</span> Type of <span className="customerTypeLabel">Home</span>
@@ -493,10 +509,10 @@ export default function UpdateAccountAddress() {
                                 </div>
 
 
-                                <div className="pad margin-5px-btm">
+                                <div className="pad margin-5px-btm actAdrss">
                                     <div id="showDiv" className="b-info-tooltip margin-20px-btm auto-all" style={{ position: 'relative', width: '100%' }}>
                                         <div className="b-info-tooltip__title auto-all">To-the-Door Delivery</div>
-                                        <button className="close-classic" onclick="hideDiv()"></button>
+                                        <button className="close-classic" ></button>
                                         <div className="b-info-tooltip__subtitle auto-all">(This option is available in most apartment buildings)</div>
                                         <div className="b-info-tooltip__visivig margin-20px-btm auto-all">
                                             <p>Groceries are delivered directly to your individual apartment.
@@ -567,7 +583,7 @@ export default function UpdateAccountAddress() {
                             </div>
                         </>
                     }
-                    {isdeliveryAddress == true &&
+                    {(isdeliveryAddress == true && updateSuccess == false) &&
                         <div id="preference-area" className="active-block">
                             <div className="change-address-box inline-block">
                                 <div className="change-address-header">
@@ -805,7 +821,7 @@ export default function UpdateAccountAddress() {
                                                         {Days.map(days => {
                                                             return (
                                                                 <div className="accorSec">
-                                                                    <Accordion onClick={(event) => { event.preventDefault(); timeDetails(days.code); setSelctedDay(days.code) }}>
+                                                                    <Accordion >
                                                                         <AccordionSummary
                                                                             expandIcon={<ExpandMoreIcon />}
                                                                             aria-controls="panel1a-content"
@@ -928,6 +944,40 @@ export default function UpdateAccountAddress() {
                                 </button>
                             </div>
                         </div>
+                    }
+                    {(isdeliveryAddress == false && isaddress == false && updateSuccess == true) &&
+                        <>
+                            <div className="f-sign-up__form col-md-10 col-md-offset-1 pl-pr-lss clearfix">
+                                <div id="customer-address-update-successfully" >
+                                    <div className="change-address-box inline-block">
+                                        <div className="change-address-header">
+                                            <div className="f-sign-up _first-step clearfix clear-both" style={{ background: 'transparent' }}>
+                                                <div className="f-sign-up__step-title left cursor-auto" style={{ cursor: 'default' }}>
+                                                    ACCOUNT ADDRESS
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="change-address-header">
+                                            <div className="f-sign-up _second-step clearfix clear-both" style={{ background: 'transparent' }}>
+                                                <div className="f-sign-up__step-title left cursor-auto" style={{ cursor: 'default' }}>
+                                                    DELIVERY OR PICK UP PREFERENCE
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="f-sign-up__form-top _margin-bottom-10 col-md-12">
+                                            <p className="f-sign-up__text success-block-message top-margin">
+                                                Customer Address Updated Successfully
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="success-block-button top-margin">
+                                        <button id="start-shopping" name="CreateAccountBtn" onClick={() => navigate('/')} className="f-sign-up__btn js-create-account _step-3-next-btn">
+                                            Start Shopping
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
                     }
                 </div>
             </div>

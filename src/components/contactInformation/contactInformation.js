@@ -9,7 +9,10 @@ import PropTypes from 'prop-types';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './contactInformation.css';
 import Button from 'components/button/button';
+import { useCookies } from 'react-cookie';
 export default function ContactInformation(props) {
+  var path = window.location.pathname;
+  console.log(path);
   const {
     className,
     defaultValue,
@@ -57,6 +60,8 @@ export default function ContactInformation(props) {
   const [Reenteremailvalidation, setReenteremailValidation] = useState(false);
   const [IncurrectREemailValidation, setIncurrectREemailvalidation] =
     useState(false);
+    const [cookies, setCookie] = useCookies();
+    const { } = cookies;
   const salutation = [
     { value: 'Mr', name: 'Mr' },
     { value: 'Mrs', name: 'Mrs' },
@@ -93,6 +98,11 @@ export default function ContactInformation(props) {
     setemail(contactDetails.email);
     setReenteremail(contactDetails.email);
   }, []);
+  useEffect(() => {
+
+   
+}, [cookies.userName,]);
+
   const returnToCheckout = () => {
     navigate('/Checkout');
   };
@@ -165,27 +175,35 @@ export default function ContactInformation(props) {
   };
   return (
     <div className="wrapper">
-      <div className="s-checkout__top mbot-1">
-        <div className="container">
-          <div className="b-step headMid d-flex">
-            <span className="b-step__title">Checkout - Review Information</span>
-            <div className="nmbr">
-              <span className="l-steps__count">1</span>
-              <span className="b-step__count">2</span>
-              <span className="l-steps__count">3</span>
+      {path != '/contactInformation/edit' &&
+        <>
+          <div className="s-checkout__top mbot-1">
+            <div className="container">
+              <div className="b-step headMid d-flex">
+                <span className="b-step__title">Checkout - Review Information</span>
+                <div className="nmbr">
+                  <span className="l-steps__count">1</span>
+                  <span className="b-step__count">2</span>
+                  <span className="l-steps__count">3</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="header-gray margin-20px-btm">
-        <a
-          href="/Checkout"
-          // onclick="skipLeaveMessageWindow();"
-        >
-          <b>Checkout</b>
-        </a>
-        &gt; Contact Information
-      </div>
+          <div className="header-gray margin-20px-btm">
+            <a
+              href="/Checkout"
+            // onclick="skipLeaveMessageWindow();"
+            >
+              <b>Checkout</b>
+            </a>
+            &gt; Contact Information
+          </div>
+        </>
+      }
+      {path == '/contactInformation/edit' &&
+        <div className="header-gray"><a href="/myAccount">My Account</a> &gt;
+          <a href="/myaccountinformation">Account &amp; Password</a> &gt; Contact Information</div>
+      }
       <div className="cnInfHead">
         <h2>Contact Information</h2>
         <p>
@@ -195,7 +213,7 @@ export default function ContactInformation(props) {
       </div>
       <div className="contactInfoBox">
         <div className="contactInfoBoxHeader">
-          USER NAME <span>EBTALB2</span>
+          USER NAME <span>{cookies.userName}</span>
         </div>
         <div className="contactInfoBoxRow">
           <div
@@ -559,7 +577,7 @@ export default function ContactInformation(props) {
                 value={Reenteremail}
                 onChange={(event) => {
                   // if (email == event.target.value)
-                    setReenteremail(event.target.value);
+                  setReenteremail(event.target.value);
                 }}
                 onKeyUp={(event) => {
                   if (!!event.key) setIncurrectREemailvalidation(false);
