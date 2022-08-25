@@ -29,6 +29,10 @@ import MyAccount from 'components/myAccount/MyAccount';
 import MyAccountInformation from 'components/MyAccountInformation/MyAccountInformation';
 import UpdateAccountAddress from 'components/updateAddress/updateaccountaddress';
 import ChangePassword from 'components/changePassword/changePassword';
+import { userInfoService } from 'services/auth';
+import { CookiesAge } from 'apiConfig';
+import useCart from 'services/addtocart';
+import { CartState } from 'context/context';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -45,7 +49,7 @@ const App = () => {
   //const location = Geolocation();
   const { facility, dept, user, userInfo, subdept } = cookies;
   // const { dispatchUser } = CartState();
-  // const { getCartDetails } = useCart();
+  const { getCartDetails } = useCart();
   const [store, setStore] = useState(facility);
   const [depart, setDepart] = useState(dept);
   const [gridView, setGridView] = useState(true);
@@ -56,8 +60,30 @@ const App = () => {
   const [inputCheck, setInputCheck] = useState(() => {
     const saved = localStorage.getItem("input");
     const initialValue = JSON.parse(saved);
-    return initialValue || null;  
+    return initialValue || null;
   })
+  const { dispatchUser, favorites } = CartState();
+
+  useEffect(() => {
+    userInfoService().then((userRes) => {
+
+      if (userRes.data) {
+        setCookie('userInfo', userRes.data, {
+          path: '/',
+          maxAge: CookiesAge
+        });
+        setCookie('facility', userRes.data.facility, {
+          path: '/',
+          maxAge: CookiesAge
+        });
+        dispatchUser({
+          type: 'SET_USER',
+          payload: { userName: userRes.data.userName }
+        });
+        getCartDetails(userRes.data.userName);
+      }
+    })
+  }, [])
 
   useEffect(() => {
     const { user } = cookies;
@@ -107,6 +133,10 @@ const App = () => {
     removeCookie('user');
     removeCookie('userInfo');
     setIsAuthenticated(false);
+    dispatchUser({
+      type: 'SET_USER',
+      payload: null
+    });
   };
 
   const onStoreChange = (storeSel) => {
@@ -121,11 +151,11 @@ const App = () => {
   const onSubDeptChange = (substoreDept) => {
     setSubdepart(substoreDept);
   };
-  
+
   function refreshPage() {
     window.location.reload(false);
   }
-  
+
   const handleInputCheck = (input) => {
     setInputCheck(input)
     localStorage.setItem("input", input)
@@ -222,7 +252,7 @@ const App = () => {
         element: (
           <CheckoutReview isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      },{
+      }, {
         path: 'contactInformation/edit',
         element: (
           <ContactInformation isAuthenticated={isAuthenticated} logout={onLogout} />
@@ -233,22 +263,22 @@ const App = () => {
         element: (
           <ContactInformation isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      },{
+      }, {
         path: 'checkoutPayment',
         element: (
           <CheckoutPaymentInformation isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      },{
+      }, {
         path: 'deliverySlot',
         element: (
           <DeliverySlot isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      },{
+      }, {
         path: 'pleaseWait',
         element: (
           <PleaseWait isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      },{
+      }, {
         path: 'myAccount',
         element: (
           <MyAccount isAuthenticated={isAuthenticated} logout={onLogout} />
