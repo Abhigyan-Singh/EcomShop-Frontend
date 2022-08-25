@@ -11,11 +11,15 @@ import '../checkoutPaymentInformation/checkoutPaymentInformation.css';
 import './MyAccountInformation.css'
 import Button from 'components/button/button';
 import { useCookies } from 'react-cookie';
-import { addressDetails } from 'services/myAccountapi';
+import { addressDetails ,ChangeInfo} from 'services/myAccountapi';
 import { userInfoService } from 'services/auth';
 import { CartState } from '../../context/context';
 
-
+let firstName;
+let MiddleName;
+let LastName;
+let phnumber;
+let Email;
 export default function MyAccountInformation() {
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies();
@@ -31,7 +35,17 @@ export default function MyAccountInformation() {
     if (!!cookies.userName) {
       getData(cookies.userName)
     }
-    
+    ChangeInfo(cookies.userName).then((resp) => {
+      console.log(resp.data.data)
+      let res =resp.data.data;
+      if (resp.data.success == 1) {
+        firstName =res.firstname;
+        MiddleName=res.middlename;
+        LastName=res.lastname;
+        phnumber=res.primaryphone;
+        Email=res.email;
+      }
+    })
 
   }, [cookies.userName]);
   const getData = (name) => {
@@ -84,9 +98,9 @@ export default function MyAccountInformation() {
             <div className="pmntOptnBxDivid"></div>
             <div className="pmntOptnBxHd drcChk">
               <h3>Contact Information</h3>
-              <p>albtest5 albert</p>
-              <p>(912) 699-8908</p>
-              <p><a href="mailto:Tamal.Dutta@cobornsinc.com">Tamal.Dutta@cobornsinc.com</a></p>
+              <p>{firstName} {MiddleName} {LastName}</p>
+              <p>{phnumber}</p>
+              <p><a href={`mailto:${Email}`}>{Email}</a></p>
           
               <Button className="checkout-btn" label="Edit Contact"  onClick={()=>navigate('/contactInformation/edit', )}
               />

@@ -1,0 +1,9 @@
+table img {
+    max-width: none;
+}
+img {
+    border: 0px;
+}
+img, picture {
+    margin: 0;
+}

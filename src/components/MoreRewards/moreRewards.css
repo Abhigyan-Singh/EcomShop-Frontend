@@ -1,0 +1,53 @@
+.more-rewards-image {
+    height: 70px;
+    padding-left: 40px;
+}
+
+img {
+    border: 0px;
+}
+img, picture {
+    margin: 0;
+}
+.display-block {
+    display: block;
+}
+
+.float-left {
+    float: left;
+}
+*, ::after, ::before {
+    box-sizing: inherit;
+}
+.clear-both {
+    clear: both;
+}
+
+*, ::after, ::before {
+    box-sizing: inherit;
+}
+p {
+    margin: 0;
+    padding: 0;
+}
+a {
+    color: #2c6b2c;
+    font-size: inherit;
+    text-decoration: none;
+    transition: color 150ms ease;
+}
+.inline-block {
+    display: inline-block;
+}
+.more-rewards-input {
+    width: 55px;
+    border-radius: 0;
+}
+
+.inline-block {
+    display: inline-block;
+}
+.more-rewards-div {
+    padding-top: 10px;
+    padding-left: 5px;
+}

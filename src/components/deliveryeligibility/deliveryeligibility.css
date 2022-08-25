@@ -1,0 +1,14 @@
+
+element.style {
+}
+button, select, textarea {
+    line-height: inherit;
+}
+textarea {
+    overflow: auto;
+}
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+}

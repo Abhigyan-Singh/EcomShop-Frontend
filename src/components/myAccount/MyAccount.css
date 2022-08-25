@@ -38,3 +38,60 @@ a {
 @media(max-width: 1320px){
     .myAccountSec {padding-bottom: 30px;}
 }
+
+[type=reset], [type=submit], button, html [type=button] {
+    -webkit-appearance: button;
+}
+.btn_big_def {
+    background-image: url(../../assets/images/big.gif);
+    background-size: 100% 100%;
+    width: 210px !important;
+    height: 36px !important;
+    font-family: Arial,sans-serif;
+   
+    font-weight: 400 !important;
+    border: 0 !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    text-align: center;
+    cursor: pointer;
+    color: #ffffff !important;
+    display: inline-block;
+}
+input, select, textarea {
+    display: block;
+    font-size: 1em;
+}
+.bsw-btn, .bsw-quantity-selector button, body, input, select, textarea {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+button, input, select, textarea {
+    font: inherit;
+    margin: 0;
+}
+button, hr, input {
+    overflow: visible;
+}
+table img {
+    max-width: none;
+}
+
+img {
+    border: 0px;
+}
+img, picture {
+    margin: 0;
+}
+TD {
+    border-width: 0;
+    font-family: Verdana,Helvetica,Arial;
+    font-size: 14px;
+    text-decoration: none;
+}
+.tableGreenSeparatorVertical {
+    width: 2px;
+    background-color: #0D791E;
+}
+.banner1 {
+    display: none;
+}

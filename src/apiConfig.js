@@ -48,7 +48,7 @@ export const API = {
   weekdays:'/address/weekdays',
   openingHours:'/address/opening-hours/',
   update_account:'address/validate-and-update/',
-  
+  changeInfo:'/user/change-information/',
 };
 
 export const CookiesAge = 604800;

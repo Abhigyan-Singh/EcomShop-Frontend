@@ -74,7 +74,7 @@ export default function ChangePassword() {
                 const headers = { 'Authorization': 'Bearer ' + jwt.token, };
                 axios.put(`http://localhost:8009/user/change-password/${cookies.userName}`, Body, { headers })
                     .then(res => {
-                        console.log(res.data.data)
+                        // console.log(res.data.data)
                         if (res.data.success == 1) {
                             navigate('/myaccountinformation')
                         }

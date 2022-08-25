@@ -26,6 +26,12 @@ export const AddressopeningHours = (subRouteId) => {
   return apiClient.get(config.baseUrl + API.openingHours + subRouteId);
 };
 export const updateAccount = (name, payload) => {
-  console.log(config.baseUrl + API.update_account + name);
+ // console.log(config.baseUrl + API.update_account + name);
   return apiClient.put(config.baseUrl + API.update_account + name, payload);
 };
+
+// ----------Contact info -----------------
+export const ChangeInfo = (name) => {
+  return apiClient.get(config.baseUrl + API.changeInfo + name);
+};
+

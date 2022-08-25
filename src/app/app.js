@@ -29,6 +29,13 @@ import MyAccount from 'components/myAccount/MyAccount';
 import MyAccountInformation from 'components/MyAccountInformation/MyAccountInformation';
 import UpdateAccountAddress from 'components/updateAddress/updateaccountaddress';
 import ChangePassword from 'components/changePassword/changePassword';
+import DeliveryEligibility from 'components/deliveryeligibility/deliveryeligibility';
+import CustomerdeliveryDayandTime from 'components/customerdeliverydayandtime/customerdeliverydayandtime';
+import DeliveryNotesInstructions from 'components/deliverynotesInstructions/deliveryNotesInstructions';
+import ShowCommunicationPreferences from 'components/showCommunicationPreferences/showcommunicationpreferences';
+import ShowOrderHistory from 'components/showorderhistory/showOrderHistory';
+import DisplayClubPreferences from 'components/displayClubPreferences/displayClubPreferences';
+import MoreRewards from 'components/MoreRewards/moreRewards';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -56,7 +63,7 @@ const App = () => {
   const [inputCheck, setInputCheck] = useState(() => {
     const saved = localStorage.getItem("input");
     const initialValue = JSON.parse(saved);
-    return initialValue || null;  
+    return initialValue || null;
   })
 
   useEffect(() => {
@@ -121,11 +128,11 @@ const App = () => {
   const onSubDeptChange = (substoreDept) => {
     setSubdepart(substoreDept);
   };
-  
+
   function refreshPage() {
     window.location.reload(false);
   }
-  
+
   const handleInputCheck = (input) => {
     setInputCheck(input)
     localStorage.setItem("input", input)
@@ -222,7 +229,7 @@ const App = () => {
         element: (
           <CheckoutReview isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      },{
+      }, {
         path: 'contactInformation/edit',
         element: (
           <ContactInformation isAuthenticated={isAuthenticated} logout={onLogout} />
@@ -233,22 +240,28 @@ const App = () => {
         element: (
           <ContactInformation isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      },{
+      }, {
         path: 'checkoutPayment',
         element: (
           <CheckoutPaymentInformation isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      },{
+      }, {
+        path: 'viewpaymentinfo',
+        element: (
+          <CheckoutPaymentInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
         path: 'deliverySlot',
         element: (
           <DeliverySlot isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      },{
+      }, {
         path: 'pleaseWait',
         element: (
           <PleaseWait isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      },{
+      }, {
         path: 'myAccount',
         element: (
           <MyAccount isAuthenticated={isAuthenticated} logout={onLogout} />
@@ -270,6 +283,47 @@ const App = () => {
         path: 'gotochangepassword',
         element: (
           <ChangePassword isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'displaydeliveryoptions',
+        element: (
+          <DeliveryEligibility isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'displaycustomerdeliverydayandtime',
+        element: (
+          <CustomerdeliveryDayandTime isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'deliveryNotesInstructions',
+        element: (
+          <DeliveryNotesInstructions isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      }, {
+        path: 'showcommunicationpreferences',
+        element: (
+          <ShowCommunicationPreferences isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'showorderhistory',
+        element: (
+          <ShowOrderHistory isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'displayclubpreferences',
+        element: (
+          <DisplayClubPreferences isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'more-rewards',
+        element: (
+          <MoreRewards isAuthenticated={isAuthenticated} logout={onLogout} />
         )
       }
     ]);

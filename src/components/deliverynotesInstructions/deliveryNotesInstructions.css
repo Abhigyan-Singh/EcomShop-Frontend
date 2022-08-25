@@ -1,0 +1,21 @@
+
+
+[type=reset], [type=submit], button, html [type=button] {
+    -webkit-appearance: button;
+}
+.btn_small_width {
+    background-image: url(../../assets/images/small.gif);
+    background-size: 100% 100%;
+    width: 154px;
+    height: 36px !important;
+    font-family: Arial,sans-serif;
+   
+    font-weight: 400;
+    border: 0;
+    padding: 0;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    color: #ffffff;
+    margin: 5px;
+}
