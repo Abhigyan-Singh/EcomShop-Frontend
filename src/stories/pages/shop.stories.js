@@ -22,8 +22,6 @@ import { CartState, Context } from 'context/context';
 import { useCookies } from 'react-cookie';
 import useCart from 'services/addtocart';
 import { usefavoriteApi } from 'services/favorites';
-import { CookiesAge } from 'apiConfig';
-import { userInfoService } from 'services/auth';
 import { filterProducts } from 'services/filter';
 import { departments } from 'services/departmentSearch';
 import onSale from 'services/departmentSearch';
@@ -262,23 +260,6 @@ export const ShopStory = ({ onSubDepartChange2, logout, handleInputCheck, inputC
     if (loader.current) observer.observe(loader.current);
   }, [handleObserver]);
 
-  useEffect(() => {
-    if (!userInfo && user) {
-      userInfoService().then((userRes) => {
-        if (userRes.data) {
-          setCookie('userInfo', userRes.data, {
-            path: '/',
-            maxAge: CookiesAge
-          });
-          dispatchUser({
-            type: 'SET_USER',
-            payload: { userName: userRes.data.userName }
-          });
-          getCartDetails(userRes.data.userName);
-        }
-      });
-    }
-  }, [userInfo]);
 
   useEffect(() => {
     if (favorites.favorites.length === 0 && favorites.progress === false) {

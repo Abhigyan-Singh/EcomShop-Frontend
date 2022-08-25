@@ -13,7 +13,6 @@ import PaymentModal from '../PaymentModal/PaymentModal';
 import EBTModal from 'components/PaymentModal/EBTModal';
 import { cardDetails, ebtDetails, DeleteCards } from 'services/cardDetails';
 import { useCookies } from 'react-cookie';
-import { userInfoService } from 'services/auth';
 import { CartState } from '../../context/context';
 
 export default function CheckoutPaymentInformation() {
@@ -55,11 +54,11 @@ export default function CheckoutPaymentInformation() {
   };
   useEffect(() => {
     if (!userInfo && user) {
-          SetuserName(cookies.userName)
-          getCardData(cookies.userName);
-          getEbtData(cookies.userName)
+      SetuserName(cookies.userName)
+      getCardData(cookies.userName);
+      getEbtData(cookies.userName)
     }
-    
+
 
 
   }, [cookies.userName]);
