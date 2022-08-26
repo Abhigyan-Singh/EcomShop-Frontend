@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate, useLocation } from 'react-router-dom';
-// import './deliveryNotesInstructions.css';
+import './showcommunicationpreferences.css';
 import '../customerdeliverydayandtime/customerdeliverydayandtime.css';
 import { useCountdown } from '../cartList/countDown';
 import CheckGreen from '../../assets/images/checkGreen.gif';

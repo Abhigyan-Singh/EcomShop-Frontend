@@ -8,7 +8,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import './moreRewards.css';
+// import './moreRewards.css';
 import More_logo from '../../assets/img/more_logo.jpg';
 import moment from 'moment';
 import { useCountdown } from '../cartList/countDown';

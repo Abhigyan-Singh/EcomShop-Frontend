@@ -22,3 +22,6 @@ button, hr, input {
 [type=reset], [type=submit], button, html [type=button] {
     -webkit-appearance: button;
 }
+.containerSingleColumn{
+    padding: 0 12%;
+}

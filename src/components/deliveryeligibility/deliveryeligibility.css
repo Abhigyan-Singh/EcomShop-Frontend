@@ -12,3 +12,28 @@ button, input, optgroup, select, textarea {
     font: inherit;
     color: inherit;
 }
+.store-container {position: relative;}
+.dstoreRow label {width: auto !important;}
+.dstoreRow input {width: 170px !important;}
+.dstoreRow {display: flex;}
+.dstoreRow label:last-of-type {font-size: 14px; margin: 0 0 0 15px;}
+.default-content-size {font-size: 14px;}
+.delivery-stores {margin: 20px 0 0 20px;}
+.dlInsSec {margin-top: 25px;}
+.colpp-1{
+    margin-left: -8.2%;
+}
+.textbackgroundcolor{
+    width: 100%;
+    border: 1px solid black;
+}
+.dlvrElgblSec {padding-left: 0 !important;}
+.rgtAlgn {padding-right: 35px; text-align: right;}
+
+@media(max-width: 767px){
+    .rgtAlgn {padding-right: 10px;}
+    .dlvrElgblSec {padding-right: 0;}
+}
+@media(max-width: 478px){
+.store-container {padding-right: 15px !important}
+}

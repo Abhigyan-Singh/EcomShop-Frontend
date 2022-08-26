@@ -18,7 +18,7 @@ export default function MyAccount() {
     const navigate = useNavigate();
     return (
         <div className="wrapper">
-            <div className="headDivide">
+            {/* <div className="headDivide">
                 <div className="container">
                     <div className="b-step headMid d-flex">
                         <span className="b-step__title"></span>
@@ -29,8 +29,9 @@ export default function MyAccount() {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className='myAccountSec'>
+            </div> */}
+           
+            <div  className='myAccountSec '>
                 <h1 className="myAccountHeader">My Account</h1>
                 <p>
                     Please use this page to keep your account information and
@@ -57,7 +58,7 @@ export default function MyAccount() {
                             id="panel1a-header"
                         >
                             <Typography><img alt="Account and Password preferences" src={my_account_arrow_right} />
-                                <a className="header-green" href="/"> Delivery Preferences</a></Typography>
+                                <a className="header-green" href="#"> Delivery Preferences</a></Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Typography>
@@ -72,36 +73,19 @@ export default function MyAccount() {
                                                     </td>
                                                 <td valign="top">
 
-                                                    <img width="1" height="4" border="0" alt="" src={my_account_arrow_right} />
+                                                    <img className='mt-15' width="1" height="4" border="0" alt="" src={my_account_arrow_right} />
                                                     <input className="btn_big_def" type="button" value="Delivery Options" onClick={() => navigate('/displaydeliveryoptions')}/>
                                                     <img width="1" height="4" border="0" alt="" src={my_account_arrow_right} />
                                                     <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                                         <tbody>
-                                                            <tr className="banner1">
-                                                                {/* <td>
-                                                                    <img width="1" height="10" border="0" alt="" src={my_account_arrow_right} />
-                                                                    <span className="myAccountSubHeader">Receive Delivery Alerts</span>
-                                                                    Want to know approximately when your delivery will arrive? Sign up for email or text message alerts!
-                                                                    <input className="btn_big_def" type="button" value="Delivery Alerts" onclick="window.location='showdeliveryalerts'" />
-
-                                                                    <img width="1" height="20" border="0" alt="" src={my_account_arrow_right} />
-                                                                </td> */}
-                                                            </tr>
-                                                            <tr className="banner1">
-                                                                <br/>
-                                                                <td className="tableGreenSeparator"></td>
-                                                            </tr>
-
-                                                            <tr className="banner1">
-                                                                <td className="tableGreenSeparator"></td>
-                                                            </tr>
+                                                           
                                                             <tr>
                                                                 <td>
-                                                                <br/><br/>
+                                                                <br/>
                                                                     Your regular delivery day/time is:
                                                                     <br/><br/>
                                                                     <b>Saturday, August 27 (3:00 pm - 4:00 pm)</b><br/>
-                                                                    <b>(orders must be placed by Saturday, 1:00 PM )</b><br/>
+                                                                    <b>(orders must be placed by Saturday, 1:00 PM )</b><br/><br/>
 
                                                                     Won't work for you this week? See your <a href="changewindowfromcheckout">Neighborhood Delivery Schedule</a> and
                                                                     choose a different grocery delivery day for your next order. Otherwise, change your regular delivery day and
@@ -109,11 +93,11 @@ export default function MyAccount() {
                                                                     <br/><br/>
                                                                     <img width="1" height="4" border="0" alt="" src={my_account_arrow_right} />
                                                                     <input className="btn_big_def" type="button" value="Change Delivery Day &amp; Time" onClick={()=>navigate('/displaycustomerdeliverydayandtime')} />
-                                                                    <img width="1" height="15" border="0" alt="" src={my_account_arrow_right} />
+                                                                    <img width="1" height="15" border="0" alt="" src={my_account_arrow_right} /><br/>
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td className="tableGreenSeparator"></td><br/><br/>
+                                                                <td className="tableGreenSeparator"></td><br/>
                                                             </tr>
                                                             <tr>
                                                                 <td>
@@ -122,7 +106,7 @@ export default function MyAccount() {
                                                                         <b>Unattended delivery:</b>
                                                                         You have not specified whether you are usually home for delivery.
                                                                     </div>
-                                                                    <b>Delivery instructions:</b><br/><br/>
+                                                                    <b>Delivery instructions:</b><br/>ok<br/><br/>
 
                                                                     <input className="btn_big_def" type="button" value="Edit Delivery Instructions" onClick={()=>navigate('/deliveryNotesInstructions')} />
 
@@ -175,6 +159,7 @@ export default function MyAccount() {
                 <a className="header-green" href="/">  Change Preferred Store</a>
                 </div> */}
             </div>
-        </div>
+            </div>
+        
     )
 }
