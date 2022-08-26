@@ -18,6 +18,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Map, Marker, ZoomControl } from "pigeon-maps";
+import MapQuest from './mapquest';
+import MapIcon from './MapIcon';
 
 let response;
 let body;
@@ -25,6 +27,9 @@ let globalVar = null;
 let subRouteId;
 let jwt;
 let isValidatedAddressValue;
+let lat;
+let lng;
+
 export default function UpdateAccountAddress() {
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
@@ -59,6 +64,7 @@ export default function UpdateAccountAddress() {
     const cookie = new Cookies();
     const [hue, setHue] = useState(0)
     const color = `hsl(${hue % 360}deg 39% 70%)`
+    const [markers, setmarkers] = useState([]);
     const Days = [
         { code: 1, name: "Sunday" },
         { code: 2, name: "Monday" },
@@ -67,6 +73,7 @@ export default function UpdateAccountAddress() {
         { code: 5, name: "Thursday" },
         { code: 6, name: "Friday" },
         { code: 7, name: "Saturday" }]
+
     useEffect(() => {
 
         if (!!cookies.userName && !!cookies.FacilityId) {
@@ -80,10 +87,11 @@ export default function UpdateAccountAddress() {
 
     }, [cookies.userName, cookies.FacilityId]);
     useEffect(() => {
-
+        // setCenter()
+        // addMarker()
         // console.log('globalVar', globalVar);
 
-    }, [globalVar]);
+    }, [globalVar,]);
 
     const getData = (name) => {
 
@@ -209,9 +217,53 @@ export default function UpdateAccountAddress() {
             }
         })
     }
-    const handleChangeLocation = (value, Available, id) => {
-        // console.log(value, Available);
+    const findLocation = () => {
+        // if(!query)
+        if (clearMarkers) clearMarkers();
+
+        // window.L.mapquest.geocoding().geocode(query, (error, response) => {
+        //     response.results.forEach(location => {
+        //         setCenter(lat, lng)
+        //     })
+        // })
+        addMarker()
+    }
+    const setCenter = (lat, lng) => {
+        console.log(lat, lng);
+        window.L.mapquest.Map.getMap('map').setView(new window.L.LatLng(lat, lng), 12)
+    }
+    const addMarker = (lat, lng, title, subtitle) => {
+        const marker = window.L.mapquest.textMarker(
+            new window.L.LatLng(lat, lng), {
+            text: title || '',
+            subtext: subtitle || '',
+            position: 'right',
+            type: 'marker',
+            icon: {
+                primaryColor: '#a8190f',
+                secondaryColor: '#db2c2c',
+                size: 'md'
+            }
+        }
+        ).addTo(window.L.mapquest.Map.getMap('map'));
+        const copyMarkers = markers.slice(0);
+        copyMarkers.splice(0, 0, marker);
+        setmarkers(copyMarkers)
+        // markers.push(marker)
+    }
+    const clearMarkers = () => {
+        markers.forEach(marker => {
+            window.L.mapquest.Map.getMap('map')
+        })
+        setmarkers([]);
+    }
+    const handleChangeLocation = ( value, Available, id, lati, long) => {
+        console.log(value, Available, lati, long);
         subRouteId = id;
+        lat = lati;
+        lng = long;
+        // e.preventDefault()
+        // findLocation()
         setLocation(value)
         AddressopeningHours(subRouteId).then((res) => {
             console.log(res.data.data);
@@ -704,7 +756,7 @@ export default function UpdateAccountAddress() {
                                                                                             type="radio"
                                                                                             value={value.facilityId}
                                                                                             // checked={this.state.campaign === type.campaign_type}
-                                                                                            onChange={(e) => { handleChangeLocation(e.target.value, 'deliveryAvailable', value.deliverySubrouteId); setDescription(true); SetshowMap(false) }}
+                                                                                            onChange={(e) => { handleChangeLocation(e.target.value, 'deliveryAvailable', value.deliverySubrouteId, value.latitude, value.longitude); setDescription(true); SetshowMap(false) }}
                                                                                         />
                                                                                         <label className="f-sign-up__radio-label" htmlFor="delivery-605">{value.city},
                                                                                             {value.state}</label>
@@ -734,7 +786,7 @@ export default function UpdateAccountAddress() {
                                                                                         type="radio"
                                                                                         value={value.facilityId}
                                                                                         // checked={this.state.campaign === type.campaign_type}
-                                                                                        onChange={(e) => { handleChangeLocation(e.target.value, 'pickupAvailable', value.pickupSubrouteId); SetshowMap(true); setDescription(false) }}
+                                                                                        onChange={(e) => { handleChangeLocation(e.target.value, 'pickupAvailable', value.pickupSubrouteId, value.latitude, value.longitude); SetshowMap(true); setDescription(false) }}
                                                                                     />
                                                                                     <label className="f-sign-up__radio-label" htmlFor="delivery-605">{value.city},
                                                                                         {value.state}</label>
@@ -832,15 +884,32 @@ export default function UpdateAccountAddress() {
                                             <div id="pick-up-preference__pick-up-window">
                                                 {showMap == true &&
                                                     <div className='mapdiv'>
-                                                        <Map height={250} defaultCenter={[50.879, 4.6997]} defaultZoom={11}>
+                                                        {/* <Map height={250} defaultCenter={latLong}>
                                                             <Marker
                                                                 width={50}
-                                                                anchor={[50.879, 4.6997]}
+                                                                anchor={latLong}
                                                                 color={color}
                                                                 onClick={() => setHue(hue + 20)}
                                                             />
                                                             <ZoomControl />
-                                                        </Map>
+                                                        </Map> */}
+                                                        {/* <div id="map" style="width: 100%; height: 530px;"></div> */}
+                                                        <div className='row '>
+
+                                                            <div className='col-sm-2'>
+                                                                {/* <MapIcon setCenter={setCenter}
+                                                                    setMarker={addMarker} /> */}
+                                                            </div>
+                                                        </div>
+                                                        <MapQuest
+
+                                                            height="100%"
+                                                            width="100%"
+                                                            center={[lat, lng]}
+                                                            tileLayer={'map'}
+                                                            zoom={12}
+                                                            apiKey="Gmjtd|luu2206zn9,8g=o5-lz2s1"
+                                                        />
                                                     </div>
                                                 }
 
@@ -892,7 +961,7 @@ export default function UpdateAccountAddress() {
                                                                                 <a href="/" className="f-sign-up__radio-group-title ng-binding 
                                                         ng-isolate-scope" toggle-next="" onClick={(event) => {
                                                                                         event.preventDefault();
-                                                                                      //  timeDetails(days.code);
+                                                                                        //  timeDetails(days.code);
                                                                                         setSelctedDay(days.code)
                                                                                     }}>{days.day}
                                                                                 </a>
@@ -901,34 +970,34 @@ export default function UpdateAccountAddress() {
                                                                         <AccordionDetails>
 
                                                                             {/* {(showTime == true) && */}
-                                                                                <>
-                                                                                    <Typography>
-                                                                                        {days.timeSlots.map((times, key) => {
-                                                                                            // return days.workingHoursDtos.map((day, index) => {
-                                                                                                return (
-                                                                                                    <>
-                                                                                                        {/* {(key + 1 === selctedDay) && */}
-                                                                                                            <div className="time-container f-sign-up__radio-group" >
-                                                                                                                <input className="f-sign-up__radio" name="deliveryWindows" type="radio"
-                                                                                                                    required="required" style={{ width: '100%' }} id={times.id} value={times.id} onChange={() => {
-                                                                                                                        setSelectTime(times.id);
-                                                                                                                        setDateNTime(times.orderDueBy)
-                                                                                                                    }} />
-                                                                                                                <label className="f-sign-up__radio-label" >{times.time}</label>
+                                                                            <>
+                                                                                <Typography>
+                                                                                    {days.timeSlots.map((times, key) => {
+                                                                                        // return days.workingHoursDtos.map((day, index) => {
+                                                                                        return (
+                                                                                            <>
+                                                                                                {/* {(key + 1 === selctedDay) && */}
+                                                                                                <div className="time-container f-sign-up__radio-group" >
+                                                                                                    <input className="f-sign-up__radio" name="deliveryWindows" type="radio"
+                                                                                                        required="required" style={{ width: '100%' }} id={times.id} value={times.id} onChange={() => {
+                                                                                                            setSelectTime(times.id);
+                                                                                                            setDateNTime(times.orderDueBy)
+                                                                                                        }} />
+                                                                                                    <label className="f-sign-up__radio-label" >{times.time}</label>
 
-                                                                                                            </div>
-                                                                                                        {/* } */}
-                                                                                                    </>
-                                                                                                )
-                                                                                            // })
-                                                                                        })
+                                                                                                </div>
+                                                                                                {/* } */}
+                                                                                            </>
+                                                                                        )
+                                                                                        // })
+                                                                                    })
 
-                                                                                        }
-                                                                                    </Typography>
-                                                                                </>
+                                                                                    }
+                                                                                </Typography>
+                                                                            </>
                                                                             {/* } */}
 
-                                                                           
+
                                                                         </AccordionDetails>
                                                                     </Accordion>
 
