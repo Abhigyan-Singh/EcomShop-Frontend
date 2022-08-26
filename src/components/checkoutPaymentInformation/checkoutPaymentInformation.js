@@ -17,6 +17,7 @@ import { userInfoService } from 'services/auth';
 import { CartState } from '../../context/context';
 
 export default function CheckoutPaymentInformation() {
+  var path = window.location.pathname;
   const navigate = useNavigate();
   const [showModal, setModal] = useState(false);
   const [show, setShow] = useState(false);
@@ -55,11 +56,11 @@ export default function CheckoutPaymentInformation() {
   };
   useEffect(() => {
     if (!userInfo && user) {
-          SetuserName(cookies.userName)
-          getCardData(cookies.userName);
-          getEbtData(cookies.userName)
+      SetuserName(cookies.userName)
+      getCardData(cookies.userName);
+      getEbtData(cookies.userName)
     }
-    
+
 
 
   }, [cookies.userName]);
@@ -129,33 +130,47 @@ export default function CheckoutPaymentInformation() {
     setModal(false);
   };
   const returnToCheckout = () => {
-    navigate('/Checkout');
+    
+    if(path != '/viewpaymentinfo'){
+      navigate('/Checkout');
+    }else navigate('/myAccount');
   };
   return (
 
     <div className="wrapper" loading={loading}>
-      <div className="s-checkout__top mbot-1">
-        <div className="container">
-          <div className="b-step headMid d-flex">
-            <span className="b-step__title">Checkout - Review Information</span>
-            <div className="nmbr">
-              <span className="l-steps__count">1</span>
-              <span className="b-step__count">2</span>
-              <span className="l-steps__count">3</span>
+      {path != '/viewpaymentinfo' &&
+        <div className="s-checkout__top mbot-1">
+          <div className="container">
+            <div className="b-step headMid d-flex">
+              <span className="b-step__title">Checkout - Review Information</span>
+              <div className="nmbr">
+                <span className="l-steps__count">1</span>
+                <span className="b-step__count">2</span>
+                <span className="l-steps__count">3</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      }
       <div className="payInfoWrapper">
-        <div className="header-gray margin-20px-btm">
-          <a
-            href="/Checkout"
-          // onclick="skipLeaveMessageWindow();"
-          >
-            <b>Checkout</b>
-          </a>
-          &gt; Payment Information
-        </div>
+        {path != '/viewpaymentinfo' &&
+          <div className="header-gray margin-20px-btm">
+            <a
+              href="/Checkout"
+            // onclick="skipLeaveMessageWindow();"
+            >
+              <b>Checkout</b>
+            </a>
+            &gt; Payment Information
+          </div>
+        }
+        {path == '/viewpaymentinfo' &&
+          <>
+            <h1 className="myAccountHeader">My Account</h1><br />
+            <b><a href="/myAccount">My Account Home</a> &gt;  Payment Information</b>
+            <br /><br />
+          </>
+        }
         <div className="payInfoHead">
           <h2>Payment Information</h2>
         </div>
@@ -215,7 +230,7 @@ export default function CheckoutPaymentInformation() {
             </div>
             <div className="adCrtBotSec">
               <Button
-                className="checkout-btn"
+                className={(path != '/viewpaymentinfo')?"checkout-btn":'f-sign-up__btn hard-right'}
                 label="Add Credit Card"
                 onClick={CardDetails}
               />
@@ -297,10 +312,12 @@ export default function CheckoutPaymentInformation() {
 
               <div className="adCrtBotSec">
                 <Button
-                  className={
-                    ebtCard.length != 0
-                      ? 'checkout-btn ckoutdisable'
-                      : 'checkout-btn '
+                  className={(path != '/viewpaymentinfo')?(ebtCard.length != 0
+                    ? 'checkout-btn ckoutdisable'
+                    : 'checkout-btn '):(ebtCard.length != 0
+                      ? 'f-sign-up__btn hard-right ckoutdisable'
+                      : 'f-sign-up__btn hard-right ')
+                    
                   }
                   label="Add EBT Card"
                   onClick={CardDetailsEbt}
@@ -316,12 +333,12 @@ export default function CheckoutPaymentInformation() {
         </div>
         <div className="button-box m-lss">
           <Button
-            className="checkout-btn left"
+            className={(path != '/viewpaymentinfo')?"checkout-btn left":'f-sign-up__btn left'}
             label="CANCEL"
             onClick={returnToCheckout}
           />
           <Button
-            className="checkout-btn hard-right"
+            className={(path != '/viewpaymentinfo')?"checkout-btn hard-right":'f-sign-up__btn hard-right'}
             label="SAVE CHANGES"
             onClick={returnToCheckout}
           />

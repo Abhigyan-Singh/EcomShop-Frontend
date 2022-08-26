@@ -10,9 +10,16 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './contactInformation.css';
 import Button from 'components/button/button';
 import { useCookies } from 'react-cookie';
+// import e from 'cors';
+
+import { ChangeInfo } from 'services/myAccountapi';
+import { Cookies } from 'react-cookie';
+import axios from 'axios'
+let jwt;
+let contactDetails;
 export default function ContactInformation(props) {
   var path = window.location.pathname;
-  console.log(path);
+
   const {
     className,
     defaultValue,
@@ -23,6 +30,8 @@ export default function ContactInformation(props) {
     ...rest
   } = props;
   const navigate = useNavigate();
+
+  const cookie = new Cookies();
   const [salu, setsalu] = useState('');
   const [name, setName] = useState('');
   const [namevalidation, setNameValidation] = useState(false);
@@ -60,8 +69,8 @@ export default function ContactInformation(props) {
   const [Reenteremailvalidation, setReenteremailValidation] = useState(false);
   const [IncurrectREemailValidation, setIncurrectREemailvalidation] =
     useState(false);
-    const [cookies, setCookie] = useCookies();
-    const { } = cookies;
+  const [cookies, setCookie] = useCookies();
+  const { } = cookies;
   const salutation = [
     { value: 'Mr', name: 'Mr' },
     { value: 'Mrs', name: 'Mrs' },
@@ -69,42 +78,62 @@ export default function ContactInformation(props) {
     { value: 'Dr', name: 'Dr' },
     { value: 'Rev', name: 'Rev' }
   ];
-  const contactDetails = {
-    salutation: 'Dr',
-    name: 'albert',
-    middleName: 'kr',
-    lastName: 'ebt2',
-    primaryPhone: '1234567808',
-    alternatePhone: '7801234569',
-    cellPhone: '7801234566',
-    email: 'shilaja.kyatham@cobornsinc.com'
-  };
+  // const contactDetails = {
+  //   salutation: 'Dr',
+  //   name: 'albert',
+  //   middleName: 'kr',
+  //   lastName: 'ebt2',
+  //   primaryPhone: '1234567808',
+  //   alternatePhone: '7801234569',
+  //   cellPhone: '7801234566',
+  //   email: 'shilaja.kyatham@cobornsinc.com'
+  // };
   useEffect(() => {
-    setName(contactDetails.name);
-    setsalu(contactDetails.salutation);
-    setMiddname(contactDetails.middleName);
-    setLastname(contactDetails.lastName);
-    setprimaryPhone1(contactDetails.primaryPhone.slice(0, 3));
-    setprimaryPhone2(contactDetails.primaryPhone.slice(3, 6));
-    setprimaryPhone3(contactDetails.primaryPhone.slice(6, 10));
-
-    setalternatePhone1(contactDetails.alternatePhone.slice(0, 3));
-    setalternatePhone2(contactDetails.alternatePhone.slice(3, 6));
-    setalternatePhone3(contactDetails.alternatePhone.slice(6, 10));
-
-    setcellPhone1(contactDetails.cellPhone.slice(0, 3));
-    setcellPhone2(contactDetails.cellPhone.slice(3, 6));
-    setcellPhone3(contactDetails.cellPhone.slice(6, 10));
-    setemail(contactDetails.email);
-    setReenteremail(contactDetails.email);
+  
   }, []);
   useEffect(() => {
-
-   
-}, [cookies.userName,]);
+    jwt = cookie.get('user');
+    ChangeInfo(cookies.userName).then((resp) => {
+      console.log(resp.data.data)
+      let res =resp.data.data;
+      if (resp.data.success == 1) {
+        // setStates(resp.data.data)
+        contactDetails = {
+          salutation: res.title,
+          name: res.firstname,
+          middleName: res.middlename,
+          lastName: res.lastname,
+          primaryPhone: res.primaryphone,
+          alternatePhone: res.alternatephone,
+          cellPhone: res.cellphone,
+          email: res.email,
+        };
+        setName(contactDetails.name);
+        setsalu(contactDetails.salutation);
+        setMiddname(contactDetails.middleName);
+        setLastname(contactDetails.lastName);
+        setprimaryPhone1(contactDetails.primaryPhone.slice(0, 3));
+        setprimaryPhone2(contactDetails.primaryPhone.slice(3, 6));
+        setprimaryPhone3(contactDetails.primaryPhone.slice(6, 10));
+    
+        setalternatePhone1(contactDetails.alternatePhone.slice(0, 3));
+        setalternatePhone2(contactDetails.alternatePhone.slice(3, 6));
+        setalternatePhone3(contactDetails.alternatePhone.slice(6, 10));
+    
+        setcellPhone1(contactDetails.cellPhone.slice(0, 3));
+        setcellPhone2(contactDetails.cellPhone.slice(3, 6));
+        setcellPhone3(contactDetails.cellPhone.slice(6, 10));
+        setemail(contactDetails.email);
+        setReenteremail(contactDetails.email);
+       
+      }
+    });
+  }, [cookies.userName,]);
 
   const returnToCheckout = () => {
-    navigate('/Checkout');
+    if (path == '/contactInformation/edit') {
+      navigate('/myaccountinformation')
+    } else navigate('/checkout')
   };
   const emailIdValidation = (text) => {
     console.log(text);
@@ -133,46 +162,93 @@ export default function ContactInformation(props) {
     );
 
     console.log(email);
-    if (!name) setNameValidation(true);
-    else if (!Lastname) setLastNameValidation(true);
+    if (!name) { setNameValidation(true); return false }
+    else if (!Lastname) { setLastNameValidation(true); return false }
     else if (!primaryPhone1) {
       setprimaryPhone1validation(true);
       setprimaryPhoneValidation(true);
+      return false
     } else if (!primaryPhone2) {
       setprimaryPhone2validation(true);
       setprimaryPhoneValidation(true);
+      return false
     } else if (primaryPH.length < 10) {
       setprimaryPhoneValidation(true);
+      return false
     } else if (!alternatePhone1) {
       setprimaryPhone1validation(true);
       setalternatePhoneeValidation(true);
+      return false
     } else if (!alternatePhone2) {
       setprimaryPhone2validation(true);
       setalternatePhoneeValidation(true);
+      return false
     } else if (alternatePh.length < 10) {
       setalternatePhoneeValidation(true);
+      return false
     } else if (!cellPhone1) {
       setprimaryPhone1validation(true);
       setcellPhoneValidation(true);
+      return false
     } else if (!cellPhone2) {
       setprimaryPhone2validation(true);
       setcellPhoneValidation(true);
+      return false
     } else if (cellPh.length < 10) {
       setcellPhoneValidation(true);
-    } else if (!email) setemailvalidation(true);
-
+      return false
+    } else if (!email) {
+      setemailvalidation(true);
+      return false
+    }
+    console.log('primaryPhoneValidatin---', primaryPhoneValidatin);
+    console.log('primaryPhoneValidatin---', primaryPhoneValidatin);
     if (!!email && !emailIdValidation(email)) {
       setIncurrectemailvalidation(true);
-    } else setIncurrectemailvalidation(false);
+      return false
+    } else {
+      setIncurrectemailvalidation(false);
+      //return false;
+    }
 
-    if (!!email != !!Reenteremail) setReenteremailValidation(true);
+    if (!!email != !!Reenteremail) {
+      setReenteremailValidation(true);
+      return false
+    }
     else if (!!Reenteremail && !emailIdValidation(Reenteremail)) {
       setIncurrectREemailvalidation(true);
+      return false;
     } else setIncurrectREemailvalidation(false);
-
-    console.log('primaryPhoneValidatin---', primaryPhoneValidatin);
-    console.log('primaryPhoneValidatin---', primaryPhoneValidatin);
+    updateContact()
   };
+
+  const updateContact = () => {
+    let data = {
+      title: salu,
+      firstname: name,
+      middlename: Middname,
+      lastname: Lastname,
+      primaryphone: primaryPhone,
+      alternatephone: alternatePhone,
+      cellphone: cellPhone,
+      email: email,
+      reenteremail: Reenteremail,
+
+    }
+    const headers = {
+      'Authorization': 'Bearer ' + jwt.token,
+    };
+    axios.put(`http://localhost:8009/user/change-information/${cookies.userName}`, data, { headers })
+      .then(res => {
+        // console.log(res.data.data)
+        if (res.data.success == 1) {
+          if (path == '/contactInformation/edit') {
+            navigate('/myaccountinformation')
+          } else navigate('/checkout')
+        }
+      })
+  }
+
   return (
     <div className="wrapper">
       {path != '/contactInformation/edit' &&
@@ -588,17 +664,37 @@ export default function ContactInformation(props) {
         </div>
       </div>
       <div className="checkoutButtonBox">
-        {/* <button className='checkout-btn'></button> */}
-        <Button
-          className="checkout-btn"
-          label="RETURN TO CHECKOUT"
-          onClick={returnToCheckout}
-        />
-        <Button
-          className="checkout-btn"
-          label="SAVE CHANGES"
-          onClick={saveContactInfo}
-        />
+        {path == '/contactInformation/edit' &&
+          <>
+            <Button
+              className="btn-responsive f-sign-up__btn right"
+              label="Cancel"
+              onClick={returnToCheckout}
+            />
+            <Button
+              className="btn-responsive f-sign-up__btn right"
+              label="SAVE CHANGES"
+              onClick={saveContactInfo}
+            />
+          </>}
+        {path != '/contactInformation/edit' &&
+          <>
+            <Button
+              className="checkout-btn"
+              label="RETURN TO CHECKOUT"
+              onClick={returnToCheckout}
+            />
+            <Button
+              className="checkout-btn"
+              label="SAVE CHANGES"
+              onClick={saveContactInfo}
+            />
+          </>
+        }
+
+
+
+
       </div>
     </div>
   );

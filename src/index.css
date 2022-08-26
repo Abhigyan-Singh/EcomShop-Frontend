@@ -60,3 +60,6 @@ a:hover, a:focus {
 }
 iframe {display: none;}
 #root iframe {display:inherit}
+tr:nth-child(even){
+  background-color: rgb(255, 255, 255);
+}

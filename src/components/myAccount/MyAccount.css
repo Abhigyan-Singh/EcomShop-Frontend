@@ -35,6 +35,87 @@ a {
 }
 .headDivide {border-top: 2px solid #a5d751; margin: 10px 0 20px;}
 
+.css-1elwnq4-MuiPaper-root-MuiAccordion-root {
+    background-color: transparent !important;
+    color: rgba(0, 0, 0, 1) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root {min-height: auto !important; padding: 0 !important;}
+.css-o4b71y-MuiAccordionSummary-content {margin: 0 !important;}
+.css-ahj2mt-MuiTypography-root {display: flex;}
+.css-o4b71y-MuiAccordionSummary-content.Mui-expanded {margin: 0 !important;}
+.MuiAccordionDetails-root tr:nth-child(even) {
+    background-color: #fff;
+}
+.tableGreenSeparator {
+    border-top: 1px solid #0D791E;
+}
+.css-15v22id-MuiAccordionDetails-root {
+    padding: 8px 0 16px !important;
+}
+.mt-15 {margin-top: 15px;}
+
 @media(max-width: 1320px){
     .myAccountSec {padding-bottom: 30px;}
+}
+
+[type=reset], [type=submit], button, html [type=button] {
+    -webkit-appearance: button;
+}
+.btn_big_def {
+    background-image: url(../../assets/images/big.gif);
+    background-size: 100% 100%;
+    width: 210px !important;
+    height: 36px !important;
+    font-family: Arial,sans-serif;
+   
+    font-weight: 400 !important;
+    border: 0 !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    text-align: center;
+    cursor: pointer;
+    color: #ffffff !important;
+    display: inline-block;
+}
+input, select, textarea {
+    display: block;
+    font-size: 1em;
+}
+.bsw-btn, .bsw-quantity-selector button, body, input, select, textarea {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+button, input, select, textarea {
+    font: inherit;
+    margin: 0;
+}
+button, hr, input {
+    overflow: visible;
+}
+table img {
+    max-width: none;
+}
+
+img {
+    border: 0px;
+}
+img, picture {
+    margin: 0;
+}
+TD {
+    border-width: 0;
+    font-family: Verdana,Helvetica,Arial;
+    font-size: 14px;
+    text-decoration: none;
+}
+.tableGreenSeparatorVertical {
+    width: 2px;
+    background-color: #0D791E;
+}
+.banner1 {
+    display: none;
+}
+#myAccountContainer{
+    padding: 0 12% !important;
 }

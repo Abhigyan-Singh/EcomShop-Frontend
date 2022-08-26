@@ -2,7 +2,7 @@ import React, {
     useState,
     useEffect,
 } from 'react';
-import { useNavigate,  } from 'react-router-dom';
+import { useNavigate, } from 'react-router-dom';
 import './updateaccountaddress.css';
 import { useCookies } from 'react-cookie';
 import { Cookies } from 'react-cookie';
@@ -17,12 +17,19 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Map, Marker, ZoomControl } from "pigeon-maps";
+import MapQuest from './mapquest';
+import MapIcon from './MapIcon';
 
 let response;
 let body;
 let globalVar = null;
 let subRouteId;
 let jwt;
+let isValidatedAddressValue;
+let lat;
+let lng;
+
 export default function UpdateAccountAddress() {
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
@@ -39,7 +46,7 @@ export default function UpdateAccountAddress() {
     const [typeOfHome, settypeOfHome] = useState('')
     const [isdeliveryAddress, setisdeliveryAddress] = useState(false);
     const [isaddress, setisaddress] = useState(true);
-    const [updateSuccess,setupdateSuccess]  = useState(false);
+    const [updateSuccess, setupdateSuccess] = useState(false);
     const [deliveryAddressArray, setdeliveryAddressArray] = useState([]);
     const [openmodal, setopenmodal] = useState(false);
     const [checkLocation, setLocation] = useState('');
@@ -53,7 +60,11 @@ export default function UpdateAccountAddress() {
     const [DateNTime, setDateNTime] = useState('');
     const [showDateNTime, setshowDateNTime] = useState(false);
     const [Instruction, setInstruction] = useState('');
+    const [checkError, setcheckError] = useState(false);
     const cookie = new Cookies();
+    const [hue, setHue] = useState(0)
+    const color = `hsl(${hue % 360}deg 39% 70%)`
+    const [markers, setmarkers] = useState([]);
     const Days = [
         { code: 1, name: "Sunday" },
         { code: 2, name: "Monday" },
@@ -62,6 +73,7 @@ export default function UpdateAccountAddress() {
         { code: 5, name: "Thursday" },
         { code: 6, name: "Friday" },
         { code: 7, name: "Saturday" }]
+
     useEffect(() => {
 
         if (!!cookies.userName && !!cookies.FacilityId) {
@@ -75,39 +87,46 @@ export default function UpdateAccountAddress() {
 
     }, [cookies.userName, cookies.FacilityId]);
     useEffect(() => {
-
+        // setCenter()
+        // addMarker()
         // console.log('globalVar', globalVar);
 
-    }, [globalVar]);
+    }, [globalVar,]);
 
     const getData = (name) => {
 
         addressDetails(name).then((resp) => {
             // console.log(resp.data.data)
-            setAddress(resp.data.data)
-            resp.data.data.map((data, key) => {
-                // console.log(data);
-                setStreet(data.addressLine1)
-                setunit('')
-                setcity(data.city)
-                setstate(data.state)
-                setzipcode(data.zipCode)
-                settypeOfHome(data.dwellingTypeCode)
-            })
+            if (resp.data.success == 1) {
+                setAddress(resp.data.data)
+                resp.data.data.map((data, key) => {
+                    // console.log(data);
+                    setStreet(data.addressLine1)
+                    setunit('')
+                    setcity(data.city)
+                    setstate(data.state)
+                    setzipcode(data.zipCode)
+                    settypeOfHome(data.dwellingTypeCode)
+                })
+            }
         });
     }
     const StategetData = (FacilityId) => {
 
         StateArray(FacilityId).then((resp) => {
             // console.log(resp.data.data)
-            setStates(resp.data.data)
+            if (resp.data.success == 1) {
+                setStates(resp.data.data)
+            }
         });
     }
     const Building_getData = () => {
 
         BuildingsArray().then((resp) => {
             // console.log(resp.data.data)
-            setBuilding(resp.data.data)
+            if (resp.data.success == 1) {
+                setBuilding(resp.data.data)
+            }
         });
     }
     const saveData = () => {
@@ -130,13 +149,28 @@ export default function UpdateAccountAddress() {
         } else checkaddress(body)
     }
     const checkaddress = (body) => {
+        if (typeOfHome == 'APT' || typeOfHome == 'CON') {
+            if (isChecked == true) { setcheckError(false); _AddressValidation(body) }
+            else setcheckError(true)
+        } else _AddressValidation(body)
 
+    }
+    const _AddressValidation = (body) => {
         AddressValidation(body).then((res) => {
-            console.log(res.data.data);
+            // console.log(res.data.data);
             response = res.data.data;
             if (response.buildingType == body.buildingType && response.city == body.city && response.state == body.state
                 && response.streetAddress == body.streetAddress && response.unit == body.unit && response.zipCode == body.zipCode) {
                 globalVar = 1;
+                body = {
+                    buildingType: typeOfHome,
+                    city: city,
+                    isValidatedAddress: 1,
+                    state: state,
+                    streetAddress: street,
+                    unit: unit,
+                    zipCode: zipcode
+                }
                 setisaddress(false)
                 setisdeliveryAddress(true)
                 setupdateSuccess(false)
@@ -149,6 +183,7 @@ export default function UpdateAccountAddress() {
     }
     const updateAddress = (value, data) => {
         // console.log(value, data);
+        isValidatedAddressValue = value;
         const body = {
             buildingType: data.buildingType,
             city: data.city,
@@ -168,7 +203,7 @@ export default function UpdateAccountAddress() {
             // console.log(res.data.data);
             globalVar = value;
             setopenmodal(false)
-            
+
 
         })
     }
@@ -177,34 +212,92 @@ export default function UpdateAccountAddress() {
 
         getdeliveryaddress(cookies.FacilityId, body).then((res) => {
             // console.log(res.data.data);
-            setdeliveryAddressArray(res.data.data)
+            if (res.data.success == 1) {
+                setdeliveryAddressArray(res.data.data)
+            }
         })
     }
-    const handleChangeLocation = (value, Available, id) => {
-        // console.log(value, Available);
+    const findLocation = () => {
+        // if(!query)
+        if (clearMarkers) clearMarkers();
+
+        // window.L.mapquest.geocoding().geocode(query, (error, response) => {
+        //     response.results.forEach(location => {
+        //         setCenter(lat, lng)
+        //     })
+        // })
+        addMarker()
+    }
+    const setCenter = (lat, lng) => {
+        console.log(lat, lng);
+        window.L.mapquest.Map.getMap('map').setView(new window.L.LatLng(lat, lng), 12)
+    }
+    const addMarker = (lat, lng, title, subtitle) => {
+        const marker = window.L.mapquest.textMarker(
+            new window.L.LatLng(lat, lng), {
+            text: title || '',
+            subtext: subtitle || '',
+            position: 'right',
+            type: 'marker',
+            icon: {
+                primaryColor: '#a8190f',
+                secondaryColor: '#db2c2c',
+                size: 'md'
+            }
+        }
+        ).addTo(window.L.mapquest.Map.getMap('map'));
+        const copyMarkers = markers.slice(0);
+        copyMarkers.splice(0, 0, marker);
+        setmarkers(copyMarkers)
+        // markers.push(marker)
+    }
+    const clearMarkers = () => {
+        markers.forEach(marker => {
+            window.L.mapquest.Map.getMap('map')
+        })
+        setmarkers([]);
+    }
+    const handleChangeLocation = ( value, Available, id, lati, long) => {
+        console.log(value, Available, lati, long);
         subRouteId = id;
+        lat = lati;
+        lng = long;
+        // e.preventDefault()
+        // findLocation()
         setLocation(value)
-        AddressWeekdays().then((res) => {
-            setweekday(res.data.data)
-
-        })
-    }
-
-
-    const timeDetails = () => {
-        setshowTime(true)
-
         AddressopeningHours(subRouteId).then((res) => {
-            // console.log(res.data.data);
-            SetTimes(res.data.data)
+            console.log(res.data.data);
+            if (res.data.success == 1) {
+                SetTimes(res.data.data)
+            }
         })
+        // AddressWeekdays().then((res) => {
+        //     if (res.data.success == 1) {
+        //     setweekday(res.data.data)
+        //     }
+
+        // })
     }
+
+
+    // const timeDetails = () => {
+    //     setshowTime(true)
+
+    //     AddressopeningHours(subRouteId).then((res) => {
+    //         console.log(res.data.data); alert()
+    //         // if (res.data.success == 1) {
+    //         // SetTimes(res.data.data)
+    //         // }
+    //     })
+    // }
     const UpdateAccount = () => {
+        let _isValidatedAddressValue = (isValidatedAddressValue == null) ? 1 : isValidatedAddressValue;
+        // console.log(_isValidatedAddressValue);
         let Body = {
             address: {
                 buildingType: typeOfHome,
                 city: city,
-                isValidatedAddress: 0,
+                isValidatedAddress: _isValidatedAddressValue,
                 state: state,
                 streetAddress: street,
                 unit: unit,
@@ -215,7 +308,7 @@ export default function UpdateAccountAddress() {
             facility: cookies.FacilityId,
             subRoute: subRouteId
         }
-        console.log(Body);
+        // console.log(Body);
         // updateAccount(cookies.userName,Body).then((res) => {
         //     console.log(res.data.data);
 
@@ -228,7 +321,7 @@ export default function UpdateAccountAddress() {
         };
         axios.put(`http://localhost:8009/address/validate-and-update/${cookies.userName}`, Body, { headers })
             .then(res => {
-                console.log(res.data.data)
+                // console.log(res.data.data)
                 if (res.data.success == 1) {
                     setisdeliveryAddress(false);
                     setisaddress(false);
@@ -239,10 +332,10 @@ export default function UpdateAccountAddress() {
     return (
         <div className="wrapper" >
 
-            <div className="payInfoWrapper">
+            <div className="header-gray">
                 <div className="header-gray margin-20px-btm">
                     <a
-                        href="/Checkout"
+                        href="/myAccount"
                     // onclick="skipLeaveMessageWindow();"
                     >
                         <b>My Account</b>
@@ -508,58 +601,68 @@ export default function UpdateAccountAddress() {
                                     </div>
                                 </div>
 
+                                {(typeOfHome == 'APT' || typeOfHome == 'CON') &&
 
-                                <div className="pad margin-5px-btm actAdrss">
-                                    <div id="showDiv" className="b-info-tooltip margin-20px-btm auto-all" style={{ position: 'relative', width: '100%' }}>
-                                        <div className="b-info-tooltip__title auto-all">To-the-Door Delivery</div>
-                                        <button className="close-classic" ></button>
-                                        <div className="b-info-tooltip__subtitle auto-all">(This option is available in most apartment buildings)</div>
-                                        <div className="b-info-tooltip__visivig margin-20px-btm auto-all">
-                                            <p>Groceries are delivered directly to your individual apartment.
-                                                You choose from a list of times we're in your area each week,
-                                                and you must be home to let our Neighborhood Service Rep into
-                                                your building and to accept your groceries.</p>
-                                        </div>
-                                        <div className="b-info-tooltip__list-title auto-all">RESTRICTIONS APPLY:</div>
-                                        <ol>
-                                            <li>You must be home htmlFor all To-the-Door deliveries.</li>
-                                            <li>Due to fire codes and security issues, we cannot leave groceries
-                                                unattended outside individual apartments or in common areas--even
-                                                if your building offers Central Delivery--because To-the-Door Delivery
-                                                dates and times are not authorized by your building management.</li>
-                                            <li>If your building does not have an elevator, no deliveries will
-                                                be made above the fourth floor.</li>
-                                        </ol>
-                                        <div className="b-info-tooltip__visivig auto-all">
-                                            <p>No exceptions will be made to these rules. If you are not
-                                                home htmlFor delivery, groceries will be returned
-                                                to Coborn's and a
-                                                restocking fee of $25 may be charged.</p>
-                                        </div>
-                                    </div>
-
-
-                                    <div id="toTheDoor" className="_padding-0-10 margin-5px-btm to-the-door required-field visible" >
-                                        <input id="beHome" name="beHome" className="f-sign-up__check" type="checkbox"
-                                            value={isChecked}
-                                            onChange={(e) => setIsChecked(e.target.checked)} />
-                                        {/* <Checkbox
-                id="checkbox-2"
-                value={isChecked}
-                onChange={(e)=>setIsChecked(e.target.checked)}
-              /> */}
-                                        <label className="f-sign-up__check-label" htmlFor="beHome">
-                                            <span className="asterisk">*</span> By checking this box, I acknowledge that I am aware that I must be home every time my orders are delivered. If I am not home htmlFor delivery, my order will be returned to Coborn's and a restocking fee may be charged to my account.</label>
-                                        {/* <validation-label errors="vm.errorValidationList" field-name="personalInformation.beHome"></validation-label> */}
-                                        <div className="f-sign-up__msg-box _city-contain to-the-door-error">
-                                            <div className="_box f-sign-up__validation-directive">
-                                                <span className="f-sign-up__error-msg _required toTheDoor" style={{ width: '100%' }}>
-                                                    Please check box to acknowledge To-The-Door Delivery restrictions.
-                                                </span>
+                                    <div className="pad margin-5px-btm actAdrss">
+                                        <div id="showDiv" className="b-info-tooltip margin-20px-btm auto-all" style={{ position: 'relative', width: '100%' }}>
+                                            <div className="b-info-tooltip__title auto-all">To-the-Door Delivery</div>
+                                            <button className="close-classic" ></button>
+                                            <div className="b-info-tooltip__subtitle auto-all">(This option is available in most apartment buildings)</div>
+                                            <div className="b-info-tooltip__visivig margin-20px-btm auto-all">
+                                                <p>Groceries are delivered directly to your individual apartment.
+                                                    You choose from a list of times we're in your area each week,
+                                                    and you must be home to let our Neighborhood Service Rep into
+                                                    your building and to accept your groceries.</p>
+                                            </div>
+                                            <div className="b-info-tooltip__list-title auto-all">RESTRICTIONS APPLY:</div>
+                                            <ol>
+                                                <li>You must be home htmlFor all To-the-Door deliveries.</li>
+                                                <li>Due to fire codes and security issues, we cannot leave groceries
+                                                    unattended outside individual apartments or in common areas--even
+                                                    if your building offers Central Delivery--because To-the-Door Delivery
+                                                    dates and times are not authorized by your building management.</li>
+                                                <li>If your building does not have an elevator, no deliveries will
+                                                    be made above the fourth floor.</li>
+                                            </ol>
+                                            <div className="b-info-tooltip__visivig auto-all">
+                                                <p>No exceptions will be made to these rules. If you are not
+                                                    home htmlFor delivery, groceries will be returned
+                                                    to Coborn's and a
+                                                    restocking fee of $25 may be charged.</p>
                                             </div>
                                         </div>
+
+
+                                        <div id="toTheDoor" className="_padding-0-10 margin-5px-btm to-the-door required-field " >
+                                            <input id="beHome" name="beHome" className="f-sign-up__check" type="checkbox"
+                                                value={isChecked}
+                                                onChange={(e) => {
+                                                    setIsChecked(e.target.checked)
+
+                                                }}
+                                                onClick={(e) => {
+                                                    if (!!e.target.checked) setcheckError(false)
+                                                }}
+                                            />
+
+                                            <label className="f-sign-up__check-label" htmlFor="beHome">
+                                                <span className="asterisk">*</span> By checking this box, I acknowledge that I am aware that I must be home every time my orders are delivered. If I am not home htmlFor delivery, my order will be returned to Coborn's and a restocking fee may be charged to my account.</label>
+                                            {checkError == true &&
+                                                <>
+                                                    <div className="f-sign-up__msg-box _city-contain to-the-door-error">
+                                                        <div className="_box f-sign-up__validation-directive">
+
+                                                            <span className="f-sign-up__error-msg  " style={{ width: '100%' }}>
+                                                                Please check box to acknowledge To-The-Door Delivery restrictions.
+                                                            </span>
+
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            }
+                                        </div>
                                     </div>
-                                </div>
+                                }
 
                                 <div className="change-address-header">
                                     <div className="f-sign-up _second-step clearfix clear-both" style={{ background: 'transparent' }}>
@@ -653,7 +756,7 @@ export default function UpdateAccountAddress() {
                                                                                             type="radio"
                                                                                             value={value.facilityId}
                                                                                             // checked={this.state.campaign === type.campaign_type}
-                                                                                            onChange={(e) => { handleChangeLocation(e.target.value, 'deliveryAvailable', value.deliverySubrouteId); setDescription(true); SetshowMap(false) }}
+                                                                                            onChange={(e) => { handleChangeLocation(e.target.value, 'deliveryAvailable', value.deliverySubrouteId, value.latitude, value.longitude); setDescription(true); SetshowMap(false) }}
                                                                                         />
                                                                                         <label className="f-sign-up__radio-label" htmlFor="delivery-605">{value.city},
                                                                                             {value.state}</label>
@@ -683,7 +786,7 @@ export default function UpdateAccountAddress() {
                                                                                         type="radio"
                                                                                         value={value.facilityId}
                                                                                         // checked={this.state.campaign === type.campaign_type}
-                                                                                        onChange={(e) => { handleChangeLocation(e.target.value, 'pickupAvailable', value.pickupSubrouteId); SetshowMap(true); setDescription(false) }}
+                                                                                        onChange={(e) => { handleChangeLocation(e.target.value, 'pickupAvailable', value.pickupSubrouteId, value.latitude, value.longitude); SetshowMap(true); setDescription(false) }}
                                                                                     />
                                                                                     <label className="f-sign-up__radio-label" htmlFor="delivery-605">{value.city},
                                                                                         {value.state}</label>
@@ -780,7 +883,34 @@ export default function UpdateAccountAddress() {
                                         <div className="f-sign-up__form col-md-10 col-md-offset-1 clearfix">
                                             <div id="pick-up-preference__pick-up-window">
                                                 {showMap == true &&
-                                                    <div className='mapdiv'></div>
+                                                    <div className='mapdiv'>
+                                                        {/* <Map height={250} defaultCenter={latLong}>
+                                                            <Marker
+                                                                width={50}
+                                                                anchor={latLong}
+                                                                color={color}
+                                                                onClick={() => setHue(hue + 20)}
+                                                            />
+                                                            <ZoomControl />
+                                                        </Map> */}
+                                                        {/* <div id="map" style="width: 100%; height: 530px;"></div> */}
+                                                        <div className='row '>
+
+                                                            <div className='col-sm-2'>
+                                                                {/* <MapIcon setCenter={setCenter}
+                                                                    setMarker={addMarker} /> */}
+                                                            </div>
+                                                        </div>
+                                                        <MapQuest
+
+                                                            height="100%"
+                                                            width="100%"
+                                                            center={[lat, lng]}
+                                                            tileLayer={'map'}
+                                                            zoom={12}
+                                                            apiKey="Gmjtd|luu2206zn9,8g=o5-lz2s1"
+                                                        />
+                                                    </div>
                                                 }
 
                                                 <div className="f-sign-up__form-top _margin-bottom-10 col-md-12">
@@ -814,11 +944,11 @@ export default function UpdateAccountAddress() {
                                                     </div>
                                                     <div id="pick-up-preference__preference" className="day-container customSc row _padding-0-10 _padding-left-30 _margin-bottom-25 _pos-relative pick-up-preference-required">
                                                         <div className="b-order-due ordDue" style={{ left: 0, display: 'block' }}>Order Due By: <span>
-                                                            {/* {DateNTime} */}
-                                                            Sunday, 2:00 PM
+                                                            {DateNTime}
+                                                            {/* Sunday, 2:00 PM */}
                                                         </span>
                                                         </div>
-                                                        {Days.map(days => {
+                                                        {Times.map(days => {
                                                             return (
                                                                 <div className="accorSec">
                                                                     <Accordion >
@@ -829,41 +959,45 @@ export default function UpdateAccountAddress() {
                                                                         >
                                                                             <Typography>
                                                                                 <a href="/" className="f-sign-up__radio-group-title ng-binding 
-                                                        ng-isolate-scope" toggle-next="" onClick={(event) => { event.preventDefault(); timeDetails(days.code); setSelctedDay(days.code) }}>{days.name}
+                                                        ng-isolate-scope" toggle-next="" onClick={(event) => {
+                                                                                        event.preventDefault();
+                                                                                        //  timeDetails(days.code);
+                                                                                        setSelctedDay(days.code)
+                                                                                    }}>{days.day}
                                                                                 </a>
                                                                             </Typography>
                                                                         </AccordionSummary>
                                                                         <AccordionDetails>
 
-                                                                            {(showTime == true) &&
-                                                                                <>
-                                                                                    <Typography>
-                                                                                        {Times.map((days, key) => {
-                                                                                            return days.workingHoursDtos.map((day, index) => {
-                                                                                                return (
-                                                                                                    <>
-                                                                                                        {(key + 1 === selctedDay) &&
-                                                                                                            <div className="time-container f-sign-up__radio-group" >
-                                                                                                                <input className="f-sign-up__radio" name="deliveryWindows" type="radio"
-                                                                                                                    required="required" style={{ width: '100%' }} id={day.id} value={day.id} onChange={() => {
-                                                                                                                        setSelectTime(day.id);
-                                                                                                                        setDateNTime(day.time, days.name)
-                                                                                                                    }} />
-                                                                                                                <label className="f-sign-up__radio-label" >{day.time}</label>
+                                                                            {/* {(showTime == true) && */}
+                                                                            <>
+                                                                                <Typography>
+                                                                                    {days.timeSlots.map((times, key) => {
+                                                                                        // return days.workingHoursDtos.map((day, index) => {
+                                                                                        return (
+                                                                                            <>
+                                                                                                {/* {(key + 1 === selctedDay) && */}
+                                                                                                <div className="time-container f-sign-up__radio-group" >
+                                                                                                    <input className="f-sign-up__radio" name="deliveryWindows" type="radio"
+                                                                                                        required="required" style={{ width: '100%' }} id={times.id} value={times.id} onChange={() => {
+                                                                                                            setSelectTime(times.id);
+                                                                                                            setDateNTime(times.orderDueBy)
+                                                                                                        }} />
+                                                                                                    <label className="f-sign-up__radio-label" >{times.time}</label>
 
-                                                                                                            </div>
-                                                                                                        }
-                                                                                                    </>
-                                                                                                )
-                                                                                            })
-                                                                                        })
+                                                                                                </div>
+                                                                                                {/* } */}
+                                                                                            </>
+                                                                                        )
+                                                                                        // })
+                                                                                    })
 
-                                                                                        }
-                                                                                    </Typography>
-                                                                                </>
-                                                                            }
+                                                                                    }
+                                                                                </Typography>
+                                                                            </>
+                                                                            {/* } */}
 
-                                                                            {/* </Typography> */}
+
                                                                         </AccordionDetails>
                                                                     </Accordion>
 
