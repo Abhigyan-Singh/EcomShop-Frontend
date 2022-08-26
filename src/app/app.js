@@ -36,6 +36,10 @@ import ShowCommunicationPreferences from 'components/showCommunicationPreference
 import ShowOrderHistory from 'components/showorderhistory/showOrderHistory';
 import DisplayClubPreferences from 'components/displayClubPreferences/displayClubPreferences';
 import MoreRewards from 'components/MoreRewards/moreRewards';
+import { userInfoService } from 'services/auth';
+import { CookiesAge } from 'apiConfig';
+import useCart from 'services/addtocart';
+import { CartState } from 'context/context';
 
 export const facilityStoremapping = {
   605: 2029,
@@ -52,7 +56,7 @@ const App = () => {
   //const location = Geolocation();
   const { facility, dept, user, userInfo, subdept } = cookies;
   // const { dispatchUser } = CartState();
-  // const { getCartDetails } = useCart();
+  const { getCartDetails } = useCart();
   const [store, setStore] = useState(facility);
   const [depart, setDepart] = useState(dept);
   const [gridView, setGridView] = useState(true);
@@ -65,6 +69,28 @@ const App = () => {
     const initialValue = JSON.parse(saved);
     return initialValue || null;
   })
+  const { dispatchUser, favorites } = CartState();
+
+  useEffect(() => {
+    userInfoService().then((userRes) => {
+
+      if (userRes.data) {
+        setCookie('userInfo', userRes.data, {
+          path: '/',
+          maxAge: CookiesAge
+        });
+        setCookie('facility', userRes.data.facility, {
+          path: '/',
+          maxAge: CookiesAge
+        });
+        dispatchUser({
+          type: 'SET_USER',
+          payload: { userName: userRes.data.userName }
+        });
+        getCartDetails(userRes.data.userName);
+      }
+    })
+  }, [])
 
   useEffect(() => {
     const { user } = cookies;
@@ -114,6 +140,10 @@ const App = () => {
     removeCookie('user');
     removeCookie('userInfo');
     setIsAuthenticated(false);
+    dispatchUser({
+      type: 'SET_USER',
+      payload: null
+    });
   };
 
   const onStoreChange = (storeSel) => {

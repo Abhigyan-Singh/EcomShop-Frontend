@@ -31,7 +31,7 @@ export default function MyAccountInformation() {
     dispatchUser
   } = CartState();
   useEffect(() => {
-  //  alert()
+    //  alert()
     if (!!cookies.userName) {
       getData(cookies.userName)
     }
@@ -75,7 +75,7 @@ export default function MyAccountInformation() {
         <div className="header-gray margin-20px-btm">
           <a
             href="/myAccount"
-          
+
           >
             <b>My Account</b>
           </a>
@@ -86,13 +86,13 @@ export default function MyAccountInformation() {
         </div>
         <div className="paymentOptionsBoxOuter">
           <div className="paymentOptionsBox poBxSec">
-            <h2>USER NAME { cookies.userName}</h2>
+            <h2>USER NAME {cookies.userName}</h2>
             <div className="pmntOptnBxHd">
               <h3>Password</h3>
               <p>**********</p>
-              
-              <Button className="checkout-btn" label="Edit Password" 
-              onClick={() => navigate('/gotochangepassword')}  />
+
+              <Button className="checkout-btn" label="Edit Password"
+                onClick={() => navigate('/gotochangepassword')} />
             </div>
 
             <div className="pmntOptnBxDivid"></div>
@@ -105,7 +105,7 @@ export default function MyAccountInformation() {
               <Button className="checkout-btn" label="Edit Contact"  onClick={()=>navigate('/contactInformation/edit', )}
               />
             </div>
-            
+
             <div className="pmntOptnBxDivid"></div>
             <div className="pmntOptnBxHd">
               <h3>Account Address</h3>
@@ -116,15 +116,15 @@ export default function MyAccountInformation() {
                   <p>{data.city},{data.state} {data.zipCode}</p>
                 </div>
               })}
-              <Button className='checkout-btn ' label="Edit Address"  onClick={() => navigate('/updateaccountaddress')}/>
+              <Button className='checkout-btn ' label="Edit Address" onClick={() => navigate('/updateaccountaddress')} />
             </div>
             <div className="paymentOptionsBoxRowSec">
 
-              
+
             </div>
           </div>
         </div>
-       
+
       </div>
     </div>
   );

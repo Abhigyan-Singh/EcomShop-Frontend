@@ -1,13 +1,10 @@
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import Item from 'components/item/item';
 import Tabs from 'components/tabs/tabs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useCart from 'services/addtocart';
 import { usefavoriteApi } from 'services/favorites';
-import { useCookies } from 'react-cookie';
 import { CartState } from 'context/context';
-import { userInfoService } from 'services/auth';
-import { CookiesAge } from 'apiConfig';
 
 export const mockData = [
   {
@@ -722,33 +719,10 @@ export const mockData = [
 ];
 
 const HomeGetStarted = (props) => {
-  const [cookies, setCookie] = useCookies(['user']);
-  const { userInfo, user } = cookies;
   const { dispatchUser, favorites } = CartState();
   const { getCartDetails } = useCart();
   const { fetchFavorites } = usefavoriteApi();
 
-  useEffect(() => {
-    if (!userInfo && user) {
-      userInfoService().then((userRes) => {
-        if (userRes.data) {
-          setCookie('userInfo', userRes.data, {
-            path: '/',
-            maxAge: CookiesAge
-          });
-          setCookie('facility', userRes.data.facility, {
-            path: '/',
-            maxAge: CookiesAge
-          });
-          dispatchUser({
-            type: 'SET_USER',
-            payload: { userName: userRes.data.userName }
-          });
-          getCartDetails(userRes.data.userName);
-        }
-      });
-    }
-  }, [userInfo]);
 
   useEffect(() => {
     if (favorites.favorites.length === 0 && favorites.progress === false) {
@@ -785,7 +759,7 @@ const HomeGetStarted = (props) => {
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
-     
+
       </div>
     </div>
   );
