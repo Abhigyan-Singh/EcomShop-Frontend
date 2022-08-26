@@ -22,6 +22,9 @@ button, hr, input {
 [type=reset], [type=submit], button, html [type=button] {
     -webkit-appearance: button;
 }
-.containerSingleColumn{
-    padding: 0 12%;
+#cob_dd {
+    width: 685px;
+    border-width: 1px;
+    border-style: solid;
+    max-width: 95%;
 }

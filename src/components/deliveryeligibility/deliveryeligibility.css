@@ -36,4 +36,7 @@ button, input, optgroup, select, textarea {
 }
 @media(max-width: 478px){
 .store-container {padding-right: 15px !important}
+.rgtAlgn {
+    padding-right: 29px;
+}
 }

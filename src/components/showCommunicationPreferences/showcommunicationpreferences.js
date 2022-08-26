@@ -15,8 +15,7 @@ export default function ShowCommunicationPreferences() {
     const navigate = useNavigate();
 
     return (
-        <div>
-            <div>
+        <div className='wrapper'>
 
 
 
@@ -58,7 +57,7 @@ export default function ShowCommunicationPreferences() {
                                                                             <br/>
 
                                                                                 <form action="updatecustomercommpreferences.action" method="post" id="cpform" name="cpform">
-                                                                                    <table>
+                                                                                    <table className='promEml'>
 
 
 
@@ -78,7 +77,7 @@ export default function ShowCommunicationPreferences() {
                                                                                                 <br/>
                                                                                                     Receive notice of limited specials, recently announced promotions and exclusive product and services offers typically not advertised to the general public.
                                                                                                     <br/>
-                                                                                                        <span className="copy-small"><b>Frequency: sent occasionally, but no more than twice per week.</b></span>
+                                                                                                        <span className="copy-small"><b>Frequency: sent occasionally, but no more than twice per week.</b></span><br/><br/>
 
 
 
@@ -102,7 +101,7 @@ export default function ShowCommunicationPreferences() {
 
 
                                                                                                         <br/>
-                                                                                                            In an effort to continually improve our service and better meet your needs, we'll occasionally solicit your feedback via e-mail and/or telephone.
+                                                                                                            In an effort to continually improve our service and better meet your needs, we'll occasionally solicit your feedback via e-mail and/or telephone.<br/><br/>
 
 
 
@@ -125,7 +124,7 @@ export default function ShowCommunicationPreferences() {
                                                                                                         <br/>
                                                                                                             Our version of the Sunday newspaper insert, featuring special offers, sale items, new products and news updates for the upcoming week.
                                                                                                             <br/>
-                                                                                                                <span className="copy-small"><b>Frequency: sent once per week.</b></span>
+                                                                                                                <span className="copy-small"><b>Frequency: sent once per week.</b></span><br/><br/>
 
 
 
@@ -150,7 +149,7 @@ export default function ShowCommunicationPreferences() {
 
 
                                                                                                                 <br/>
-                                                                                                                    We occasionally offer our customers limited time special deals via telephone.
+                                                                                                                    We occasionally offer our customers limited time special deals via telephone.<br/><br/>
 
 
                                                                                                             </td>
@@ -169,7 +168,7 @@ export default function ShowCommunicationPreferences() {
 
                                                                                                                 <input type="radio" title="Delivery time notification. 5:00-6:00 am" name="selTime" value="5"/> 5:00-6:00 am
                                                                                                                     <input type="radio" title="Delivery time notification. 6:00-7:00 am" name="selTime" value="6"/> 6:00-7:00 am
-                                                                                                                        <input type="radio" title="Delivery time notification. 7:00-8:00 am" name="selTime" value="7"/> 7:00-8:00 am
+                                                                                                                        <input type="radio" title="Delivery time notification. 7:00-8:00 am" name="selTime" value="7"/> 7:00-8:00 am<br/><br/>
 
                                     
 
@@ -187,7 +186,7 @@ export default function ShowCommunicationPreferences() {
                                                                                                                             <input type="checkbox" id="commPreffId_5" name="selCommPrefList" value="11"/>
                                                                                                                         </td>
                                                                                                                         <td>
-                                                                                                                            <label for="commPreffId_5"><b>Confirmation Delivery Notifications</b></label>
+                                                                                                                            <label for="commPreffId_5"><b>Confirmation Delivery Notifications</b></label><br/><br/>
 
 
 
@@ -207,14 +206,7 @@ export default function ShowCommunicationPreferences() {
                                                                                                                         </td>
                                                                                                                         <td>
                                                                                                                             <label for="commPreffId_6"><b>Update Delivery Time Notifications</b></label>
-
-                                                                                                                            
-
-
-
-
-
-                                                                                                                        </td>
+                                                                                                                            <br/><br/></td>
                                                                                                                     </tr>
 
 
@@ -226,7 +218,7 @@ export default function ShowCommunicationPreferences() {
                                                                                                                             <input type="checkbox" id="commPreffId_7" name="selCommPrefList" value="14"/>
                                                                                                                         </td>
                                                                                                                         <td>
-                                                                                                                            <label for="commPreffId_7"><b>SMS Notifications</b></label>
+                                                                                                                            <label for="commPreffId_7"><b>SMS Notifications</b></label><br/><br/>
 
                                                                                                                             
 
@@ -255,7 +247,7 @@ export default function ShowCommunicationPreferences() {
 
 
                                                                                                                             <br/>
-                                                                                                                                <span className="copy-small"><b>Frequency: Once per order.</b></span>
+                                                                                                                                <span className="copy-small"><b>Frequency: Once per order.</b></span><br/><br/>
 
                                                                                                                         </td>
                                                                                                                     </tr>
@@ -284,7 +276,7 @@ export default function ShowCommunicationPreferences() {
                                                                                                                                         Below is the e-mail address you have on file with us. If you would prefer to receive messages from Coborn's.com at a different e-mail address, please enter it here to change the default e-mail address for your account. Items marked with "
                                                                                                                                         <span className="copy-red"><b>*</b></span>
                                                                                                                                         " are required.
-                                                                                                                                        <table>
+                                                                                                                                        <table className='promEml'>
                                                                                                                                             <tbody><tr>
                                                                                                                                                 <td>
                                                                                                                                                     <input type="email" id="emailAddress" name="emailAddress" value="tamal.dutta@cobornsinc.com" size="30" maxlength="30"/>
@@ -324,7 +316,7 @@ export default function ShowCommunicationPreferences() {
 
 
 
-                                                                                                                                        </div>
+
                                                                                                                                     </div>
                                                                                                                                     );
 }

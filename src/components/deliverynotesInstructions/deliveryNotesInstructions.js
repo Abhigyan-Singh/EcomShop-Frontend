@@ -16,7 +16,7 @@ export default function DeliveryNotesInstructions() {
     const navigate = useNavigate();
 
     return (
-        <div>
+        <div className='wrapper'>
             <h1>
                 {/* <script type="text/javascript">
                     function validateInstructions() {
@@ -61,7 +61,7 @@ export default function DeliveryNotesInstructions() {
             </label>
             <br />
             <form name="delivery_info" action="updatedeliveryinfo.action">
-                <select id="altDeliveryInstructions" name="altDeliveryInstructions" className="copy">
+                <select id="altDeliveryInstructions" name="altDeliveryInstructions" className="dlvInstSlct">
                     <option value="" selected="selected">&nbsp;</option>
 
 
@@ -86,20 +86,14 @@ export default function DeliveryNotesInstructions() {
                     <br />
                 </label>
                 <br />
-                <textarea id="DeliveryInstructions" name="DeliveryInstructions" rows="8" cols="60" maxlength="255" onblur="validateInstructions();" className="copy">                        </textarea>
+                <textarea id="DeliveryInstructions" name="DeliveryInstructions" rows="8" cols="60" maxlength="" onblur="validateInstructions();" className="delvryInstructTxt">                        </textarea>
             </form>
             <br />
             <br />
-            <span style={{ float: 'left' }}>
+
                 <input type="button" value="Save Changes" alt="Save Changes" className="btn_small_width" onclick="document.delivery_info.submit()" />
                 &nbsp;&nbsp;
                 <input type="button" value="Cancel" alt="Cancel" className="btn_small_min" onClick={() => navigate('/myAccount')} />
-
-            </span>
-            <br />
-            <br />
-            <br />
-            <br />
         </div>
     );
 }
