@@ -56,7 +56,7 @@ const Header = (props) => {
     onMobileButtonClick,
     store,
     stores,
-    user,
+    // user,
     usr,
     onDeptChange,
     onDepartChange5,
@@ -98,7 +98,8 @@ const Header = (props) => {
   const { getCartDetails } = useCart();
   const {
     state: { cart, postlogin, count },
-    dispatch
+    dispatch,
+    userStore: { user, state },
   } = CartState();
   const { search } = useLocation();
   const query = React.useMemo(() => new URLSearchParams(search), [search]);
@@ -391,7 +392,7 @@ const Header = (props) => {
             <div className="flex items-center justify-between text-right float right">
               <div className="hidden md:block">
                 <div className="text-lg font-medium">
-                  {user && `Welcome Back, ${user && user.firstName ? user.firstName : ''}`}
+                  {user && `Welcome Back, ${user && user.userName ? user.userName : ''}`}
                   {!user && 'Grocery Shopping Made Easy'}
                 </div>
                 <div className="text-xs font-medium space-x-2">

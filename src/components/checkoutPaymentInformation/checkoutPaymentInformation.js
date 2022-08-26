@@ -13,7 +13,6 @@ import PaymentModal from '../PaymentModal/PaymentModal';
 import EBTModal from 'components/PaymentModal/EBTModal';
 import { cardDetails, ebtDetails, DeleteCards } from 'services/cardDetails';
 import { useCookies } from 'react-cookie';
-import { userInfoService } from 'services/auth';
 import { CartState } from '../../context/context';
 
 export default function CheckoutPaymentInformation() {
