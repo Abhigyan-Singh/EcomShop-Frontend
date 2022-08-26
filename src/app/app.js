@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  useRoutes,
-} from 'react-router-dom';
+import { BrowserRouter as Router, useRoutes } from 'react-router-dom';
 import { HomeStory } from 'stories/pages/home.stories';
 import { useCookies } from 'react-cookie';
 import { useState, useEffect } from 'react';
@@ -65,15 +62,14 @@ const App = () => {
   const [showCart, setShowCart] = useState(false);
   const [visible, setVisible] = useState(false);
   const [inputCheck, setInputCheck] = useState(() => {
-    const saved = localStorage.getItem("input");
+    const saved = localStorage.getItem('input');
     const initialValue = JSON.parse(saved);
     return initialValue || null;
-  })
+  });
   const { dispatchUser, favorites } = CartState();
 
   useEffect(() => {
     userInfoService().then((userRes) => {
-
       if (userRes.data) {
         setCookie('userInfo', userRes.data, {
           path: '/',
@@ -89,8 +85,8 @@ const App = () => {
         });
         getCartDetails(userRes.data.userName);
       }
-    })
-  }, [])
+    });
+  }, []);
 
   useEffect(() => {
     const { user } = cookies;
@@ -100,7 +96,7 @@ const App = () => {
       setStore(facility);
     }
     if (user?.token) {
-      console.log("TOKEN", user.token)
+      console.log('TOKEN', user.token);
       setIsAuthenticated(true);
     } else setIsAuthenticated(false);
   }, [cookies]);
@@ -164,10 +160,9 @@ const App = () => {
   }
 
   const handleInputCheck = (input) => {
-    setInputCheck(input)
-    localStorage.setItem("input", input)
-  }
-
+    setInputCheck(input);
+    localStorage.setItem('input', input);
+  };
 
   const AppRoute = ({ showCart, setShowCart }) => {
     let routes = useRoutes([
@@ -259,26 +254,41 @@ const App = () => {
         element: (
           <CheckoutReview isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      }, {
+      },
+      {
         path: 'contactInformation/edit',
         element: (
-          <ContactInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+          <ContactInformation
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
       },
       {
         path: 'contactInformation',
         element: (
-          <ContactInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+          <ContactInformation
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
-      }, {
+      },
+      {
         path: 'checkoutPayment',
         element: (
-          <CheckoutPaymentInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+          <CheckoutPaymentInformation
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
-      }, {
+      },
+      {
         path: 'viewpaymentinfo',
         element: (
-          <CheckoutPaymentInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+          <CheckoutPaymentInformation
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
       },
       {
@@ -286,12 +296,14 @@ const App = () => {
         element: (
           <DeliverySlot isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      }, {
+      },
+      {
         path: 'pleaseWait',
         element: (
           <PleaseWait isAuthenticated={isAuthenticated} logout={onLogout} />
         )
-      }, {
+      },
+      {
         path: 'myAccount',
         element: (
           <MyAccount isAuthenticated={isAuthenticated} logout={onLogout} />
@@ -300,13 +312,19 @@ const App = () => {
       {
         path: 'myaccountinformation',
         element: (
-          <MyAccountInformation isAuthenticated={isAuthenticated} logout={onLogout} />
+          <MyAccountInformation
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
       },
       {
         path: 'updateaccountaddress',
         element: (
-          <UpdateAccountAddress isAuthenticated={isAuthenticated} logout={onLogout} />
+          <UpdateAccountAddress
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
       },
       {
@@ -318,36 +336,55 @@ const App = () => {
       {
         path: 'displaydeliveryoptions',
         element: (
-          <DeliveryEligibility isAuthenticated={isAuthenticated} logout={onLogout} />
+          <DeliveryEligibility
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
       },
       {
         path: 'displaycustomerdeliverydayandtime',
         element: (
-          <CustomerdeliveryDayandTime isAuthenticated={isAuthenticated} logout={onLogout} />
+          <CustomerdeliveryDayandTime
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
       },
       {
         path: 'deliveryNotesInstructions',
         element: (
-          <DeliveryNotesInstructions isAuthenticated={isAuthenticated} logout={onLogout} />
+          <DeliveryNotesInstructions
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
-      }, {
+      },
+      {
         path: 'showcommunicationpreferences',
         element: (
-          <ShowCommunicationPreferences isAuthenticated={isAuthenticated} logout={onLogout} />
+          <ShowCommunicationPreferences
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
       },
       {
         path: 'showorderhistory',
         element: (
-          <ShowOrderHistory isAuthenticated={isAuthenticated} logout={onLogout} />
+          <ShowOrderHistory
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
       },
       {
         path: 'displayclubpreferences',
         element: (
-          <DisplayClubPreferences isAuthenticated={isAuthenticated} logout={onLogout} />
+          <DisplayClubPreferences
+            isAuthenticated={isAuthenticated}
+            logout={onLogout}
+          />
         )
       },
       {

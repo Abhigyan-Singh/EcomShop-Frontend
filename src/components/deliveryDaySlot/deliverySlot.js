@@ -22,7 +22,7 @@ export default function DeliverySlot() {
   const navigate = useNavigate();
   const [expanded, setExpanded] = React.useState(false);
   var moment = require('moment');
-  
+
   const handleChange = (key) => (event, isExpanded) => {
     setExpanded(isExpanded ? key : false);
   };
@@ -69,7 +69,7 @@ export default function DeliverySlot() {
         {
           lable: 'Tuesday, July 14 (7:00 pm - 8:00 pm)',
           value: 'Tuesday, 5:00 PM'
-        },
+        }
       ]
     },
     {
@@ -114,18 +114,18 @@ export default function DeliverySlot() {
         {
           lable: 'Friday, July 15 (7:00 pm - 8:00 pm)',
           value: 'Friday, 5:00 PM'
-        },
+        }
       ]
     }
   ];
   const [deliveryTimer, setdeliveryTimer] = useState();
   const [days, hours, minutes, seconds] = useCountdown(deliveryTimer);
-  const onRadioChange =(e,f)=>{
-    console.log(e+' '+moment(f).format("MMM DD YYYY"))
-    let time =e+' '+moment(f).format("MMM DD YYYY")
-    console.log(time)
-    setdeliveryTimer(time)
-  }
+  const onRadioChange = (e, f) => {
+    console.log(e + ' ' + moment(f).format('MMM DD YYYY'));
+    let time = e + ' ' + moment(f).format('MMM DD YYYY');
+    console.log(time);
+    setdeliveryTimer(time);
+  };
   return (
     <div className="cont">
       <div className="label_topic">Delivery and Pick up Options</div>
@@ -182,7 +182,7 @@ export default function DeliverySlot() {
                           key={j}
                           label={i.value}
                           // checked={option.facilityDtl.facilityName == selectedFacility}
-                          onChange={() => onRadioChange(i.value,data.lable)}
+                          onChange={() => onRadioChange(i.value, data.lable)}
                         />
 
                         <span>{i.value}</span>
@@ -195,43 +195,58 @@ export default function DeliverySlot() {
           </div>
         );
       })}
-      <div className='dapuf'>DELIVERY AND PICK UP FEES:</div>
-      <div className='ndDlvry'>
-        <div className='ndDlvryLft'>Next-day Delivery</div>
-        <div className='ndDlvryRht'>Same-day Delivery</div>
+      <div className="dapuf">DELIVERY AND PICK UP FEES:</div>
+      <div className="ndDlvry">
+        <div className="ndDlvryLft">Next-day Delivery</div>
+        <div className="ndDlvryRht">Same-day Delivery</div>
       </div>
-      <div className='ndDlvryRow mt-3'>
-        <div className='ndDlvryRowLft'><strong>DoorDash Delivery</strong></div>
-        <div className='ndDlvryRowRght'>$8.99 delivery fee within 3 miles of the store. Addresses beyond the 3 miles will result in a .65 additional fee for every additional mile. </div>
+      <div className="ndDlvryRow mt-3">
+        <div className="ndDlvryRowLft">
+          <strong>DoorDash Delivery</strong>
+        </div>
+        <div className="ndDlvryRowRght">
+          $8.99 delivery fee within 3 miles of the store. Addresses beyond the 3
+          miles will result in a .65 additional fee for every additional mile.{' '}
+        </div>
       </div>
-      <div className='ndDlvryRowHead'>Order Fees</div>
-      <div className='ndDlvryRow'>
-        <div className='ndDlvryRowLft'><b>Pick up fee</b></div>
-        <div className='ndDlvryRowRght'>FREE!</div>
+      <div className="ndDlvryRowHead">Order Fees</div>
+      <div className="ndDlvryRow">
+        <div className="ndDlvryRowLft">
+          <b>Pick up fee</b>
+        </div>
+        <div className="ndDlvryRowRght">FREE!</div>
       </div>
-      <div className='ndDlvryRowSubHead'>Shopping fee</div>
-      <div className='ndDlvryRow'>
-        <div className='ndDlvryRowLft'>Orders of $50 or more</div>
-        <div className='ndDlvryRowRght'>No additional fee</div>
+      <div className="ndDlvryRowSubHead">Shopping fee</div>
+      <div className="ndDlvryRow">
+        <div className="ndDlvryRowLft">Orders of $50 or more</div>
+        <div className="ndDlvryRowRght">No additional fee</div>
       </div>
-      <div className='ndDlvryRow'>
-        <div className='ndDlvryRowLft'>Orders of $49.99 or less</div>
-        <div className='ndDlvryRowRght'>$5.00</div>
+      <div className="ndDlvryRow">
+        <div className="ndDlvryRowLft">Orders of $49.99 or less</div>
+        <div className="ndDlvryRowRght">$5.00</div>
       </div>
-      <div className='ndDlvryRowSubHead'><b>Phone order fee</b></div>
-      <div className='ndDlvryRow'>
-        <div className='ndDlvryRowLft'>Orders of $100 or more</div>
-        <div className='ndDlvryRowRght'>No additional fee</div>
+      <div className="ndDlvryRowSubHead">
+        <b>Phone order fee</b>
       </div>
-      <div className='ndDlvryRow'>
-        <div className='ndDlvryRowLft'>Orders of $99.99 or less</div>
-        <div className='ndDlvryRowRght'>Additional $5</div>
+      <div className="ndDlvryRow">
+        <div className="ndDlvryRowLft">Orders of $100 or more</div>
+        <div className="ndDlvryRowRght">No additional fee</div>
       </div>
-      <div className='ndDlvryRow mt-3'>
-        <div className='ndDlvryRowLft'><b>Grocery restocking fee*</b></div>
-        <div className='ndDlvryRowRght'>$25.00</div>
+      <div className="ndDlvryRow">
+        <div className="ndDlvryRowLft">Orders of $99.99 or less</div>
+        <div className="ndDlvryRowRght">Additional $5</div>
       </div>
-      <div className='ndDlvryRowFoot'>*If an order is not picked up for the day it is scheduled and no contact is made with Coborn's to reschedule it will be cancelled and you will be charged a $25 restocking fee. </div>
+      <div className="ndDlvryRow mt-3">
+        <div className="ndDlvryRowLft">
+          <b>Grocery restocking fee*</b>
+        </div>
+        <div className="ndDlvryRowRght">$25.00</div>
+      </div>
+      <div className="ndDlvryRowFoot">
+        *If an order is not picked up for the day it is scheduled and no contact
+        is made with Coborn's to reschedule it will be cancelled and you will be
+        charged a $25 restocking fee.{' '}
+      </div>
     </div>
   );
 }

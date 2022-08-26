@@ -36,8 +36,16 @@ AutocompleteMenuItem.propTypes = {
 };
 
 const Autocomplete = (props) => {
-  const { items, onChange, onItemSelect, value, onScroll, loading, handleInputCheck, ...rest } =
-    props;
+  const {
+    items,
+    onChange,
+    onItemSelect,
+    value,
+    onScroll,
+    loading,
+    handleInputCheck,
+    ...rest
+  } = props;
   const inputRef = useRef(null);
   const [filteredItems, setFilteredItems] = useState();
   const [focused, setFocused] = useState(false);
@@ -95,10 +103,10 @@ const Autocomplete = (props) => {
     (event) => {
       if (event.target.value) {
         if (event.keyCode === 13 && focused) {
-          handleInputCheck(true)
+          handleInputCheck(true);
           event.preventDefault();
           handleItemSelect(event, filteredItems[selectedItemIndex]);
-          window.location.href = '/search?text=' + event.target.value; 
+          window.location.href = '/search?text=' + event.target.value;
         } else if (event.keyCode === 38 && focused) {
           event.preventDefault();
           if (selectedItemIndex === null || selectedItemIndex === 0) {
