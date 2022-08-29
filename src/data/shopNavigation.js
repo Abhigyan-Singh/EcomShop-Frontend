@@ -6,7 +6,7 @@ import cakesIcon from 'assets/icons/services-icon-cakes@2x.png';
 import lotteryIcon from 'assets/icons/services-icon-lottery@2x.png';
 import moneyIcon from 'assets/icons/services-icon-money@2x.png';
 import postageIcon from 'assets/icons/services-icon-postage@2x.png';
-import onSale from '../services/departmentSearch';
+//import onSale from '../services/departmentSearch';
 
 const shopNavigation1 = [  
   {

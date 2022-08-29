@@ -15,7 +15,7 @@ export default function DisplayClubPreferences() {
     const navigate = useNavigate();
 
     return (
-        <div>
+        <div className="wrapper">
             <h1 className="myAccountHeader">My Account</h1><br />
             <b><a href="/myAccount">My Account Home</a> &gt; Club Preferences</b>
             <br /><br />
@@ -32,8 +32,10 @@ export default function DisplayClubPreferences() {
                     <table>
 
 
-                        <tbody><tr>
-                            <td>
+                        <tbody>
+                        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr>
+                            <td className='wnClb'>
                                 <input type="checkbox" title="Select/unselect Wine Club" name="clubId[0]" value="WINE_CLUB" />
                             </td>
                             <td>
@@ -46,7 +48,7 @@ export default function DisplayClubPreferences() {
                             </tr>
                             <tr>
                                 <td style={{border: 'none', padding: '1px'}} colspan="2">
-                                    <input type="submit" value="enroll" /></td>
+                                    <input type="submit" className='enrllBot' value="enroll" /></td>
                             </tr>
                         </tbody></table>
                 </div>

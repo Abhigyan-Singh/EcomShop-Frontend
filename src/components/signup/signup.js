@@ -52,7 +52,7 @@ const Signup = (props) => {
             <div className="mt-3 md:mt-0 md:ml-3 md:flex-shrink-0">
               <Button
                 appearance="secondary"
-                className="w-full"
+                className="w-full sgnUpBot"
                 label="Sign Up"
                 type="submit"
               />

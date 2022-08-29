@@ -15,7 +15,7 @@ export default function ShowOrderHistory() {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="wrapper">
       <div>
         <div className="containerSingleColumn">
           <div>

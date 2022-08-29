@@ -8,7 +8,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-// import './moreRewards.css';
+ import './moreRewards.css';
 import More_logo from '../../assets/img/more_logo.jpg';
 import moment from 'moment';
 import { useCountdown } from '../cartList/countDown';
@@ -18,10 +18,10 @@ export default function MoreRewards() {
     const navigate = useNavigate();
 
     return (
-        <div>
+        <div className="wrapper" >
 
-            <div className="float-left display-block">
-                <h1 className="myAccountHeader">My Account</h1><br />
+            <div className="float-left display-block mrRwrdHead">
+                <h1 className="myAccountHeader">My Account</h1>
                 <b><a href="/myAccount">My Account Home</a> &gt; MORE Rewards</b>
             </div>
             <div className="float-left display-block">

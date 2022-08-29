@@ -14,7 +14,7 @@ import { DisplayShoppingListDetails } from 'stories/pages/dispmyshoppinglistdeta
 import { Favorites } from 'stories/pages/favorites';
 import { ShopListItems } from 'stories/pages/shop-list-item.stories';
 import { StoreLocator } from 'stories/pages/store.locator.js';
-//import { getCartData } from 'services/addtocart';
+import { getCartData } from 'services/addtocart';
 import CartList from 'components/cartList/cartList.js';
 import CheckoutReview from 'components/checkoutReview/checkoutReview';
 import ContactInformation from 'components/contactInformation/contactInformation';

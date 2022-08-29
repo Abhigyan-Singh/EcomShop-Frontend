@@ -1,0 +1,8 @@
+tr:nth-child(even) {
+    background-color: transparent;
+}
+.wnClb [type=checkbox] {
+    border: 1px solid #e4e4e4;
+}
+.wnClb {width: 30px;}
+.enrllBot {background-color: #efefef; border: 1px solid #999; border-radius: 3px; padding: 1px 5px;}
