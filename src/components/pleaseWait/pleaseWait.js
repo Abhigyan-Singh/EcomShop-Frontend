@@ -10,6 +10,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './pleasewait.css';
 import Bigtruck from '../../assets/img/bigtruck.png'
 export default function PleaseWait() {
+  const navigate = useNavigate();
   return (
     <div className="wrapper">
       <div className="s-checkout__top mbot-1">
@@ -20,7 +21,7 @@ export default function PleaseWait() {
           </div>
         </div>
       </div>
-      <div className="container text-center mt-3">
+      <div className="container text-center mt-3" onClick={()=>navigate('/checkoutEBTLanding')}>
                 <img src={Bigtruck} className="s-processed-a__truck" />
                 <div className="s-processed-a__attention">PLEASE DO NOT CLOSE YOUR BROWSER OR CLICK "BACK" OR "STOP."</div>
                 <div className="s-processed-a__text">Your Order Confirmation page will appear within 30-60 seconds.

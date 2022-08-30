@@ -21,6 +21,7 @@ import ContactInformation from 'components/contactInformation/contactInformation
 import CheckoutPaymentInformation from 'components/checkoutPaymentInformation/checkoutPaymentInformation';
 import DeliverySlot from 'components/deliveryDaySlot/deliverySlot';
 import PleaseWait from 'components/pleaseWait/pleaseWait';
+import CheckoutEBTLanding from 'components/checkoutEBTLanding/checkoutEBTLanding';
 import ScrollToTop from 'ScrollToTop.js/ScrollToTop';
 import MyAccount from 'components/myAccount/MyAccount';
 import MyAccountInformation from 'components/MyAccountInformation/MyAccountInformation';
@@ -301,6 +302,12 @@ const App = () => {
         path: 'pleaseWait',
         element: (
           <PleaseWait isAuthenticated={isAuthenticated} logout={onLogout} />
+        )
+      },
+      {
+        path: 'checkoutEBTLanding',
+        element: (
+          <CheckoutEBTLanding isAuthenticated={isAuthenticated} logout={onLogout} />
         )
       },
       {
